@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { 
+  DocumentTextIcon, 
+  PencilSquareIcon, 
+  CheckCircleIcon, 
+  SparklesIcon,
+  ChevronLeftIcon,
+  ArrowRightIcon,
+  LightBulbIcon,
+  HeartIcon
+} from '@heroicons/react/24/outline';
 import CardsView from './CardsView';
 
 const ThemeView = () => {
@@ -54,7 +64,7 @@ const ThemeView = () => {
         }
         
         if (!foundTheme) {
-          setError('Tema non trouvé');
+          setError('Tema no encontrado');
           return;
         }
         
@@ -68,7 +78,7 @@ const ThemeView = () => {
         setResponses(initialResponses);
 
       } catch (err) {
-        setError('Erreur lors du chargement du thème');
+        setError('Error al cargar el tema');
         console.error(err);
       } finally {
         setLoading(false);
@@ -90,7 +100,7 @@ const ThemeView = () => {
     const response = responses[exercise.id];
     
     if (!response.trim()) {
-      alert('Veuillez répondre à l\'exercice avant de continuer.');
+      alert('Por favor responde al ejercicio antes de continuar.');
       return;
     }
 
@@ -121,7 +131,7 @@ const ThemeView = () => {
         setThemeCompleted(true);
       }
     } catch (err) {
-      setError('Erreur lors de la soumission');
+      setError('Error al enviar');
       console.error(err);
     } finally {
       setSubmitting(false);
@@ -130,10 +140,10 @@ const ThemeView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex items-center space-x-3">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
-          <span className="text-sage-600">Chargement du thème...</span>
+      <div className="min-h-screen gradient-elegant flex items-center justify-center">
+        <div className="modern-card text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-sage border-t-transparent mx-auto mb-4"></div>
+          <span className="text-sage font-inter text-lg">Cargando tema...</span>
         </div>
       </div>
     );
@@ -141,14 +151,15 @@ const ThemeView = () => {
 
   if (error || !theme) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-700">{error || 'Thème non trouvé'}</p>
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="modern-card bg-red-50 border-red-200 border-2">
+          <p className="text-red-700 font-inter text-lg mb-4">{error || 'Thème non trouvé'}</p>
           <Link 
             to="/dashboard" 
-            className="mt-2 inline-block text-primary-600 hover:text-primary-700"
+            className="btn-sage font-inter inline-flex items-center"
           >
-            Retour au tableau de bord
+            <ChevronLeftIcon className="w-5 h-5 mr-2" />
+            Volver al panel de control
           </Link>
         </div>
       </div>
@@ -157,37 +168,38 @@ const ThemeView = () => {
 
   if (themeCompleted) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-sage-200 text-center relative overflow-hidden">
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="modern-card text-center gradient-elegant relative overflow-hidden">
           <div className="absolute top-0 right-0 opacity-10">
-            <div className="text-8xl">🎉</div>
+            <SparklesIcon className="w-32 h-32 text-sage" />
           </div>
           <div className="relative z-10">
-            <div className="text-6xl mb-6">✨</div>
-            <h1 className="text-3xl font-serif font-bold text-sage-800 mb-4">
-              ¡Felicidades! 🌟
+            <SparklesIcon className="w-20 h-20 text-sage mx-auto mb-6" />
+            <h1 className="font-inter text-4xl font-semibold text-black mb-4">
+              ¡Felicidades!
             </h1>
-            <p className="text-lg text-sage-600 mb-6">
+            <p className="font-inter text-xl text-taupe-dark mb-6">
               Has completado el tema "{theme.title}"
             </p>
-            <div className="bg-gradient-nature rounded-2xl p-6 mb-8">
-              <p className="text-sage-700">
+            <div className="glass-effect-sage rounded-2xl p-8 mb-8">
+              <p className="font-inter text-sage-dark text-lg leading-relaxed">
                 Tómate un momento para integrar lo que acabas de explorar. 
                 Cada reflexión te acerca más a tu autenticidad.
               </p>
             </div>
-            <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to={`/module/${theme.moduleId}`}
-                className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-3 rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-lg mr-4"
+                className="btn-sage font-inter inline-flex items-center justify-center"
               >
+                <ChevronLeftIcon className="w-5 h-5 mr-2" />
                 Volver al módulo
               </Link>
               <Link
                 to="/dashboard"
-                className="inline-block bg-sage-100 text-sage-700 px-8 py-3 rounded-lg font-medium hover:bg-sage-200 transition-colors"
+                className="btn-taupe font-inter inline-flex items-center justify-center"
               >
-                Ir al panel principal
+                Panel de Control
               </Link>
             </div>
           </div>
@@ -209,57 +221,85 @@ const ThemeView = () => {
 
   if (showContent) {
     return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <nav className="mb-6">
-            <div className="flex items-center space-x-2 text-sm text-sage-600">
-              <Link to="/dashboard" className="hover:text-primary-600 transition-colors">Panel</Link>
-              <span>›</span>
-              <Link to={`/module/${theme.moduleId}`} className="hover:text-primary-600 transition-colors">Módulo</Link>
-              <span>›</span>
-              <span className="text-sage-800 font-medium">{theme.title}</span>
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        {/* Header élégant */}
+        <div className="mb-12">
+          <nav className="mb-8">
+            <div className="flex items-center space-x-3 text-sm font-inter text-taupe">
+              <Link to="/dashboard" className="hover:text-sage transition-elegant">Panel de Control</Link>
+              <ChevronLeftIcon className="w-4 h-4" />
+              <Link to={`/module/${theme.moduleId}`} className="hover:text-sage transition-elegant">Módulo</Link>
+              <ChevronLeftIcon className="w-4 h-4" />
+              <span className="text-black font-medium">{theme.title}</span>
             </div>
           </nav>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-sage-200">
-            <h1 className="text-3xl font-serif font-bold text-sage-800 mb-4">
+          <div className="modern-card gradient-elegant border-2 border-gray-200">
+            <h1 className="font-inter text-4xl font-semibold text-black mb-4">
               {theme.title}
             </h1>
-            <p className="text-sage-600 mb-6">
-              {exercises.length} ejercicios • Tema {theme.order_number}
-            </p>
+            <div className="flex items-center space-x-6 text-taupe font-inter">
+              <div className="flex items-center space-x-2">
+                <PencilSquareIcon className="w-5 h-5" />
+                <span>{exercises.length} ejercicios</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <DocumentTextIcon className="w-5 h-5" />
+                <span>Tema {theme.order_number}</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Theme Content */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-sage-200 mb-8">
-          <h2 className="text-2xl font-serif font-bold text-sage-800 mb-6">
-            Contenido del Tema
-          </h2>
-          <div className="prose prose-sage max-w-none">
-            <div className="text-sage-700 leading-relaxed whitespace-pre-line">
+        {/* Contenu du thème */}
+        <div className="modern-card mb-12">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="p-3 bg-sage rounded-xl">
+              <DocumentTextIcon className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="font-inter text-2xl font-semibold text-black">
+              Contenido del tema
+            </h2>
+          </div>
+          <div className="prose prose-lg max-w-none">
+            <div className="font-inter text-lg text-taupe-dark leading-relaxed whitespace-pre-line">
               {theme.content}
             </div>
           </div>
         </div>
 
-        {/* Navigation Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Boutons de navigation modernes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <button
             onClick={() => setShowCards(true)}
-            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-purple-600 hover:to-purple-700 transition-colors shadow-lg text-lg flex items-center justify-center"
+            className="modern-card hover:shadow-sage transition-elegant group text-left p-8 bg-gradient-to-br from-sage to-sage-dark text-white border-sage border-2"
           >
-            <span className="mr-2">📚</span>
-            Ver contenido detallado (con navegación)
+            <div className="flex items-center justify-between mb-4">
+              <DocumentTextIcon className="w-12 h-12 opacity-90" />
+              <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            </div>
+            <h3 className="font-inter text-xl font-semibold mb-2">
+              Contenido interactivo
+            </h3>
+            <p className="font-inter opacity-90 leading-relaxed">
+              Explora el contenido con una navegación moderna e intuitiva
+            </p>
           </button>
           
           <button
             onClick={() => setShowContent(false)}
-            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-lg text-lg flex items-center justify-center"
+            className="modern-card hover:shadow-elegant transition-elegant group text-left p-8 bg-gradient-to-br from-taupe to-taupe-dark text-white border-taupe border-2"
           >
-            <span className="mr-2">✏️</span>
-            Comenzar ejercicios
+            <div className="flex items-center justify-between mb-4">
+              <PencilSquareIcon className="w-12 h-12 opacity-90" />
+              <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            </div>
+            <h3 className="font-inter text-xl font-semibold mb-2">
+              Ejercicios prácticos
+            </h3>
+            <p className="font-inter opacity-90 leading-relaxed">
+              Pon en práctica a través de ejercicios de reflexión
+            </p>
           </button>
         </div>
       </div>
@@ -270,67 +310,67 @@ const ThemeView = () => {
   const progress = ((currentExercise + 1) / exercises.length) * 100;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-sage-200">
-          <div className="flex items-center justify-between mb-4">
+    <div className="max-w-6xl mx-auto px-6 py-12">
+      {/* Header exercices */}
+      <div className="mb-12">
+        <div className="modern-card">
+          <div className="flex items-center justify-between mb-6">
             <button 
               onClick={() => {
                 setShowContent(true);
                 setShowCards(false);
               }}
-              className="flex items-center text-sage-600 hover:text-primary-600 transition-colors"
+              className="flex items-center text-sage hover:text-sage-dark transition-elegant group"
             >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Volver al contenido
+              <ChevronLeftIcon className="w-6 h-6 mr-2 group-hover:-translate-x-1 transition-transform" />
+              <span className="font-inter text-lg">Volver al contenido</span>
             </button>
-            <span className="bg-sage-100 text-sage-700 text-sm px-3 py-1 rounded-full">
-              {theme.title}
-            </span>
+            <div className="px-4 py-2 bg-sage-light rounded-full">
+              <span className="font-inter text-white text-sm font-medium">{theme.title}</span>
+            </div>
           </div>
           
-          <div className="flex items-center space-x-4 mb-4">
-            <div className="text-3xl">📝</div>
+          <div className="flex items-center space-x-6 mb-6">
+            <div className="p-4 bg-taupe rounded-xl">
+              <PencilSquareIcon className="w-10 h-10 text-white" />
+            </div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-sage-800">
+              <h1 className="font-inter text-3xl font-semibold text-black mb-2">
                 {currentExerciseData?.title}
               </h1>
-              <p className="text-sage-600">
+              <p className="font-inter text-taupe text-lg">
                 Ejercicio {currentExercise + 1} de {exercises.length}
               </p>
             </div>
           </div>
 
-          {/* Progress Bar */}
-          <div className="w-full bg-sage-200 rounded-full h-2">
+          {/* Barre de progression */}
+          <div className="progress-modern">
             <div 
-              className="h-2 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full transition-all duration-500 ease-out"
+              className="progress-bar"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
         </div>
       </div>
 
-      {/* Exercise Content */}
+      {/* Contenu exercice */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main Exercise */}
+        {/* Exercice principal */}
         <div className="lg:col-span-2">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-sage-200 relative overflow-hidden">
+          <div className="modern-card relative overflow-hidden">
             <div className="absolute top-0 right-0 opacity-5">
-              <div className="text-7xl">🌸</div>
+              <HeartIcon className="w-32 h-32 text-sage" />
             </div>
             
             <div className="relative z-10">
-              <h2 className="text-xl font-serif font-bold text-sage-800 mb-4">
+              <h2 className="font-inter text-2xl font-semibold text-black mb-6">
                 {currentExerciseData?.question}
               </h2>
 
               {currentExerciseData?.instructions && (
-                <div className="bg-gradient-nature rounded-lg p-4 mb-6">
-                  <p className="text-sage-700 text-sm">
+                <div className="glass-effect-sage rounded-xl p-6 mb-8">
+                  <p className="font-inter text-sage-dark leading-relaxed">
                     <span className="font-medium">Instrucciones:</span> {currentExerciseData.instructions}
                   </p>
                 </div>
@@ -341,28 +381,23 @@ const ThemeView = () => {
                   value={responses[currentExerciseData?.id] || ''}
                   onChange={(e) => handleResponseChange(currentExerciseData.id, e.target.value)}
                   placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo, deja que tus palabras fluyan naturalmente."
-                  className="w-full h-48 p-4 border border-sage-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm resize-none text-sage-800 placeholder-sage-400"
+                  className="w-full h-64 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-lg leading-relaxed text-black placeholder-taupe"
                 />
                 
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-2 text-sm text-sage-500">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+                  <div className="flex items-center space-x-3 text-sm font-inter text-taupe">
+                    <LightBulbIcon className="w-5 h-5" />
                     <span>Tómate el tiempo necesario para tu reflexión</span>
                   </div>
                   
                   <button
                     onClick={handleSubmitExercise}
                     disabled={submitting || !responses[currentExerciseData?.id]?.trim()}
-                    className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+                    className="px-8 py-4 gradient-sage text-white rounded-xl font-inter font-medium hover:shadow-sage focus:ring-2 focus:ring-sage focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-elegant"
                   >
                     {submitting ? (
                       <div className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
                         Enviando...
                       </div>
                     ) : currentExercise === exercises.length - 1 ? (
@@ -377,42 +412,42 @@ const ThemeView = () => {
           </div>
         </div>
 
-        {/* Sidebar */}
+        {/* Barre latérale */}
         <div className="space-y-6">
-          {/* Exercise Navigation */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-sage-200">
-            <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
-              <span className="mr-2">📋</span>
+          {/* Navigation exercices */}
+          <div className="modern-card">
+            <h3 className="font-inter text-xl font-semibold text-black mb-6 flex items-center">
+              <DocumentTextIcon className="w-6 h-6 mr-3 text-sage" />
               Ejercicios del tema
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-3">
               {exercises.map((exercise, index) => (
                 <div
                   key={exercise.id}
-                  className={`p-3 rounded-lg transition-colors ${
+                  className={`p-4 rounded-xl transition-elegant ${
                     index === currentExercise
-                      ? 'bg-primary-100 border border-primary-300'
+                      ? 'bg-sage text-white'
                       : index < currentExercise
                       ? 'bg-green-50 border border-green-200'
-                      : 'bg-sage-50 border border-sage-200'
+                      : 'bg-gray-50 border border-gray-200'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold font-inter ${
                       index === currentExercise
-                        ? 'bg-primary-500 text-white'
+                        ? 'bg-white text-sage'
                         : index < currentExercise
                         ? 'bg-green-500 text-white'
-                        : 'bg-sage-300 text-sage-600'
+                        : 'bg-gray-300 text-gray-600'
                     }`}>
-                      {index < currentExercise ? '✓' : index + 1}
+                      {index < currentExercise ? <CheckCircleIcon className="w-5 h-5" /> : index + 1}
                     </div>
-                    <span className={`text-sm ${
+                    <span className={`text-sm font-inter ${
                       index === currentExercise
-                        ? 'text-primary-800 font-medium'
+                        ? 'text-white font-medium'
                         : index < currentExercise
                         ? 'text-green-800'
-                        : 'text-sage-600'
+                        : 'text-gray-600'
                     }`}>
                       {exercise.title}
                     </span>
@@ -422,20 +457,20 @@ const ThemeView = () => {
             </div>
           </div>
 
-          {/* Motivation Card */}
-          <div className="bg-gradient-calm rounded-2xl shadow-xl p-6 border border-sage-200">
-            <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
-              <span className="mr-2">💫</span>
+          {/* Carte inspiration */}
+          <div className="modern-card gradient-elegant">
+            <h3 className="font-inter text-xl font-semibold text-black mb-6 flex items-center">
+              <SparklesIcon className="w-6 h-6 mr-3 text-taupe" />
               Inspiración
             </h3>
             <div className="space-y-4">
-              <blockquote className="text-sage-700 italic">
+              <blockquote className="font-inter text-taupe-dark italic text-lg leading-relaxed">
                 "La transformación personal comienza con la observación amorosa de uno mismo."
               </blockquote>
-              <div className="flex justify-center space-x-2 text-2xl">
-                <span>🌱</span>
-                <span>🦋</span>
-                <span>✨</span>
+              <div className="flex justify-center space-x-3 text-3xl opacity-60">
+                <HeartIcon className="w-8 h-8 text-sage" />
+                <LightBulbIcon className="w-8 h-8 text-taupe" />
+                <SparklesIcon className="w-8 h-8 text-sage" />
               </div>
             </div>
           </div>

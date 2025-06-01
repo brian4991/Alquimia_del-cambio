@@ -123,7 +123,7 @@ const StepView = () => {
           </div>
           <div className="relative z-10">
             <div className="text-6xl mb-6">{stepInfo.emoji}</div>
-            <h1 className="text-3xl font-serif font-bold text-sage-800 mb-4">
+            <h1 className="text-3xl font-inter font-bold text-sage-800 mb-4">
               Félicitations ! 🌟
             </h1>
             <p className="text-lg text-sage-600 mb-6">
@@ -176,7 +176,7 @@ const StepView = () => {
           <div className="flex items-center space-x-4 mb-4">
             <div className="text-3xl">{stepInfo.emoji}</div>
             <div>
-              <h1 className="text-2xl font-serif font-bold text-sage-800">
+              <h1 className="text-2xl font-inter font-bold text-sage-800">
                 {stepInfo.title}
               </h1>
               <p className="text-sage-600">
@@ -205,7 +205,7 @@ const StepView = () => {
             </div>
             
             <div className="relative z-10">
-              <h2 className="text-xl font-serif font-bold text-sage-800 mb-6">
+              <h2 className="text-xl font-inter font-bold text-sage-800 mb-6">
                 {currentExerciseData.question}
               </h2>
               

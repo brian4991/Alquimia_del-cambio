@@ -71,7 +71,7 @@ const Login = () => {
               <span className="text-2xl">🌱</span>
             </div>
           </div>
-          <h1 className="text-4xl font-serif font-bold text-sage-800 mb-2">
+          <h1 className="text-4xl font-inter font-bold text-sage-800 mb-2">
             Alquimia del Cambio
           </h1>
           <p className="text-sage-600 text-lg">

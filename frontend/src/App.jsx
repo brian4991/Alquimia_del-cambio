@@ -67,7 +67,7 @@ const App = () => {
                 <Layout>
                   <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-sage-200">
-                      <h1 className="text-3xl font-serif font-bold text-sage-800 mb-6">Mon Profil</h1>
+                      <h1 className="text-3xl font-inter font-bold text-sage-800 mb-6">Mon Profil</h1>
                       <div className="space-y-4">
                         <div className="p-4 bg-gradient-nature rounded-lg">
                           <p className="text-sage-700">Fonctionnalité en développement...</p>

@@ -117,7 +117,7 @@ const ModuleView = () => {
             </nav>
 
             {/* Module Title */}
-            <h1 className="text-4xl font-serif font-bold text-sage-800 mb-4">
+            <h1 className="text-4xl font-inter font-bold text-sage-800 mb-4">
               Módulo {module.order_number}: {module.title}
             </h1>
             
@@ -213,7 +213,7 @@ const ModuleView = () => {
 
       {/* Themes Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-serif font-bold text-sage-800 mb-6 flex items-center">
+        <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
           <span className="mr-3">📋</span>
           Temas del Módulo
         </h2>
