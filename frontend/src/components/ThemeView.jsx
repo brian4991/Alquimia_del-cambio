@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import CardsView from './CardsView';
 
 const ThemeView = () => {
   const { themeId } = useParams();
@@ -13,6 +14,7 @@ const ThemeView = () => {
   const [error, setError] = useState('');
   const [themeCompleted, setThemeCompleted] = useState(false);
   const [showContent, setShowContent] = useState(true);
+  const [showCards, setShowCards] = useState(false);
 
   useEffect(() => {
     const fetchThemeData = async () => {
@@ -194,6 +196,17 @@ const ThemeView = () => {
     );
   }
 
+  // Add cards view handling
+  if (showCards) {
+    return (
+      <CardsView 
+        themeId={parseInt(themeId)}
+        themeName={theme.title}
+        onBack={() => setShowCards(false)}
+      />
+    );
+  }
+
   if (showContent) {
     return (
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -231,12 +244,21 @@ const ThemeView = () => {
           </div>
         </div>
 
-        {/* Start Exercises Button */}
-        <div className="text-center">
+        {/* Navigation Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={() => setShowCards(true)}
+            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-purple-600 hover:to-purple-700 transition-colors shadow-lg text-lg flex items-center justify-center"
+          >
+            <span className="mr-2">📚</span>
+            Ver contenido detallado (con navegación)
+          </button>
+          
           <button
             onClick={() => setShowContent(false)}
-            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-lg text-lg"
+            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-8 py-4 rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 transition-colors shadow-lg text-lg flex items-center justify-center"
           >
+            <span className="mr-2">✏️</span>
             Comenzar ejercicios
           </button>
         </div>
@@ -254,7 +276,10 @@ const ThemeView = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-sage-200">
           <div className="flex items-center justify-between mb-4">
             <button 
-              onClick={() => setShowContent(true)}
+              onClick={() => {
+                setShowContent(true);
+                setShowCards(false);
+              }}
               className="flex items-center text-sage-600 hover:text-primary-600 transition-colors"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
