@@ -113,129 +113,115 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-sage-50 via-white to-nature-50 relative overflow-x-hidden">
       {/* Decorative Plants - Left Side */}
       <div className="fixed left-0 top-0 h-full w-96 pointer-events-none z-10">
+        {/* Large Ficus Leaf - Top */}
         <div 
-          className="absolute top-20 left-0 transform transition-all duration-1000 ease-out"
+          className="absolute top-16 -left-8 transform transition-all duration-1000 ease-out"
           style={{
-            transform: `translateY(${scrollY * 0.1}px) translateX(${Math.min(scrollY * 0.05, 80)}px) rotateZ(${scrollY * 0.02}deg)`,
-            opacity: Math.min(scrollY * 0.002, 0.9)
+            transform: `translateY(${scrollY * 0.08}px) translateX(${Math.min(scrollY * 0.06, 90)}px) rotateZ(${scrollY * 0.015}deg)`,
+            opacity: Math.min(scrollY * 0.002, 0.85)
           }}
         >
-          <div className="relative">
-            {/* Large Leaf 1 */}
-            <div className="absolute w-40 h-56 bg-gradient-to-br from-green-400 to-green-600 opacity-90 transform rotate-12 rounded-full shadow-2xl"
-              style={{
-                clipPath: 'ellipse(60% 80% at 50% 20%)',
-                filter: 'drop-shadow(8px 8px 16px rgba(0,0,0,0.3))'
-              }}
-            />
-            {/* Leaf vein effect */}
-            <div className="absolute w-40 h-56 transform rotate-12 rounded-full"
-              style={{
-                clipPath: 'ellipse(60% 80% at 50% 20%)',
-                background: 'linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.3) 50%, transparent 52%)'
-              }}
-            />
-          </div>
+          <img 
+            src="/plant1.jpg" 
+            alt="Ficus leaves"
+            className="w-56 h-auto transform rotate-15 drop-shadow-2xl"
+            style={{
+              filter: 'contrast(1.1) saturate(1.25) brightness(1.08)'
+            }}
+          />
         </div>
 
+        {/* Eucalyptus Branch - Middle */}
         <div 
-          className="absolute top-60 -left-10 transform transition-all duration-1000 ease-out"
+          className="absolute top-80 left-2 transform transition-all duration-1000 ease-out"
           style={{
-            transform: `translateY(${scrollY * 0.15}px) translateX(${Math.min(scrollY * 0.03, 60)}px) rotateZ(${-scrollY * 0.015}deg)`,
-            opacity: Math.min(scrollY * 0.003, 0.8)
+            transform: `translateY(${scrollY * 0.12}px) translateX(${Math.min(scrollY * 0.04, 70)}px) rotateZ(${-scrollY * 0.02}deg)`,
+            opacity: Math.min(scrollY * 0.003, 0.9)
           }}
         >
-          <div className="relative">
-            {/* Large Leaf 2 */}
-            <div className="absolute w-36 h-48 bg-gradient-to-br from-green-500 to-green-700 opacity-80 transform -rotate-45 rounded-full shadow-xl"
-              style={{
-                clipPath: 'ellipse(65% 85% at 50% 15%)',
-                filter: 'drop-shadow(6px 6px 12px rgba(0,0,0,0.25))'
-              }}
-            />
-          </div>
+          <img 
+            src="/plant2.jpg" 
+            alt="Eucalyptus branch"
+            className="w-44 h-auto transform -rotate-25 drop-shadow-xl"
+            style={{
+              filter: 'contrast(1.15) saturate(1.2) brightness(1.05)'
+            }}
+          />
         </div>
 
+        {/* Vertical Eucalyptus - Bottom */}
         <div 
-          className="absolute bottom-40 left-5 transform transition-all duration-1000 ease-out"
+          className="absolute bottom-32 left-8 transform transition-all duration-1000 ease-out"
           style={{
-            transform: `translateY(${scrollY * -0.08}px) translateX(${Math.min(scrollY * 0.04, 50)}px) rotateZ(${scrollY * 0.01}deg)`,
-            opacity: Math.min(scrollY * 0.004, 0.9)
+            transform: `translateY(${scrollY * -0.06}px) translateX(${Math.min(scrollY * 0.05, 60)}px) rotateZ(${scrollY * 0.018}deg)`,
+            opacity: Math.min(scrollY * 0.004, 0.8)
           }}
         >
-          <div className="relative">
-            {/* Tropical Leaf */}
-            <div className="absolute w-44 h-52 bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-85 transform rotate-45 shadow-2xl"
-              style={{
-                clipPath: 'polygon(50% 0%, 80% 35%, 100% 70%, 75% 100%, 25% 100%, 0% 70%, 20% 35%)',
-                filter: 'drop-shadow(10px 10px 20px rgba(0,0,0,0.35))'
-              }}
-            />
-          </div>
+          <img 
+            src="/plant5.jpg" 
+            alt="Eucalyptus vertical"
+            className="w-40 h-auto transform rotate-35 drop-shadow-lg"
+            style={{
+              filter: 'contrast(1.2) saturate(1.3) brightness(1.1)'
+            }}
+          />
         </div>
       </div>
 
       {/* Decorative Plants - Right Side */}
       <div className="fixed right-0 top-0 h-full w-96 pointer-events-none z-10">
+        {/* Large Single Ficus Leaf - Top */}
         <div 
-          className="absolute top-32 right-0 transform transition-all duration-1000 ease-out"
+          className="absolute top-24 -right-12 transform transition-all duration-1000 ease-out"
           style={{
-            transform: `translateY(${scrollY * 0.12}px) translateX(${Math.max(-scrollY * 0.05, -80)}px) rotateZ(${-scrollY * 0.018}deg)`,
-            opacity: Math.min(scrollY * 0.0025, 0.85)
+            transform: `translateY(${scrollY * 0.1}px) translateX(${Math.max(-scrollY * 0.05, -85)}px) rotateZ(${-scrollY * 0.02}deg)`,
+            opacity: Math.min(scrollY * 0.0025, 0.9)
           }}
         >
-          <div className="relative">
-            {/* Palm Leaf */}
-            <div className="absolute w-48 h-60 bg-gradient-to-br from-green-300 to-green-500 opacity-80 transform -rotate-25 shadow-2xl"
-              style={{
-                clipPath: 'polygon(50% 0%, 85% 25%, 100% 60%, 85% 85%, 65% 100%, 35% 100%, 15% 85%, 0% 60%, 15% 25%)',
-                filter: 'drop-shadow(8px 8px 16px rgba(0,0,0,0.3))'
-              }}
-            />
-          </div>
+          <img 
+            src="/plant3.jpg" 
+            alt="Large ficus leaf"
+            className="w-64 h-auto transform -rotate-20 drop-shadow-2xl"
+            style={{
+              filter: 'contrast(1.12) saturate(1.3) brightness(1.06)'
+            }}
+          />
         </div>
 
+        {/* Detailed Ficus Leaf - Middle */}
         <div 
-          className="absolute top-80 right-5 transform transition-all duration-1000 ease-out"
+          className="absolute top-96 -right-8 transform transition-all duration-1000 ease-out"
           style={{
-            transform: `translateY(${scrollY * 0.09}px) translateX(${Math.max(-scrollY * 0.06, -65)}px) rotateZ(${scrollY * 0.025}deg)`,
+            transform: `translateY(${scrollY * 0.14}px) translateX(${Math.max(-scrollY * 0.06, -75)}px) rotateZ(${scrollY * 0.025}deg)`,
             opacity: Math.min(scrollY * 0.003, 0.85)
           }}
         >
-          <div className="relative">
-            {/* Monstera-style Leaf */}
-            <div className="absolute w-40 h-44 bg-gradient-to-br from-green-400 to-green-600 opacity-90 transform rotate-15 shadow-xl"
-              style={{
-                clipPath: 'ellipse(70% 85% at 50% 25%)',
-                filter: 'drop-shadow(6px 6px 12px rgba(0,0,0,0.25))'
-              }}
-            />
-            {/* Holes in leaf effect */}
-            <div className="absolute w-4 h-6 bg-transparent rounded-full transform rotate-15 top-4 left-8"
-              style={{ boxShadow: 'inset 0 0 0 20px rgba(255,255,255,0.1)' }}
-            />
-            <div className="absolute w-3 h-5 bg-transparent rounded-full transform rotate-15 top-8 left-16"
-              style={{ boxShadow: 'inset 0 0 0 20px rgba(255,255,255,0.1)' }}
-            />
-          </div>
+          <img 
+            src="/plant4.jpg" 
+            alt="Detailed ficus leaf"
+            className="w-52 h-auto transform rotate-30 drop-shadow-xl"
+            style={{
+              filter: 'contrast(1.18) saturate(1.35) brightness(1.08)'
+            }}
+          />
         </div>
 
+        {/* Small Eucalyptus Branch - Bottom */}
         <div 
-          className="absolute bottom-20 -right-5 transform transition-all duration-1000 ease-out"
+          className="absolute bottom-28 -right-6 transform transition-all duration-1000 ease-out"
           style={{
-            transform: `translateY(${scrollY * -0.1}px) translateX(${Math.max(-scrollY * 0.04, -55)}px) rotateZ(${-scrollY * 0.02}deg)`,
-            opacity: Math.min(scrollY * 0.0035, 0.9)
+            transform: `translateY(${scrollY * -0.08}px) translateX(${Math.max(-scrollY * 0.04, -65)}px) rotateZ(${-scrollY * 0.015}deg)`,
+            opacity: Math.min(scrollY * 0.0035, 0.8)
           }}
         >
-          <div className="relative">
-            {/* Fern Leaf */}
-            <div className="absolute w-36 h-56 bg-gradient-to-br from-emerald-300 to-emerald-500 opacity-75 transform rotate-60 shadow-lg"
-              style={{
-                clipPath: 'polygon(50% 0%, 65% 20%, 80% 15%, 85% 30%, 90% 45%, 85% 60%, 80% 75%, 65% 80%, 50% 100%, 35% 80%, 20% 75%, 15% 60%, 10% 45%, 15% 30%, 20% 15%, 35% 20%)',
-                filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.2))'
-              }}
-            />
-          </div>
+          <img 
+            src="/plant2.jpg" 
+            alt="Small eucalyptus"
+            className="w-38 h-auto transform -rotate-15 drop-shadow-lg"
+            style={{
+              filter: 'contrast(1.1) saturate(1.25) brightness(1.12)'
+            }}
+          />
         </div>
       </div>
 
