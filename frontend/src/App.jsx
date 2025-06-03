@@ -8,6 +8,7 @@ import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
 import Layout from './components/Layout';
 import LandingPage from './components/LandingPage';
+import PsychologyLanding from './components/PsychologyLanding';
 import './index.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -92,6 +93,7 @@ const App = () => {
             } 
           />
           <Route path="/" element={<LandingPage />} />
+          <Route path="/psychology" element={<PsychologyLanding />} />
         </Routes>
       </div>
     </Router>
