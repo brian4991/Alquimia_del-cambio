@@ -7,6 +7,7 @@ import ModuleView from './components/ModuleView';
 import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
 import Layout from './components/Layout';
+import LandingPage from './components/LandingPage';
 import './index.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -90,7 +91,7 @@ const App = () => {
               </ProtectedRoute>
             } 
           />
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/" element={<LandingPage />} />
         </Routes>
       </div>
     </Router>
