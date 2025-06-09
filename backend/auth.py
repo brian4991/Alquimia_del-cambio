@@ -9,7 +9,8 @@ from models import User
 from database import get_db
 
 # JWT configuration
-SECRET_KEY = "your-secret-key-here"  # TODO: Move to environment variable
+import os
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-here")  # Use environment variable
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
