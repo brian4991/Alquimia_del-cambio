@@ -18,85 +18,94 @@ const PsychologyLanding = () => {
 
   const services = [
     {
-      title: "Accompagnement Individuel",
-      duration: "Sessions 1h",
+      title: "Acompañamiento Individual",
+      duration: "Sesiones 1h",
       price: "89€",
       features: [
-        "Séances personnalisées",
-        "Écoute active et bienveillante", 
-        "Techniques d'accompagnement modernes",
-        "Suivi entre les séances",
-        "Espace confidentiel et sécurisé"
+        "Sesiones personalizadas",
+        "Escucha activa y afectuosa", 
+        "Técnicas de acompañamiento modernas",
+        "Seguimiento entre sesiones",
+        "Espacio confidencial y seguro"
       ],
       popular: false
     },
     {
-      title: "Programme Transformation",
-      duration: "3 mois",
+      title: "Programa Transformación",
+      duration: "3 meses",
       price: "350€",
       features: [
-        "6 séances d'accompagnement",
-        "Méthodes d'introspection guidée",
-        "Outils de développement personnel",
-        "Exercices pratiques quotidiens",
-        "Support WhatsApp inclus",
-        "Suivi personnalisé complet"
+        "6 sesiones de acompañamiento",
+        "Métodos de introspección guiada",
+        "Herramientas de desarrollo personal",
+        "Ejercicios prácticos diarios",
+        "Soporte WhatsApp incluido",
+        "Seguimiento personalizado completo"
       ],
       popular: true
     },
     {
-      title: "Accompagnement Premium", 
-      duration: "6 mois",
+      title: "Acompañamiento Premium", 
+      duration: "6 meses",
       price: "650€",
       features: [
-        "12 séances individuelles",
-        "Programme de transformation complète",
-        "Accès prioritaire",
-        "Techniques avancées d'épanouissement",
-        "Support illimité",
-        "Bilan de progression mensuel"
+        "12 sesiones individuales",
+        "Programa de transformación completa",
+        "Acceso prioritario",
+        "Técnicas avanzadas de crecimiento",
+        "Soporte ilimitado",
+        "Balance de progreso mensual"
       ],
       popular: false
     }
   ];
 
+  const scientificFoundations = [
+    { name: "Paul Ekman", field: "Emociones y microexpresiones", university: "UC San Francisco", book: "Emotions Revealed" },
+    { name: "Brené Brown", field: "Vulnerabilidad y conexión", university: "University of Houston", book: "Daring Greatly" },
+    { name: "Carl Rogers", field: "Psicología humanista", university: "University of Chicago", book: "On Becoming a Person" },
+    { name: "John Bowlby", field: "Teoría del apego", university: "Tavistock Clinic", book: "Attachment and Loss" },
+    { name: "Daniel Goleman", field: "Inteligencia emocional", university: "Harvard University", book: "Emotional Intelligence" },
+    { name: "Kristin Neff", field: "Autocompasión", university: "University of Texas", book: "Self-Compassion" }
+  ];
+
   const testimonials = [
     {
       name: "Emma L.",
-      role: "Étudiante",
-      content: "Grâce à son accompagnement, j'ai retrouvé confiance en moi et la sérénité. Une approche humaine et professionnelle exceptionnelle.",
+      role: "Estudiante",
+      content: "Gracias a su acompañamiento, recuperé la confianza en mí misma y la serenidad. Un enfoque humano y profesional excepcional.",
       rating: 5
     },
     {
       name: "Marc R.",
-      role: "Cadre",
-      content: "Un parcours transformateur qui m'a aidé à gérer mon stress et à retrouver l'équilibre. Je recommande vivement.",
+      role: "Ejecutivo",
+      content: "Un recorrido transformador que me ayudó a gestionar mi estrés y recuperar el equilibrio. Lo recomiendo encarecidamente.",
       rating: 5
     },
     {
       name: "Sofia M.",
-      role: "Entrepreneur",
-      content: "Une écoute extraordinaire et des outils concrets. Elle m'a accompagnée avec beaucoup de douceur vers ma transformation.",
+      role: "Emprendedora",
+      content: "Una escucha extraordinaria y herramientas concretas. Me acompañó con mucha dulzura hacia mi transformación.",
       rating: 5
     }
   ];
 
   const faqs = [
     {
-      question: "Comment se déroule une première séance ?",
-      answer: "La première séance est un moment privilégié de découverte mutuelle. Nous prenons le temps d'échanger sur vos besoins, vos attentes et nous définissons ensemble vos objectifs d'accompagnement."
+      question: "¿Cómo se desarrolla una primera sesión?",
+      answer: "La primera sesión es un momento privilegiado de descubrimiento mutuo. Nos tomamos el tiempo para intercambiar sobre tus necesidades, expectativas y definimos juntos tus objetivos de acompañamiento."
     },
     {
-      question: "Quelle est la durée recommandée d'un accompagnement ?",
-      answer: "Chaque parcours est unique. Certaines personnes ressentent des bienfaits dès les premières séances, d'autres préfèrent un accompagnement plus long pour un changement en profondeur."
+      question: "¿Cuál es la duración recomendada de un acompañamiento?",
+      answer: "Cada recorrido es único. Algunas personas sienten beneficios desde las primeras sesiones, otras prefieren un acompañamiento más largo para un cambio profundo."
     },
     {
-      question: "Les séances se déroulent-elles en présentiel ou à distance ?",
-      answer: "Je propose les deux modalités selon vos préférences et contraintes. Les séances en visioconférence sont tout aussi efficaces que celles en présentiel."
+      question: "¿Las sesiones se realizan presencialmente o a distancia?",
+      answer: "Propongo ambas modalidades según tus preferencias y limitaciones. Las sesiones por videoconferencia son tan efectivas como las presenciales."
     },
     {
-      question: "Quel est votre approche thérapeutique ?",
-      answer: "Mon approche est intégrative, combinant l'écoute active, la psychologie positive, et des techniques de développement personnel adaptées à chaque personne."
+      question: "¿Cuál es tu enfoque terapéutico?",
+      answer: "Mi enfoque es integrativo, combinando la escucha activa, la psicología positiva, y técnicas de desarrollo personal adaptadas a cada persona."
     }
   ];
 
@@ -190,18 +199,18 @@ const PsychologyLanding = () => {
               <div className="w-10 h-10 bg-gradient-sage rounded-full flex items-center justify-center shadow-sage animate-pulse-glow">
                 <span className="text-white font-bold text-xl">✨</span>
               </div>
-              <h1 className="text-2xl font-inter font-bold text-sage-800">Accompagnement Psychologique</h1>
+              <h1 className="text-2xl font-inter font-bold text-sage-800">Acompañamiento Psicológico</h1>
             </div>
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#about" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">À propos</a>
-              <a href="#services" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Services</a>
-              <a href="#testimonials" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Témoignages</a>
-              <a href="#contact" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Contact</a>
+              <a href="#about" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Acerca de</a>
+              <a href="#services" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Servicios</a>
+              <a href="#testimonials" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Testimonios</a>
+              <a href="#contact" className="text-sage-600 hover:text-sage-800 transition-colors font-medium">Contacto</a>
               <button
                 onClick={() => navigate('/login')}
                 className="bg-gradient-sage text-white px-6 py-2 rounded-full hover:shadow-sage transition-all duration-300 font-medium transform hover:scale-105"
               >
-                Espace client
+                Espacio cliente
               </button>
             </nav>
           </div>
@@ -217,25 +226,25 @@ const PsychologyLanding = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="text-left">
               <h1 className="text-5xl md:text-6xl font-inter font-light text-sage-800 mb-6 leading-tight">
-                Retrouvez votre 
+                Encuentra tu 
                 <span className="text-taupe-600 font-medium block relative">
-                  équilibre intérieur
+                  equilibrio interior
                   <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-taupe rounded-full" />
                 </span>
               </h1>
               <p className="text-xl text-sage-600 mb-8 leading-relaxed font-inter">
-                Un accompagnement psychologique bienveillant et personnalisé pour vous aider à 
-                surmonter vos difficultés et révéler votre plein potentiel.
+                Un acompañamiento psicológico afectuoso y personalizado para ayudarte a 
+                superar tus dificultades y revelar tu pleno potencial.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => navigate('/login')}
                   className="bg-gradient-sage text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-sage hover:scale-105 transition-all duration-300 transform"
                 >
-                  Prendre rendez-vous
+                  Reservar cita
                 </button>
                 <button className="border-2 border-sage-300 text-sage-700 px-8 py-4 rounded-full text-lg font-medium hover:bg-sage-50 hover:border-sage-400 transition-all duration-300 transform hover:scale-105">
-                  En savoir plus
+                  Saber más
                 </button>
               </div>
             </div>
@@ -243,7 +252,7 @@ const PsychologyLanding = () => {
               <div className="relative z-10">
                 <img 
                   src="/portrait5.jpg" 
-                  alt="Psychologue"
+                  alt="Psicóloga"
                   className="w-full h-auto rounded-3xl shadow-elegant border-4 border-white/50 transition-transform duration-100 ease-out"
                   style={{
                     filter: 'brightness(1.05) contrast(1.1) saturate(1.1)',
@@ -276,7 +285,7 @@ const PsychologyLanding = () => {
               <div className="glass-effect-sage rounded-3xl p-2">
                 <img 
                   src="/portrait3.jpg" 
-                  alt="À propos"
+                  alt="Acerca de"
                   className="w-full h-auto rounded-2xl shadow-elegant"
                   style={{
                     filter: 'brightness(1.08) contrast(1.05) saturate(1.15)'
@@ -291,24 +300,24 @@ const PsychologyLanding = () => {
             </div>
             <div>
               <h2 className="text-4xl font-inter font-light text-sage-800 mb-6">
-                Une approche <span className="text-taupe-600 font-medium">humaine</span> et bienveillante
+                Un enfoque <span className="text-taupe-600 font-medium">humano</span> y afectuoso
               </h2>
               <p className="text-lg text-sage-600 mb-6 leading-relaxed font-inter">
-                Psychologue diplômée, je vous accompagne avec empathie et professionnalisme 
-                dans votre parcours de développement personnel et de mieux-être.
+                Psicóloga titulada, te acompaño con empatía y profesionalismo 
+                en tu camino de desarrollo personal y bienestar.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center group">
                   <div className="w-3 h-3 bg-gradient-sage rounded-full mr-4 group-hover:scale-125 transition-transform duration-300" />
-                  <span className="text-sage-700 font-inter">Écoute active et sans jugement</span>
+                  <span className="text-sage-700 font-inter">Escucha activa y sin juicio</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-3 h-3 bg-gradient-taupe rounded-full mr-4 group-hover:scale-125 transition-transform duration-300" />
-                  <span className="text-sage-700 font-inter">Méthodes adaptées à chaque personne</span>
+                  <span className="text-sage-700 font-inter">Métodos adaptados a cada persona</span>
                 </div>
                 <div className="flex items-center group">
                   <div className="w-3 h-3 bg-gradient-sage rounded-full mr-4 group-hover:scale-125 transition-transform duration-300" />
-                  <span className="text-sage-700 font-inter">Accompagnement respectueux et confidentiel</span>
+                  <span className="text-sage-700 font-inter">Acompañamiento respetuoso y confidencial</span>
                 </div>
               </div>
             </div>
@@ -320,15 +329,15 @@ const PsychologyLanding = () => {
       <section id="services" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Mes services d'accompagnement</h2>
-            <p className="text-xl text-sage-600 font-inter">Des solutions personnalisées pour votre bien-être</p>
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Mis servicios de acompañamiento</h2>
+            <p className="text-xl text-sage-600 font-inter">Soluciones personalizadas para tu bienestar</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <div key={index} className={`relative p-8 rounded-3xl shadow-elegant hover:shadow-sage transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 ${service.popular ? 'bg-gradient-sage text-white' : 'bg-white border border-sage-100'}`}>
                 {service.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-taupe text-white px-4 py-1 rounded-full text-sm font-medium shadow-taupe">
-                    Le plus demandé
+                    Más solicitado
                   </div>
                 )}
                 <div className="text-center mb-6">
@@ -358,7 +367,7 @@ const PsychologyLanding = () => {
                       : 'bg-gradient-sage text-white hover:shadow-sage'
                   }`}
                 >
-                  Prendre rendez-vous
+                  Reservar cita
                 </button>
               </div>
             ))}
@@ -366,12 +375,120 @@ const PsychologyLanding = () => {
         </div>
       </section>
 
-      {/* Approach Section with circular images and animations */}
+      {/* Program Overview - Subtle addition about the program */}
+      <section className="py-20 bg-white/60 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">
+              Programa <span className="text-taupe-600 font-medium">"Alquimia del Cambio"</span>
+            </h2>
+            <p className="text-xl text-sage-600 font-inter max-w-3xl mx-auto">
+              Un recorrido transformador de 4 etapas, basado en neurociencia y psicología positiva
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-sage rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">🗺️</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Gestión Emocional</h3>
+              <p className="text-sage-600 font-inter">Herramientas para navegar tus emociones con serenidad y claridad</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-taupe rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">🎉</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Amor Propio</h3>
+              <p className="text-sage-600 font-inter">Cultiva una relación sana y compasiva contigo mismo/a</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-sage rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">💕</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Relaciones Sanas</h3>
+              <p className="text-sage-600 font-inter">Construye vínculos equilibrados y auténticos</p>
+            </div>
+            
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-taupe rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">⭐</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Autenticidad</h3>
+              <p className="text-sage-600 font-inter">Vive en coherencia con tus valores más profundos</p>
+            </div>
+          </div>
+          
+          <div className="text-center mt-12">
+            <div className="glass-effect rounded-2xl p-6 max-w-2xl mx-auto border border-sage-100">
+              <p className="text-sage-600 font-inter mb-4">
+                <span className="text-taupe-600 font-medium">Metodología validada</span> por la psicología científica moderna
+              </p>
+              <div className="flex justify-center space-x-8 text-sm text-sage-500">
+                <span>• Neuroplasticidad</span>
+                <span>• Psicología Positiva</span>
+                <span>• Mindfulness</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Scientific Foundations Section */}
+      <section className="py-20 bg-gradient-to-br from-sage-50 to-taupe-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">
+              Fundamentos <span className="text-taupe-600 font-medium">científicos</span>
+            </h2>
+            <p className="text-xl text-sage-600 font-inter max-w-3xl mx-auto">
+              Nuestro enfoque se basa en décadas de investigación de los psicólogos más reconocidos mundialmente
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {scientificFoundations.map((researcher, index) => (
+              <div key={index} className="glass-effect rounded-3xl p-6 shadow-elegant hover:shadow-sage transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 border border-sage-100 group">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-14 h-14 bg-gradient-sage rounded-2xl flex items-center justify-center font-inter font-bold text-white text-xl shadow-sage group-hover:scale-110 transition-transform duration-300">
+                    {researcher.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div>
+                    <h3 className="font-inter font-medium text-sage-800 group-hover:text-sage-900">{researcher.name}</h3>
+                    <p className="text-sm text-sage-500 font-inter">{researcher.university}</p>
+                  </div>
+                </div>
+                <p className="text-sage-600 font-inter mb-3 leading-relaxed">{researcher.field}</p>
+                <div className="inline-flex items-center bg-taupe-100 rounded-full px-3 py-1">
+                  <span className="text-xs font-inter text-taupe-700">📚 {researcher.book}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="glass-effect rounded-3xl p-8 shadow-elegant border border-sage-100 max-w-4xl mx-auto">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-16 h-16 bg-gradient-taupe rounded-2xl flex items-center justify-center">
+                <span className="text-white text-2xl">🧠</span>
+              </div>
+              <h3 className="text-2xl font-inter font-medium text-sage-800">Neuroplasticidad: Tu cerebro puede transformarse</h3>
+            </div>
+            <p className="text-lg text-sage-600 leading-relaxed font-inter">
+              La neurociencia moderna demuestra que nuestro cerebro mantiene su capacidad de crear nuevas conexiones 
+              hasta edades avanzadas. Los métodos de nuestro programa aprovechan esta <span className="text-taupe-600 font-medium">plasticidad cerebral</span> 
+              para facilitar cambios duraderos en tus patrones emocionales, relacionales y de autoestima.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-white/60 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Mon approche thérapeutique</h2>
-            <p className="text-xl text-sage-600 font-inter">Un accompagnement adapté à vos besoins</p>
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Mi enfoque terapéutico</h2>
+            <p className="text-xl text-sage-600 font-inter">Un acompañamiento adaptado a tus necesidades</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
@@ -379,7 +496,7 @@ const PsychologyLanding = () => {
                 <div className="absolute inset-0 bg-gradient-sage rounded-full opacity-20 group-hover:opacity-30 transition-opacity duration-300 transform group-hover:scale-110" />
                 <img 
                   src="/portrait1.jpg" 
-                  alt="Écoute active"
+                  alt="Escucha activa"
                   className="w-64 h-64 object-cover rounded-full mx-auto shadow-elegant border-4 border-white/80 relative z-10 group-hover:scale-105 transition-transform duration-500"
                   style={{
                     filter: 'brightness(1.05) contrast(1.08) saturate(1.1)'
@@ -387,15 +504,15 @@ const PsychologyLanding = () => {
                 />
                 <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-sage rounded-full opacity-80 group-hover:scale-125 transition-transform duration-300" />
               </div>
-              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Écoute Active</h3>
-              <p className="text-sage-600 font-inter">Un espace de parole libre et bienveillant pour exprimer vos émotions</p>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Escucha Activa</h3>
+              <p className="text-sage-600 font-inter">Un espacio de expresión libre y afectuoso para expresar tus emociones</p>
             </div>
             <div className="text-center group">
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-taupe rounded-full opacity-20 group-hover:opacity-30 transition-opacity duration-300 transform group-hover:scale-110" />
                 <img 
                   src="/portrait2.jpg" 
-                  alt="Accompagnement personnalisé"
+                  alt="Acompañamiento personalizado"
                   className="w-64 h-64 object-cover rounded-full mx-auto shadow-elegant border-4 border-white/80 relative z-10 group-hover:scale-105 transition-transform duration-500"
                   style={{
                     filter: 'brightness(1.05) contrast(1.08) saturate(1.1)'
@@ -403,15 +520,15 @@ const PsychologyLanding = () => {
                 />
                 <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-taupe rounded-full opacity-80 group-hover:scale-125 transition-transform duration-300" />
               </div>
-              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Approche Personnalisée</h3>
-              <p className="text-sage-600 font-inter">Des méthodes adaptées à votre personnalité et vos objectifs</p>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Enfoque Personalizado</h3>
+              <p className="text-sage-600 font-inter">Métodos adaptados a tu personalidad y objetivos</p>
             </div>
             <div className="text-center group">
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-sage rounded-full opacity-20 group-hover:opacity-30 transition-opacity duration-300 transform group-hover:scale-110" />
                 <img 
                   src="/portrait4.jpg" 
-                  alt="Transformation"
+                  alt="Transformación"
                   className="w-64 h-64 object-cover rounded-full mx-auto shadow-elegant border-4 border-white/80 relative z-10 group-hover:scale-105 transition-transform duration-500"
                   style={{
                     filter: 'brightness(1.05) contrast(1.08) saturate(1.1)'
@@ -419,8 +536,177 @@ const PsychologyLanding = () => {
                 />
                 <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-sage rounded-full opacity-80 group-hover:scale-125 transition-transform duration-300" />
               </div>
-              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Transformation Durable</h3>
-              <p className="text-sage-600 font-inter">Un accompagnement vers un changement positif et durable</p>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Transformación Duradera</h3>
+              <p className="text-sage-600 font-inter">Un acompañamiento hacia un cambio positivo y duradero</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Program Section with Screenshots */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">
+              Descubre tu <span className="text-taupe-600 font-medium">plataforma personal</span>
+            </h2>
+            <p className="text-xl text-sage-600 font-inter max-w-3xl mx-auto">
+              Un programa interactivo diseñado para acompañarte a tu ritmo en tu transformación personal
+            </p>
+          </div>
+
+          {/* Program Benefits */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-sage rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">🎯</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Recorrido Estructurado</h3>
+              <p className="text-sage-600 font-inter">4 módulos progresivos para una transformación profunda</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-taupe rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">📝</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Ejercicios Prácticos</h3>
+              <p className="text-sage-600 font-inter">Herramientas concretas para anclar tus aprendizajes</p>
+            </div>
+            <div className="text-center group">
+              <div className="w-16 h-16 bg-gradient-sage rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white text-2xl">📊</span>
+              </div>
+              <h3 className="text-xl font-inter font-medium text-sage-800 mb-3">Seguimiento Personalizado</h3>
+              <p className="text-sage-600 font-inter">Visualiza tu progreso y celebra tus avances</p>
+            </div>
+          </div>
+
+          {/* Screenshots Showcase */}
+          <div className="space-y-16">
+            
+            {/* Dashboard Preview */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-sage rounded-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-300 transform rotate-3 group-hover:rotate-6" />
+                <div className="relative bg-white rounded-3xl shadow-elegant overflow-hidden border border-sage-100 group-hover:shadow-sage transition-all duration-500 transform group-hover:scale-105">
+                  <img 
+                    src="/panel.png" 
+                    alt="Panel de control"
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-3xl font-inter font-light text-sage-800 mb-6">
+                  Tu <span className="text-taupe-600 font-medium">panel de control</span> personal
+                </h3>
+                <p className="text-lg text-sage-600 mb-6 leading-relaxed font-inter">
+                  Accede a tus módulos, sigue tu progreso y mantén una visión general de tu recorrido de transformación.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-sage rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Visión general de tu progreso</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-taupe rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Acceso directo a todos tus módulos</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-sage rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Interfaz intuitiva y tranquilizante</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Module Preview */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="order-2 md:order-1">
+                <h3 className="text-3xl font-inter font-light text-sage-800 mb-6">
+                  <span className="text-taupe-600 font-medium">Módulos interactivos</span> y atractivos
+                </h3>
+                <p className="text-lg text-sage-600 mb-6 leading-relaxed font-inter">
+                  Cada módulo te guía paso a paso con contenido rico, ejercicios prácticos y seguimiento de tu evolución.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-taupe rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Contenido teórico y práctico equilibrado</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-sage rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Progresión adaptada a tu ritmo</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-taupe rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Recursos de audio y escritos</span>
+                  </div>
+                </div>
+              </div>
+              <div className="relative group order-1 md:order-2">
+                <div className="absolute inset-0 bg-gradient-taupe rounded-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-300 transform -rotate-3 group-hover:-rotate-6" />
+                <div className="relative bg-white rounded-3xl shadow-elegant overflow-hidden border border-sage-100 group-hover:shadow-sage transition-all duration-500 transform group-hover:scale-105">
+                  <img 
+                    src="/module.png" 
+                    alt="Módulo interactivo"
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Exercises Preview */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-sage rounded-3xl opacity-20 group-hover:opacity-30 transition-opacity duration-300 transform rotate-2 group-hover:rotate-4" />
+                <div className="relative bg-white rounded-3xl shadow-elegant overflow-hidden border border-sage-100 group-hover:shadow-sage transition-all duration-500 transform group-hover:scale-105">
+                  <img 
+                    src="/exercices.png" 
+                    alt="Ejercicios prácticos"
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div>
+                <h3 className="text-3xl font-inter font-light text-sage-800 mb-6">
+                  <span className="text-taupe-600 font-medium">Ejercicios prácticos</span> personalizados
+                </h3>
+                <p className="text-lg text-sage-600 mb-6 leading-relaxed font-inter">
+                  Pon en práctica tus aprendizajes con ejercicios de reflexión personalizados que te ayudan a anclar tu transformación.
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-sage rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Preguntas guiadas para la introspección</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-taupe rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Espacio seguro para tus reflexiones</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-gradient-sage rounded-full mr-3" />
+                    <span className="text-sage-700 font-inter">Progreso seguido y alentado</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center mt-16">
+            <div className="glass-effect rounded-3xl p-8 shadow-elegant border border-sage-100 max-w-2xl mx-auto">
+              <h3 className="text-2xl font-inter font-medium text-sage-800 mb-4">
+                ¿Lista/o para descubrir tu plataforma?
+              </h3>
+              <p className="text-sage-600 font-inter mb-6">
+                Comienza tu transformación hoy mismo con un acompañamiento personalizado y herramientas concretas.
+              </p>
+              <button 
+                onClick={() => navigate('/login')}
+                className="bg-gradient-sage text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-sage transition-all duration-300 transform hover:scale-105"
+              >
+                Acceder a la plataforma
+              </button>
             </div>
           </div>
         </div>
@@ -430,8 +716,8 @@ const PsychologyLanding = () => {
       <section id="testimonials" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Témoignages</h2>
-            <p className="text-xl text-sage-600 font-inter">L'expérience de ceux qui ont franchi le pas</p>
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Testimonios</h2>
+            <p className="text-xl text-sage-600 font-inter">La experiencia de quienes dieron el paso</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
@@ -458,8 +744,8 @@ const PsychologyLanding = () => {
       <section id="faq" className="py-20 bg-white/60 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Questions fréquentes</h2>
-            <p className="text-xl text-sage-600 font-inter">Les réponses à vos interrogations</p>
+            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Preguntas frecuentes</h2>
+            <p className="text-xl text-sage-600 font-inter">Las respuestas a tus dudas</p>
           </div>
           <div className="space-y-4">
             {faqs.map((faq, index) => (
@@ -500,17 +786,17 @@ const PsychologyLanding = () => {
         </div>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-4xl font-inter font-light mb-6">Prêt(e) à commencer votre transformation ?</h2>
+          <h2 className="text-4xl font-inter font-light mb-6">¿Lista/o para comenzar tu transformación?</h2>
           <p className="text-xl mb-8 opacity-90 font-inter">
-            Je vous accompagne avec bienveillance vers un mieux-être durable.
+            Te acompaño con cariño hacia un bienestar duradero.
           </p>
           <button 
             onClick={() => navigate('/login')}
             className="bg-white text-sage-700 px-8 py-4 rounded-full text-lg font-medium hover:bg-sage-50 transition-all duration-300 shadow-elegant hover:shadow-taupe transform hover:scale-105"
           >
-            Prendre rendez-vous maintenant
+            Reservar cita ahora
           </button>
-          <p className="text-sm mt-4 opacity-75 font-inter">Premier échange gratuit • Confidentialité garantie</p>
+          <p className="text-sm mt-4 opacity-75 font-inter">Primera consulta gratuita • Confidencialidad garantizada</p>
         </div>
       </section>
 
@@ -523,37 +809,37 @@ const PsychologyLanding = () => {
                 <div className="w-8 h-8 bg-gradient-taupe rounded-full flex items-center justify-center shadow-taupe">
                   <span className="text-white font-bold">✨</span>
                 </div>
-                <h3 className="text-xl font-inter font-medium">Accompagnement Psychologique</h3>
+                <h3 className="text-xl font-inter font-medium">Acompañamiento Psicológico</h3>
               </div>
-              <p className="text-sage-300 font-inter">Pour un mieux-être authentique et durable.</p>
+              <p className="text-sage-300 font-inter">Para un bienestar auténtico y duradero.</p>
             </div>
             <div>
-              <h4 className="font-inter font-medium mb-4">Services</h4>
+              <h4 className="font-inter font-medium mb-4">Servicios</h4>
               <ul className="space-y-2 text-sage-300 font-inter">
-                <li><a href="#" className="hover:text-white transition-colors">Séances individuelles</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Programmes d'accompagnement</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Suivi personnalisé</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Sesiones individuales</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Programas de acompañamiento</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Seguimiento personalizado</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-inter font-medium mb-4">Contact</h4>
+              <h4 className="font-inter font-medium mb-4">Contacto</h4>
               <ul className="space-y-2 text-sage-300 font-inter">
-                <li><a href="#" className="hover:text-white transition-colors">Prendre RDV</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Reservar cita</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Email</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Téléphone</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Teléfono</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-inter font-medium mb-4">Informations</h4>
+              <h4 className="font-inter font-medium mb-4">Información</h4>
               <ul className="space-y-2 text-sage-300 font-inter">
-                <li><a href="#" className="hover:text-white transition-colors">Mentions légales</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Confidentialité</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Déontologie</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Términos legales</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacidad</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Deontología</a></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-sage-700 mt-8 pt-8 text-center text-sage-300">
-            <p className="font-inter">&copy; 2024 Accompagnement Psychologique. Tous droits réservés.</p>
+            <p className="font-inter">&copy; 2024 Acompañamiento Psicológico. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
