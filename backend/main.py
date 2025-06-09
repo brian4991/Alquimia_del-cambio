@@ -53,5 +53,6 @@ def root():
 if __name__ == "__main__":
     import uvicorn
     import os
-    port = int(os.environ.get("PORT", 8000))
+    # Use Railway's standard port 3000 in production, 8000 for local dev
+    port = int(os.environ.get("PORT", 3000 if os.environ.get("RAILWAY_ENVIRONMENT") else 8000))
     uvicorn.run(app, host="0.0.0.0", port=port) 
