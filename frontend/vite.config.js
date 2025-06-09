@@ -21,7 +21,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: process.env.NODE_ENV === 'production' 
-          ? 'https://your-backend-url.com' 
+          ? 'https://alquimiadel-cambio-production.up.railway.app' 
           : 'http://localhost:8000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
