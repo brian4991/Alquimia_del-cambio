@@ -1,0 +1,11 @@
+# Variables d'environnement pour Railway
+PORT=8000
+PYTHONPATH=/app
+
+# Base de données (Railway peut fournir une URL)
+DATABASE_URL=sqlite:///./app.db
+
+# Sécurité JWT
+SECRET_KEY=your-secret-key-here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30 
