@@ -7,7 +7,6 @@ import ModuleView from './components/ModuleView';
 import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
 import Layout from './components/Layout';
-import LandingPage from './components/LandingPage';
 import PsychologyLanding from './components/PsychologyLanding';
 import './index.css';
 
@@ -92,8 +91,7 @@ const App = () => {
               </ProtectedRoute>
             } 
           />
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/psychology" element={<PsychologyLanding />} />
+          <Route path="/" element={<PsychologyLanding />} />
         </Routes>
       </div>
     </Router>
