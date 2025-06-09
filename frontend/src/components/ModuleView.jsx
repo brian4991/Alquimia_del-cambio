@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getModules } from '../services/api';
+import { config } from '../config';
 
 const ModuleView = () => {
   const { moduleId } = useParams();
@@ -15,7 +16,7 @@ const ModuleView = () => {
     const fetchModuleData = async () => {
       try {
         // Get module data
-        const modulesResponse = await fetch('http://localhost:8000/modules', {
+        const modulesResponse = await fetch(`${config.apiUrl}/modules`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -31,7 +32,7 @@ const ModuleView = () => {
         setModule(currentModule);
 
         // Get themes for this module
-        const themesResponse = await fetch(`http://localhost:8000/modules/${moduleId}/themes`, {
+        const themesResponse = await fetch(`${config.apiUrl}/modules/${moduleId}/themes`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

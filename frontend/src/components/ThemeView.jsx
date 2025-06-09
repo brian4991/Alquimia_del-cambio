@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { config } from '../config';
 import { 
   DocumentTextIcon, 
   PencilSquareIcon, 
@@ -30,7 +31,7 @@ const ThemeView = () => {
     const fetchThemeData = async () => {
       try {
         // Get theme exercises
-        const exercisesResponse = await fetch(`http://localhost:8000/themes/${themeId}/exercises`, {
+        const exercisesResponse = await fetch(`${config.apiUrl}/themes/${themeId}/exercises`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -39,7 +40,7 @@ const ThemeView = () => {
         setExercises(exercisesData);
         
         // Get theme info from modules endpoint
-        const modulesResponse = await fetch('http://localhost:8000/modules', {
+        const modulesResponse = await fetch(`${config.apiUrl}/modules`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -50,7 +51,7 @@ const ThemeView = () => {
         let foundTheme = null;
         let moduleId = null;
         for (const module of modules) {
-          const themesResponse = await fetch(`http://localhost:8000/modules/${module.id}/themes`, {
+          const themesResponse = await fetch(`${config.apiUrl}/modules/${module.id}/themes`, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
@@ -106,7 +107,7 @@ const ThemeView = () => {
 
     setSubmitting(true);
     try {
-      await fetch('http://localhost:8000/submit-response', {
+      await fetch(`${config.apiUrl}/submit-response`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ const ThemeView = () => {
         setCurrentExercise(currentExercise + 1);
       } else {
         // Complete the theme
-        await fetch(`http://localhost:8000/complete-theme/${themeId}`, {
+        await fetch(`${config.apiUrl}/complete-theme/${themeId}`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

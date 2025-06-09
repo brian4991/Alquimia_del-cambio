@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { config } from '../config';
 import { 
   ArrowRightIcon, 
   PlayIcon, 
@@ -20,7 +21,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await fetch('http://localhost:8000/modules', {
+        const response = await fetch(`${config.apiUrl}/modules`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
