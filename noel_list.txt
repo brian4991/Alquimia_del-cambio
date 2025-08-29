@@ -1,0 +1,4 @@
+- mettre le livre en pdf si possible
+- ajouter pour chaque modul un champ en plus de "croyance a transformer" qui est "nouvelle perspective", sur la page du module ca sera appelé 'Nueva perspectiva"
+- dans le panel de controle, quand je selectionne un module / theme je veux quil soit visible quil est selectionné pour avoir un retour apres click
+- pour chaque exos il y a plusieurs questions, par exemple exercice 1, question 1.1,1.2 etc, je veux pouvoir les ajouter modifier etc sur le panel d'admin

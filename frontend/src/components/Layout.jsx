@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   HomeIcon, 
@@ -13,25 +13,59 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Decode JWT token to get user info
+  const decodeToken = (token) => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  };
+
+  // Get user info from token
+  const userInfo = useMemo(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    return decodeToken(token);
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
   };
 
-  const navItems = [
-    { 
-      path: '/dashboard', 
-      icon: HomeIcon, 
-      label: 'Panel de Control',
-      description: 'Vista general de tu recorrido'
-    },
-    { 
-      path: '/admin', 
-      icon: CogIcon, 
-      label: 'Administración',
-      description: 'Gestión del contenido'
+  // Filter navigation items based on user role
+  const navItems = useMemo(() => {
+    if (userInfo && userInfo.role === 'admin') {
+      // Admin navigation - different from regular users
+      return [
+        {
+          path: '/admin/users', 
+          icon: UserIcon, 
+          label: 'Seguimiento Usuarios',
+          description: 'Progreso y respuestas de los usuarios'
+        },
+        {
+          path: '/admin', 
+          icon: CogIcon, 
+          label: 'Gestión Contenido',
+          description: 'Crear y modificar módulos'
+        }
+      ];
+    } else {
+      // Regular user navigation
+      return [
+        { 
+          path: '/dashboard', 
+          icon: HomeIcon, 
+          label: 'Mi Programa',
+          description: 'Tu recorrido de transformación personal'
+        }
+      ];
     }
-  ];
+  }, [userInfo]);
 
   return (
     <div className="min-h-screen gradient-elegant">
@@ -113,7 +147,18 @@ const Layout = ({ children }) => {
                   Conectado como
                 </p>
                 <p className="font-inter font-semibold text-gray-800 text-sm">
-                  Usuario
+                  {userInfo ? (
+                    <>
+                      {userInfo.sub}
+                      {userInfo.role === 'admin' && (
+                        <span className="ml-2 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">
+                          Admin
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    'Usuario'
+                  )}
                 </p>
               </div>
               

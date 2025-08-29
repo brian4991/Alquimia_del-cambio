@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { config } from '../config';
 
-const ModulesTab = ({ modules, onModuleSelect, onReload }) => {
+const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingModule, setEditingModule] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +67,7 @@ const ModulesTab = ({ modules, onModuleSelect, onReload }) => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/modules/${moduleId}`, {
+      const response = await fetch(`${config.apiUrl}/modules/${moduleId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -307,7 +308,11 @@ const ModulesTab = ({ modules, onModuleSelect, onReload }) => {
           safeModules.map((module) => (
             <div
               key={module.id}
-              className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+              className={`border rounded-lg p-4 hover:shadow-md transition-all cursor-pointer ${
+                selectedModule && selectedModule.id === module.id
+                  ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
               onClick={() => onModuleSelect(module)}
             >
               <div className="flex justify-between items-start">

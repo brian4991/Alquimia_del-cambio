@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 from typing import List
 
-from auth import get_current_user
+from auth import get_current_user, get_current_admin_user
 from database import get_db
 from models import User, Module, Theme, Exercise, UserProgress, UserResponseDB, ThemeCard
 from schemas import (
@@ -102,7 +102,7 @@ def get_card(card_id: int, current_user: User = Depends(get_current_user), db: S
     return card
 
 @router.post("/themes/{theme_id}/cards", response_model=ThemeCardResponse)
-def create_card(theme_id: int, card_data: ThemeCardCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Create a new card"""
     # Verify theme exists
     theme = db.query(Theme).filter(Theme.id == theme_id).first()
@@ -125,7 +125,7 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_user: User = 
     return new_card
 
 @router.put("/cards/{card_id}", response_model=ThemeCardResponse)
-def update_card(card_id: int, card_data: ThemeCardUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Update a card"""
     card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
     if not card:
@@ -149,7 +149,7 @@ def update_card(card_id: int, card_data: ThemeCardUpdate, current_user: User = D
     return card
 
 @router.delete("/cards/{card_id}")
-def delete_card(card_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def delete_card(card_id: int, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Delete a card"""
     card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
     if not card:
@@ -179,8 +179,8 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
         result.append(ExerciseResponse(
             id=exercise.id,
             title=exercise.title,
-            question=exercise.question,
             instructions=exercise.instructions,
+            sub_questions=exercise.sub_questions or [],
             order_number=exercise.order_number,
             theme_id=exercise.theme_id,
             user_response=user_response.response_text if user_response else None
@@ -257,7 +257,7 @@ def complete_theme(theme_id: int, current_user: User = Depends(get_current_user)
 # ===============================
 
 @router.post("/modules", response_model=ModuleResponse)
-def create_module(module_data: ModuleCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def create_module(module_data: ModuleCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Create a new module"""
     new_module = Module(
         title=module_data.title,
@@ -289,7 +289,7 @@ def create_module(module_data: ModuleCreate, current_user: User = Depends(get_cu
     )
 
 @router.put("/modules/{module_id}", response_model=ModuleResponse)
-def update_module(module_id: int, module_data: ModuleUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def update_module(module_id: int, module_data: ModuleUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Update a module"""
     module = db.query(Module).filter(Module.id == module_id).first()
     if not module:
@@ -332,7 +332,7 @@ def update_module(module_id: int, module_data: ModuleUpdate, current_user: User 
     )
 
 @router.delete("/modules/{module_id}")
-def delete_module(module_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def delete_module(module_id: int, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Delete a module"""
     module = db.query(Module).filter(Module.id == module_id).first()
     if not module:
@@ -348,7 +348,7 @@ def delete_module(module_id: int, current_user: User = Depends(get_current_user)
 # ===============================
 
 @router.post("/modules/{module_id}/themes", response_model=ThemeResponse)
-def create_theme(module_id: int, theme_data: ThemeCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def create_theme(module_id: int, theme_data: ThemeCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Create a new theme"""
     # Verify module exists
     module = db.query(Module).filter(Module.id == module_id).first()
@@ -378,7 +378,7 @@ def create_theme(module_id: int, theme_data: ThemeCreate, current_user: User = D
     )
 
 @router.put("/themes/{theme_id}", response_model=ThemeResponse)
-def update_theme(theme_id: int, theme_data: ThemeUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def update_theme(theme_id: int, theme_data: ThemeUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Update a theme"""
     theme = db.query(Theme).filter(Theme.id == theme_id).first()
     if not theme:
@@ -410,7 +410,7 @@ def update_theme(theme_id: int, theme_data: ThemeUpdate, current_user: User = De
     )
 
 @router.delete("/themes/{theme_id}")
-def delete_theme(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def delete_theme(theme_id: int, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Delete a theme"""
     theme = db.query(Theme).filter(Theme.id == theme_id).first()
     if not theme:
@@ -426,7 +426,7 @@ def delete_theme(theme_id: int, current_user: User = Depends(get_current_user), 
 # ===============================
 
 @router.post("/themes/{theme_id}/exercises", response_model=ExerciseResponse)
-def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Create a new exercise"""
     # Verify theme exists
     theme = db.query(Theme).filter(Theme.id == theme_id).first()
@@ -435,8 +435,8 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_user: 
     
     new_exercise = Exercise(
         title=exercise_data.title,
-        question=exercise_data.question,
         instructions=exercise_data.instructions,
+        sub_questions=exercise_data.sub_questions,
         order_number=exercise_data.order_number,
         theme_id=theme_id
     )
@@ -448,15 +448,15 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_user: 
     return ExerciseResponse(
         id=new_exercise.id,
         title=new_exercise.title,
-        question=new_exercise.question,
         instructions=new_exercise.instructions,
+        sub_questions=new_exercise.sub_questions or [],
         order_number=new_exercise.order_number,
         theme_id=new_exercise.theme_id,
         user_response=None
     )
 
 @router.put("/exercises/{exercise_id}", response_model=ExerciseResponse)
-def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Update an exercise"""
     exercise = db.query(Exercise).filter(Exercise.id == exercise_id).first()
     if not exercise:
@@ -465,10 +465,10 @@ def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_use
     # Update fields if provided
     if exercise_data.title is not None:
         exercise.title = exercise_data.title
-    if exercise_data.question is not None:
-        exercise.question = exercise_data.question
     if exercise_data.instructions is not None:
         exercise.instructions = exercise_data.instructions
+    if exercise_data.sub_questions is not None:
+        exercise.sub_questions = exercise_data.sub_questions
     if exercise_data.order_number is not None:
         exercise.order_number = exercise_data.order_number
     
@@ -478,15 +478,15 @@ def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_use
     return ExerciseResponse(
         id=exercise.id,
         title=exercise.title,
-        question=exercise.question,
         instructions=exercise.instructions,
+        sub_questions=exercise.sub_questions or [],
         order_number=exercise.order_number,
         theme_id=exercise.theme_id,
         user_response=None
     )
 
 @router.delete("/exercises/{exercise_id}")
-def delete_exercise(exercise_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def delete_exercise(exercise_id: int, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Delete an exercise"""
     exercise = db.query(Exercise).filter(Exercise.id == exercise_id).first()
     if not exercise:

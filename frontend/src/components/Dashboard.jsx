@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { config } from '../config';
+import { getModules } from '../services/api';
 import { 
   ArrowRightIcon, 
   PlayIcon, 
@@ -21,17 +21,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await fetch(`${config.apiUrl}/modules`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error('Erreur lors du chargement des modules');
-        }
-        
-        const data = await response.json();
+        const data = await getModules();
         setModules(data);
       } catch (err) {
         setError('Impossible de charger les modules');

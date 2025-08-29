@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Boolean, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Text, Boolean, ForeignKey, DateTime, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -11,6 +11,10 @@ class User(Base):
     username = Column(String(50), unique=True, index=True, nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
+    role = Column(String(20), default="user", nullable=False)  # "admin" or "user"  
+    provider = Column(String(50), nullable=True)  # "google", "facebook", "local"
+    provider_id = Column(String(100), nullable=True)  # ID from OAuth provider
+    is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=func.now())
     
     # Relationships
@@ -65,8 +69,8 @@ class Exercise(Base):
     __tablename__ = "exercises"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
-    question = Column(Text, nullable=False)
     instructions = Column(Text, nullable=True)
+    sub_questions = Column(JSON, nullable=True, default="[]")
     order_number = Column(Integer, nullable=False)
     theme_id = Column(Integer, ForeignKey("themes.id"), nullable=False)
     

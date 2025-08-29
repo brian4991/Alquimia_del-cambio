@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { config } from '../config';
 
 const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingExercise, setEditingExercise] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
-    question: '',
     instructions: '',
     order_number: exercises.length + 1
   });
+  const [subQuestions, setSubQuestions] = useState([]);
+  const [newSubQuestion, setNewSubQuestion] = useState('');
 
   // Load exercises when theme is selected
   useEffect(() => {
@@ -25,6 +27,11 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
       return;
     }
 
+    if (subQuestions.length === 0) {
+      alert('Veuillez ajouter au moins une question à cet exercice');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       const url = editingExercise 
@@ -32,13 +39,18 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
         : `/api/themes/${selectedTheme.id}/exercises`;
       const method = editingExercise ? 'PUT' : 'POST';
       
+      const payload = {
+        ...formData,
+        sub_questions: subQuestions
+      };
+      
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       if (response.ok) {
@@ -57,7 +69,7 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/exercises/${exerciseId}`, {
+      const response = await fetch(`${config.apiUrl}/exercises/${exerciseId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -74,20 +86,22 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
     setEditingExercise(exercise);
     setFormData({
       title: exercise.title,
-      question: exercise.question,
       instructions: exercise.instructions || '',
       order_number: exercise.order_number
     });
+    // Load existing sub-questions if any
+    setSubQuestions(exercise.sub_questions || []);
     setShowCreateForm(true);
   };
 
   const resetForm = () => {
     setFormData({
       title: '',
-      question: '',
       instructions: '',
       order_number: exercises.length + 1
     });
+    setSubQuestions([]);
+    setNewSubQuestion('');
   };
 
   const handleCancel = () => {
@@ -159,18 +173,58 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
               </div>
             </div>
 
+            {/* Questions de l'exercice */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Question principale *
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Questions de l'exercice
               </label>
-              <textarea
-                value={formData.question}
-                onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-                rows="4"
-                placeholder="Formulez la question ou consigne principale de l'exercice..."
-                required
-              />
+              
+              {/* Liste des questions existantes */}
+              {subQuestions.length > 0 && (
+                <div className="mb-4 space-y-2">
+                  {subQuestions.map((question, index) => (
+                    <div key={index} className="flex items-center justify-between bg-white p-3 border rounded">
+                      <div className="flex-1">
+                        <p className="text-gray-800">{question}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setSubQuestions(subQuestions.filter((_, i) => i !== index))}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Ajouter nouvelle question */}
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={newSubQuestion}
+                  onChange={(e) => setNewSubQuestion(e.target.value)}
+                  className="flex-1 border border-gray-300 rounded-md px-3 py-2"
+                  placeholder="Tapez votre question ici..."
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (newSubQuestion.trim()) {
+                      setSubQuestions([...subQuestions, newSubQuestion]);
+                      setNewSubQuestion('');
+                    }
+                  }}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >
+                  Ajouter
+                </button>
+              </div>
+              
+              {subQuestions.length === 0 && (
+                <p className="text-gray-500 text-sm mt-2">Aucune question ajoutée. Ajoutez au moins une question pour cet exercice.</p>
+              )}
             </div>
 
             <div>
@@ -227,8 +281,18 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                   </div>
                   
                   <div className="bg-white rounded-md p-3 mb-3">
-                    <h4 className="font-medium text-gray-900 mb-2">Question :</h4>
-                    <p className="text-gray-700">{exercise.question}</p>
+                    <h4 className="font-medium text-gray-900 mb-2">Questions :</h4>
+                    {exercise.sub_questions && exercise.sub_questions.length > 0 ? (
+                      <div className="space-y-2">
+                        {exercise.sub_questions.map((question, index) => (
+                          <div key={index} className="border-l-4 border-orange-300 pl-3">
+                            <span className="text-gray-700">{question}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 italic">Aucune question ajoutée</p>
+                    )}
                   </div>
 
                   {exercise.instructions && (

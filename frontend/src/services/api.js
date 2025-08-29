@@ -98,4 +98,15 @@ export const completeStep = async (stepId) => {
   return response.data
 }
 
+// Admin API
+export const getAdminUsersStats = async () => {
+  const response = await api.get('/auth/admin/users/stats')
+  return response.data
+}
+
+export const getUserResponses = async (userId) => {
+  const response = await api.get(`/auth/admin/users/${userId}/responses`)
+  return response.data
+}
+
 export default api 

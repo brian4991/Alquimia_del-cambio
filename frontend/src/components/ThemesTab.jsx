@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { config } from '../config';
 
-const ThemesTab = ({ selectedModule, themes, modules, onThemeSelect, onLoadThemes }) => {
+const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSelect, onLoadThemes }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingTheme, setEditingTheme] = useState(null);
   const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ const ThemesTab = ({ selectedModule, themes, modules, onThemeSelect, onLoadTheme
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/themes/${themeId}`, {
+      const response = await fetch(`${config.apiUrl}/themes/${themeId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -197,7 +198,11 @@ const ThemesTab = ({ selectedModule, themes, modules, onThemeSelect, onLoadTheme
           themes.map((theme) => (
             <div
               key={theme.id}
-              className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+              className={`border rounded-lg p-4 hover:shadow-md transition-all cursor-pointer ${
+                selectedTheme && selectedTheme.id === theme.id
+                  ? 'border-green-500 bg-green-50 shadow-md ring-2 ring-green-200'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
               onClick={() => onThemeSelect(theme)}
             >
               <div className="flex justify-between items-start">

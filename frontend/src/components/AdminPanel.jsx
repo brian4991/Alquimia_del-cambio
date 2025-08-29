@@ -4,6 +4,7 @@ import ModulesTab from './ModulesTab';
 import ThemesTab from './ThemesTab';
 import CardsTab from './CardsTab';
 import ExercisesTab from './ExercisesTab';
+import { config } from '../config';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('modules');
@@ -24,7 +25,7 @@ const AdminPanel = () => {
   const loadModules = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/modules', {
+      const response = await fetch(`${config.apiUrl}/modules`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -37,7 +38,7 @@ const AdminPanel = () => {
   const loadThemes = async (moduleId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/modules/${moduleId}/themes`, {
+              const response = await fetch(`${config.apiUrl}/modules/${moduleId}/themes`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -50,7 +51,7 @@ const AdminPanel = () => {
   const loadCards = async (themeId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/themes/${themeId}/cards`, {
+              const response = await fetch(`${config.apiUrl}/themes/${themeId}/cards`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -63,7 +64,7 @@ const AdminPanel = () => {
   const loadExercises = async (themeId) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/themes/${themeId}/exercises`, {
+              const response = await fetch(`${config.apiUrl}/themes/${themeId}/exercises`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -118,6 +119,7 @@ const AdminPanel = () => {
           {activeTab === 'modules' && (
             <ModulesTab 
               modules={modules} 
+              selectedModule={selectedModule}
               onModuleSelect={setSelectedModule}
               onReload={loadModules}
             />
@@ -126,6 +128,7 @@ const AdminPanel = () => {
           {activeTab === 'themes' && (
             <ThemesTab 
               selectedModule={selectedModule}
+              selectedTheme={selectedTheme}
               themes={themes}
               modules={modules}
               onThemeSelect={setSelectedTheme}

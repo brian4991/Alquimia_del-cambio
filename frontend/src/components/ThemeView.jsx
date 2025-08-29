@@ -96,28 +96,48 @@ const ThemeView = () => {
     }));
   };
 
+  const areAllQuestionsAnswered = () => {
+    const currentExerciseData = exercises[currentExercise];
+    if (!currentExerciseData?.sub_questions) return false;
+    
+    return currentExerciseData.sub_questions.every((_, questionIndex) => {
+      const responseKey = `${currentExerciseData.id}_${questionIndex}`;
+      return responses[responseKey]?.trim();
+    });
+  };
+
   const handleSubmitExercise = async () => {
     const exercise = exercises[currentExercise];
-    const response = responses[exercise.id];
     
-    if (!response.trim()) {
-      alert('Por favor responde al ejercicio antes de continuar.');
+    if (!areAllQuestionsAnswered()) {
+      alert('Por favor responde a todas las preguntas antes de continuar.');
       return;
     }
 
     setSubmitting(true);
     try {
-      await fetch(`${config.apiUrl}/submit-response`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({
-          exercise_id: exercise.id,
-          response_text: response
-        })
-      });
+      // Submit all sub-question responses
+      if (exercise.sub_questions) {
+        for (let questionIndex = 0; questionIndex < exercise.sub_questions.length; questionIndex++) {
+          const responseKey = `${exercise.id}_${questionIndex}`;
+          const responseText = responses[responseKey];
+          
+          if (responseText?.trim()) {
+            await fetch(`${config.apiUrl}/submit-sub-question-response`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              },
+              body: JSON.stringify({
+                exercise_id: exercise.id,
+                sub_question_index: questionIndex,
+                response_text: responseText
+              })
+            });
+          }
+        }
+      }
       
       if (currentExercise < exercises.length - 1) {
         setCurrentExercise(currentExercise + 1);
@@ -366,7 +386,7 @@ const ThemeView = () => {
             
             <div className="relative z-10">
               <h2 className="font-inter text-2xl font-semibold text-black mb-6">
-                {currentExerciseData?.question}
+                {currentExerciseData?.title}
               </h2>
 
               {currentExerciseData?.instructions && (
@@ -377,13 +397,30 @@ const ThemeView = () => {
                 </div>
               )}
               
-              <div className="space-y-6">
-                <textarea
-                  value={responses[currentExerciseData?.id] || ''}
-                  onChange={(e) => handleResponseChange(currentExerciseData.id, e.target.value)}
-                  placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo, deja que tus palabras fluyan naturalmente."
-                  className="w-full h-64 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-lg leading-relaxed text-black placeholder-taupe"
-                />
+              <div className="space-y-8">
+                {/* Questions et réponses */}
+                {currentExerciseData?.sub_questions && currentExerciseData.sub_questions.length > 0 ? (
+                  currentExerciseData.sub_questions.map((question, questionIndex) => (
+                    <div key={questionIndex} className="space-y-4">
+                      <div className="glass-effect-sage rounded-xl p-4">
+                        <h3 className="font-inter text-lg font-medium text-sage-dark">
+                          {question}
+                        </h3>
+                      </div>
+                      
+                      <textarea
+                        value={responses[`${currentExerciseData.id}_${questionIndex}`] || ''}
+                        onChange={(e) => handleResponseChange(`${currentExerciseData.id}_${questionIndex}`, e.target.value)}
+                        placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo."
+                        className="w-full h-40 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-base leading-relaxed text-black placeholder-taupe"
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <p>No hay preguntas disponibles para este ejercicio.</p>
+                  </div>
+                )}
                 
                 <div className="flex justify-between items-center">
                   <div className="flex items-center space-x-3 text-sm font-inter text-taupe">
@@ -393,7 +430,7 @@ const ThemeView = () => {
                   
                   <button
                     onClick={handleSubmitExercise}
-                    disabled={submitting || !responses[currentExerciseData?.id]?.trim()}
+                    disabled={submitting || !areAllQuestionsAnswered()}
                     className="px-8 py-4 gradient-sage text-white rounded-xl font-inter font-medium hover:shadow-sage focus:ring-2 focus:ring-sage focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-elegant"
                   >
                     {submitting ? (

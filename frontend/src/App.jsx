@@ -6,13 +6,76 @@ import StepView from './components/StepView';
 import ModuleView from './components/ModuleView';
 import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
+import AdminUsersTracking from './components/AdminUsersTracking';
 import Layout from './components/Layout';
 import PsychologyLanding from './components/PsychologyLanding';
+import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
-const ProtectedRoute = ({ children }) => {
+// Utility function to decode JWT and get user info
+const decodeToken = (token) => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload;
+  } catch (error) {
+    console.error('Error decoding token:', error);
+    return null;
+  }
+};
+
+const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" />;
+  
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
+  if (requireAdmin) {
+    const userData = decodeToken(token);
+    if (!userData || userData.role !== 'admin') {
+      return (
+        <div className="min-h-screen bg-gradient-serene flex items-center justify-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-sage-200 text-center max-w-md">
+            <div className="flex justify-center mb-6">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-2xl">🚫</span>
+              </div>
+            </div>
+            <h2 className="text-2xl font-inter font-bold text-red-800 mb-4">
+              Accès restreint
+            </h2>
+            <p className="text-red-600 mb-6">
+              Vous n'avez pas les permissions nécessaires pour accéder à cette page.
+            </p>
+            <button
+              onClick={() => {
+                const token = localStorage.getItem('token');
+                if (token) {
+                  try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    if (payload.role === 'admin') {
+                      window.location.href = '/admin/users';
+                    } else {
+                      window.location.href = '/dashboard';
+                    }
+                  } catch (error) {
+                    window.location.href = '/dashboard';
+                  }
+                } else {
+                  window.location.href = '/dashboard';
+                }
+              }}
+              className="w-full py-3 px-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-200 shadow-lg"
+            >
+              Retour au tableau de bord
+            </button>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return children;
 };
 
 const App = () => {
@@ -21,6 +84,7 @@ const App = () => {
       <div className="min-h-screen">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/auth/callback" element={<OAuthCallback />} />
           <Route 
             path="/dashboard" 
             element={
@@ -84,9 +148,19 @@ const App = () => {
           <Route 
             path="/admin" 
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requireAdmin={true}>
                 <Layout>
                   <AdminPanel />
+                </Layout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/users" 
+            element={
+              <ProtectedRoute requireAdmin={true}>
+                <Layout>
+                  <AdminUsersTracking />
                 </Layout>
               </ProtectedRoute>
             } 

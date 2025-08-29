@@ -48,15 +48,15 @@ class ThemeCardUpdate(BaseModel):
 # Exercise schemas
 class ExerciseCreate(BaseModel):
     title: str
-    question: str
     instructions: Optional[str] = None
     order_number: int
+    sub_questions: List[str] = []
 
 class ExerciseUpdate(BaseModel):
     title: Optional[str] = None
-    question: Optional[str] = None
     instructions: Optional[str] = None
     order_number: Optional[int] = None
+    sub_questions: Optional[List[str]] = None
 
 class ExerciseResponseRequest(BaseModel):
     exercise_id: int
@@ -65,10 +65,10 @@ class ExerciseResponseRequest(BaseModel):
 class ExerciseResponse(BaseModel):
     id: int
     title: str
-    question: str
     instructions: Optional[str]
     order_number: int
     theme_id: int
+    sub_questions: List[str] = []
     user_response: Optional[str] = None
 
 # Module schemas

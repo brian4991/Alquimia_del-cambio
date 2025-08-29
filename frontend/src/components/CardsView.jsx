@@ -13,6 +13,7 @@ import {
   AcademicCapIcon
 } from '@heroicons/react/24/outline';
 import api from '../services/api';
+import RichTextEditor from './RichTextEditor';
 
 const CardsView = ({ themeId, themeName, onBack }) => {
   const [cards, setCards] = useState([]);
@@ -76,14 +77,18 @@ const CardsView = ({ themeId, themeName, onBack }) => {
   const saveCard = async (cardId) => {
     try {
       setSaving(true);
+      
+      // Garder le contenu tel quel pour préserver l'apparence
+      const cleanContent = editContent;
+      
       await api.put(`/cards/${cardId}`, {
         title: editTitle,
-        content: editContent
+        content: cleanContent
       });
       
       setCards(cards.map(card => 
         card.id === cardId 
-          ? { ...card, title: editTitle, content: editContent }
+          ? { ...card, title: editTitle, content: cleanContent }
           : card
       ));
       
@@ -303,25 +308,7 @@ const CardsView = ({ themeId, themeName, onBack }) => {
             </div>
             
             <div className="flex items-center space-x-2">
-              {editingCard === currentCard.id ? (
-                <>
-                  <button
-                    onClick={() => saveCard(currentCard.id)}
-                    disabled={saving}
-                    className="p-3 text-green-600 hover:bg-green-100 rounded-xl transition-elegant disabled:opacity-50"
-                    title="Guardar"
-                  >
-                    <CheckIcon className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={cancelEditing}
-                    className="p-3 text-gray-600 hover:bg-gray-100 rounded-xl transition-elegant"
-                    title="Cancelar"
-                  >
-                    <XMarkIcon className="w-5 h-5" />
-                  </button>
-                </>
-              ) : (
+              {editingCard !== currentCard.id && (
                 <button
                   onClick={() => startEditing(currentCard)}
                   className="p-3 text-taupe hover:bg-taupe hover:text-white rounded-xl transition-elegant"
@@ -336,21 +323,19 @@ const CardsView = ({ themeId, themeName, onBack }) => {
           {/* Contenu de la carte */}
           <div className="space-y-6">
             {editingCard === currentCard.id ? (
-              <textarea
+              <RichTextEditor
                 value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-                className="w-full h-80 p-6 border-2 border-sage rounded-xl focus:outline-none focus:border-sage-dark resize-none font-inter text-lg leading-relaxed"
-                placeholder="Escribe el contenido de esta sección..."
+                onChange={setEditContent}
+                placeholder="Écrivez le contenu de cette section..."
+                height={400}
+                onSave={() => saveCard(currentCard.id)}
+                onCancel={cancelEditing}
+                saving={saving}
               />
             ) : (
               <div 
-                className={`prose prose-lg max-w-none ${cardColors.text} font-inter leading-relaxed text-lg`}
-                dangerouslySetInnerHTML={{ 
-                  __html: currentCard.content
-                    .replace(/\n/g, '<br>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>') 
-                }}
+                className="rich-content max-w-none font-inter text-lg"
+                dangerouslySetInnerHTML={{ __html: currentCard.content }}
               />
             )}
           </div>
