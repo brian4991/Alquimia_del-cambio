@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from database import create_tables, get_db
 from init_data import init_database
@@ -29,6 +30,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static files (frontend build)
+app.mount("/static", StaticFiles(directory="../frontend/dist"), name="static")
+
 # Include routers
 app.include_router(auth.router)
 app.include_router(modules.router)
@@ -46,8 +50,9 @@ def startup_event():
 
 @app.get("/")
 def root():
-    # Redirect to frontend login page
-    return RedirectResponse(url="https://alquimia-del-cambio-i495ejznv-brian4991s-projects.vercel.app/login")
+    # Serve the frontend index.html
+    from fastapi.responses import FileResponse
+    return FileResponse("../frontend/dist/index.html")
 
 @app.get("/api")
 def api_root():
@@ -56,6 +61,18 @@ def api_root():
         "version": "1.0.0",
         "docs": "/docs"
     }
+
+# Catch-all route for React Router (SPA)
+@app.get("/{path:path}")
+def catch_all(path: str):
+    # Don't serve index.html for API routes
+    if path.startswith("api/") or path.startswith("docs") or path.startswith("openapi.json"):
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="Not found")
+    
+    # Serve index.html for all other routes (React Router will handle them)
+    from fastapi.responses import FileResponse
+    return FileResponse("../frontend/dist/index.html")
 
 if __name__ == "__main__":
     import uvicorn
