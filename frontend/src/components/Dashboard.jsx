@@ -93,8 +93,21 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto px-6 py-12">
       {/* En-tête de bienvenue */}
       <div className="mb-16">
-        <div className="modern-card gradient-elegant text-center relative overflow-hidden">
-
+        <div className="modern-card text-center relative overflow-hidden" style={{
+          backgroundImage: 'url(/portrait5.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 70%',
+          backgroundRepeat: 'no-repeat',
+          animation: 'slowPan 30s ease-in-out infinite alternate'
+        }}>
+          <style jsx>{`
+            @keyframes slowPan {
+              0% { background-position: center 0%; }
+              100% { background-position: center 100%; }
+            }
+          `}</style>
+          {/* Overlay grisé */}
+          <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
           <div className="relative z-10">
             <div className="flex justify-center mb-6">
@@ -102,11 +115,11 @@ const Dashboard = () => {
                 <AcademicCapIcon className="w-12 h-12 text-white" />
               </div>
             </div>
-            <h1 className="font-inter text-4xl font-semibold text-black mb-4">
-              Bienvenido a tu recorrido
+            <h1 className="font-inter text-4xl font-semibold text-white mb-4">
+              Bienvenido(a) a tu recorrido
             </h1>
-            <p className="font-inter text-xl text-taupe-dark leading-relaxed max-w-2xl mx-auto">
-              Descubre tu potencial a través de un viaje de transformación personal guiado y amoroso
+            <p className="font-inter text-xl text-white leading-relaxed max-w-2xl mx-auto">
+              Descubre tu potencial a través de un viaje de transformación personal guiado y profundo
             </p>
           </div>
         </div>
@@ -294,29 +307,13 @@ const Dashboard = () => {
       </div>
 
       {/* Section motivation */}
-      <div className="modern-card gradient-elegant text-center">
-        <div className="flex justify-center mb-6">
-          <div className="p-4 gradient-taupe rounded-full">
-            <SparklesIcon className="w-12 h-12 text-white" />
-          </div>
-        </div>
+      <div className="modern-card text-center">
         <h3 className="font-inter text-2xl font-semibold text-black mb-6">
           Tu transformación comienza hoy
         </h3>
         <blockquote className="font-inter text-lg text-taupe-dark leading-relaxed max-w-2xl mx-auto mb-8 italic">
           "Cada paso de tu recorrido es una oportunidad de descubrir quién eres realmente y florecer plenamente."
         </blockquote>
-        <div className="flex justify-center space-x-6 text-4xl opacity-70">
-          <div className="p-3 bg-sage rounded-full">
-            <BookOpenIcon className="w-8 h-8 text-white" />
-          </div>
-          <div className="p-3 bg-taupe rounded-full">
-            <SparklesIcon className="w-8 h-8 text-white" />
-          </div>
-          <div className="p-3 bg-sage-light rounded-full">
-            <TrophyIcon className="w-8 h-8 text-white" />
-          </div>
-        </div>
       </div>
     </div>
   );

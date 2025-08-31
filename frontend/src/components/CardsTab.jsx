@@ -14,7 +14,7 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
   });
 
   const cardTypes = [
-    { value: 'intro', label: 'Introduction', color: 'bg-blue-50 border-blue-200', icon: '🎯' },
+    { value: 'intro', label: 'Introduction', color: 'bg-green-50 border-green-200', icon: '🎯' },
     { value: 'theory', label: 'Théorie', color: 'bg-purple-50 border-purple-200', icon: '📚' },
     { value: 'practical', label: 'Pratique', color: 'bg-green-50 border-green-200', icon: '🛠️' },
     { value: 'resources', label: 'Ressources', color: 'bg-orange-50 border-orange-200', icon: '📖' },

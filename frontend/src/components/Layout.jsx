@@ -218,50 +218,7 @@ const Layout = ({ children }) => {
       {/* Footer moderne */}
       <footer className="glass-effect border-t border-gray-200 mt-20">
         <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            {/* À propos */}
-            <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="p-2 gradient-taupe rounded-lg">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="font-inter text-lg font-semibold text-black">
-                  Nuestra misión
-                </h3>
-              </div>
-              <p className="font-inter text-taupe-dark leading-relaxed">
-                Acompañar tu camino de transformación personal con amabilidad y autenticidad.
-              </p>
-            </div>
 
-            {/* Liens rapides */}
-            <div>
-              <h3 className="font-inter text-lg font-semibold text-black mb-4">
-                Acceso rápido
-              </h3>
-              <div className="space-y-2">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className="block font-inter text-taupe hover:text-sage transition-elegant"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h3 className="font-inter text-lg font-semibold text-black mb-4">
-                Soporte
-              </h3>
-              <p className="font-inter text-taupe-dark leading-relaxed">
-                Para cualquier pregunta o asistencia, estamos aquí para acompañarte en tu proceso.
-              </p>
-            </div>
-          </div>
 
           {/* Ligne de séparation */}
           <div className="border-t border-gray-200 pt-8">

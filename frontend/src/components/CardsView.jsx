@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  ChevronLeftIcon, 
-  ChevronRightIcon, 
-  PencilIcon, 
-  CheckIcon, 
-  XMarkIcon,
-  BookOpenIcon,
-  LightBulbIcon,
-  WrenchScrewdriverIcon,
-  DocumentTextIcon,
-  SparklesIcon,
-  AcademicCapIcon,
-  PlayIcon
+  ChevronLeft, 
+  ChevronRight, 
+  Pencil, 
+  Check, 
+  X,
+  Target,
+  BookOpen,
+  Settings,
+  FolderOpen,
+  Sparkles,
+  FileText,
+  Play
+} from 'lucide-react';
+import {
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 import api from '../services/api';
 import RichTextEditor from './RichTextEditor';
@@ -114,22 +117,22 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
 
   const getCardIcon = (cardType) => {
     switch (cardType) {
-      case 'intro': return BookOpenIcon;
-      case 'theory': return LightBulbIcon;
-      case 'practical': return WrenchScrewdriverIcon;
-      case 'resources': return DocumentTextIcon;
-      case 'conclusion': return SparklesIcon;
-      default: return AcademicCapIcon;
+      case 'intro': return Target;
+      case 'theory': return BookOpen;
+      case 'practical': return Settings;
+      case 'resources': return FolderOpen;
+      case 'conclusion': return Sparkles;
+      default: return FileText;
     }
   };
 
   const getCardColors = (cardType) => {
     switch (cardType) {
       case 'intro': return {
-        bg: 'bg-blue-50',
-        border: 'border-blue-200',
-        text: 'text-blue-700',
-        accent: 'bg-blue-100'
+        bg: 'rgba(107, 116, 90, 0.1)',
+        border: 'rgba(107, 116, 90, 0.3)',
+        text: '#6b745a',
+        accent: 'rgba(107, 116, 90, 0.2)'
       };
       case 'theory': return {
         bg: 'bg-sage',
@@ -224,7 +227,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
                 onClick={onBack}
                 className="flex items-center text-sage hover:text-sage-dark transition-elegant group"
               >
-                <ChevronLeftIcon className="w-6 h-6 mr-2 group-hover:-translate-x-1 transition-transform" />
+                <ChevronLeft className="w-6 h-6 mr-2 group-hover:-translate-x-1 transition-transform" />
                 <span className="font-inter text-lg">Volver</span>
               </button>
               <div>
@@ -240,7 +243,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
                   onClick={() => onGoToExercises()}
                   className="flex items-center space-x-3 px-6 py-3 gradient-sage hover:shadow-sage text-white rounded-xl font-medium transition-elegant transform hover:scale-105"
                 >
-                  <PlayIcon className="w-5 h-5" />
+                  <Play className="w-5 h-5" />
                   <span className="font-inter">Ir a ejercicios</span>
                 </button>
               )}
@@ -295,12 +298,24 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
 
       {/* Carte actuelle */}
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className={`modern-card ${cardColors.bg} ${cardColors.border} border-2 relative overflow-hidden`}>
+        <div 
+          className="modern-card border-2 relative overflow-hidden"
+          style={{
+            backgroundColor: cardColors.bg,
+            borderColor: cardColors.border
+          }}
+        >
           {/* En-tête de carte */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-4">
-              <div className={`p-3 rounded-xl ${cardColors.accent}`}>
-                <IconComponent className={`w-8 h-8 ${cardColors.text}`} />
+              <div 
+                className="p-3 rounded-xl"
+                style={{ backgroundColor: cardColors.accent }}
+              >
+                <IconComponent 
+                  className="w-8 h-8" 
+                  style={{ color: cardColors.text }}
+                />
               </div>
               <div>
                 {editingCard === currentCard.id ? (
@@ -312,11 +327,17 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
                     autoFocus
                   />
                 ) : (
-                  <h3 className={`font-inter text-2xl font-semibold ${cardColors.text} mb-1`}>
+                  <h3 
+                    className="font-inter text-2xl font-semibold mb-1"
+                    style={{ color: cardColors.text }}
+                  >
                     {currentCard.title}
                   </h3>
                 )}
-                <p className={`font-inter text-sm ${cardColors.text} opacity-75 capitalize`}>
+                <p 
+                  className="font-inter text-sm opacity-75 capitalize"
+                  style={{ color: cardColors.text }}
+                >
                   {currentCard.card_type.replace('_', ' ')} • {currentCardIndex + 1} / {cards.length}
                 </p>
               </div>
@@ -329,7 +350,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
                   className="p-3 text-taupe hover:bg-taupe hover:text-white rounded-xl transition-elegant"
                   title="Editar contenido"
                 >
-                  <PencilIcon className="w-5 h-5" />
+                  <Pencil className="w-5 h-5" />
                 </button>
               )}
             </div>
@@ -367,7 +388,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
                 : 'glass-effect hover:shadow-elegant text-sage hover:text-sage-dark'
             }`}
           >
-            <ChevronLeftIcon className="w-6 h-6 mr-3" />
+            <ChevronLeft className="w-6 h-6 mr-3" />
             Anterior
           </button>
 
@@ -388,7 +409,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
             }`}
           >
             Siguiente
-            <ChevronRightIcon className="w-6 h-6 ml-3" />
+            <ChevronRight className="w-6 h-6 ml-3" />
           </button>
         </div>
 
@@ -396,7 +417,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
         {currentCardIndex === cards.length - 1 && (
           <div className="mt-16 text-center">
             <div className="modern-card bg-gradient-to-r from-sage to-taupe text-white">
-              <SparklesIcon className="w-16 h-16 mx-auto mb-6 opacity-90" />
+              <Sparkles className="w-16 h-16 mx-auto mb-6 opacity-90" />
               <h3 className="font-inter text-2xl font-semibold mb-4">
                 ¡Felicidades!
               </h3>

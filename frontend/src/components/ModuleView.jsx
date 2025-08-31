@@ -2,6 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getModules } from '../services/api';
 import { config } from '../config';
+import { 
+  Music, 
+  Target, 
+  Lightbulb, 
+  Sparkles, 
+  BookOpen,
+  Play,
+  Pause,
+  ClipboardList,
+  Check,
+  Lock,
+  BarChart3
+} from 'lucide-react';
 
 const ModuleView = () => {
   const { moduleId } = useParams();
@@ -98,10 +111,7 @@ const ModuleView = () => {
       {/* Module Header */}
       <div className="mb-8">
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-sage-200 relative overflow-hidden">
-          {/* Background decoration */}
-          <div className="absolute top-0 right-0 opacity-5">
-            <div className="text-9xl">🧠</div>
-          </div>
+
           
           <div className="relative z-10">
             {/* Breadcrumb */}
@@ -129,24 +139,27 @@ const ModuleView = () => {
 
             {/* Audio Introduction */}
             {module.audio_file && (
-              <div className="bg-gradient-nature rounded-2xl p-6 mb-6">
+              <div className="rounded-2xl p-6 mb-6" style={{ 
+                background: 'linear-gradient(135deg, rgba(107, 116, 90, 0.3) 0%, rgba(107, 116, 90, 0.2) 100%)' 
+              }}>
                 <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
-                  <span className="mr-2">🎵</span>
+                  <Music className="w-5 h-5 mr-2 text-sage-700" />
                   Audio de Introducción
                 </h3>
                 <div className="flex items-center space-x-4">
                   <button
                     onClick={toggleAudio}
-                    className="w-12 h-12 bg-primary-500 hover:bg-primary-600 rounded-full flex items-center justify-center text-white transition-colors shadow-lg"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    style={{ 
+                      backgroundColor: '#6b745a'
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#5a6349'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#6b745a'}
                   >
                     {isAudioPlaying ? (
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
-                      </svg>
+                      <Pause className="w-5 h-5" />
                     ) : (
-                      <svg className="w-6 h-6 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.5a2.5 2.5 0 110 5H9V10z" />
-                      </svg>
+                      <Play className="w-5 h-5 ml-0.5" />
                     )}
                   </button>
                   <div className="flex-1">
@@ -171,7 +184,7 @@ const ModuleView = () => {
               {module.objective && (
                 <div className="bg-white/50 rounded-xl p-4">
                   <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <span className="mr-2">🎯</span>
+                    <Target className="w-5 h-5 mr-2 text-sage-700" />
                     Objetivo
                   </h4>
                   <p className="text-sage-700 text-sm">{module.objective}</p>
@@ -181,7 +194,7 @@ const ModuleView = () => {
               {module.belief_to_transform && (
                 <div className="bg-white/50 rounded-xl p-4">
                   <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <span className="mr-2">💭</span>
+                    <Lightbulb className="w-5 h-5 mr-2 text-sage-700" />
                     Creencia a Transformar
                   </h4>
                   <p className="text-sage-700 text-sm italic">"{module.belief_to_transform}"</p>
@@ -191,7 +204,7 @@ const ModuleView = () => {
               {module.expected_results && (
                 <div className="bg-white/50 rounded-xl p-4 md:col-span-2">
                   <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <span className="mr-2">✨</span>
+                    <Sparkles className="w-5 h-5 mr-2 text-sage-700" />
                     Resultados Esperados
                   </h4>
                   <p className="text-sage-700 text-sm">{module.expected_results}</p>
@@ -201,7 +214,7 @@ const ModuleView = () => {
               {module.recommended_book && (
                 <div className="bg-white/50 rounded-xl p-4 md:col-span-2">
                   <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <span className="mr-2">📚</span>
+                    <BookOpen className="w-5 h-5 mr-2 text-sage-700" />
                     Libro Recomendado
                   </h4>
                   <p className="text-sage-700 text-sm">{module.recommended_book}</p>
@@ -215,7 +228,7 @@ const ModuleView = () => {
       {/* Themes Section */}
       <div className="mb-8">
         <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
-          <span className="mr-3">📋</span>
+          <ClipboardList className="w-6 h-6 mr-3 text-sage-700" />
           Temas del Módulo
         </h2>
         
@@ -229,23 +242,22 @@ const ModuleView = () => {
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold ${
-                    theme.is_completed 
-                      ? 'bg-green-500' 
-                      : theme.is_unlocked 
-                        ? 'bg-primary-500' 
-                        : 'bg-sage-300'
-                  }`}>
+                  <div 
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
+                    style={{
+                      backgroundColor: theme.is_completed 
+                        ? '#6b745a' 
+                        : theme.is_unlocked 
+                          ? '#6b745a' 
+                          : '#9ca3af'
+                    }}
+                  >
                     {theme.is_completed ? (
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
+                      <Check className="w-5 h-5" />
                     ) : theme.is_unlocked ? (
                       <span>{theme.order_number}</span>
                     ) : (
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 2h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2zM9 5a3 3 0 016 0v2H9V5z" />
-                      </svg>
+                      <Lock className="w-5 h-5" />
                     )}
                   </div>
                   <div>
@@ -261,13 +273,14 @@ const ModuleView = () => {
                 {theme.is_unlocked && (
                   <Link
                     to={`/theme/${theme.id}`}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      theme.is_completed
-                        ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                        : 'bg-primary-500 text-white hover:bg-primary-600'
-                    }`}
+                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-white hover:shadow-lg transform hover:scale-105"
+                    style={{ 
+                      backgroundColor: '#6b745a'
+                    }}
+                    onMouseEnter={(e) => e.target.style.backgroundColor = '#5a6349'}
+                    onMouseLeave={(e) => e.target.style.backgroundColor = '#6b745a'}
                   >
-                    {theme.is_completed ? 'Revoir' : 'Commencer'}
+                    {theme.is_completed ? 'Revisar' : 'Comenzar'}
                   </Link>
                 )}
               </div>
@@ -283,16 +296,17 @@ const ModuleView = () => {
       {/* Progress Summary */}
       <div className="bg-gradient-calm rounded-2xl shadow-xl p-6 border border-sage-200">
         <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
-          <span className="mr-2">📊</span>
+          <BarChart3 className="w-5 h-5 mr-2 text-sage-700" />
           Progreso del Módulo
         </h3>
         <div className="flex items-center space-x-4">
           <div className="flex-1">
             <div className="bg-white/60 rounded-full h-3 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-primary-400 to-primary-600 transition-all duration-500 ease-out"
+                className="h-full transition-all duration-500 ease-out"
                 style={{ 
-                  width: `${themes.length > 0 ? (themes.filter(t => t.is_completed).length / themes.length) * 100 : 0}%` 
+                  width: `${themes.length > 0 ? (themes.filter(t => t.is_completed).length / themes.length) * 100 : 0}%`,
+                  background: 'linear-gradient(to right, #6b745a, #8a9373)'
                 }}
               ></div>
             </div>
