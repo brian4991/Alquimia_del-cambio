@@ -1,9 +1,11 @@
 # Use Python 3.11 base image
 FROM python:3.11-slim
 
-# Install Node.js
+# Install Node.js and SQLite
 RUN apt-get update && apt-get install -y \
     curl \
+    sqlite3 \
+    libsqlite3-dev \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean \
