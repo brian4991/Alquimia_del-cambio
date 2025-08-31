@@ -56,40 +56,24 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-serene flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Floating background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 opacity-10">
-          <div className="text-8xl">🌿</div>
-        </div>
-        <div className="absolute top-40 right-20 opacity-8">
-          <div className="text-6xl">🍃</div>
-        </div>
-        <div className="absolute bottom-32 left-20 opacity-12">
-          <div className="text-7xl">🌱</div>
-        </div>
-        <div className="absolute bottom-20 right-16 opacity-8">
-          <div className="text-5xl">🌸</div>
-        </div>
-        <div className="absolute top-60 left-1/3 opacity-6">
-          <div className="text-4xl">🦋</div>
-        </div>
-      </div>
+    <div 
+      className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+      style={{
+        backgroundImage: 'url(/café.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Overlay grisé */}
+      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
       <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Header */}
         <div className="text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-2xl">🌱</span>
-            </div>
-          </div>
-          <h1 className="text-4xl font-inter font-bold text-sage-800 mb-2">
+          <h1 className="text-4xl font-inter font-bold text-white mb-8">
             Alquimia del Cambio
           </h1>
-          <p className="text-sage-600 text-lg">
-            Transformez votre relation avec vous-même
-          </p>
         </div>
 
         {/* Form Container */}
@@ -105,7 +89,7 @@ const Login = () => {
                   : 'text-sage-600 hover:text-primary-600'
               }`}
             >
-              Se connecter
+              Iniciar Sesión
             </button>
             <button
               type="button"
@@ -116,7 +100,7 @@ const Login = () => {
                   : 'text-sage-600 hover:text-primary-600'
               }`}
             >
-              S'inscrire
+              Registrarse
             </button>
           </div>
 
@@ -132,7 +116,7 @@ const Login = () => {
             {/* Username */}
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-sage-700 mb-2">
-                Nom d'utilisateur
+                Nombre de usuario
               </label>
               <div className="relative">
                 <input
@@ -143,7 +127,7 @@ const Login = () => {
                   value={formData.username}
                   onChange={handleChange}
                   className="w-full pl-4 pr-4 py-3 border border-sage-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm transition-colors"
-                  placeholder="Votre nom d'utilisateur"
+                  placeholder="Tu nombre de usuario"
                 />
               </div>
             </div>
@@ -152,7 +136,7 @@ const Login = () => {
             {!isLogin && (
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-sage-700 mb-2">
-                  Email
+                  Correo electrónico
                 </label>
                 <div className="relative">
                   <input
@@ -163,7 +147,7 @@ const Login = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full pl-4 pr-4 py-3 border border-sage-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm transition-colors"
-                    placeholder="votre@email.com"
+                    placeholder="tu@email.com"
                   />
                 </div>
               </div>
@@ -172,7 +156,7 @@ const Login = () => {
             {/* Password */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-sage-700 mb-2">
-                Mot de passe
+                Contraseña
               </label>
               <div className="relative">
                 <input
@@ -183,7 +167,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className="w-full pl-4 pr-4 py-3 border border-sage-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm transition-colors"
-                  placeholder="Votre mot de passe"
+                  placeholder="Tu contraseña"
                 />
               </div>
             </div>
@@ -192,7 +176,12 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg hover:from-primary-600 hover:to-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+              className="w-full py-3 px-4 text-white font-medium rounded-lg focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+              style={{
+                backgroundColor: '#6b745a'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#5a6349'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#6b745a'}
             >
               {loading ? (
                 <div className="flex items-center justify-center">
@@ -200,11 +189,11 @@ const Login = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  {isLogin ? 'Connexion...' : 'Inscription...'}
+                  {isLogin ? 'Iniciando sesión...' : 'Registrando...'}
                 </div>
               ) : (
                 <span className="flex items-center justify-center">
-                  {isLogin ? 'Se connecter' : "S'inscrire"}
+                  {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
                   <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -221,7 +210,7 @@ const Login = () => {
                   <div className="w-full border-t border-sage-300"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-3 bg-white text-sage-500">Ou continuer avec</span>
+                  <span className="px-3 bg-white text-sage-500">O continuar con</span>
                 </div>
               </div>
 
@@ -259,7 +248,7 @@ const Login = () => {
           {/* Footer */}
           <div className="mt-8 text-center">
             <p className="text-xs text-sage-500">
-              En vous connectant, vous acceptez de commencer votre voyage de transformation personnelle avec bienveillance et respect de vous-même.
+              Al conectarte, aceptas comenzar tu viaje de transformación personal con amor y respeto hacia ti mismo.
             </p>
           </div>
         </div>
@@ -267,7 +256,7 @@ const Login = () => {
         {/* Bottom decorative text */}
         <div className="text-center">
           <p className="text-sage-600 italic">
-            "Le changement commence par un pas, une respiration, un moment de conscience."
+            "El cambio comienza con un paso, una respiración, un momento de consciencia."
           </p>
         </div>
       </div>
