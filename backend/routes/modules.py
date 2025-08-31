@@ -39,6 +39,22 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
             UserProgress.completed == True
         ).first()
         
+        # Calculate progress based on completed themes
+        themes = db.query(Theme).filter(Theme.module_id == module.id).all()
+        themes_count = len(themes)
+        
+        if themes_count > 0:
+            completed_themes = db.query(UserProgress).filter(
+                UserProgress.user_id == current_user.id,
+                UserProgress.module_id == module.id,
+                UserProgress.theme_id.isnot(None),
+                UserProgress.completed == True
+            ).count()
+            
+            progress_percentage = int((completed_themes / themes_count) * 100)
+        else:
+            progress_percentage = 0
+        
         result.append(ModuleResponse(
             id=module.id,
             title=module.title,
@@ -50,7 +66,9 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
             audio_file=module.audio_file,
             order_number=module.order_number,
             is_completed=module_progress is not None,
-            is_accessible=has_access
+            is_accessible=has_access,
+            progress=progress_percentage,
+            themes_count=themes_count
         ))
     
     return result

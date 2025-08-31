@@ -232,10 +232,7 @@ const Dashboard = () => {
                           <BookOpenIcon className="w-4 h-4" />
                           <span>Módulo {module.order_number}</span>
                         </div>
-                        <div className="flex items-center space-x-1">
-                          <ClockIcon className="w-4 h-4" />
-                          <span>~45 min</span>
-                        </div>
+
                       </div>
                     </div>
                   </div>

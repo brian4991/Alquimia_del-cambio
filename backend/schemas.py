@@ -112,6 +112,8 @@ class ModuleResponse(BaseModel):
     order_number: int
     is_completed: bool = False
     is_accessible: bool = True
+    progress: int = 0  # Pourcentage de progression (0-100)
+    themes_count: int = 0  # Nombre total de thèmes
 
 # Theme schemas
 class ThemeCreate(BaseModel):
