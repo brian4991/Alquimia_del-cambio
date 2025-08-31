@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   UsersIcon, 
   ChartBarIcon, 
@@ -6,21 +7,20 @@ import {
   CheckCircleIcon,
   ClockIcon,
   EyeIcon,
-  UserIcon,
   BookOpenIcon,
   AcademicCapIcon,
   MapPinIcon,
   ArrowRightIcon,
   CalendarIcon,
-  SparklesIcon
+  SparklesIcon,
+  TrophyIcon
 } from '@heroicons/react/24/outline';
-import { getAdminUsersStats, getUserResponses } from '../services/api';
+import { getAdminUsersStats } from '../services/api';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
 
 const AdminUsersTracking = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [userResponses, setUserResponses] = useState([]);  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [stats, setStats] = useState({
@@ -55,19 +55,7 @@ const AdminUsersTracking = () => {
     }
   };
 
-  const loadUserResponses = async (userId) => {
-    try {
-      const responses = await getUserResponses(userId);
-      setUserResponses(responses);
-    } catch (err) {
-      console.error('Error loading user responses:', err);
-    }
-  };
 
-  const handleUserSelect = (user) => {
-    setSelectedUser(user);
-    loadUserResponses(user.id);
-  };
 
   const getProviderIcon = (provider) => {
     switch (provider) {
@@ -213,9 +201,9 @@ const AdminUsersTracking = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <div className="max-w-full">
           {/* Users List */}
-          <div className="xl:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
             <div className="p-8 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
               <h2 className="text-2xl font-bold text-slate-900 flex items-center">
                 <UsersIcon className="w-6 h-6 mr-3 text-blue-600" />
@@ -235,12 +223,7 @@ const AdminUsersTracking = () => {
                   {users.map((user) => (
                     <div
                       key={user.id}
-                      onClick={() => handleUserSelect(user)}
-                      className={`p-6 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${
-                        selectedUser?.id === user.id
-                          ? 'border-blue-300 bg-blue-50 shadow-lg scale-[1.02]'
-                          : 'border-slate-200 hover:border-slate-300 hover:scale-[1.01]'
-                      }`}
+                      className="p-6 rounded-2xl border-2 border-slate-200 hover:border-slate-300 hover:scale-[1.01] transition-all duration-300 cursor-pointer hover:shadow-lg"
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center space-x-4">
@@ -340,104 +323,25 @@ const AdminUsersTracking = () => {
                           <CalendarIcon className="w-4 h-4 mr-1" />
                           Registrado: {formatDate(user.created_at)}
                         </div>
-                        <div className="flex items-center">
-                          <DocumentTextIcon className="w-4 h-4 mr-1" />
-                          {user.response_count} respuestas
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center">
+                            <DocumentTextIcon className="w-4 h-4 mr-1" />
+                            {user.response_count} respuestas
+                          </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/admin/users/${user.id}`);
+                            }}
+                            className="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1"
+                          >
+                            <EyeIcon className="w-3 h-3" />
+                            <span>Ver detalle</span>
+                          </button>
                         </div>
                       </div>
                     </div>
                   ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* User Details */}
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="p-8 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
-              <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                <EyeIcon className="w-6 h-6 mr-3 text-blue-600" />
-                Detalles del Usuario
-              </h2>
-              <p className="text-slate-600 mt-2">Información detallada y respuestas</p>
-            </div>
-            
-            <div className="p-8">
-              {!selectedUser ? (
-                <div className="text-center py-16 text-slate-500">
-                  <UserIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
-                  <p className="text-xl font-medium">Selecciona un usuario</p>
-                  <p className="text-sm mt-2">para ver sus detalles y respuestas</p>
-                </div>
-              ) : (
-                <div className="space-y-8">
-                  {/* User Info */}
-                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6">
-                    <h3 className="font-bold text-slate-900 mb-4 flex items-center">
-                      <UserIcon className="w-5 h-5 mr-2 text-blue-600" />
-                      Información del Usuario
-                    </h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between items-center py-2 border-b border-blue-100">
-                        <span className="text-slate-600 font-medium">Nombre:</span>
-                        <span className="font-bold text-slate-900">{selectedUser.username}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-blue-100">
-                        <span className="text-slate-600 font-medium">Email:</span>
-                        <span className="font-bold text-slate-900">{selectedUser.email}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-blue-100">
-                        <span className="text-slate-600 font-medium">Proveedor:</span>
-                        <span className={`font-bold px-3 py-1 rounded-full text-xs ${getProviderColor(selectedUser.provider)}`}>
-                          {selectedUser.provider}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-slate-600 font-medium">Estado:</span>
-                        <span className={`font-bold ${selectedUser.is_active ? 'text-green-600' : 'text-red-600'}`}>
-                          {selectedUser.is_active ? 'Activo' : 'Inactivo'}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* User Responses */}
-                  <div>
-                    <h3 className="font-bold text-slate-900 mb-4 flex items-center">
-                      <DocumentTextIcon className="w-5 h-5 mr-2 text-blue-600" />
-                      Respuestas a Ejercicios
-                    </h3>
-                    {userResponses.length === 0 ? (
-                      <div className="text-center py-12 text-slate-500 bg-slate-50 rounded-2xl">
-                        <DocumentTextIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                        <p className="font-medium">No hay respuestas registradas</p>
-                        <p className="text-sm mt-1">El usuario aún no ha completado ejercicios</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-4 max-h-96 overflow-y-auto">
-                        {userResponses.map((response, index) => (
-                          <div key={index} className="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                            <div className="flex justify-between items-start mb-3">
-                              <div>
-                                <h4 className="font-semibold text-slate-900 text-sm">
-                                  {response.module_title} → {response.theme_title}
-                                </h4>
-                                <p className="text-xs text-slate-500 mt-1">
-                                  Ejercicio: {response.exercise_title}
-                                </p>
-                              </div>
-                              <span className="text-xs text-slate-500 bg-white px-2 py-1 rounded-full">
-                                {formatDate(response.submitted_at)}
-                              </span>
-                            </div>
-                            <p className="text-sm text-slate-700 leading-relaxed bg-white p-3 rounded-lg border">
-                              {response.response_text}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
                 </div>
               )}
             </div>

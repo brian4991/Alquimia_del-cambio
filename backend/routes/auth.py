@@ -3,10 +3,11 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from starlette.responses import JSONResponse
+import json
 
 from auth import hash_password, verify_password, create_access_token, get_current_user, get_current_admin_user
 from database import get_db
-from models import User, UserResponseDB, Exercise, Theme, Module
+from models import User, UserResponseDB, UserSubQuestionResponseDB, Exercise, Theme, Module
 from schemas import UserCreate, UserLogin, UserResponse, Token
 from oauth import oauth, create_or_get_oauth_user, generate_oauth_token
 
@@ -131,6 +132,27 @@ def get_all_users(current_admin: User = Depends(get_current_admin_user), db: Ses
     users = db.query(User).all()
     return users
 
+@router.get("/auth/admin/modules")
+def get_all_modules_admin(current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
+    """Get all modules for admin - no access control"""
+    modules = db.query(Module).filter(Module.is_active == True).order_by(Module.order_number).all()
+    
+    result = []
+    for module in modules:
+        result.append({
+            "id": module.id,
+            "title": module.title,
+            "description": module.description,
+            "objective": module.objective,
+            "belief_to_transform": module.belief_to_transform,
+            "expected_results": module.expected_results,
+            "recommended_book": module.recommended_book,
+            "audio_file": module.audio_file,
+            "order_number": module.order_number
+        })
+    
+    return result
+
 @router.patch("/auth/admin/users/{user_id}/role")
 def update_user_role(
     user_id: int, 
@@ -150,6 +172,96 @@ def update_user_role(
     db.commit()
     return {"message": f"User role updated to {new_role}"}
 
+@router.post("/auth/admin/users/{user_id}/validate-module/{module_id}")
+def validate_user_module(
+    user_id: int,
+    module_id: int,
+    current_admin: User = Depends(get_current_admin_user), 
+    db: Session = Depends(get_db)
+):
+    """Validate user progression for a specific module - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check if module exists
+    module = db.query(Module).filter(Module.id == module_id).first()
+    if not module:
+        raise HTTPException(status_code=404, detail="Module not found")
+    
+    # Get current validated modules
+    validated_modules = []
+    if user.validated_modules:
+        try:
+            if isinstance(user.validated_modules, str):
+                validated_modules = json.loads(user.validated_modules) if user.validated_modules.strip() else []
+            elif isinstance(user.validated_modules, list):
+                validated_modules = user.validated_modules
+        except (json.JSONDecodeError, AttributeError):
+            validated_modules = []
+    
+    # Add module to validated list if not already there
+    if module_id not in validated_modules:
+        validated_modules.append(module_id)
+        # Save as JSON string
+        user.validated_modules = json.dumps(validated_modules)
+        db.commit()
+        
+        return {
+            "message": f"Module {module.title} validated for user {user.username}",
+            "validated_modules": validated_modules
+        }
+    else:
+        return {
+            "message": f"Module {module.title} already validated for user {user.username}",
+            "validated_modules": validated_modules
+        }
+
+@router.delete("/auth/admin/users/{user_id}/validate-module/{module_id}")
+def revoke_user_module_validation(
+    user_id: int,
+    module_id: int,
+    current_admin: User = Depends(get_current_admin_user), 
+    db: Session = Depends(get_db)
+):
+    """Revoke user validation for a specific module - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Check if module exists
+    module = db.query(Module).filter(Module.id == module_id).first()
+    if not module:
+        raise HTTPException(status_code=404, detail="Module not found")
+    
+    # Get current validated modules
+    validated_modules = []
+    if user.validated_modules:
+        try:
+            if isinstance(user.validated_modules, str):
+                validated_modules = json.loads(user.validated_modules) if user.validated_modules.strip() else []
+            elif isinstance(user.validated_modules, list):
+                validated_modules = user.validated_modules
+        except (json.JSONDecodeError, AttributeError):
+            validated_modules = []
+    
+    # Remove module from validated list
+    if module_id in validated_modules:
+        validated_modules.remove(module_id)
+        # Save as JSON string
+        user.validated_modules = json.dumps(validated_modules)
+        db.commit()
+        
+        return {
+            "message": f"Module {module.title} validation revoked for user {user.username}",
+            "validated_modules": validated_modules
+        }
+    else:
+        return {
+            "message": f"Module {module.title} was not validated for user {user.username}",
+            "validated_modules": validated_modules
+        }
+
 @router.get("/auth/admin/users/{user_id}/responses")
 def get_user_responses(
     user_id: int,
@@ -161,8 +273,10 @@ def get_user_responses(
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    # Get user responses with exercise and theme info
-    responses = db.query(UserResponseDB, Exercise, Theme, Module).join(
+    result = []
+    
+    # Get old-style user responses (user_responses table)
+    old_responses = db.query(UserResponseDB, Exercise, Theme, Module).join(
         Exercise, UserResponseDB.exercise_id == Exercise.id
     ).join(
         Theme, Exercise.theme_id == Theme.id
@@ -172,17 +286,51 @@ def get_user_responses(
         UserResponseDB.user_id == user_id
     ).order_by(UserResponseDB.submitted_at.desc()).all()
     
-    result = []
-    for response, exercise, theme, module in responses:
+    for response, exercise, theme, module in old_responses:
         result.append({
-            "id": response.id,
+            "id": f"old_{response.id}",
             "exercise_id": exercise.id,
             "exercise_title": exercise.title,
             "theme_title": theme.title,
             "module_title": module.title,
             "response_text": response.response_text,
+            "response_type": "main",
+            "sub_question_index": None,
             "submitted_at": response.submitted_at,
         })
+    
+    # Get new-style sub-question responses (user_sub_question_responses table)
+    sub_responses = db.query(UserSubQuestionResponseDB, Exercise, Theme, Module).join(
+        Exercise, UserSubQuestionResponseDB.exercise_id == Exercise.id
+    ).join(
+        Theme, Exercise.theme_id == Theme.id
+    ).join(
+        Module, Theme.module_id == Module.id
+    ).filter(
+        UserSubQuestionResponseDB.user_id == user_id
+    ).order_by(UserSubQuestionResponseDB.submitted_at.desc()).all()
+    
+    for response, exercise, theme, module in sub_responses:
+        # Get the sub-question text
+        sub_question_text = "Question"
+        if exercise.sub_questions and response.sub_question_index < len(exercise.sub_questions):
+            sub_question_text = exercise.sub_questions[response.sub_question_index]
+        
+        result.append({
+            "id": f"sub_{response.id}",
+            "exercise_id": exercise.id,
+            "exercise_title": f"{exercise.title} - Q{response.sub_question_index + 1}",
+            "theme_title": theme.title,
+            "module_title": module.title,
+            "response_text": response.response_text,
+            "response_type": "sub_question",
+            "sub_question_index": response.sub_question_index,
+            "sub_question_text": sub_question_text,
+            "submitted_at": response.submitted_at,
+        })
+    
+    # Sort all responses by date (most recent first)
+    result.sort(key=lambda x: x['submitted_at'], reverse=True)
     
     return result
 
@@ -213,8 +361,22 @@ def get_users_stats(
     
     users_data = []
     for user_data in users_with_responses:
+        # Get the full user object for validated_modules
+        full_user = db.query(User).filter(User.id == user_data.id).first()
+        
         # Calculate user progress
         user_progress = get_user_progress(db, user_data.id)
+        
+        # Parse validated_modules
+        validated_modules = []
+        if full_user.validated_modules:
+            try:
+                if isinstance(full_user.validated_modules, str):
+                    validated_modules = json.loads(full_user.validated_modules)
+                else:
+                    validated_modules = full_user.validated_modules
+            except:
+                validated_modules = []
         
         users_data.append({
             "id": user_data.id,
@@ -225,6 +387,7 @@ def get_users_stats(
             "is_active": user_data.is_active,
             "created_at": user_data.created_at,
             "response_count": user_data.response_count,
+            "validated_modules": validated_modules,
             "progress": user_progress
         })
     

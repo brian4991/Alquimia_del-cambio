@@ -20,8 +20,21 @@ router = APIRouter(tags=["modules"])
 def get_modules(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     modules = db.query(Module).filter(Module.is_active == True).order_by(Module.order_number).all()
     
+    # Get user's validated modules
+    validated_modules = current_user.validated_modules or []
+    if isinstance(validated_modules, str):
+        import json
+        validated_modules = json.loads(validated_modules)
+    
     result = []
     for module in modules:
+        # Check if user has access to this module
+        # Module 1 is always accessible, others need validation
+        has_access = module.order_number == 1 or module.id in validated_modules
+        
+        if not has_access:
+            continue  # Skip modules user doesn't have access to
+        
         # Check if module is completed
         module_progress = db.query(UserProgress).filter(
             UserProgress.user_id == current_user.id,

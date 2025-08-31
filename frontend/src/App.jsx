@@ -7,6 +7,7 @@ import ModuleView from './components/ModuleView';
 import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
+import UserDetailView from './components/UserDetailView';
 import Layout from './components/Layout';
 import PsychologyLanding from './components/PsychologyLanding';
 import OAuthCallback from './components/OAuthCallback';
@@ -161,6 +162,16 @@ const App = () => {
               <ProtectedRoute requireAdmin={true}>
                 <Layout>
                   <AdminUsersTracking />
+                </Layout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/users/:userId" 
+            element={
+              <ProtectedRoute requireAdmin={true}>
+                <Layout>
+                  <UserDetailView />
                 </Layout>
               </ProtectedRoute>
             } 

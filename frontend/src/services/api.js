@@ -109,4 +109,19 @@ export const getUserResponses = async (userId) => {
   return response.data
 }
 
+export const getAllModulesAdmin = async () => {
+  const response = await api.get('/auth/admin/modules')
+  return response.data
+}
+
+export const validateUserModule = async (userId, moduleId) => {
+  const response = await api.post(`/auth/admin/users/${userId}/validate-module/${moduleId}`)
+  return response.data
+}
+
+export const revokeUserModule = async (userId, moduleId) => {
+  const response = await api.delete(`/auth/admin/users/${userId}/validate-module/${moduleId}`)
+  return response.data
+}
+
 export default api 
