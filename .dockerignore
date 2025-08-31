@@ -1,9 +1,18 @@
-node_modules/
-frontend/node_modules/
+# Ignore node_modules but allow frontend directory structure
+**/node_modules/
 frontend/dist/
 .git/
-__pycache__/
+**/__pycache__/
 *.pyc
 .env
 .DS_Store
 *.log
+# Allow frontend source files
+!frontend/
+!frontend/src/
+!frontend/public/
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/*.js
+!frontend/*.json
+!frontend/*.html
