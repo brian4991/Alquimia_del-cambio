@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
+// Styles personnalisés pour éviter les chevauchements
+const editorStyles = `
+  .rich-text-editor .ql-editor {
+    min-height: 300px;
+    padding-bottom: 60px;
+  }
+  .rich-text-editor .ql-container {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+  .rich-text-editor .ql-toolbar {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+`;
+
 const RichTextEditor = ({ 
   value, 
   onChange, 
@@ -48,7 +64,8 @@ const RichTextEditor = ({
 
   return (
     <div className="rich-text-editor">
-      <div className="mb-4">
+      <style>{editorStyles}</style>
+      <div className="mb-6">
         <ReactQuill
           theme="snow"
           value={content}
@@ -56,14 +73,14 @@ const RichTextEditor = ({
           modules={modules}
           formats={formats}
           placeholder={placeholder}
-          style={{ height: `${height}px` }}
+          style={{ height: `${height}px`, marginBottom: '60px' }}
           className="bg-white rounded-lg"
         />
       </div>
       
       {/* Boutons de contrôle */}
       {showButtons && (
-        <div className="flex justify-end space-x-3 mt-16">
+        <div className="flex justify-end space-x-3 mt-8 pt-4 border-t border-slate-200">
           <button
             onClick={onCancel}
             className="px-6 py-3 text-gray-600 hover:bg-gray-100 rounded-xl transition-elegant font-inter"

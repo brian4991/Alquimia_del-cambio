@@ -190,14 +190,14 @@ const UserDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-amber-50">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center space-x-4 mb-6">
             <button
               onClick={() => navigate('/admin/users')}
-              className="p-3 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-slate-200 hover:border-slate-300"
+              className="p-3 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-slate-200 hover:border-slate-200"
             >
               <ArrowLeftIcon className="w-6 h-6 text-slate-600" />
             </button>
@@ -235,7 +235,7 @@ const UserDetailView = () => {
                 </div>
                 
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                  <div className="flex justify-between items-center p-3 bg-white rounded-lg">
                     <span className="text-slate-600 font-medium">Estado:</span>
                     <span className={`font-bold flex items-center ${user.is_active ? 'text-green-600' : 'text-red-600'}`}>
                       {user.is_active ? (
@@ -252,7 +252,7 @@ const UserDetailView = () => {
                     </span>
                   </div>
                   
-                  <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                  <div className="flex justify-between items-center p-3 bg-white rounded-lg">
                     <span className="text-slate-600 font-medium">Rol:</span>
                     <span className={`font-bold px-3 py-1 rounded-full text-sm ${
                       user.role === 'admin' 
@@ -263,12 +263,12 @@ const UserDetailView = () => {
                     </span>
                   </div>
                   
-                  <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                  <div className="flex justify-between items-center p-3 bg-white rounded-lg">
                     <span className="text-slate-600 font-medium">Respuestas:</span>
                     <span className="font-bold text-slate-900">{user.response_count}</span>
                   </div>
                   
-                  <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                  <div className="flex justify-between items-center p-3 bg-white rounded-lg">
                     <span className="text-slate-600 font-medium">Registrado:</span>
                     <span className="font-bold text-slate-900 text-sm">{formatDate(user.created_at)}</span>
                   </div>
@@ -384,7 +384,7 @@ const UserDetailView = () => {
                         <div className="p-4">
                           <div className="space-y-6">
                             {Object.entries(moduleData.themes).map(([themeTitle, responses]) => (
-                              <div key={themeTitle} className="bg-slate-50 rounded-lg p-4">
+                              <div key={themeTitle} className="bg-white rounded-lg p-4">
                                 <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
                                   <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
                                   {themeTitle}
@@ -418,7 +418,7 @@ const UserDetailView = () => {
                                           </span>
                                         </div>
                                       </div>
-                                      <div className="bg-slate-50 rounded-lg p-3">
+                                      <div className="bg-white rounded-lg p-3">
                                         <p className="text-sm text-slate-700 leading-relaxed">
                                           {response.response_text}
                                         </p>

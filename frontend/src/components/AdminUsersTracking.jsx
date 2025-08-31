@@ -121,7 +121,7 @@ const AdminUsersTracking = () => {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="bg-red-50 border border-red-200 rounded-3xl p-12 text-center shadow-lg">
+        <div className="bg-white border border-red-200 rounded-3xl p-12 text-center shadow-lg">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <ChartBarIcon className="w-8 h-8 text-red-600" />
           </div>
@@ -129,7 +129,7 @@ const AdminUsersTracking = () => {
           <p className="text-red-600 mb-8 text-lg">{error}</p>
           <button 
             onClick={loadUsersData}
-            className="bg-red-600 text-white px-8 py-4 rounded-xl hover:bg-red-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+            className="bg-red-700 text-white px-8 py-4 rounded-xl hover:bg-red-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
           >
             Reintentar
           </button>
@@ -139,7 +139,7 @@ const AdminUsersTracking = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-amber-50">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-12">
@@ -223,7 +223,7 @@ const AdminUsersTracking = () => {
                   {users.map((user) => (
                     <div
                       key={user.id}
-                      className="p-6 rounded-2xl border-2 border-slate-200 hover:border-slate-300 hover:scale-[1.01] transition-all duration-300 cursor-pointer hover:shadow-lg"
+                      className="p-6 rounded-2xl border-2 border-slate-200 hover:border-slate-200 hover:scale-[1.01] transition-all duration-300 cursor-pointer hover:shadow-lg"
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center space-x-4">
@@ -266,7 +266,7 @@ const AdminUsersTracking = () => {
 
                       {/* Progress Section */}
                       {user.progress && (
-                        <div className="bg-slate-50 rounded-xl p-4 mb-4">
+                        <div className="bg-white rounded-xl p-4 mb-4">
                           <div className="flex items-center justify-between mb-3">
                             <h4 className="font-semibold text-slate-900 flex items-center">
                               <MapPinIcon className="w-4 h-4 mr-2 text-blue-600" />
