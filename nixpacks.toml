@@ -9,7 +9,9 @@ cmds = [
 
 [phases.build]
 cmds = [
-    "cd frontend && npm ci && npm run build"
+    "ls -la",
+    "ls -la frontend || echo 'Frontend directory not found!'",
+    "cd frontend && npm install && npm run build"
 ]
 
 [start]

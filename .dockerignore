@@ -1,18 +1,10 @@
-# Ignore node_modules but allow frontend directory structure
+# Only ignore what we really don't need
 **/node_modules/
-frontend/dist/
-.git/
 **/__pycache__/
 *.pyc
 .env
 .DS_Store
 *.log
-# Allow frontend source files
-!frontend/
-!frontend/src/
-!frontend/public/
-!frontend/package.json
-!frontend/package-lock.json
-!frontend/*.js
-!frontend/*.json
-!frontend/*.html
+.git/
+# Don't ignore frontend/dist during build - Railway needs to build it
+# frontend/dist/
