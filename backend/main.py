@@ -31,7 +31,7 @@ app.add_middleware(
 )
 
 # Mount static files (frontend build)
-app.mount("/static", StaticFiles(directory="../frontend/dist"), name="static")
+app.mount("/static", StaticFiles(directory="frontend/dist"), name="static")
 
 # Include routers
 app.include_router(auth.router)
@@ -52,7 +52,7 @@ def startup_event():
 def root():
     # Serve the frontend index.html
     from fastapi.responses import FileResponse
-    return FileResponse("../frontend/dist/index.html")
+    return FileResponse("frontend/dist/index.html")
 
 @app.get("/api")
 def api_root():
@@ -72,7 +72,7 @@ def catch_all(path: str):
     
     # Serve index.html for all other routes (React Router will handle them)
     from fastapi.responses import FileResponse
-    return FileResponse("../frontend/dist/index.html")
+    return FileResponse("frontend/dist/index.html")
 
 if __name__ == "__main__":
     import uvicorn
