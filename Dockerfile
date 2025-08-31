@@ -19,7 +19,10 @@ COPY . .
 # Install Python dependencies
 RUN python -m venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
+# Force rebuild - Railway cache issue fix
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip list | grep psycopg2
 
 # Build frontend
 WORKDIR /app/frontend
