@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 
 from database import create_tables, get_db
 from init_data import init_database
@@ -45,6 +46,11 @@ def startup_event():
 
 @app.get("/")
 def root():
+    # Redirect to frontend login page
+    return RedirectResponse(url="https://alquimia-del-cambio-i495ejznv-brian4991s-projects.vercel.app/login")
+
+@app.get("/api")
+def api_root():
     return {
         "message": "Welcome to Alquimia del Cambio API",
         "version": "1.0.0",
