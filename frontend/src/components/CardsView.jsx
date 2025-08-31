@@ -22,6 +22,26 @@ import RichTextEditor from './RichTextEditor';
 
 const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
   const navigate = useNavigate();
+
+  // Decode JWT token to get user info
+  const decodeToken = (token) => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  };
+
+  // Check if current user is admin
+  const userInfo = (() => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    return decodeToken(token);
+  })();
+
+  const isAdmin = userInfo && userInfo.role === 'admin';
   const [cards, setCards] = useState([]);
   const [theme, setTheme] = useState(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -344,7 +364,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
             </div>
             
             <div className="flex items-center space-x-2">
-              {editingCard !== currentCard.id && (
+              {editingCard !== currentCard.id && isAdmin && (
                 <button
                   onClick={() => startEditing(currentCard)}
                   className="p-3 text-taupe hover:bg-taupe hover:text-white rounded-xl transition-elegant"

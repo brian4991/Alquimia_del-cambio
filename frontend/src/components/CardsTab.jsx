@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { Target, BookOpen, Settings, FolderOpen, Sparkles, FileText, Eye } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
 import { config } from '../config';
 
 const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingCard, setEditingCard] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -21,6 +23,59 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     { value: 'conclusion', label: 'Conclusion', color: 'bg-pink-50 border-pink-200', icon: '✨' },
     { value: 'content', label: 'Contenu général', color: 'bg-gray-50 border-gray-200', icon: '📄' }
   ];
+
+  // Functions for preview (same as CardsView)
+  const getCardIcon = (cardType) => {
+    switch (cardType) {
+      case 'intro': return Target;
+      case 'theory': return BookOpen;
+      case 'practical': return Settings;
+      case 'resources': return FolderOpen;
+      case 'conclusion': return Sparkles;
+      default: return FileText;
+    }
+  };
+
+  const getCardColors = (cardType) => {
+    switch (cardType) {
+      case 'intro': return {
+        bg: 'rgba(107, 116, 90, 0.1)',
+        border: 'rgba(107, 116, 90, 0.3)',
+        text: '#6b745a',
+        accent: 'rgba(107, 116, 90, 0.2)'
+      };
+      case 'theory': return {
+        bg: 'bg-sage',
+        border: 'border-sage',
+        text: 'text-white',
+        accent: 'bg-sage-light'
+      };
+      case 'practical': return {
+        bg: 'bg-taupe',
+        border: 'border-taupe',
+        text: 'text-white',
+        accent: 'bg-taupe-light'
+      };
+      case 'resources': return {
+        bg: 'bg-amber-50',
+        border: 'border-amber-200',
+        text: 'text-amber-800',
+        accent: 'bg-amber-100'
+      };
+      case 'conclusion': return {
+        bg: 'gradient-elegant',
+        border: 'border-gray-200',
+        text: 'text-gray-800',
+        accent: 'bg-gray-100'
+      };
+      default: return {
+        bg: 'bg-white',
+        border: 'border-gray-200',
+        text: 'text-gray-800',
+        accent: 'bg-gray-100'
+      };
+    }
+  };
 
   // Load cards when theme is selected
   useEffect(() => {
@@ -202,22 +257,99 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
               />
             </div>
 
-            <div className="flex space-x-4">
-              <button
-                type="submit"
-                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700"
-              >
-                {editingCard ? 'Mettre à jour' : 'Créer'}
-              </button>
+            <div className="flex justify-between items-center">
               <button
                 type="button"
-                onClick={handleCancel}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
+                onClick={() => setShowPreview(!showPreview)}
+                className="flex items-center space-x-2 text-sage hover:bg-sage hover:text-white px-4 py-2 rounded-lg transition-colors border border-sage"
               >
-                Annuler
+                <Eye className="w-4 h-4" />
+                <span>{showPreview ? 'Ocultar Vista Previa' : 'Vista Previa'}</span>
               </button>
+              
+              <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700"
+                >
+                  {editingCard ? 'Mettre à jour' : 'Créer'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
+                >
+                  Annuler
+                </button>
+              </div>
             </div>
           </form>
+        </div>
+      )}
+
+      {/* Preview Section */}
+      {showPreview && (showCreateForm || editingCard) && (
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">Vista Previa - Como aparecerá en Contenidos</h3>
+          <div className="max-w-4xl mx-auto">
+            <div 
+              className="modern-card border-2 relative overflow-hidden"
+              style={{
+                backgroundColor: formData.card_type === 'intro' ? getCardColors(formData.card_type).bg : undefined,
+                borderColor: formData.card_type === 'intro' ? getCardColors(formData.card_type).border : undefined
+              }}
+            >
+              {/* En-tête de carte */}
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-4">
+                  <div 
+                    className="p-3 rounded-xl"
+                    style={{ 
+                      backgroundColor: formData.card_type === 'intro' ? getCardColors(formData.card_type).accent : undefined 
+                    }}
+                  >
+                    {(() => {
+                      const IconComponent = getCardIcon(formData.card_type);
+                      return (
+                        <IconComponent 
+                          className="w-8 h-8" 
+                          style={{ 
+                            color: formData.card_type === 'intro' ? getCardColors(formData.card_type).text : undefined 
+                          }}
+                        />
+                      );
+                    })()}
+                  </div>
+                  <div>
+                    <h3 
+                      className="font-inter text-2xl font-semibold mb-1"
+                      style={{ 
+                        color: formData.card_type === 'intro' ? getCardColors(formData.card_type).text : undefined 
+                      }}
+                    >
+                      {formData.title || 'Título de la carta'}
+                    </h3>
+                    <p 
+                      className="font-inter text-sm opacity-75 capitalize"
+                      style={{ 
+                        color: formData.card_type === 'intro' ? getCardColors(formData.card_type).text : undefined 
+                      }}
+                    >
+                      {formData.card_type.replace('_', ' ')} • Vista previa
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contenu de la carte */}
+              <div className="space-y-6">
+                <div 
+                  className="rich-content max-w-none font-inter text-lg"
+                  dangerouslySetInnerHTML={{ __html: formData.content || '<p>El contenido aparecerá aquí...</p>' }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
