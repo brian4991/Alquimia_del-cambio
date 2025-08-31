@@ -61,22 +61,19 @@ def init_database(db: Session):
         # Theme 1 exercises
         Exercise(
             title="Historia y Exploración Emocional",
-            question="Describe tu historia emocional desde la infancia hasta ahora. ¿Qué eventos o relaciones han marcado tu forma de sentir y expresar emociones?",
-            instructions="Escribe con sinceridad y detalle. No hay respuestas correctas o incorrectas. Este es un espacio seguro para explorar tu historia.",
+            instructions="Describe tu historia emocional desde la infancia hasta ahora. ¿Qué eventos o relaciones han marcado tu forma de sentir y expresar emociones? Escribe con sinceridad y detalle. No hay respuestas correctas o incorrectas. Este es un espacio seguro para explorar tu historia.",
             order_number=1,
             theme_id=theme1.id
         ),
         Exercise(
             title="Reconociendo Patrones Emocionales",
-            question="¿Qué patrones emocionales reconoces en ti? ¿En qué situaciones o con qué personas tiendes a reaccionar de manera similar?",
-            instructions="Reflexiona sobre situaciones recurrentes y tus respuestas automáticas. Identifica al menos 3 patrones emocionales.",
+            instructions="¿Qué patrones emocionales reconoces en ti? ¿En qué situaciones o con qué personas tiendes a reaccionar de manera similar? Reflexiona sobre situaciones recurrentes y tus respuestas automáticas. Identifica al menos 3 patrones emocionales.",
             order_number=2,
             theme_id=theme1.id
         ),
         Exercise(
             title="Raíces Emocionales",
-            question="¿Cuáles crees que son las raíces de tus principales patrones emocionales? ¿Qué experiencias tempranas pueden haber influido en cómo manejas tus emociones hoy?",
-            instructions="Explora con compasión las experiencias que te han formado. Recuerda que el objetivo es comprender, no juzgar.",
+            instructions="¿Cuáles crees que son las raíces de tus principales patrones emocionales? ¿Qué experiencias tempranas pueden haber influido en cómo manejas tus emociones hoy? Explora con compasión las experiencias que te han formado. Recuerda que el objetivo es comprender, no juzgar.",
             order_number=3,
             theme_id=theme1.id
         ),
@@ -84,22 +81,19 @@ def init_database(db: Session):
         # Theme 2 exercises  
         Exercise(
             title="Identificar Emociones Primarias",
-            question="Durante una semana, lleva un registro de tus emociones primarias (miedo, tristeza, alegría, enojo, sorpresa, asco). ¿Cuáles experimentas más frecuentemente y en qué contextos?",
-            instructions="Anota al menos una emoción por día con el contexto en que apareció. Sé específico sobre la situación y la intensidad de la emoción.",
+            instructions="Durante una semana, lleva un registro de tus emociones primarias (miedo, tristeza, alegría, enojo, sorpresa, asco). ¿Cuáles experimentas más frecuentemente y en qué contextos? Anota al menos una emoción por día con el contexto en que apareció. Sé específico sobre la situación y la intensidad de la emoción.",
             order_number=1,
             theme_id=theme2.id
         ),
         Exercise(
             title="Reconocer Necesidades Emocionales",
-            question="Para cada emoción que identificaste en el ejercicio anterior, pregúntate: ¿Qué necesidad emocional me está señalando esta emoción? ¿Qué requiero en este momento?",
-            instructions="Conecta cada emoción con su necesidad subyacente. Por ejemplo: enojo = necesidad de respeto, tristeza = necesidad de consuelo.",
+            instructions="Para cada emoción que identificaste en el ejercicio anterior, pregúntate: ¿Qué necesidad emocional me está señalando esta emoción? ¿Qué requiero en este momento? Conecta cada emoción con su necesidad subyacente. Por ejemplo: enojo = necesidad de respeto, tristeza = necesidad de consuelo.",
             order_number=2,
             theme_id=theme2.id
         ),
         Exercise(
             title="Plan para Satisfacer Necesidades",
-            question="Crea un plan concreto para satisfacer las necesidades emocionales que identificaste. ¿Qué acciones específicas puedes tomar para atender mejor tus necesidades?",
-            instructions="Sé específico y realista. Define acciones concretas que puedes implementar en tu vida diaria para satisfacer tus necesidades emocionales.",
+            instructions="Crea un plan concreto para satisfacer las necesidades emocionales que identificaste. ¿Qué acciones específicas puedes tomar para atender mejor tus necesidades? Sé específico y realista. Define acciones concretas que puedes implementar en tu vida diaria para satisfacer tus necesidades emocionales.",
             order_number=3,
             theme_id=theme2.id
         ),
@@ -107,22 +101,19 @@ def init_database(db: Session):
         # Theme 3 exercises
         Exercise(
             title="Técnicas de Regulación Emocional",
-            question="De las 7 técnicas de regulación emocional presentadas, ¿cuáles resuenan más contigo? Describe una situación reciente donde podrías haber aplicado una de estas técnicas.",
-            instructions="Elige al menos 3 técnicas que consideres más útiles para ti y explica cómo las implementarías en situaciones específicas de tu vida.",
+            instructions="De las 7 técnicas de regulación emocional presentadas, ¿cuáles resuenan más contigo? Describe una situación reciente donde podrías haber aplicado una de estas técnicas. Elige al menos 3 técnicas que consideres más útiles para ti y explica cómo las implementarías en situaciones específicas de tu vida.",
             order_number=1,
             theme_id=theme3.id
         ),
         Exercise(
             title="Comunicación Asertiva",
-            question="Piensa en una situación reciente donde no expresaste una necesidad o emoción importante. ¿Cómo podrías haber comunicado esto de manera asertiva? Reescribe la conversación.",
-            instructions="Usa las técnicas de comunicación asertiva: habla en primera persona, sé claro y directo, respeta al otro. Practica el nuevo diálogo.",
+            instructions="Piensa en una situación reciente donde no expresaste una necesidad o emoción importante. ¿Cómo podrías haber comunicado esto de manera asertiva? Reescribe la conversación. Usa las técnicas de comunicación asertiva: habla en primera persona, sé claro y directo, respeta al otro. Practica el nuevo diálogo.",
             order_number=2,
             theme_id=theme3.id
         ),
         Exercise(
             title="Mi Caja de Herramientas Emocionales",
-            question="Crea tu caja de herramientas emocionales personal. ¿Qué técnicas, frases, recordatorios o actividades incluirías para gestionar mejor tus emociones?",
-            instructions="Organiza tu caja en categorías: técnicas rápidas (para crisis), herramientas diarias (mantenimiento), estrategias a largo plazo (crecimiento). Incluye al menos 2 elementos por categoría.",
+            instructions="Crea tu caja de herramientas emocionales personal. ¿Qué técnicas, frases, recordatorios o actividades incluirías para gestionar mejor tus emociones? Organiza tu caja en categorías: técnicas rápidas (para crisis), herramientas diarias (mantenimiento), estrategias a largo plazo (crecimiento). Incluye al menos 2 elementos por categoría.",
             order_number=3,
             theme_id=theme3.id
         ),
