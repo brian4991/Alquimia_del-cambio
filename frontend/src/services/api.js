@@ -124,4 +124,14 @@ export const revokeUserModule = async (userId, moduleId) => {
   return response.data
 }
 
+export const validateUser = async (userId) => {
+  const response = await api.post(`/auth/admin/users/${userId}/validate`)
+  return response.data
+}
+
+export const revokeUserValidation = async (userId) => {
+  const response = await api.delete(`/auth/admin/users/${userId}/validate`)
+  return response.data
+}
+
 export default api 

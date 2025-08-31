@@ -262,6 +262,38 @@ def revoke_user_module_validation(
             "validated_modules": validated_modules
         }
 
+@router.post("/auth/admin/users/{user_id}/validate")
+def validate_user(
+    user_id: int,
+    current_admin: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Validate a user to enable normal progression - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    user.is_validated = True
+    db.commit()
+    
+    return {"message": f"User {user.username} has been validated and can now progress normally"}
+
+@router.delete("/auth/admin/users/{user_id}/validate")
+def revoke_user_validation(
+    user_id: int,
+    current_admin: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Revoke user validation - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    user.is_validated = False
+    db.commit()
+    
+    return {"message": f"User {user.username} validation has been revoked"}
+
 @router.get("/auth/admin/users/{user_id}/responses")
 def get_user_responses(
     user_id: int,
@@ -385,6 +417,7 @@ def get_users_stats(
             "role": user_data.role,
             "provider": user_data.provider,
             "is_active": user_data.is_active,
+            "is_validated": full_user.is_validated,
             "created_at": user_data.created_at,
             "response_count": user_data.response_count,
             "validated_modules": validated_modules,

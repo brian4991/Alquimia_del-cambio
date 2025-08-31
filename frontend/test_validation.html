@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test User Validation API</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Test User Validation API</h1>
+    <button onclick="testValidation()">Test Validation</button>
+    <div id="result"></div>
+
+    <script>
+        async function testValidation() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                // First login as admin
+                const loginResponse = await axios.post('http://localhost:8000/login', {
+                    username: 'admin',
+                    password: 'admin123'
+                });
+                
+                const token = loginResponse.data.access_token;
+                console.log('Login successful, token:', token);
+                
+                // Set up axios with token
+                const api = axios.create({
+                    baseURL: 'http://localhost:8000',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                // Get users stats
+                const usersResponse = await api.get('/auth/admin/users/stats');
+                const users = usersResponse.data.users;
+                console.log('Users:', users);
+                
+                // Find a non-admin user
+                const testUser = users.find(u => u.role !== 'admin');
+                if (!testUser) {
+                    resultDiv.innerHTML = 'No non-admin users found';
+                    return;
+                }
+                
+                console.log('Testing with user:', testUser);
+                
+                // Test validation
+                const validationResponse = await api.post(`/auth/admin/users/${testUser.id}/validate`);
+                console.log('Validation response:', validationResponse.data);
+                
+                resultDiv.innerHTML = `
+                    <h3>Success!</h3>
+                    <p>User: ${testUser.username}</p>
+                    <p>Response: ${validationResponse.data.message}</p>
+                `;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <h3>Error!</h3>
+                    <p>${error.message}</p>
+                    <p>Response: ${error.response?.data || 'No response data'}</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

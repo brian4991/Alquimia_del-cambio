@@ -10,7 +10,9 @@ import {
   TrophyIcon,
   SparklesIcon,
   ChartBarIcon,
-  AcademicCapIcon
+  AcademicCapIcon,
+  LockClosedIcon,
+  ArrowPathIcon
 } from '@heroicons/react/24/outline';
 
 const Dashboard = () => {
@@ -18,20 +20,46 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const fetchModules = async () => {
+    try {
+      setLoading(true);
+      const data = await getModules();
+      setModules(data);
+      setError('');
+    } catch (err) {
+      setError('Impossible de charger les modules');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchModules = async () => {
-      try {
-        const data = await getModules();
-        setModules(data);
-      } catch (err) {
-        setError('Impossible de charger les modules');
-        console.error(err);
-      } finally {
-        setLoading(false);
+    fetchModules();
+  }, []);
+
+  // Listen for storage changes (e.g., when user is validated in another tab)
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'userValidationChanged') {
+        fetchModules();
+        localStorage.removeItem('userValidationChanged');
       }
     };
 
-    fetchModules();
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom events in the same tab
+    const handleValidationChange = () => {
+      fetchModules();
+    };
+    
+    window.addEventListener('userValidationChanged', handleValidationChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userValidationChanged', handleValidationChange);
+    };
   }, []);
 
   if (loading) {
@@ -66,9 +94,8 @@ const Dashboard = () => {
       {/* En-tête de bienvenue */}
       <div className="mb-16">
         <div className="modern-card gradient-elegant text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 opacity-10">
-            <SparklesIcon className="w-32 h-32 text-sage" />
-          </div>
+
+
           <div className="relative z-10">
             <div className="flex justify-center mb-6">
               <div className="p-4 gradient-sage rounded-full">
@@ -161,15 +188,23 @@ const Dashboard = () => {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {modules.map(module => (
-              <div key={module.id} className="modern-card group hover:shadow-sage transition-elegant">
+              <div key={module.id} className={`modern-card group transition-elegant ${
+                module.is_accessible === false 
+                  ? 'opacity-60 cursor-not-allowed' 
+                  : 'hover:shadow-sage cursor-pointer'
+              }`}>
                 <div className="flex items-start justify-between mb-6">
                   <div className="flex items-center space-x-4">
                     <div className={`p-4 rounded-xl ${
-                      module.completed 
-                        ? 'bg-green-100' 
-                        : 'gradient-sage'
+                      !module.is_accessible 
+                        ? 'bg-gray-200'
+                        : module.completed 
+                          ? 'bg-green-100' 
+                          : 'gradient-sage'
                     }`}>
-                      {module.completed ? (
+                      {!module.is_accessible ? (
+                        <LockClosedIcon className="w-10 h-10 text-gray-500" />
+                      ) : module.completed ? (
                         <CheckCircleIcon className="w-10 h-10 text-green-600" />
                       ) : (
                         <PlayIcon className="w-10 h-10 text-white" />
@@ -192,11 +227,16 @@ const Dashboard = () => {
                     </div>
                   </div>
                   
-                  {module.completed && (
+                  {!module.is_accessible ? (
+                    <div className="px-3 py-1 bg-gray-200 text-gray-600 rounded-full text-xs font-inter font-medium flex items-center space-x-1">
+                      <LockClosedIcon className="w-3 h-3" />
+                      <span>Bloqueado</span>
+                    </div>
+                  ) : module.completed ? (
                     <div className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-inter font-medium">
                       Completado
                     </div>
-                  )}
+                  ) : null}
                 </div>
 
                 <div className="mb-6">
@@ -228,17 +268,24 @@ const Dashboard = () => {
                     {module.themes_count || 0} temas disponibles
                   </div>
                   
-                  <Link
-                    to={`/module/${module.id}`}
-                    className={`inline-flex items-center px-6 py-3 rounded-xl font-inter font-medium transition-elegant group-hover:translate-x-1 ${
-                      module.completed
-                        ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                        : 'gradient-sage text-white hover:shadow-sage'
-                    }`}
-                  >
-                    {module.completed ? 'Revisar' : 'Comenzar'}
-                    <ArrowRightIcon className="w-5 h-5 ml-2" />
-                  </Link>
+                  {!module.is_accessible ? (
+                    <div className="inline-flex items-center px-6 py-3 rounded-xl font-inter font-medium bg-gray-200 text-gray-500 cursor-not-allowed">
+                      <LockClosedIcon className="w-5 h-5 mr-2" />
+                      Bloqueado
+                    </div>
+                  ) : (
+                    <Link
+                      to={`/module/${module.id}`}
+                      className={`inline-flex items-center px-6 py-3 rounded-xl font-inter font-medium transition-elegant group-hover:translate-x-1 ${
+                        module.completed
+                          ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                          : 'gradient-sage text-white hover:shadow-sage'
+                      }`}
+                    >
+                      {module.completed ? 'Revisar' : 'Comenzar'}
+                      <ArrowRightIcon className="w-5 h-5 ml-2" />
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}

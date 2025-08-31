@@ -14,7 +14,7 @@ import {
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
-import { getUserResponses, getAllModulesAdmin, validateUserModule, revokeUserModule } from '../services/api';
+import { getUserResponses, getAllModulesAdmin, validateUserModule, revokeUserModule, validateUser, revokeUserValidation } from '../services/api';
 import { config } from '../config';
 
 const UserDetailView = () => {
@@ -100,6 +100,38 @@ const UserDetailView = () => {
       console.error(err);
     } finally {
       setValidatingModule(null);
+    }
+  };
+
+  const handleValidateUser = async () => {
+    try {
+      await validateUser(userId);
+      await loadUserData(); // Reload user data
+      
+      // Notify other components that user validation changed
+      localStorage.setItem('userValidationChanged', Date.now().toString());
+      window.dispatchEvent(new Event('userValidationChanged'));
+      
+      alert('Usuario validado exitosamente');
+    } catch (error) {
+      console.error('Error validating user:', error);
+      alert('Error al validar el usuario');
+    }
+  };
+
+  const handleRevokeUserValidation = async () => {
+    try {
+      await revokeUserValidation(userId);
+      await loadUserData(); // Reload user data
+      
+      // Notify other components that user validation changed
+      localStorage.setItem('userValidationChanged', Date.now().toString());
+      window.dispatchEvent(new Event('userValidationChanged'));
+      
+      alert('Validación del usuario revocada exitosamente');
+    } catch (error) {
+      console.error('Error revoking user validation:', error);
+      alert('Error al revocar la validación del usuario');
     }
   };
 
@@ -271,6 +303,65 @@ const UserDetailView = () => {
                   <div className="flex justify-between items-center p-3 bg-white rounded-lg">
                     <span className="text-slate-600 font-medium">Registrado:</span>
                     <span className="font-bold text-slate-900 text-sm">{formatDate(user.created_at)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* User Global Validation */}
+            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-orange-50">
+                <h2 className="text-2xl font-bold text-slate-900 flex items-center">
+                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-orange-600" />
+                  Validación Global
+                </h2>
+                <p className="text-slate-600 mt-2">Controla el acceso general del usuario</p>
+              </div>
+              
+              <div className="p-6">
+                <div className="space-y-4">
+                  <div className="border border-slate-200 rounded-xl p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <h4 className="font-semibold text-slate-900">Estado de Validación</h4>
+                        <p className="text-sm text-slate-600">
+                          {user.is_validated 
+                            ? 'Usuario validado - Progresión normal habilitada'
+                            : 'Usuario no validado - Solo acceso al primer tema del Módulo 1'
+                          }
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        {user.is_validated ? (
+                          <>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                              <CheckCircleIconSolid className="w-3 h-3 mr-1" />
+                              Validado
+                            </span>
+                            <button
+                              onClick={handleRevokeUserValidation}
+                              className="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+                            >
+                              Revocar Validación
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-700">
+                              <ExclamationTriangleIcon className="w-3 h-3 mr-1" />
+                              No Validado
+                            </span>
+                            <button
+                              onClick={handleValidateUser}
+                              className="px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                            >
+                              Validar Usuario
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

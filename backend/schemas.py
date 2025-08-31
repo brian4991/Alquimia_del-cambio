@@ -111,6 +111,7 @@ class ModuleResponse(BaseModel):
     audio_file: Optional[str]
     order_number: int
     is_completed: bool = False
+    is_accessible: bool = True
 
 # Theme schemas
 class ThemeCreate(BaseModel):

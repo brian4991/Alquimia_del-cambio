@@ -15,6 +15,7 @@ class User(Base):
     provider = Column(String(50), nullable=True)  # "google", "facebook", "local"
     provider_id = Column(String(100), nullable=True)  # ID from OAuth provider
     is_active = Column(Boolean, default=True)
+    is_validated = Column(Boolean, default=False)  # Admin validation required for normal progression
     validated_modules = Column(JSON, nullable=True, default="[]")  # List of validated module IDs
     created_at = Column(DateTime, default=func.now())
     

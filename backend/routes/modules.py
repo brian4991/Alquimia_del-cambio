@@ -32,9 +32,6 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
         # Module 1 is always accessible, others need validation
         has_access = module.order_number == 1 or module.id in validated_modules
         
-        if not has_access:
-            continue  # Skip modules user doesn't have access to
-        
         # Check if module is completed
         module_progress = db.query(UserProgress).filter(
             UserProgress.user_id == current_user.id,
@@ -52,7 +49,8 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
             recommended_book=module.recommended_book,
             audio_file=module.audio_file,
             order_number=module.order_number,
-            is_completed=module_progress is not None
+            is_completed=module_progress is not None,
+            is_accessible=has_access
         ))
     
     return result
@@ -60,6 +58,9 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
 @router.get("/modules/{module_id}/themes", response_model=List[ThemeResponse])
 def get_module_themes(module_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     themes = db.query(Theme).filter(Theme.module_id == module_id).order_by(Theme.order_number).all()
+    
+    # Check if user is validated
+    user_is_validated = current_user.is_validated
     
     result = []
     for i, theme in enumerate(themes):
@@ -70,16 +71,26 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
             UserProgress.completed == True
         ).first()
         
-        # Theme is unlocked if it's the first one or if the previous theme is completed
-        is_unlocked = i == 0  # First theme is always unlocked
-        if i > 0:
-            prev_theme = themes[i-1]
-            prev_progress = db.query(UserProgress).filter(
-                UserProgress.user_id == current_user.id,
-                UserProgress.theme_id == prev_theme.id,
-                UserProgress.completed == True
-            ).first()
-            is_unlocked = prev_progress is not None
+        # Check if theme is unlocked
+        if not user_is_validated:
+            # Non-validated users: only first theme of module 1 is unlocked
+            if module_id == 1 and i == 0:
+                is_unlocked = True
+            else:
+                is_unlocked = False
+        else:
+            # Validated users: normal sequential progression
+            if i == 0:
+                is_unlocked = True
+            else:
+                # Check if previous theme is completed
+                prev_theme = themes[i-1]
+                prev_progress = db.query(UserProgress).filter(
+                    UserProgress.user_id == current_user.id,
+                    UserProgress.theme_id == prev_theme.id,
+                    UserProgress.completed == True
+                ).first()
+                is_unlocked = prev_progress is not None
         
         # Count total cards for this theme
         total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
@@ -323,12 +334,21 @@ def complete_theme(theme_id: int, current_user: User = Depends(get_current_user)
     exercises = db.query(Exercise).filter(Exercise.theme_id == theme_id).all()
     
     for exercise in exercises:
-        response = db.query(UserResponseDB).filter(
+        # Check for main response
+        main_response = db.query(UserResponseDB).filter(
             UserResponseDB.user_id == current_user.id,
             UserResponseDB.exercise_id == exercise.id
         ).first()
-        if not response:
-            raise HTTPException(status_code=400, detail="All exercises must be completed before marking theme as complete")
+        
+        # Check for sub-question responses
+        sub_responses = db.query(UserSubQuestionResponseDB).filter(
+            UserSubQuestionResponseDB.user_id == current_user.id,
+            UserSubQuestionResponseDB.exercise_id == exercise.id
+        ).all()
+        
+        # Exercise is complete if it has either main response OR sub-question responses
+        if not main_response and not sub_responses:
+            raise HTTPException(status_code=400, detail=f"Exercise '{exercise.title}' must be completed before marking theme as complete")
     
     # Mark theme as completed
     progress = db.query(UserProgress).filter(
@@ -351,6 +371,89 @@ def complete_theme(theme_id: int, current_user: User = Depends(get_current_user)
     
     db.commit()
     return {"message": "Theme completed successfully"}
+
+@router.get("/debug/theme/{theme_id}/completion-status")
+def debug_theme_completion_status(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Debug endpoint to check theme completion status"""
+    # Get all exercises for this theme
+    exercises = db.query(Exercise).filter(Exercise.theme_id == theme_id).all()
+    
+    result = {
+        "theme_id": theme_id,
+        "user_id": current_user.id,
+        "exercises": [],
+        "can_complete": True,
+        "missing_responses": []
+    }
+    
+    for exercise in exercises:
+        # Check main response
+        main_response = db.query(UserResponseDB).filter(
+            UserResponseDB.user_id == current_user.id,
+            UserResponseDB.exercise_id == exercise.id
+        ).first()
+        
+        # Check sub-question responses
+        sub_responses = db.query(UserSubQuestionResponseDB).filter(
+            UserSubQuestionResponseDB.user_id == current_user.id,
+            UserSubQuestionResponseDB.exercise_id == exercise.id
+        ).all()
+        
+        exercise_info = {
+            "exercise_id": exercise.id,
+            "title": exercise.title,
+            "has_main_response": main_response is not None,
+            "sub_responses_count": len(sub_responses),
+            "sub_questions_count": len(exercise.sub_questions) if exercise.sub_questions else 0
+        }
+        
+        if not main_response:
+            result["can_complete"] = False
+            result["missing_responses"].append(f"Exercise {exercise.id}: No main response")
+            
+        result["exercises"].append(exercise_info)
+    
+    return result
+
+@router.post("/admin/force-complete-theme/{theme_id}/{user_id}")
+def admin_force_complete_theme(
+    theme_id: int, 
+    user_id: int, 
+    current_admin: User = Depends(get_current_admin_user), 
+    db: Session = Depends(get_db)
+):
+    """Admin endpoint to force complete a theme for a user"""
+    # Get the theme
+    theme = db.query(Theme).filter(Theme.id == theme_id).first()
+    if not theme:
+        raise HTTPException(status_code=404, detail="Theme not found")
+    
+    # Get the user
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Mark theme as completed
+    progress = db.query(UserProgress).filter(
+        UserProgress.user_id == user_id,
+        UserProgress.theme_id == theme_id
+    ).first()
+    
+    if progress:
+        progress.completed = True
+        progress.completed_at = func.now()
+    else:
+        progress = UserProgress(
+            user_id=user_id,
+            module_id=theme.module_id,
+            theme_id=theme_id,
+            completed=True,
+            completed_at=func.now()
+        )
+        db.add(progress)
+    
+    db.commit()
+    return {"message": f"Theme {theme.title} force completed for user {user.username}"}
 
 # ===============================
 # MODULES CRUD ROUTES
