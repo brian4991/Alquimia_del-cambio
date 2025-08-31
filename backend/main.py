@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
@@ -6,6 +8,10 @@ from fastapi.staticfiles import StaticFiles
 from database import create_tables, get_db
 from init_data import init_database
 from routes import auth, modules, legacy
+
+# Get the project root directory
+PROJECT_ROOT = Path(__file__).parent.parent
+FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 
 # FastAPI app
 app = FastAPI(
@@ -30,8 +36,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files (frontend build)
-app.mount("/static", StaticFiles(directory="frontend/dist"), name="static")
+# Mount static files (frontend build) - only if the directory exists
+if FRONTEND_DIST.exists():
+    app.mount("/static", StaticFiles(directory=str(FRONTEND_DIST)), name="static")
 
 # Include routers
 app.include_router(auth.router)
@@ -52,7 +59,11 @@ def startup_event():
 def root():
     # Serve the frontend index.html
     from fastapi.responses import FileResponse
-    return FileResponse("frontend/dist/index.html")
+    index_file = FRONTEND_DIST / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
+    else:
+        return {"message": "Frontend not built. Please run 'npm run build' in the frontend directory."}
 
 @app.get("/api")
 def api_root():
@@ -72,7 +83,12 @@ def catch_all(path: str):
     
     # Serve index.html for all other routes (React Router will handle them)
     from fastapi.responses import FileResponse
-    return FileResponse("frontend/dist/index.html")
+    index_file = FRONTEND_DIST / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
+    else:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="Frontend not built")
 
 if __name__ == "__main__":
     import uvicorn
