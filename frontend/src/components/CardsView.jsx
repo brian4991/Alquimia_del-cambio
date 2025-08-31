@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   ChevronLeftIcon, 
   ChevronRightIcon, 
@@ -10,13 +11,16 @@ import {
   WrenchScrewdriverIcon,
   DocumentTextIcon,
   SparklesIcon,
-  AcademicCapIcon
+  AcademicCapIcon,
+  PlayIcon
 } from '@heroicons/react/24/outline';
 import api from '../services/api';
 import RichTextEditor from './RichTextEditor';
 
-const CardsView = ({ themeId, themeName, onBack }) => {
+const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
+  const navigate = useNavigate();
   const [cards, setCards] = useState([]);
+  const [theme, setTheme] = useState(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,18 +30,23 @@ const CardsView = ({ themeId, themeName, onBack }) => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetchCards();
+    fetchThemeAndCards();
   }, [themeId]);
 
-  const fetchCards = async () => {
+  const fetchThemeAndCards = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/themes/${themeId}/cards`);
-      setCards(response.data);
+      // Fetch theme info first to get module_id
+      const themeResponse = await api.get(`/themes/${themeId}`);
+      setTheme(themeResponse.data);
+      
+      // Then fetch cards
+      const cardsResponse = await api.get(`/themes/${themeId}/cards`);
+      setCards(cardsResponse.data);
       setCurrentCardIndex(0);
     } catch (err) {
-      setError('Error loading cards');
-      console.error('Error fetching cards:', err);
+      setError('Error loading theme and cards');
+      console.error('Error fetching theme and cards:', err);
     } finally {
       setLoading(false);
     }
@@ -226,9 +235,15 @@ const CardsView = ({ themeId, themeName, onBack }) => {
               </div>
             </div>
             <div className="text-right">
-              <div className="px-4 py-2 bg-sage-light rounded-full">
-                <span className="font-inter text-white text-sm font-medium">Navegación interactiva</span>
-              </div>
+              {theme && (
+                <button
+                  onClick={() => onGoToExercises()}
+                  className="flex items-center space-x-3 px-6 py-3 gradient-sage hover:shadow-sage text-white rounded-xl font-medium transition-elegant transform hover:scale-105"
+                >
+                  <PlayIcon className="w-5 h-5" />
+                  <span className="font-inter">Ir a ejercicios</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

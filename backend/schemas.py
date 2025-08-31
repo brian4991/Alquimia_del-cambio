@@ -62,6 +62,12 @@ class ExerciseResponseRequest(BaseModel):
     exercise_id: int
     response_text: str
 
+# Sub-question response schema
+class SubQuestionResponseRequest(BaseModel):
+    exercise_id: int
+    sub_question_index: int
+    response_text: str
+
 class ExerciseResponse(BaseModel):
     id: int
     title: str
@@ -70,6 +76,7 @@ class ExerciseResponse(BaseModel):
     theme_id: int
     sub_questions: List[str] = []
     user_response: Optional[str] = None
+    sub_question_responses: dict = {}  # {index: response_text}
 
 # Module schemas
 class ModuleCreate(BaseModel):

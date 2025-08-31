@@ -74,7 +74,15 @@ const ThemeView = () => {
         // Initialize responses with existing user responses
         const initialResponses = {};
         exercisesData.forEach(exercise => {
+          // Main exercise response
           initialResponses[exercise.id] = exercise.user_response || '';
+          
+          // Sub-question responses
+          if (exercise.sub_question_responses) {
+            Object.entries(exercise.sub_question_responses).forEach(([index, response]) => {
+              initialResponses[`${exercise.id}_${index}`] = response || '';
+            });
+          }
         });
         setResponses(initialResponses);
 
@@ -236,6 +244,10 @@ const ThemeView = () => {
         themeId={parseInt(themeId)}
         themeName={theme.title}
         onBack={() => setShowCards(false)}
+        onGoToExercises={() => {
+          setShowContent(false);
+          setShowCards(false);
+        }}
       />
     );
   }

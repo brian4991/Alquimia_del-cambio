@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from starlette.responses import JSONResponse
 
 from auth import hash_password, verify_password, create_access_token, get_current_user, get_current_admin_user
@@ -191,13 +192,12 @@ def get_users_stats(
     db: Session = Depends(get_db)
 ):
     """Get general statistics about users - Admin only"""
-    from sqlalchemy import func
     
     total_users = db.query(func.count(User.id)).scalar()
     active_users = db.query(func.count(User.id)).filter(User.is_active == True).scalar()
     total_responses = db.query(func.count(UserResponseDB.id)).scalar()
     
-    # Get users with their response counts
+    # Get users with their response counts and progress
     users_with_responses = db.query(
         User.id,
         User.username,
@@ -213,6 +213,9 @@ def get_users_stats(
     
     users_data = []
     for user_data in users_with_responses:
+        # Calculate user progress
+        user_progress = get_user_progress(db, user_data.id)
+        
         users_data.append({
             "id": user_data.id,
             "username": user_data.username,
@@ -221,7 +224,8 @@ def get_users_stats(
             "provider": user_data.provider,
             "is_active": user_data.is_active,
             "created_at": user_data.created_at,
-            "response_count": user_data.response_count
+            "response_count": user_data.response_count,
+            "progress": user_progress
         })
     
     return {
@@ -231,4 +235,91 @@ def get_users_stats(
             "total_responses": total_responses
         },
         "users": users_data
+    }
+
+def get_user_progress(db: Session, user_id: int):
+    """Calculate user progress through modules, themes, and exercises"""
+    # Get user's latest response to determine current position
+    latest_response = db.query(UserResponseDB, Exercise, Theme, Module).join(
+        Exercise, UserResponseDB.exercise_id == Exercise.id
+    ).join(
+        Theme, Exercise.theme_id == Theme.id
+    ).join(
+        Module, Theme.module_id == Module.id
+    ).filter(
+        UserResponseDB.user_id == user_id
+    ).order_by(UserResponseDB.submitted_at.desc()).first()
+    
+    if not latest_response:
+        return {
+            "current_module": None,
+            "current_theme": None,
+            "current_exercise": None,
+            "completed_modules": 0,
+            "completed_themes": 0,
+            "completed_exercises": 0,
+            "total_modules": 0,
+            "total_themes": 0,
+            "total_exercises": 0,
+            "progress_percentage": 0
+        }
+    
+    response, exercise, theme, module = latest_response
+    
+    # Get total counts
+    total_modules = db.query(func.count(Module.id)).scalar()
+    total_themes = db.query(func.count(Theme.id)).scalar()
+    total_exercises = db.query(func.count(Exercise.id)).scalar()
+    
+    # Get completed counts for this user
+    completed_modules = db.query(func.count(func.distinct(Module.id))).join(
+        Theme, Module.id == Theme.module_id
+    ).join(
+        Exercise, Theme.id == Exercise.theme_id
+    ).join(
+        UserResponseDB, Exercise.id == UserResponseDB.exercise_id
+    ).filter(
+        UserResponseDB.user_id == user_id
+    ).scalar()
+    
+    completed_themes = db.query(func.count(func.distinct(Theme.id))).join(
+        Exercise, Theme.id == Exercise.theme_id
+    ).join(
+        UserResponseDB, Exercise.id == UserResponseDB.exercise_id
+    ).filter(
+        UserResponseDB.user_id == user_id
+    ).scalar()
+    
+    completed_exercises = db.query(func.count(UserResponseDB.id)).filter(
+        UserResponseDB.user_id == user_id
+    ).scalar()
+    
+    # Calculate progress percentage
+    progress_percentage = 0
+    if total_exercises > 0:
+        progress_percentage = round((completed_exercises / total_exercises) * 100, 1)
+    
+    return {
+        "current_module": {
+            "id": module.id,
+            "title": module.title,
+            "order": module.order_number
+        },
+        "current_theme": {
+            "id": theme.id,
+            "title": theme.title,
+            "order": theme.order_number
+        },
+        "current_exercise": {
+            "id": exercise.id,
+            "title": exercise.title,
+            "order": exercise.order_number
+        },
+        "completed_modules": completed_modules,
+        "completed_themes": completed_themes,
+        "completed_exercises": completed_exercises,
+        "total_modules": total_modules,
+        "total_themes": total_themes,
+        "total_exercises": total_exercises,
+        "progress_percentage": progress_percentage
     } 

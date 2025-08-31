@@ -5,9 +5,10 @@ from typing import List
 
 from auth import get_current_user, get_current_admin_user
 from database import get_db
-from models import User, Module, Theme, Exercise, UserProgress, UserResponseDB, ThemeCard
+from models import User, Module, Theme, Exercise, UserProgress, UserResponseDB, UserSubQuestionResponseDB, ThemeCard
 from schemas import (
     ModuleResponse, ThemeResponse, ExerciseResponse, ExerciseResponseRequest, 
+    SubQuestionResponseRequest,
     ThemeCardResponse, ThemeCardCreate, ThemeCardUpdate,
     ModuleCreate, ModuleUpdate, ThemeCreate, ThemeUpdate, 
     ExerciseCreate, ExerciseUpdate
@@ -86,6 +87,34 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
 # ===============================
 # THEME CARDS CRUD ROUTES
 # ===============================
+
+@router.get("/themes/{theme_id}", response_model=ThemeResponse)
+def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Get a specific theme"""
+    theme = db.query(Theme).filter(Theme.id == theme_id).first()
+    if not theme:
+        raise HTTPException(status_code=404, detail="Theme not found")
+    
+    # Check if theme is completed
+    theme_progress = db.query(UserProgress).filter(
+        UserProgress.user_id == current_user.id,
+        UserProgress.theme_id == theme.id,
+        UserProgress.completed == True
+    ).first()
+    
+    # Count total cards for this theme
+    total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
+    
+    return ThemeResponse(
+        id=theme.id,
+        title=theme.title,
+        content=theme.content,
+        order_number=theme.order_number,
+        module_id=theme.module_id,
+        is_completed=theme_progress is not None,
+        is_unlocked=True,  # We'll assume it's unlocked if they can access it
+        total_cards=total_cards
+    )
 
 @router.get("/themes/{theme_id}/cards", response_model=List[ThemeCardResponse])
 def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
@@ -176,6 +205,18 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
             UserResponseDB.exercise_id == exercise.id
         ).first()
         
+        # Get user's sub-question responses
+        sub_question_responses = db.query(UserSubQuestionResponseDB).filter(
+            UserSubQuestionResponseDB.user_id == current_user.id,
+            UserSubQuestionResponseDB.exercise_id == exercise.id
+        ).order_by(UserSubQuestionResponseDB.sub_question_index).all()
+        
+        # Create a dict for quick lookup of responses by index
+        sub_responses_dict = {
+            resp.sub_question_index: resp.response_text 
+            for resp in sub_question_responses
+        }
+        
         result.append(ExerciseResponse(
             id=exercise.id,
             title=exercise.title,
@@ -183,7 +224,8 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
             sub_questions=exercise.sub_questions or [],
             order_number=exercise.order_number,
             theme_id=exercise.theme_id,
-            user_response=user_response.response_text if user_response else None
+            user_response=user_response.response_text if user_response else None,
+            sub_question_responses=sub_responses_dict
         ))
     
     return result
@@ -211,6 +253,51 @@ def submit_response(response: ExerciseResponseRequest, current_user: User = Depe
     
     db.commit()
     return {"message": "Response submitted successfully"}
+
+@router.post("/submit-sub-question-response")
+def submit_sub_question_response(
+    response: SubQuestionResponseRequest, 
+    current_user: User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    """Submit or update response to a specific sub-question"""
+    
+    # Validate exercise exists
+    exercise = db.query(Exercise).filter(Exercise.id == response.exercise_id).first()
+    if not exercise:
+        raise HTTPException(status_code=404, detail="Exercise not found")
+    
+    # Validate sub_question_index is valid
+    if not exercise.sub_questions or response.sub_question_index >= len(exercise.sub_questions):
+        raise HTTPException(status_code=400, detail="Invalid sub-question index")
+    
+    # Check if response already exists
+    existing_response = db.query(UserSubQuestionResponseDB).filter(
+        UserSubQuestionResponseDB.user_id == current_user.id,
+        UserSubQuestionResponseDB.exercise_id == response.exercise_id,
+        UserSubQuestionResponseDB.sub_question_index == response.sub_question_index
+    ).first()
+    
+    if existing_response:
+        # Update existing response
+        existing_response.response_text = response.response_text
+        existing_response.updated_at = func.now()
+    else:
+        # Create new response
+        db_response = UserSubQuestionResponseDB(
+            user_id=current_user.id,
+            exercise_id=response.exercise_id,
+            sub_question_index=response.sub_question_index,
+            response_text=response.response_text
+        )
+        db.add(db_response)
+    
+    db.commit()
+    return {
+        "message": "Sub-question response submitted successfully",
+        "exercise_id": response.exercise_id,
+        "sub_question_index": response.sub_question_index
+    }
 
 @router.post("/complete-theme/{theme_id}")
 def complete_theme(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):

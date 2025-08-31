@@ -101,4 +101,18 @@ class UserResponseDB(Base):
     
     # Relationships
     user = relationship("User", back_populates="user_responses")
-    exercise = relationship("Exercise", back_populates="user_responses") 
+    exercise = relationship("Exercise", back_populates="user_responses")
+
+class UserSubQuestionResponseDB(Base):
+    __tablename__ = "user_sub_question_responses"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    exercise_id = Column(Integer, ForeignKey("exercises.id"), nullable=False)
+    sub_question_index = Column(Integer, nullable=False)
+    response_text = Column(Text, nullable=True)
+    submitted_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    
+    # Relationships
+    user = relationship("User")
+    exercise = relationship("Exercise") 
