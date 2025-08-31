@@ -5,6 +5,7 @@ from models import Base
 
 # Database configuration - use PostgreSQL on Railway, SQLite locally
 DATABASE_URL = os.environ.get("DATABASE_URL")
+
 if DATABASE_URL:
     # Railway PostgreSQL
     SQLALCHEMY_DATABASE_URL = DATABASE_URL
