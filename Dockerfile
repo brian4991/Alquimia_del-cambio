@@ -28,7 +28,7 @@ RUN npm run build
 WORKDIR /app
 
 # Expose port
-EXPOSE $PORT
+EXPOSE 8000
 
 # Start the application
-CMD cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+CMD cd backend && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
