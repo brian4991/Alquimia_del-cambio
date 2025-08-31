@@ -38,6 +38,12 @@ app.add_middleware(
 
 # Mount static files (frontend build) - only if the directory exists
 if FRONTEND_DIST.exists():
+    # Mount assets directory for JS/CSS files
+    assets_dir = FRONTEND_DIST / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+    
+    # Mount other static files at root level
     app.mount("/static", StaticFiles(directory=str(FRONTEND_DIST)), name="static")
 
 # Include routers
@@ -76,8 +82,13 @@ def api_root():
 # Catch-all route for React Router (SPA)
 @app.get("/{path:path}")
 def catch_all(path: str):
-    # Don't serve index.html for API routes
-    if path.startswith("api/") or path.startswith("docs") or path.startswith("openapi.json"):
+    # Don't serve index.html for API routes, static files, or assets
+    if (path.startswith("api/") or 
+        path.startswith("docs") or 
+        path.startswith("openapi.json") or
+        path.startswith("assets/") or
+        path.startswith("static/") or
+        path.endswith((".js", ".css", ".map", ".ico", ".png", ".jpg", ".jpeg", ".svg"))):
         from fastapi import HTTPException
         raise HTTPException(status_code=404, detail="Not found")
     
