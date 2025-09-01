@@ -5,7 +5,7 @@ from typing import List
 
 from auth import get_current_admin_user
 from database import get_db
-from models import User, ThemeCard, Theme
+from models import User, ThemeCard, Theme, Exercise
 from schemas import ThemeCardResponse, ThemeCardCreate, ThemeCardUpdate
 
 router = APIRouter(tags=["api"])
@@ -80,3 +80,38 @@ def delete_card(card_id: int, current_admin: User = Depends(get_current_admin_us
     db.commit()
     
     return {"message": "Card deleted successfully"}
+
+# ===============================
+# EXERCISES API ROUTES (with /api prefix)
+# ===============================
+
+@router.post("/themes/{theme_id}/exercises")
+def create_exercise(theme_id: int, exercise_data: dict, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
+    """Create a new exercise"""
+    
+    # Verify theme exists
+    theme = db.query(Theme).filter(Theme.id == theme_id).first()
+    if not theme:
+        raise HTTPException(status_code=404, detail="Theme not found")
+    
+    # Create new exercise
+    new_exercise = Exercise(
+        title=exercise_data.get('title', 'Nouvel exercice'),
+        instructions=exercise_data.get('instructions', ''),
+        sub_questions=exercise_data.get('sub_questions', '[]'),
+        order_number=exercise_data.get('order_number', 1),
+        theme_id=theme_id
+    )
+    
+    db.add(new_exercise)
+    db.commit()
+    db.refresh(new_exercise)
+    
+    return {
+        "id": new_exercise.id,
+        "title": new_exercise.title,
+        "instructions": new_exercise.instructions,
+        "sub_questions": new_exercise.sub_questions,
+        "order_number": new_exercise.order_number,
+        "theme_id": new_exercise.theme_id
+    }
