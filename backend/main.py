@@ -96,45 +96,35 @@ def get_cafe_jpg():
         return FileResponse(str(file_path))
     raise HTTPException(status_code=404, detail="File not found")
 
-# Add routes for other common static files
-@app.get("/{filename}")
-def serve_static_file(filename: str):
-    """Serve static files like images, icons, etc."""
-    from fastapi.responses import FileResponse
-    from fastapi import HTTPException
-    
-    # Only serve specific file types to avoid conflicts with API routes
-    allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico', '.webp', '.mp3', '.wav'}
-    file_ext = '.' + filename.split('.')[-1].lower() if '.' in filename else ''
-    
-    if file_ext in allowed_extensions:
-        file_path = FRONTEND_DIST / filename
-        if file_path.exists() and file_path.is_file():
-            return FileResponse(str(file_path))
-    
-    # If not a static file or doesn't exist, continue to next route
-    raise HTTPException(status_code=404, detail="File not found")
+
 
 # Catch-all route for React Router (SPA)
 @app.get("/{path:path}")
 def catch_all(path: str):
-    # Don't serve index.html for API routes, static files, or assets
+    from fastapi.responses import FileResponse
+    
+    # First, check if it's a static file request
+    allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico', '.webp', '.mp3', '.wav'}
+    if '.' in path:
+        file_ext = '.' + path.split('.')[-1].lower()
+        if file_ext in allowed_extensions:
+            file_path = FRONTEND_DIST / path
+            if file_path.exists() and file_path.is_file():
+                return FileResponse(str(file_path))
+    
+    # Don't serve index.html for API routes, docs, or assets
     if (path.startswith("api/") or 
         path.startswith("docs") or 
         path.startswith("openapi.json") or
         path.startswith("assets/") or
-        path.startswith("static/") or
-        path.endswith((".js", ".css", ".map", ".ico", ".png", ".jpg", ".jpeg", ".svg"))):
-        from fastapi import HTTPException
+        path.startswith("static/")):
         raise HTTPException(status_code=404, detail="Not found")
     
     # Serve index.html for all other routes (React Router will handle them)
-    from fastapi.responses import FileResponse
     index_file = FRONTEND_DIST / "index.html"
     if index_file.exists():
         return FileResponse(str(index_file))
     else:
-        from fastapi import HTTPException
         raise HTTPException(status_code=404, detail="Frontend not built")
 
 if __name__ == "__main__":
