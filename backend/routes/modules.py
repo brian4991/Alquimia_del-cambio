@@ -259,11 +259,20 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
             for resp in sub_question_responses
         }
         
+        # Parse sub_questions from JSON string to list
+        sub_questions = []
+        if exercise.sub_questions:
+            try:
+                import json
+                sub_questions = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
+            except:
+                sub_questions = []
+        
         result.append(ExerciseResponse(
             id=exercise.id,
             title=exercise.title,
             instructions=exercise.instructions,
-            sub_questions=exercise.sub_questions or [],
+            sub_questions=sub_questions,
             order_number=exercise.order_number,
             theme_id=exercise.theme_id,
             user_response=user_response.response_text if user_response else None,
