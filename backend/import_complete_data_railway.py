@@ -27,9 +27,17 @@ def import_complete_data_to_railway():
         return False
     
     try:
-        # Lire le fichier d'export
-        with open(export_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        # Lire le fichier d'export avec gestion d'erreurs d'encodage
+        try:
+            with open(export_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except UnicodeDecodeError:
+            print("⚠️  Erreur UTF-8, tentative avec latin-1...")
+            with open(export_file, 'r', encoding='latin-1') as f:
+                data = json.load(f)
+        except Exception as e:
+            print(f"❌ Erreur de lecture du fichier: {e}")
+            return False
         
         print(f"📁 Chargement de l'export du {data.get('export_date', 'date inconnue')}")
         print(f"📊 Données à importer:")

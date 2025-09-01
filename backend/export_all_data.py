@@ -208,7 +208,7 @@ def export_all_data():
         # === SAUVEGARDER ===
         export_file = "complete_database_export.json"
         with open(export_file, 'w', encoding='utf-8') as f:
-            json.dump(export_data, f, indent=2, ensure_ascii=False)
+            json.dump(export_data, f, indent=2, ensure_ascii=True)
         
         print(f"\n🎉 Export complet réussi!")
         print(f"📁 Fichier: {export_file}")

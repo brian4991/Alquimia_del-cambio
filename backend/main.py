@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from database import create_tables, get_db
 from init_data import init_database
-from routes import auth, modules, legacy, api, admin_import
+from routes import auth, modules, legacy, api, admin_import, create_modules
 
 # Get the project root directory
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -51,6 +51,7 @@ app.include_router(auth.router)  # No prefix for auth (OAuth routes work at root
 app.include_router(modules.router)  # No prefix for modules (to keep existing frontend working)
 app.include_router(api.router, prefix="/api")  # API prefix for card operations
 app.include_router(admin_import.router)  # Admin import routes
+app.include_router(create_modules.router)  # Create modules routes
 app.include_router(legacy.router)
 
 @app.on_event("startup")
