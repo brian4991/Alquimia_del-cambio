@@ -47,8 +47,8 @@ if FRONTEND_DIST.exists():
     app.mount("/static", StaticFiles(directory=str(FRONTEND_DIST)), name="static")
 
 # Include routers
-app.include_router(auth.router)
-app.include_router(modules.router)
+app.include_router(auth.router)  # No prefix for auth (OAuth routes work at root)
+app.include_router(modules.router, prefix="/api")  # API prefix for modules/cards/themes
 app.include_router(legacy.router)
 
 @app.on_event("startup")
