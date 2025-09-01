@@ -1,0 +1,1328 @@
+{
+  "export_date": "2025-09-01 16:49:17.186232",
+  "export_type": "complete_database",
+  "users": [
+    {
+      "id": 1,
+      "username": "brian.piorkowski1@gmail.com",
+      "email": "brian.piorkowski1@gmail.com",
+      "password_hash": "$2b$12$pkrw4Pg2.2pNGLfOaRzHrOAz5rsn4tnJbZw0RE53vnJ8Gl0qVEvZi",
+      "role": "user",
+      "provider": null,
+      "provider_id": null,
+      "is_active": true,
+      "is_validated": true,
+      "validated_modules": "\"[2, 3, 4]\"",
+      "created_at": "2025-06-01 16:41:02"
+    },
+    {
+      "id": 2,
+      "username": "admin",
+      "email": "admin@alquimiadelcambio.com",
+      "password_hash": "$2b$12$4B40zLCafnIjfzjQwFJGbe1AA0y7IdV9UBnzZIX2K4QP/katb88GO",
+      "role": "admin",
+      "provider": "local",
+      "provider_id": null,
+      "is_active": true,
+      "is_validated": false,
+      "validated_modules": "[]",
+      "created_at": "2025-08-03 20:01:58"
+    },
+    {
+      "id": 3,
+      "username": "test",
+      "email": "test@gmail.com",
+      "password_hash": "$2b$12$g8KoZ9SsBUFHgl77pQVRDuiJM3jnY2GMbtenPFdlKFhZoa.tex4ri",
+      "role": "user",
+      "provider": "local",
+      "provider_id": null,
+      "is_active": true,
+      "is_validated": true,
+      "validated_modules": "\"[]\"",
+      "created_at": "2025-08-31 17:41:09"
+    }
+  ],
+  "modules": [
+    {
+      "id": 1,
+      "title": "El Mapa de tus Emociones ",
+      "description": "Aprende a gestionar tu mundo emocional y expresar lo que sientes y necesitas.",
+      "objective": "El propósito de este módulo es que aprendas a gestionar tu mundo emocional y expresar lo que sientes y necesitas, con una mayor consciencia y asertividad.",
+      "belief_to_transform": "Expresar lo que siento me hace débil y vulnerable.",
+      "expected_results": "Logras gestionar y regular tu sentir y tus emociones. Logras escuchar tus necesidades y expresarlas con seguridad y asertividad.",
+      "recommended_book": "Inteligencia emocional de Daniel Goleman",
+      "audio_file": "modulo-1-intro.mp3",
+      "order_number": 1,
+      "is_active": true
+    },
+    {
+      "id": 2,
+      "title": "Celebra tu ser",
+      "description": "Aprende a valorarte más allá de la autoexigencia y reconocer el valor detrás de tus experiencias de logro y aprendizaje.",
+      "objective": "El propósito de este módulo es que logres ir más allá de la autoexigencia para valorar de manera profunda todo lo que eres, y reconocer el valor detrás de tus experiencias de logro y aprendizaje.",
+      "belief_to_transform": "Solo valgo por lo que hago o logro; mis imperfecciones me restan valor.",
+      "expected_results": "- Te liberas del exceso de autoexigencia y crítica personal. \n- Aprendes a valorarte y amarte sin codependencias, reconociendo todo lo que ya eres y has logrado.",
+      "recommended_book": "El poder del espejo de Louis Hay ",
+      "audio_file": "",
+      "order_number": 2,
+      "is_active": true
+    },
+    {
+      "id": 3,
+      "title": "El Arte de Amar",
+      "description": "Aprende a sostener relaciones personales asertivas y equilibrar tu individualidad para generar mayor estabilidad en tus vínculos.",
+      "objective": "El propósito de este módulo es que aprendas a sostener relaciones personales asertivas, y equilibrar tu individualidad, de tal manera que logres generar una mayor estabilidad en tus vínculos.",
+      "belief_to_transform": "Siempre elijo a las personas equivocadas, parece que estoy destinado a relaciones que no funcionan.",
+      "expected_results": "- Logras generar un equilibrio y estabilidad entre la experiencia individual (El Yo) y la experiencia relacional (El Nosotr@s). \n- Aprendes a relacionarte de manera asertiva con tus vínculos, y ser más selectiv@ con las personas que atraes a tu vida.",
+      "recommended_book": "Sieta reglas de oro para vivir en pareja de John M Gottmlan ",
+      "audio_file": "",
+      "order_number": 3,
+      "is_active": true
+    },
+    {
+      "id": 4,
+      "title": "De la expectativa a la realidad",
+      "description": "Resignifica el 'deber ser' por el 'deseo ser', yendo más allá de las expectativas externas para enfocarte y elegir lo que realmente quieres o deseas.",
+      "objective": "El propósito de este módulo es que resignifiques el 'deber ser' por el 'deseo ser', yendo más allá de las expectativas externas, para enfocarte y elegir lo que realmente quieres o deseas.",
+      "belief_to_transform": "Siempre me detengo a pensar en lo que los demás dirán, aunque me suelo negar aceptarlo, y eso no me deja hacer lo que realmente quiero.",
+      "expected_results": "- Logras ir más allá de las expectativas externas y enfocarte en lo que realmente deseas (entender qué es eso).\n- Te permites vivir una vida más alineada con lo que te entrega sentido y plenitud.",
+      "recommended_book": "Los cuatro acuardos de Miguel Ruiz ",
+      "audio_file": "",
+      "order_number": 4,
+      "is_active": true
+    },
+    {
+      "id": 5,
+      "title": "Libertad en Acción",
+      "description": "",
+      "objective": "El propósito de este módulo es ayudarte a fortalecer tu confianza interna y obtener claridad sobre tus próximos pasos, para que puedas avanzar con seguridad hacia la vida que deseas crear.",
+      "belief_to_transform": "Si no lo hago perfecto, mejor no empiezo",
+      "expected_results": "- Regulas el exceso de duda, y te permites ser una persona que acciona y avanza con lo que quiere\n- Determinas los siguientes pasos que te acercan a la vida que deseas crear (tus anhelos)\n",
+      "recommended_book": "El hombre en busca del sentido de Viktor Frankl",
+      "audio_file": "",
+      "order_number": 5,
+      "is_active": true
+    }
+  ],
+  "themes": [
+    {
+      "id": 1,
+      "title": "Explorando mi historia emocional",
+      "content": "El propósito de este tema es guiarte a través de la exploración consciente de tu historia emocional.",
+      "order_number": 1,
+      "module_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Autoconocimiento emocional profundo",
+      "content": "Profundizaremos en la identificación de tus emociones primarias y en el reconocimiento de las necesidades emocionales.",
+      "order_number": 2,
+      "module_id": 1
+    },
+    {
+      "id": 3,
+      "title": "Gestionando y expresando emociones",
+      "content": "Aprenderás a gestionar y expresar tus emociones de manera saludable y efectiva.",
+      "order_number": 3,
+      "module_id": 1
+    },
+    {
+      "id": 4,
+      "title": "Reconociendo tu valor interno",
+      "content": "Guiarte hacia una comprensión más profunda de quién eres y por qué eres valioso, independientemente de tus logros o resultados.",
+      "order_number": 1,
+      "module_id": 2
+    },
+    {
+      "id": 5,
+      "title": "Transformando la autoexigencia y perfeccionismo",
+      "content": "Cambiar tu relación con el perfeccionismo y la autoexigencia extrema para desarrollar una mentalidad más flexible, equilibrada y amable.",
+      "order_number": 2,
+      "module_id": 2
+    },
+    {
+      "id": 6,
+      "title": "Celebrar y celebrarse",
+      "content": "Aprender a reconocer tus logros, enfocarte en el proceso y desarrollar el hábito de celebrar tus avances.",
+      "order_number": 3,
+      "module_id": 2
+    },
+    {
+      "id": 7,
+      "title": "Espejos del alma",
+      "content": "Reflexionar sobre cómo tus experiencias pasadas, patrones de apego y necesidades no satisfechas influyen en tus relaciones actuales.",
+      "order_number": 1,
+      "module_id": 3
+    },
+    {
+      "id": 8,
+      "title": "Cimientos de conexión",
+      "content": "Construir bases sólidas para relaciones saludables a través del autoconocimiento, comprensión de patrones y negociación de necesidades.",
+      "order_number": 2,
+      "module_id": 3
+    },
+    {
+      "id": 9,
+      "title": "Del amor propio al amor compartido",
+      "content": "Desarrollar habilidades de comunicación consciente, resolución de conflictos y equilibrio para compartir la vida sin perder la esencia propia.",
+      "order_number": 3,
+      "module_id": 3
+    },
+    {
+      "id": 10,
+      "title": "Rompiendo barreras",
+      "content": "Identificar las barreras mentales que hemos construido, cuestionarlas y reemplazarlas por creencias que realmente nos ayuden a vivir desde nuestra autenticidad.",
+      "order_number": 1,
+      "module_id": 4
+    },
+    {
+      "id": 11,
+      "title": "Despertar auténtico",
+      "content": "Cuestionar las capas de condicionamiento, mirar hacia adentro y conectar con nuestra esencia más pura más allá de las etiquetas, expectativas y miedos.",
+      "order_number": 2,
+      "module_id": 4
+    },
+    {
+      "id": 12,
+      "title": "Mapa de acción hacia la autenticidad",
+      "content": "Desarrollar un proceso intencional para construir conscientemente una vida alineada con el verdadero ser, paso a paso.",
+      "order_number": 3,
+      "module_id": 4
+    }
+  ],
+  "theme_cards": [
+    {
+      "id": 1,
+      "title": "Explorando mi historia emocional",
+      "content": "<h1><span style=\"color: rgb(0, 0, 0);\">Punto de Partida: Explorando y Reconectando con tu Historia Emocional</span></h1><p><strong>El propósito</strong> de este tema es guiarte a través de la exploración consciente de tu historia emocional.</p><p>A lo largo de nuestra vida, vamos acumulando experiencias que moldean la forma en que sentimos, reaccionamos y gestionamos nuestras emociones.</p><p>Al reconocer los patrones emocionales y descubrir las raíces de estos, podrás comprender mejor cómo las experiencias pasadas siguen influyendo en tu presente.</p><p>Este autoconocimiento es fundamental para aprender a gestionar las emociones de manera más consciente y efectiva.</p><h2>¿Por dónde comenzar?</h2><p>Antes de empezar a profundizar en los temas, y una vez que hayas completado tu <strong>“Carta de Aceptación y Compromiso”</strong>, quiero que empecemos con dos ejercicios muy valiosos: este será tu punto de partida.</p><p>Se trata de <strong>reconectar con tu historia</strong>, esa que te ha permitido llegar hasta aquí, pero que sin duda podremos contar desde otra perspectiva.</p><p>Dirígete al <strong>Ejercicio #1: Historia</strong> y al <strong>Ejercicio 1.1: Explorando mi historia emocional</strong>, y escribe todo lo que puedas, con detalles. Las indicaciones están allá.</p><p>Esto será suficiente para el Día 1: un trabajo profundo, claro y muy renovador.</p><p><strong>Recuerda:</strong> tu carta de aceptación y compromiso es lo primero antes de comenzar.</p><p>Disfruta el viaje que te espera.</p>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-08-31 19:08:54"
+    },
+    {
+      "id": 2,
+      "title": "Introducción al Tema",
+      "content": "<h1>Punto de Partida: Reconectando con tu Historia</h1><p><strong>Antes de profundizar en los temas</strong>, y una vez completada la “Carta de Aceptación y Compromiso”, iniciaremos con un ejercicio esencial que será el punto de partida: reconectar con tu historia.</p><p>Tu historia es la que te ha permitido llegar hasta aquí, pero sin duda puede ser contada desde otra perspectiva.</p><p><br></p><h2>¿Por dónde comenzar?</h2><p>Ve al <strong>Ejercicio #1: Historia</strong> y al <strong>Ejercicio 1.1: Explorando mi historia emocional</strong> y escribe todo lo que puedas, con detalles.</p><p>Este será tu trabajo del Día 1: suficiente, poderoso y renovador.</p><p><strong>Recuerda:</strong> la carta de aceptación y compromiso es el primer paso antes de comenzar cualquier ejercicio.</p><p>Disfruta el viaje que te espera.</p>",
+      "card_type": "resources",
+      "order_number": 2,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-08-02 17:45:45"
+    },
+    {
+      "id": 3,
+      "title": "¿Qué son los Patrones Emocionales?",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Reconocer Patrones Emocionales</h1>\n\n<p>Los patrones emocionales son <strong>respuestas automáticas</strong> que repetimos en situaciones similares a lo largo de nuestra vida.</p>\n\n<p>Estas respuestas se forman a partir de nuestras primeras experiencias emocionales y las conexiones que hacemos entre emociones y eventos específicos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Ejemplos:</h2>\n\n<strong>Ejemplo 1:</strong>\n<p>Si en nuestra infancia asociamos la crítica con el miedo al rechazo, es probable que, en la vida adulta, respondamos a cualquier forma de crítica con ansiedad o inseguridad.</p>\n\n<strong>Ejemplo 2:</strong>\n<p>Si creciste en un ambiente donde la expresión emocional era reprimida, es probable que desarrolles un patrón de evitación emocional en tu vida adulta.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 3,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 4,
+      "title": "La Ciencia: Neuroplasticidad",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Base Científica</h2>\n\n<p>Desde el campo de la <strong>psicología cognitiva</strong>, se ha demostrado que nuestras emociones están en gran parte influenciadas por esquemas mentales, o \"mapas\" que desarrollamos a lo largo del tiempo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Neuroplasticidad</h3>\n\n<p>La <strong>neurociencia</strong> nos muestra que el cerebro puede cambiar sus conexiones, lo que significa que podemos \"reprogramar\" cómo reaccionamos emocionalmente a través del autoconocimiento y la práctica consciente.</p>\n\n<p>Este proceso se conoce como <strong>neuroplasticidad</strong>, y es lo que nos permite adoptar nuevas formas de gestionar nuestras emociones una vez que somos conscientes de los patrones emocionales que hemos desarrollado.</p>\n\n<p>> <strong>La buena noticia:</strong> Identificar estos patrones es esencial para desactivarlos.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 4,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-08 11:05:22"
+    },
+    {
+      "id": 5,
+      "title": "Señales de Patrones Recurrentes",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Señales de Patrones Emocionales Recurrentes:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Reacciones exageradas a ciertas situaciones</h3>\n<p>A veces, cuando alguien nos critica o dice algo que no nos gusta, podemos sentirnos muy enojados o muy tristes, incluso si lo que dijeron no era tan grave. Esto pasa porque hemos aprendido a reaccionar así en el pasado.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Sentir las mismas emociones en situaciones parecidas</h3>\n<p>Puede que te sientas frustrado o nervioso en ciertos lugares o con ciertas personas, como en el trabajo o en una reunión social. Esto ocurre porque esas situaciones te recuerdan a otras donde ya te sentiste así antes.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Evitar ciertos temas o emociones</h3>\n<p>Si hay cosas que prefieres no hablar o sentir, como el miedo o la tristeza, podrías intentar ignorarlas. En lugar de enfrentarlas, quizás optes por aislarte o discutir con los demás para no sentirte vulnerable.</p>\n\n<p>> Al identificar estos patrones, podemos empezar a comprender que nuestras emociones <strong>no siempre reflejan la realidad del presente</strong>, sino que están condicionadas por experiencias anteriores.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 5,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 6,
+      "title": "¿Qué son las Raíces Emocionales?",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Raíces Emocionales</h1>\n\n<p>Las raíces emocionales son las <strong>experiencias pasadas</strong>, a menudo en la infancia o adolescencia, que forman la base de nuestros patrones emocionales actuales.</p>\n\n<p>Estas experiencias tempranas, tanto positivas como negativas, juegan un papel crucial en el desarrollo de nuestro sistema emocional.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Teoría del Apego - John Bowlby</h2>\n\n<p>En <strong>psicología del desarrollo</strong>, el modelo del apego propuesto por John Bowlby sostiene que nuestras primeras relaciones, particularmente con los cuidadores primarios, influyen en cómo formamos relaciones y regulamos nuestras emociones en el futuro.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Ejemplo:</h3>\n<p>Si en nuestra infancia aprendimos que expresar tristeza no era aceptado o no recibía la validación necesaria, podríamos haber desarrollado una tendencia a reprimir esa emoción.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 6,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 7,
+      "title": "Impacto de las Raíces Emocionales",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Impacto de las Raíces Emocionales:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Apego inseguro</h3>\n<p>Puede generar dependencia emocional o dificultades para confiar en los demás.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Experiencias de rechazo  </h3>\n<p>Pueden llevar a una sensibilidad exagerada ante la crítica o el conflicto.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Ambientes familiares poco expresivos emocionalmente</h3>\n<p>Pueden resultar en la incapacidad de expresar necesidades emocionales de manera asertiva.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Momentos traumáticos</h3>\n<p>Pueden generar reacciones desproporcionadas ante situaciones de pérdida o estrés en la vida adulta.</p>\n\n<p>---</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El poder del autoconocimiento</h3>\n\n<p>Explorar estas raíces no solo es importante para comprender por qué reaccionamos de cierta manera, sino que también nos permite <strong>tomar el control</strong> sobre cómo queremos responder en el futuro.</p>\n\n<p>El autoconocimiento de nuestras raíces emocionales nos da el poder de cambiar nuestras narrativas emocionales y romper patrones que ya no nos sirven.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 7,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 8,
+      "title": "Conclusión del Tema 1",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Construyendo tu Fundamento Emocional</h2>\n\n<p>Este tema es el <strong>fundamento</strong> para construir un mayor entendimiento de ti mismo a nivel emocional:</p>\n\n<strong> Reconocer patrones emocionales</strong> es el primer paso para observar cómo respondes a situaciones y relaciones.\n\n<strong> Explorar raíces emocionales</strong> te permitirá entender por qué reaccionas de esa manera.\n\n<p>Con este conocimiento, comenzarás a tomar decisiones más conscientes sobre cómo gestionar tus emociones y evitarás caer en respuestas automáticas que no contribuyen a tu bienestar.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<p>Es crucial recordar que las emociones <strong>no se generan en el vacío</strong>; están profundamente conectadas a nuestra historia y a las experiencias que nos han moldeado.</p>\n\n<p>Este proceso de autoexploración te brinda una visión más clara de esas conexiones, permitiéndote tomar las riendas de tu mundo emocional con <strong>mayor comprensión y compasión</strong>.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 2 profundizaremos en el autoconocimiento emocional para identificar tus emociones primarias y reconocer tus necesidades.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 8,
+      "theme_id": 1,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 9,
+      "title": "Autoconocimiento Emocional Profundo",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 2: Autoconocimiento Emocional Profundo</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Objetivo del tema</h2>\n\n<p>En este tema, profundizaremos en la <strong>identificación de tus emociones primarias</strong> y en el <strong>reconocimiento de las necesidades emocionales</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué es crucial?</h2>\n\n<p>Es crucial entender que nuestras emociones no solo son respuestas inmediatas a los eventos, sino que también son <strong>señales</strong> que nos indican nuestras necesidades internas no satisfechas.</p>\n\n<p>Al desarrollar un mayor autoconocimiento emocional, podrás:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Identificar estas señales</li>\n<li> Actuar de manera más consciente</li>\n<li> Evitar respuestas automáticas o reactivas</li>\n\n</ul>---\n\n<p>Este proceso te permitirá responder de manera más intencional y evitar perpetuar patrones no deseados.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 2,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 10,
+      "title": "Las 6 Emociones Primarias",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Identificar Emociones Primarias</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Qué son las emociones primarias?</h2>\n\n<p>Las emociones primarias son las <strong>respuestas emocionales más básicas e instintivas</strong> que todos los seres humanos experimentan.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Las 6 emociones primarias universales:</h3>\n1. <strong>Miedo</strong>\n2. <strong>Tristeza</strong>\n3. <strong>Alegría</strong>\n4. <strong>Enojo</strong>\n5. <strong>Sorpresa</strong>\n6. <strong>Asco</strong>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">🧬 Función evolutiva</h2>\n\n<p>Estas emociones tienen una <strong>función evolutiva</strong>: nos ayudan a responder a nuestro entorno de manera rápida para sobrevivir y adaptarnos.</p>\n\n<p>Sin embargo, a menudo no estamos completamente conscientes de estas emociones, y es común que las disfrazamos o las racionalicemos en lugar de experimentarlas plenamente.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Por qué identificarlas?</h2>\n\n<p>Es importante aprender a identificar estas emociones a medida que surgen, <strong>sin juicio ni represión</strong>, ya que cada una de ellas contiene información valiosa sobre lo que necesitamos en ese momento.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 2,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 11,
+      "title": "Beneficios de Identificar Emociones",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Beneficios de identificar las emociones primarias:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Consciencia emocional</h3>\n<p>Al ser más conscientes de tus emociones primarias, puedes actuar de manera más alineada con tus valores y deseos, en lugar de reaccionar impulsivamente.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Prevención de conflictos  </h3>\n<p>Al identificar las emociones en el momento en que surgen, puedes evitar que escalen en situaciones conflictivas o dañinas.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Desarrollo de empatía</h3>\n<p>Cuando reconoces tus propias emociones, también te vuelves más empático hacia las emociones de los demás, lo que mejora las relaciones interpersonales.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Paul Ekman - Investigación</h2>\n\n<p>Según <strong>Paul Ekman</strong>, un reconocido psicólogo en el campo de las emociones, las emociones primarias son universales y están presentes en todas las culturas.</p>\n\n<p>Esto sugiere que, aunque las expresiones emocionales pueden variar entre diferentes sociedades, la experiencia interna de estas emociones es compartida por todos los seres humanos.</p>\n\n<p>Ekman también señala que identificar y regular estas emociones es fundamental para el bienestar psicológico, ya que nos permiten procesar nuestras experiencias de manera efectiva.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 3,
+      "theme_id": 2,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 12,
+      "title": "Reconocer Necesidades Emocionales",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Reconocer Necesidades Emocionales</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">El sistema de alerta emocional</h2>\n\n<p>Cada emoción primaria está conectada a una <strong>necesidad emocional</strong>. Las emociones actúan como un sistema de alerta que nos indica si nuestras necesidades están siendo satisfechas o no.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Ejemplos de conexiones:</h3>\n\n<strong> El miedo</strong> puede señalar una necesidad de seguridad\n\n<strong> La tristeza</strong> puede revelar una necesidad de apoyo o consuelo\n\n<strong> El enojo</strong> puede indicar que sentimos que se ha violado un límite importante\n\n<p>Al identificar estas necesidades, puedes empezar a tomar acciones más efectivas para satisfacerlas y evitar quedarte atrapado en ciclos emocionales insalubres.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Riesgos de ignorar las necesidades</h2>\n\n<p>El reconocimiento de las necesidades emocionales es una habilidad esencial para el autoconocimiento. Sin este reconocimiento, corremos el riesgo de malinterpretar nuestras emociones y responder de manera incorrecta a ellas.</p>\n\n<p>A menudo, cuando ignoramos nuestras necesidades, nos sentimos desbordados, desconectados de nosotros mismos y de los demás.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 4,
+      "theme_id": 2,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 13,
+      "title": "Beneficios de Reconocer Necesidades",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Beneficios de reconocer necesidades emocionales:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Satisfacción personal</h3>\n<p>Ser consciente de tus necesidades emocionales te permite satisfacerlas de manera efectiva, lo que lleva a una mayor sensación de bienestar y satisfacción.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Reducción del estrés</h3>\n<p>Al entender y abordar tus necesidades emocionales, puedes reducir la ansiedad y el estrés relacionados con la insatisfacción emocional.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Mejora en las relaciones</h3>\n<p>Reconocer tus propias necesidades emocionales también te permite comunicarte mejor con los demás y establecer relaciones más saludables y auténticas.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Carl Rogers - Teoría Humanista</h2>\n\n<strong>Carl Rogers</strong>, uno de los fundadores de la psicología humanista, destacó la importancia de las necesidades emocionales en su teoría de la \"persona completa\".\n\n<p>Rogers sostuvo que cuando las personas son conscientes de sus necesidades y trabajan activamente para satisfacerlas, tienden a ser más equilibradas y felices.</p>\n\n<p>En cambio, cuando estas necesidades se ignoran o se niegan, surgen conflictos internos y disfunciones en las relaciones.</p>\n\n<p>Investigaciones recientes en el campo de la <strong>psicología positiva</strong> sugieren que la identificación de las necesidades emocionales y la capacidad de satisfacerlas son claves para el desarrollo de resiliencia emocional.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 5,
+      "theme_id": 2,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 14,
+      "title": "Conclusión del Tema 2",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Conexión Profunda Contigo Mismo/a</h2>\n\n<p>Este tema te llevará a un nivel más profundo de conexión contigo mismo/a.</p>\n\n<p>Identificar tus emociones primarias y las necesidades emocionales que subyacen a estas es un paso crucial para entender por qué reaccionas de ciertas maneras en situaciones cotidianas y cómo puedes tomar decisiones más alineadas con tu bienestar.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Herramientas para la vida diaria</h2>\n\n<p>Al desarrollar este nivel de autoconocimiento emocional, estarás mejor equipado/a para responder de manera más intencional y saludable en tu vida diaria, creando un equilibrio emocional más sólido.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Proceso aplicable</h2>\n\n<p>En la próxima sección, te guiaré a través de ejercicios específicos que te ayudarán a poner en práctica esta identificación de emociones y el reconocimiento de tus necesidades emocionales, haciendo que el proceso de autoconocimiento sea claro y aplicable.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 3 aprenderemos técnicas concretas para gestionar y expresar nuestras emociones de manera saludable.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 6,
+      "theme_id": 2,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 15,
+      "title": "Gestionando y Expresando Emociones",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 3: Gestionando y Expresando Emociones</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El paso final hacia el dominio emocional</h2>\n\n<p>En esta última parte del módulo, nos adentraremos en cómo <strong>gestionar y expresar</strong> nuestras emociones de manera saludable y efectiva.</p>\n\n<p>Saber identificar nuestras emociones es un primer paso esencial, pero ser capaces de <strong>regularlas y expresarlas de manera asertiva</strong> es lo que realmente nos permite avanzar hacia una vida más equilibrada y consciente.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Herramientas que desarrollarás:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">Subtema 1: Técnicas de regulación emocional</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Las 7 técnicas prácticas para gestionar emociones intensas</li>\n<li>Estrategias basadas en investigación científica</li>\n<li>Aplicación en tu vida diaria</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\">Subtema 2: Comunicación asertiva</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Cómo expresar lo que sientes sin ser agresivo o pasivo</li>\n<li>Técnicas para comunicar necesidades de manera efectiva</li>\n<li>Construcción de relaciones más saludables</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\">Subtema 3: Tu caja de herramientas emocionales</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Recopilación de todas las técnicas aprendidas</li>\n<li>Organización personal de recursos</li>\n<li>Plan de mantenimiento emocional</li>\n\n</ul>---\n\n<p>Este tema te proporcionará las herramientas necesarias para gestionar las emociones más difíciles y comunicar lo que sientes y necesitas de una manera clara, respetuosa y efectiva.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 16,
+      "title": "¿Por qué Regular las Emociones?",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Técnicas de Regulación Emocional</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué es importante la regulación emocional?</h2>\n\n<p>Las emociones, especialmente las intensas, pueden ser abrumadoras si no sabemos cómo manejarlas.</p>\n\n<p>La <strong>regulación emocional</strong> es la capacidad de manejar y responder a una experiencia emocional de manera saludable.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Teoría de James Gross</h2>\n\n<p>La teoría de <strong>James Gross</strong> sobre la regulación emocional ha mostrado que quienes desarrollan esta habilidad son más capaces de:</p>\n\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Mantener relaciones interpersonales satisfactorias</li>\n<li> Tener menos niveles de estrés</li>\n<li> Gozar de mayor bienestar general</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Estrategias principales:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Reevaluación del pensamiento</h3>\n<p>Reinterpretar una situación para cambiar su impacto emocional. En lugar de ver un evento como una amenaza, puedes aprender a verlo como un desafío o una oportunidad de crecimiento.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Mindfulness y atención plena</h3>\n<p>Nos ayuda a observar nuestras emociones sin juzgarlas, reduciendo su intensidad y permitiéndonos responder con mayor claridad.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">🫁 Respiración y técnicas de relajación</h3>\n<p>El control de la respiración es muy efectivo para disminuir la activación fisiológica asociada con el estrés o la ira.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 17,
+      "title": "Técnica 1-2: Validación y Respiración",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Técnicas Prácticas para el Día a Día</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Reconoce y valida tus emociones</h3>\n\n<p>Uno de los primeros pasos en la regulación emocional es ser consciente de lo que sientes. En lugar de ignorar tus emociones o juzgarte por sentirlas, tómate un momento para reconocerlas y aceptarlas.</p>\n\n<strong> Ejemplo:</strong> Si estás frustrado después de un día difícil en el trabajo, en lugar de decir \"No debería sentirme así\", trata de decir \"Es normal sentirme frustrado después de un día así\". Esta validación te permitirá tomar decisiones más sabias sobre cómo manejar la emoción.\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2. 🫁 Practica la respiración consciente</h3>\n\n<p>Cuando sientas que una emoción intensa, como la ansiedad o la ira, está aumentando, una técnica rápida y efectiva es la respiración profunda.</p>\n\n<strong> Técnica 4-4-4:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Inhala por la nariz durante <strong>4 segundos</strong></li>\n<li>Sostén el aire por <strong>4 segundos</strong> </li>\n<li>Exhala lentamente por la boca durante <strong>4 segundos</strong></li>\n<li>Repite este ciclo <strong>3 o 4 veces</strong></li>\n\n</ul><strong> Ejemplo:</strong> Estás en una discusión con alguien cercano y notas que te estás alterando. Antes de responder impulsivamente, respira profundamente y date unos segundos para calmarte.\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 18,
+      "title": "Técnica 3-4: Etiquetado y Redirección",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Etiqueta tus emociones</h3>\n\n<p>Identificar y ponerle nombre a lo que estás sintiendo es otra forma de regulación emocional. Al etiquetar la emoción, puedes distanciarte de ella y evitar que te controle.</p>\n\n<strong> Ejemplo:</strong> En vez de decir \"Estoy molesto\", intenta ser más específico: \"Estoy molesto porque siento que no me están escuchando\". Esto te da claridad sobre lo que realmente está ocurriendo y te permite encontrar soluciones más prácticas.\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">4.  Redirige la energía de las emociones intensas</h3>\n\n<p>A veces, las emociones intensas necesitan ser canalizadas. En lugar de actuar impulsivamente, busca formas constructivas de liberar esa energía.</p>\n\n<strong> Actividades recomendadas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Practicar ejercicio</li>\n<li>Escribir en un diario</li>\n<li>Hacer una actividad creativa</li>\n\n</ul><strong> Ejemplo:</strong> Después de una conversación tensa en el trabajo o con la familia, te sientes abrumado por la frustración. En lugar de discutir más, opta por salir a caminar durante 10 minutos.\n\n<p>> <strong>Tip:</strong> Si eliges escuchar música, evita entrar a redes sociales para realmente canalizar tu emoción y no evadirla.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 19,
+      "title": "Técnica 5-7: Pensamientos, Límites y Autocuidado",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">5.  Cuida tus pensamientos</h3>\n\n<p>Nuestras emociones están fuertemente ligadas a nuestros pensamientos. Si alimentamos pensamientos negativos o catastróficos, nuestras emociones se intensificarán.</p>\n\n<strong> Reestructuración cognitiva:</strong> Identifica pensamientos limitantes y reemplázalos por otros más realistas y equilibrados.\n\n<strong> Ejemplo:</strong> Si piensas \"Nunca haré bien mi trabajo\" después de un error, intenta cambiarlo a \"Cometí un error, pero puedo aprender de él y mejorar\".\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">6.  Establece límites emocionales</h3>\n\n<p>Aprender a decir \"no\" o a poner límites con los demás también es una forma de regular tus emociones.</p>\n\n<strong> Ejemplo:</strong> Tu colega te pide que te quedes más horas en el trabajo, pero ya te sientes estresado. Puedes decir: \"Hoy no puedo, necesito descansar para rendir mejor mañana\".\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">7.  Utiliza el autocuidado como herramienta de regulación</h3>\n\n<p>Cuando cuidas de ti mismo regularmente, creas una base sólida para enfrentar los desafíos emocionales.</p>\n\n<strong> Ejemplo:</strong> Al final de una semana estresante, dedica tiempo a una actividad que disfrutes, como leer un libro, darte un baño relajante o ver una película.\n</div>",
+      "card_type": "practical",
+      "order_number": 5,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 20,
+      "title": "Comunicación Asertiva",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Comunicación Asertiva de las Necesidades</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Qué es la comunicación asertiva?</h2>\n\n<p>La comunicación asertiva es una habilidad interpersonal clave que permite expresar nuestras emociones y necesidades de manera honesta y directa, respetando al mismo tiempo los derechos y sentimientos de los demás.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Albert Ellis - Investigación</h2>\n\n<p>Según estudios del psicólogo <strong>Albert Ellis</strong>, la falta de asertividad puede llevar a la acumulación de frustración, resentimiento y conflictos interpersonales.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Características de la comunicación asertiva:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Claridad</h3>\n<p>Expresar lo que sientes y necesitas de manera directa y sin ambigüedades. En lugar de evitar el conflicto, la asertividad se enfoca en resolverlo desde la comprensión mutua.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Uso de \"Yo\" en lugar de \"Tú\"</h3>\n<p>Cuando expresamos nuestras emociones en primera persona, evitamos culpar a los demás y tomamos responsabilidad por lo que sentimos.</p>\n\n<strong> Ejemplo:</strong> \"Me siento ignorado cuando no respondes a mis mensajes\" en lugar de \"Nunca respondes a mis mensajes\".\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Equilibrio entre expresión y escucha</h3>\n<p>Ser asertivo implica no solo expresar lo que necesitas, sino también estar dispuesto a escuchar y comprender las necesidades del otro.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 6,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 21,
+      "title": "Beneficios de la Comunicación Asertiva",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Beneficios de la comunicación asertiva:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Promueve relaciones más honestas y abiertas</h3>\n<p>La comunicación asertiva fomenta un entorno de confianza y sinceridad en las relaciones.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Mejora la satisfacción personal y profesional</h3>\n<p>La asertividad está vinculada a una mayor satisfacción en las interacciones personales y en el ámbito laboral.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Reduce el malestar emocional</h3>\n<p>Al expresar las necesidades de manera clara y respetuosa, las personas asertivas experimentan menos frustración y resentimiento.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Ayuda a prevenir conflictos</h3>\n<p>La asertividad facilita una comunicación directa y constructiva, minimizando malentendidos y desacuerdos.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Aumenta la autoconfianza y disminuye la ansiedad</h3>\n<p>Las personas que se comunican asertivamente tienden a sentirse más seguras de sí mismas, lo que reduce su nivel de ansiedad en situaciones sociales o profesionales.</p>\n\n<p>---</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Ejemplo práctico:</h2>\n\n<strong>En lugar de decir:</strong> \"Nunca me escuchas\"\n\n<strong>Di:</strong> \"Me siento ignorado/a cuando no respondes a lo que te digo. ¿Podemos encontrar un momento para hablar?\"\n\n<p>Esta forma de comunicación abre el diálogo en lugar de cerrarlo.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 7,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 22,
+      "title": "Tu Caja de Herramientas Emocionales",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Construcción de tu Caja de Herramientas Emocionales</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Qué es una caja de herramientas emocionales?</h2>\n\n<p>Es una recopilación personal de técnicas, estrategias y recordatorios que puedes utilizar para gestionar tus emociones y navegar los desafíos emocionales de manera más efectiva.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Ejemplos de lo que puedes incluir:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">🫁 Técnicas de respiración</h3>\n<p>Que te ayuden a calmarte en momentos de estrés.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Recordatorios de frases asertivas</h3>\n<p>Que te ayuden a comunicarte mejor con los demás.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Un diario de emociones</h3>\n<p>Donde puedas escribir tus pensamientos y sentimientos en situaciones difíciles.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Visualizaciones</h3>\n<p>Imágenes mentales que te inspiren calma o fortaleza en momentos complicados.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Organización sugerida:</h2>\n\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Técnicas rápidas</strong> (para momentos de crisis)</li>\n<li><strong>Herramientas diarias</strong> (para mantenimiento emocional)</li>\n<li><strong>Estrategias a largo plazo</strong> (para crecimiento continuo)</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué es importante?</h2>\n\n<p>Al tener una colección clara de herramientas, sabes que siempre puedes recurrir a ellas cuando las emociones se vuelven abrumadoras. La investigación en psicología sugiere que las personas que tienen recursos concretos para gestionar el estrés son más resilientes.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 8,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 23,
+      "title": "Reflexión Final del Módulo",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El Verdadero Crecimiento Personal</h2>\n\n<p>A lo largo de este módulo, has aprendido que cada emoción tiene un propósito y un mensaje, y que no gestionarlas puede llevarnos a patrones destructivos o estancamiento emocional.</p>\n\n<p>Por eso, aprender a regularlas y expresarlas asertivamente no solo nos permite conectar mejor con los demás, sino también con nosotros mismos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El Equilibrio Emocional</h2>\n\n<p>El verdadero crecimiento personal radica en ser capaces de:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Escuchar nuestras emociones</li>\n<li> Atender nuestras necesidades  </li>\n<li> Tener el coraje de expresarlas de manera honesta y respetuosa</li>\n\n</ul>Cuando logramos este equilibrio, no solo resolvemos conflictos o reducimos el estrés; creamos un espacio para vivir de manera más auténtica, plena y consciente.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Navegando con Sabiduría</h2>\n\n<p>Recuerda, gestionar tus emociones <strong>no significa controlarlas o reprimirlas</strong>, sino aprender a navegar por ellas con sabiduría y compasión.</p>\n\n<p>La práctica continua de estas herramientas te permitirá enfrentar cualquier desafío emocional que la vida te presente, con mayor claridad y confianza.</p>\n\n<p>---</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¡Felicidades por completar el Módulo 1!</h2>\n\n<p>Has construido una base sólida para gestionar tu mundo emocional con mayor consciencia y asertividad.</p>\n</div>",
+      "card_type": "conclusion",
+      "order_number": 9,
+      "theme_id": 3,
+      "is_editable": true,
+      "created_at": "2025-06-01 16:40:21",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 24,
+      "title": "Introducción al Tema",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Reconociendo tu Valor Interno</h1>\n\n<strong>El propósito</strong> de este tema es guiarte hacia una comprensión más profunda de quién eres y por qué eres valioso, independientemente de tus logros o resultados.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué es importante?</h2>\n\n<p>Muchas veces, la sociedad nos enseña a medir nuestro valor por lo que hacemos, pero aquí aprenderás a enfocarte en lo que eres y a cultivar una relación más compasiva contigo mismo.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Identificación de fortalezas</strong></li>\n<li><strong>Una mirada al interior</strong></li>\n<li><strong>Aceptación y compasión</strong></li>\n\n</ul>El valor personal no depende de cumplir expectativas externas; surge de reconocer tus cualidades, fortalezas y singularidad como ser humano.\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 4,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 25,
+      "title": "Identificación de Fortalezas",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Identificación de Fortalezas</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Qué es el valor interno?</h2>\n\n<p>Cuando hablamos de <strong>valor interno</strong>, nos referimos a esa parte de ti que no cambia con los errores, los éxitos o las opiniones de los demás. Es el núcleo de tu identidad, el lugar donde residen tus capacidades, tus intenciones y tu potencial.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">Las fortalezas personales</h2>\n\n<p>Las fortalezas personales son esas cualidades intrínsecas que te permiten superar obstáculos, crear relaciones significativas y aportar al mundo de manera única.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El problema</h3>\n\n<p>Muchas veces, pasamos tanto tiempo enfocándonos en nuestras debilidades o errores que dejamos de ver las cualidades que ya poseemos.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El cambio de perspectiva</h3>\n\n<p>Reconocer tus fortalezas implica salir de un enfoque de \"déficit\" (donde buscas lo que falta) y entrar en un enfoque de \"reconocimiento\" (donde valoras lo que ya está).</p>\n\n<p>Este cambio es poderoso porque activa en el cerebro un estado de gratitud y confianza, lo que fortalece nuestra capacidad de enfrentar desafíos.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 4,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 26,
+      "title": "🚫 Tres Limitaciones Comunes",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tres acciones que limitan nuestras fortalezas:</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">1.  Creencias limitantes</h2>\n<p>Las creencias internas negativas, como \"no soy lo suficientemente bueno\" o \"no merezco el éxito\". Estas creencias nos hacen dudar de nuestra capacidad y nos impiden aprovechar todo nuestro potencial.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">2.  Perfeccionismo</h2>\n<p>El deseo de hacer las cosas \"perfectas\" puede ser un obstáculo. Nos centramos tanto en evitar fallos que terminamos bloqueándonos o procrastinando.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">3.  Comparación constante con los demás</h2>\n<p>Compararse continuamente con los demás puede desvalorizarnos. Al centrarnos en lo que otros tienen o hacen, perdemos de vista nuestras propias fortalezas y nos sentimos incapaces de destacar.</p>\n\n<p>---</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión importante</h2>\n\n<p>A veces, las limitaciones que sentimos no provienen de una falta de capacidad, sino de cómo hemos aprendido a vernos a nosotros mismos a lo largo del tiempo.</p>\n\n<p>Al reconocer estas creencias limitantes, podemos empezar a liberar todo nuestro potencial y actuar con confianza en nuestras verdaderas fortalezas.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 4,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 27,
+      "title": "Una Mirada al Interior",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Una Mirada al Interior</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">La metáfora de las capas</h2>\n\n<p>Imagina que cada experiencia que has vivido es como una capa sobre tu ser interior. Con el tiempo, esas capas se acumulan, formando una especie de \"coraza\" que a veces nos impide ver quiénes somos realmente en el fondo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Estas capas no son malas</h3>\n<p>Son parte de lo que nos ha formado, pero muchas veces nos desconectan de nuestra esencia y nos dificultan reconocer nuestras verdaderas fortalezas.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El primer paso: mirar hacia adentro</h2>\n\n<p>Es empezar a mirar hacia adentro con honestidad, sin juzgar lo que encontramos. Es como cuando revisamos el interior de un armario desordenado.</p>\n\n<p>Al principio, puede ser incómodo ver todo lo que hemos guardado allí: miedos, inseguridades, creencias limitantes. Pero solo cuando decidimos abrir esa puerta y mirar, podemos empezar a entender qué hay dentro y cómo eso influye en nuestra forma de vernos a nosotros mismos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Cómo hacerlo?</h2>\n\n<strong>Observa sin juzgar:</strong> Tómate un momento para ser consciente de lo que sientes y piensas, sin intentar cambiarlo inmediatamente.\n\n<strong>Diferencia entre lo que eres y lo que sientes que eres:</strong> Un concepto clave en psicología es entender que nuestras emociones no siempre reflejan la realidad. Lo que sentimos cuando nos criticamos, no siempre es lo que realmente somos.\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 4,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 28,
+      "title": "Aceptación y Compasión",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Aceptación y Compasión</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué la aceptación y compasión son clave?</h2>\n\n<strong>Aceptar</strong> no significa rendirse ante nuestras limitaciones, sino más bien reconocer nuestras áreas de crecimiento y tener la disposición de trabajarlas.\n\n<p>Es como mirar un mapa: sabemos dónde estamos, qué caminos podemos tomar y qué nos falta por recorrer, pero sin juzgar nuestra posición actual.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">🤗 La compasión</h2>\n\n<p>La <strong>compasión</strong> es el ingrediente que nos permite acercarnos a nosotros mismos con amabilidad, sobre todo cuando cometemos errores. Nos ayuda a recordar que ser humano implica equivocarse, y no por ello dejamos de ser valiosos o capaces.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Cómo practicar la aceptación y la compasión?</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Diálogo interno saludable</h3>\n<p>Cuando te enfrentes a un reto o una dificultad, observa tu voz interna. ¿Es amable o crítica? Si es negativa, intenta transformarla en algo más comprensivo.</p>\n\n<p>*En lugar de*: \"No soy capaz de hacer esto\"</p>\n<p>*Piensa*: \"Estoy aprendiendo y puedo intentar de nuevo\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  La importancia de la autocompasión</h3>\n<p>Un ejercicio muy útil es practicar la autocompasión a través de la meditación o la escritura. Cuando sientas frustración o miedo por no estar a la altura, toma unos minutos para escribir una carta a ti mismo/a, como si fueras tu propio mejor amigo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Haz las paces con la imperfección</h3>\n<p>Aceptar y practicar la compasión también implica abrazar la imperfección. Todos tenemos áreas en las que podemos mejorar, pero esto no significa que no seamos valiosos ahora mismo.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 5,
+      "theme_id": 4,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 29,
+      "title": "Conclusión del Tema 1",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Construyendo una Conexión Profunda Contigo</h2>\n\n<p>Este tema es la <strong>base</strong> para desarrollar una conexión más profunda contigo mismo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Identificar tus fortalezas:</strong> Comienzas a reconocer tus capacidades innatas y lo que te hace único.\n\n<strong>Mirar al interior:</strong> Te permite comprender las influencias pasadas que han formado tu forma de pensar y sentir.\n\n<strong>Aceptación y compasión:</strong> Son esenciales para aceptar tanto tus logros como tus imperfecciones sin juicio.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Este proceso de autoconocimiento te brinda la oportunidad de abrazar tu valor interno, facilitando decisiones más conscientes y un crecimiento personal más auténtico y empoderado.</p>\n\n<p>Al aprender a mirar al interior de manera objetiva y compasiva, puedes comenzar a ver tus fortalezas de una manera más clara y libre de las influencias del pasado.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<p>Cuando empiezas a reconocerte sin las capas de juicio, puedes ver que esas fortalezas siempre han estado allí, solo que a veces estaban cubiertas por la crítica y el perfeccionismo.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 2 aprenderemos a transformar la autoexigencia y el perfeccionismo.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 6,
+      "theme_id": 4,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 30,
+      "title": "Transformando la Autoexigencia y Perfeccionismo",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 2: Transformando la Autoexigencia y Perfeccionismo</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Objetivo del tema</h2>\n\n<p>El perfeccionismo y la autoexigencia extrema a menudo surgen del deseo de ser validados, de evitar el error o de sentirnos dignos. Sin embargo, en lugar de impulsarnos, estas tendencias suelen llevarnos a la insatisfacción constante, el agotamiento y la sensación de que nunca somos \"suficientes\".</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El cambio de mentalidad</h2>\n\n<p>Hacer un cambio de mentalidad <strong>no significa</strong> renunciar al esfuerzo o a la búsqueda de la excelencia, sino cambiar nuestra relación con ellos.</p>\n\n<p>Es aprender a:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Aceptar que el error es parte del crecimiento</li>\n<li> Reconocer que no necesitamos ser perfectos para ser valiosos</li>\n<li> Entender que la compasión hacia nosotros mismos es clave para avanzar con confianza y bienestar</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Darme cuenta de los pensamientos autocríticos</strong></li>\n<li><strong>El perfeccionismo</strong></li>\n<li><strong>Desafío de la imperfección</strong></li>\n\n</ul>Este proceso implica desaprender hábitos rígidos y construir una nueva mentalidad más flexible, equilibrada y amable.\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 5,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 31,
+      "title": "Pensamientos Autocríticos",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Darme cuenta de los Pensamientos Autocríticos</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La voz crítica interna</h2>\n\n<p>La autocrítica es como un eco constante que nos habla en la mente. A veces, esta voz crítica es tan fuerte que creemos que es nuestra propia verdad, cuando en realidad es solo un patrón aprendido.</p>\n\n<p>Si te detienes a escucharla, podrías notar que esa voz no te impulsa a mejorar, sino que te frena, te hace sentir insuficiente y puede disminuir tu confianza.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿De dónde viene?</h2>\n\n<p>La autocrítica se forma a menudo en la infancia, cuando internalizamos las expectativas de figuras autoritarias, como padres o maestros. Esos mensajes, aunque bien intencionados, se convierten en un \"guión\" que seguimos de adultos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El sesgo de negatividad</h2>\n\n<p>El cerebro tiende a enfocarse más en lo negativo, una tendencia conocida como <strong>sesgo de negatividad</strong>. Por lo tanto, la crítica constante puede reforzar la idea de que nunca somos lo suficientemente buenos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Tres recomendaciones clave:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1. Identifica la voz crítica</h3>\n<p>*Ejemplo*: Imagina que cometiste un error en el trabajo y piensas: \"Soy un desastre, nunca hago nada bien\".</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2. Cuestiónalo</h3>\n<p>¿Es esto completamente cierto? ¿Realmente nunca haces nada bien? Tal vez hayas hecho muchas cosas correctamente antes, pero este error puntual activa tu voz crítica.</p>\n\n<p>*Replantea*: \"Cometí un error, pero eso no define todo mi desempeño. Aprenderé de esto y seguiré mejorando\".</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3. Practica la autocompasión</h3>\n<p>Habla contigo mismo/a como lo harías con un amigo cercano. Reconoce tus errores sin juzgarte severamente.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 5,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 32,
+      "title": "El Perfeccionismo",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">El Perfeccionismo</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Una fuerza destructiva</h2>\n\n<p>El perfeccionismo puede ser una fuerza poderosa, pero también destructiva. A menudo se enmascara como un impulso hacia la excelencia, pero en realidad, puede ser una forma de miedo al fracaso y al rechazo.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Base psicológica</h2>\n\n<p>La psicología sugiere que el perfeccionismo se desarrolla a partir de la necesidad de aprobación externa o de sentir que debemos ser perfectos para merecer amor y aceptación.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">El problema</h3>\n<p>Esta búsqueda constante de la perfección puede dejarnos sintiéndonos insuficientes y estancados.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Efectos del perfeccionismo</h2>\n\n<p>Se asocia con:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Altos niveles de ansiedad</li>\n<li>Estrés</li>\n<li>Autoexigencia extrema</li>\n\n</ul>Es como si, a cada paso, te dijeras a ti mismo: \"Nada de esto es suficiente\".\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El ciclo destructivo</h2>\n\n<p>Las personas perfeccionistas suelen:</p>\n<p>1. Establecer estándares inalcanzables</p>\n<p>2. No alcanzar esos estándares</p>\n<p>3. Experimentar una fuerte sensación de fracaso y desilusión</p>\n<p>4. Procrastinar por temor a que el resultado nunca sea lo suficientemente bueno</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Recomendaciones prácticas:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Establece estándares realistas</h3>\n<p>Pregúntate: \"¿Esto es realmente lo mejor que puedo hacer en este momento, dadas las circunstancias?\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Aprende a disfrutar del proceso</h3>\n<p>Enfócate en el camino, no solo en el destino.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Haz pequeños actos de imperfección consciente</h3>\n<p>Realiza algo intencionalmente imperfecto para reducir la ansiedad y aceptar que lo suficiente está bien.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 3,
+      "theme_id": 5,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 33,
+      "title": "Desafío de la Imperfección",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Desafío de la Imperfección</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Un paso esencial</h2>\n\n<p>El desafío de la imperfección es un paso esencial en el proceso de liberarnos de la tiranía del perfeccionismo.</p>\n\n<p>En la psicología, entendemos que <strong>la imperfección es una parte inevitable y valiosa</strong> de la experiencia humana.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El conflicto cultural</h2>\n\n<p>Nuestra cultura a menudo nos enseña a temerla, asociándola con el fracaso, la vergüenza o la incompetencia.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El cambio de perspectiva</h3>\n<p>Si dejamos de ver la imperfección como algo negativo y la aceptamos como una oportunidad de crecimiento, podemos transformarla en una herramienta poderosa para avanzar en nuestra vida emocional.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La verdad psicológica</h2>\n\n<strong>La perfección no solo es inalcanzable, sino que puede ser perjudicial.</strong>\n\n<p>La imperfección no es sinónimo de fracaso, sino de:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Proceso</li>\n<li> Aprendizaje  </li>\n<li> Crecimiento</li>\n\n</ul>Nos permite experimentar, fallar, aprender y, lo más importante, humanizarnos.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Qué puedes hacer para aliviar el perfeccionismo:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Abraza el \"suficientemente bueno\"</h3>\n<p>En lugar de buscar siempre el \"mejor resultado\", pregúntate: \"¿Esto es lo suficientemente bueno?\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Reflexiona sobre lo que puedes aprender</h3>\n<p>Los errores no son fracasos, sino momentos de crecimiento y aprendizaje. Pregúntate: \"¿Qué puedo aprender de esto?\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Celebra los \"fracasos\"</h3>\n<p>Cambia tu narrativa: \"Aunque no salió como esperaba, he aprendido X, y eso me acerca más a mi meta\".</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">4.  Acepta tu vulnerabilidad</h3>\n<p>La imperfección está conectada con nuestra vulnerabilidad. Reconocer que no somos infalibles nos conecta con nuestra humanidad.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 5,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 34,
+      "title": "Conclusión del Tema 2",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El Desafío de la Imperfección es Liberador</h2>\n\n<p>En lugar de luchar contra lo que somos, podemos aprender a aceptar y abrazar nuestras imperfecciones.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Reconocer pensamientos autocríticos:</strong> Has aprendido a identificar y cuestionar esa voz interna que te limita.\n\n<strong>Comprender el perfeccionismo:</strong> Entiendes ahora que no es un impulso hacia la excelencia, sino un miedo disfrazado que puede paralizarte.\n\n<strong>Abrazar la imperfección:</strong> Has descubierto que la imperfección es parte natural del crecimiento humano.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Los beneficios</h2>\n\n<p>Esta aceptación nos permite:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Vivir de una manera más auténtica</li>\n<li> Ser más compasivos con nosotros mismos</li>\n<li> Enfocarnos en el proceso en lugar de estar atrapados en la meta perfecta</li>\n<li> Reducir la presión interna</li>\n<li> Disfrutar más plenamente del camino</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<strong>La verdadera riqueza de la vida radica en lo imperfecto, lo inesperado y lo genuino.</strong>\n\n<p>La perfección crea una falsa imagen de control, pero la imperfección nos conecta con nuestra vulnerabilidad y nuestra autenticidad.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 3 aprenderemos a celebrar y celebrarnos, reconociendo nuestros logros y enfocándonos en el proceso.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 5,
+      "theme_id": 5,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 35,
+      "title": "Celebrar y Celebrarse",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 3: Celebrar y Celebrarse</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Una pregunta importante</h2>\n\n<p>¿Cuándo fue la última vez que celebraste un logro, incluso si era pequeño?</p>\n\n<p>Muchas veces, estamos tan enfocados en lo que falta por hacer o en lo que creemos que no hicimos bien, que olvidamos reconocer lo lejos que hemos llegado.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> De qué trata este tema</h2>\n\n<p>Este tema trata de algo fundamental: aprender a detenerte, mirar tu esfuerzo y decir: <strong>'Lo hice bien'</strong>.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">¿Por qué es importante?</h3>\n\n<p>Celebrarte no es solo una cuestión de autoestima, es:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Un acto de amor propio</li>\n<li> Una práctica que te ayuda a mantener la motivación</li>\n<li> Una herramienta para el equilibrio emocional</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Reconocer los pequeños-grandes éxitos</strong></li>\n<li><strong>Enfoque en el proceso y esfuerzo</strong></li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> Base científica</h3>\n\n<p>Reconocer los pequeños logros combate la tendencia negativa del cerebro al activar el sistema de recompensa, que libera dopamina y refuerza el comportamiento positivo.</p>\n\n<p>Con el tiempo, este hábito te ayuda a construir una narrativa más equilibrada y saludable sobre quién eres y de lo que eres capaz.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 6,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 36,
+      "title": "Reconocer los Pequeños-Grandes Éxitos",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Reconocer los Pequeños-Grandes Éxitos</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Un cambio de perspectiva</h2>\n\n<p>Muchas veces pensamos que los logros tienen que ser extraordinarios para merecer reconocimiento, pero eso no es verdad.</p>\n\n<p>En la vida diaria, los <strong>pequeños pasos</strong> que damos hacia adelante son los que realmente construyen el camino hacia nuestras metas.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Por qué es importante?</h2>\n\n<p>Reconocer estos pequeños-grandes éxitos no es solo un acto de gratitud hacia ti mismo, sino una manera de entrenar a tu mente para enfocarse en lo que haces bien, en lugar de en lo que falta.</p>\n\n<strong>Este hábito refuerza la confianza y te motiva a seguir avanzando.</strong>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El sesgo de negatividad</h2>\n\n<p>La mente humana está predispuesta a la \"negatividad\": recordamos más los fracasos que los éxitos, porque nuestro cerebro está diseñado para detectar amenazas y prevenir errores.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">El problema</h3>\n<p>Esto puede generar una desconexión con nuestras propias capacidades, llevándonos a sentir que nunca es suficiente.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Múltiples beneficios:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Refuerzo positivo</h3>\n<p>Cuando reconocemos un logro, nuestro cerebro libera dopamina, que nos motiva a seguir trabajando con el mismo esfuerzo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Reestructuración cognitiva</h3>\n<p>Las personas autocríticas suelen centrarse más en lo que hicieron mal. Al reconocer los logros, cambiamos nuestra forma de ver las cosas.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Aumento de la autoestima</h3>\n<p>Reconocer nuestros logros fortalece nuestra autoestima al recordarnos que somos capaces de avanzar y superar retos.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">4.  Fomento de la resiliencia</h3>\n<p>Celebrar los pequeños éxitos ayuda a construir resiliencia, porque nos enseña a encontrar esperanza y satisfacción incluso en las dificultades.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">5.  Conexión con el presente</h3>\n<p>Nos ancla al presente y fomenta la práctica de la gratitud. Detenernos a celebrar lo que ya hemos conseguido nos permite disfrutar más del proceso.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 6,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 37,
+      "title": "🛤️ Enfoque en el Proceso y Esfuerzo",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Enfoque en el Proceso y Esfuerzo</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El conflicto común</h2>\n\n<p>La tendencia a medir el valor de nuestras acciones únicamente por los resultados finales es común, pero puede ser contraproducente.</p>\n\n<p>La psicología positiva nos indica que este enfoque puede limitarnos y generar frustración, especialmente cuando los objetivos son a largo plazo.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Lo que dice la ciencia</h2>\n\n<p>Según investigaciones, el enfocarse exclusivamente en los resultados:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Incrementa el estrés</li>\n<li> Reduce la satisfacción personal</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> El cambio beneficioso</h3>\n\n<p>Al centrar nuestra atención en el proceso y el esfuerzo:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Activamos el sistema de recompensa del cerebro de manera más constante</li>\n<li> Fomentamos una mayor motivación intrínseca</li>\n<li> Reducimos la ansiedad</li>\n<li> Vemos los errores como oportunidades de aprendizaje</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Recomendaciones prácticas:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Crea un ritual de autoevaluación positiva</h3>\n<p>Al final de cada día o semana, pregúntate: \"¿Qué hice hoy que me acercó a mis objetivos, aunque sea un pequeño paso?\"</p>\n\n<p>*Ejemplo*: Si estás trabajando en tu bienestar físico, puedes celebrar el hecho de haberte levantado temprano para hacer ejercicio, aunque no hayas corrido más rápido.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2. 🧩 Visualiza tus esfuerzos como piezas de un rompecabezas</h3>\n<p>Cada acción que tomas es una pieza que contribuye al cuadro más grande. No puedes ver la imagen completa hasta que todas las piezas estén en su lugar, pero cada pieza tiene un valor único.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Cambia la narrativa interna</h3>\n<p>*En lugar de*: \"Todavía no he llegado\" o \"No soy lo suficientemente bueno\"</p>\n<p>*Di*: \"Estoy construyendo algo importante, paso a paso\" o \"El simple hecho de intentarlo ya es un acto de valentía\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">4.  Aprecia los microéxitos del camino</h3>\n<p>Como alguien que aprende un instrumento: si solo se enfoca en tocar una pieza compleja perfectamente, puede desanimarse. Pero si celebra cuando sus dedos se mueven con más fluidez, comenzará a disfrutar más del proceso.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 6,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 38,
+      "title": "Conclusión del Tema 3",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La Magia del Proceso</h2>\n\n<p>Recuerda que <strong>cada pequeño paso que das es un logro en sí mismo</strong>.</p>\n\n<p>No te limites a esperar el \"gran éxito\" para sentirte orgulloso de ti.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Reconocer pequeños-grandes éxitos:</strong> Has aprendido que los pequeños avances diarios son los que realmente construyen el camino hacia tus metas.\n\n<strong>Enfocarte en el proceso:</strong> Entiendes ahora que la verdadera riqueza está en el camino, no solo en el destino.\n\n<strong>Celebrar tu esfuerzo:</strong> Has descubierto la importancia de reconocer y valorar tu trabajo constante.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Los beneficios de celebrarte:</h2>\n\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Mayor motivación intrínseca</li>\n<li> Mejor autoestima</li>\n<li> Más resiliencia ante los desafíos</li>\n<li> Conexión con el presente</li>\n<li> Narrativa interna más positiva</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<strong>Cada momento de esfuerzo, cada desafío superado, y cada lección aprendida a lo largo del camino, son pruebas de tu crecimiento y tu capacidad de seguir adelante.</strong>\n\n<p>La verdadera magia está en el proceso, no solo en el resultado final.</p>\n\n<p>Cuando te enfocas en lo que haces y en cómo lo haces, te permites:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Evolucionar</li>\n<li> Aprender</li>\n<li> Disfrutar del viaje</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Mensaje final</h2>\n\n<strong>¡Confía en el proceso y en ti mismo!</strong>\n\n<p>Sigue celebrando esos pequeños-grandes avances, porque son los que realmente te están llevando a donde deseas estar.</p>\n\n<p>---</p>\n\n<strong>¡Felicidades por completar el Módulo 2!</strong>\n\n<p>Has dado un paso importante en tu transformación personal al aprender a valorarte más allá de tus logros y a abrazar tu imperfección como parte de tu humanidad.</p>\n</div>",
+      "card_type": "conclusion",
+      "order_number": 4,
+      "theme_id": 6,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:18:53",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 39,
+      "title": "Introducción al Tema",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Espejos del Alma</h1>\n\n<strong>El propósito</strong> de este tema es invitarte a reflexionar sobre cómo tus experiencias pasadas, tus patrones de apego y tus necesidades no satisfechas influyen en tus relaciones actuales.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué es importante?</h2>\n\n<p>Comprender estas dinámicas no solo te ayuda a construir relaciones más sanas, sino que también te permite sanar partes de ti mismo que aún buscan equilibrio y conexión.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>¿De dónde vengo y a dónde voy?</strong></li>\n<li><strong>Mi estilo de apego</strong></li>\n<li><strong>Soy el adulto que necesité</strong></li>\n\n</ul>Las relaciones personales, especialmente las más cercanas, son como espejos que reflejan quiénes somos y las experiencias que hemos acumulado a lo largo de la vida.\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 7,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 40,
+      "title": "¿De dónde vengo y a dónde voy?",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">¿De dónde vengo y a dónde voy?</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿De dónde vengo?</h2>\n\n<p>Todo comienza en la <strong>infancia</strong>. Es en este período donde aprendemos nuestras primeras lecciones sobre el amor y las relaciones.</p>\n\n<p>Estas lecciones no siempre se transmiten con palabras; muchas veces, las aprendemos observando cómo nuestros cuidadores se relacionan entre sí y con nosotros.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Preguntas reflexivas:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>¿Había seguridad y calidez en esas interacciones?</li>\n<li>¿O había distancia y conflicto?</li>\n\n</ul>Estas experiencias iniciales moldean nuestras expectativas sobre las relaciones futuras.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿A dónde voy?</h2>\n\n<p>Entender cómo nuestras experiencias pasadas nos han moldeado <strong>no significa que estemos condenados a repetirlas</strong>.</p>\n\n<p>La psicología nos enseña que tenemos la capacidad de:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Elegir</li>\n<li> Cambiar  </li>\n<li> Sanar</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> El poder de la conciencia</h2>\n\n<p>Reconocer de dónde vienes no se trata de culpar a nadie, sino de <strong>comprender</strong>. Al explorar tu historia, puedes identificar patrones que ya no te sirven y que puedes cambiar.</p>\n\n<p>Tu historia no define tu destino, pero sí te ofrece valiosas pistas sobre lo que necesitas para sanar y crecer.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 7,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 41,
+      "title": "Mi estilo de apego",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Mi estilo de apego</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Qué es el estilo de apego?</h2>\n\n<p>El estilo de apego es como una <strong>\"huella emocional\"</strong> que determina cómo percibimos el amor, la confianza y la seguridad en nuestras relaciones.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Apego seguro</h2>\n<p>Si recibiste cuidado constante y amor incondicional, permites confiar en los demás, sentirte cómodo con la cercanía emocional y manejar conflictos sin miedo a perder la relación.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Apego ansioso  </h2>\n<p>Si experimentaste respuestas impredecibles de tus cuidadores, puedes sentir miedo al abandono y tender a ser muy sensible a señales de rechazo.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Apego evitativo</h2>\n<p>Si tus cuidadores fueron emocionalmente distantes, podrías haber aprendido a valerte por ti mismo y evitar la cercanía como protección del dolor.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Apego desorganizado</h2>\n<p>Surge de experiencias tempranas de trauma o abandono. Es una mezcla de deseo de cercanía y miedo a ella.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Por qué es importante conocerlo?</h2>\n\n<p>Tu estilo de apego no es un destino fijo, pero sí es un punto de partida. Entender cómo te relacionas emocionalmente te da claridad sobre patrones que podrías estar repitiendo.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 3,
+      "theme_id": 7,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 42,
+      "title": "Soy el adulto que necesité",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Soy el adulto que necesité</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Qué significa esto?</h2>\n\n<p>Ser \"el adulto que necesitaste\" significa tomar conciencia de lo que faltó en tu infancia y aprender a ofrecerte ahora aquello que siempre buscaste en los demás.</p>\n\n<p>Es un acto de <strong>amor propio</strong> y <strong>responsabilidad emocional</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reconociendo las necesidades no satisfechas</h2>\n\n<p>Cuando éramos niños, dependíamos completamente de los adultos para recibir amor, validación y protección. Si esas necesidades no se cubrieron de manera consistente, es posible que hayamos crecido con ciertas carencias emocionales.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Recomendaciones para empezar:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Valida tus emociones</h3>\n<p>Cuando sientas tristeza, enojo o miedo, reconoce lo que estás experimentando. Dite: \"Es válido sentir esto. Estoy aquí para mí.\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Crea un espacio seguro interno</h3>\n<p>Piensa en lo que un adulto cariñoso te habría dicho cuando eras niño/a para consolarte. Ahora, sé tú quien te hable con esas palabras.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Establece límites saludables</h3>\n<p>Aprender a decir \"no\" y proteger tu espacio emocional es un acto de autocuidado.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Transformando tu relación contigo mismo/a</h2>\n\n<p>Cuando comienzas a atender tus propias necesidades, algo cambia. Dejas de buscar en los demás lo que puedes darte a ti mismo/a y te relacionas desde un lugar de abundancia, no de carencia.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 7,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 43,
+      "title": "Conclusión del Tema 1",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Los Espejos del Alma</h2>\n\n<p>Entender cómo nos relacionamos con los demás comienza con mirar hacia dentro y reflexionar sobre nuestras experiencias pasadas.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>De dónde vengo y a dónde voy:</strong> Has explorado cómo tus experiencias infantiles moldearon tu forma de amar y relacionarte.\n\n<strong>Mi estilo de apego:</strong> Has identificado tu patrón de apego y cómo influye en tus relaciones actuales.\n\n<strong>Soy el adulto que necesité:</strong> Has aprendido a ser tu propio sostén emocional y a atender tus necesidades.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Al reconocer esas raíces, puedes entender por qué actúas de cierta manera en tus relaciones y empezar a cambiar los patrones que ya no te sirven.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<p>Cuando conectamos con nuestro pasado y nos damos permiso de crecer desde ahí, empezamos a construir relaciones más conscientes, equilibradas y auténticas, basadas en la seguridad y el respeto mutuo.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 2 construiremos los cimientos de conexión para relaciones más sólidas.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 5,
+      "theme_id": 7,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 44,
+      "title": "Cimientos de Conexión",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 2: Cimientos de Conexión</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Construyendo bases sólidas</h2>\n\n<p>Las relaciones saludables no surgen por azar; se construyen sobre cimientos sólidos que nos permiten conectar de manera auténtica con nosotros mismos y con los demás.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Patrones que se repiten</strong></li>\n<li><strong>Este duelo ya no me pertenece</strong></li>\n<li><strong>Negociando necesidades</strong></li>\n<li><strong>Fundamentos de bienestar</strong></li>\n<li><strong>Mi persona equilibrio</strong></li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Objetivo</h2>\n\n<p>Estos cimientos surgen del autoconocimiento, la autocomprensión y la capacidad de negociar nuestras necesidades de forma respetuosa.</p>\n\n<p>Al entender nuestros patrones, aprender a soltar lo que nos limita y equilibrar nuestras emociones, somos capaces de crear conexiones más profundas y significativas.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 45,
+      "title": "🔄 Patrones que se repiten",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Patrones que se repiten</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Por qué repetimos patrones?</h2>\n\n<p>Los patrones que repetimos en nuestras relaciones amorosas no son casualidad. A menudo, nos encontramos atrapados en ciclos sin entender por qué siempre terminamos eligiendo a las mismas personas.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿De dónde vienen?</h2>\n\n<p>Los patrones en nuestras relaciones suelen estar profundamente conectados con las experiencias de nuestra infancia, especialmente con la relación que tuvimos con nuestros cuidadores primarios.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo familiar vs. lo saludable</h3>\n\n<p>Muchas veces las personas que crecieron en un ambiente donde la seguridad emocional no era estable tienden a buscar parejas que les generen la misma sensación de incertidumbre.</p>\n\n<p>A pesar de que esta situación les causa dolor, <strong>la inseguridad se convierte en lo \"familiar\"</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Cómo podemos cambiar estos patrones?</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Reconocerlos</h3>\n<p>El primer paso es darnos cuenta de que estamos repitiendo un patrón. Pregúntate: ¿qué se repite en mis relaciones pasadas?</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Actuar diferente</h3>\n<p>Una vez conscientes, el siguiente paso es actuar de manera diferente. Cambiar nuestras elecciones, reacciones y comportamiento.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Aceptar nuestra vulnerabilidad</h3>\n<p>Romper los patrones requiere aceptar que no todo tiene que ser perfecto, y que la vulnerabilidad es una oportunidad para conectar genuinamente.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 46,
+      "title": "🕊️ Este duelo ya no me pertenece",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Este duelo ya no me pertenece</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Comprendiendo el duelo</h2>\n\n<p>El duelo es una experiencia profundamente humana que todos atravesamos. Se produce cuando perdemos algo o a alguien importante para nosotros.</p>\n\n<p>Sin embargo, a veces nos aferramos a un duelo de manera que no nos permite avanzar.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El proceso de soltar el duelo</h2>\n\n<p>El primer paso para sanar es reconocer que <strong>ese duelo ya no te pertenece</strong>. Puede ser difícil aceptar que el dolor que sientes, por más legítimo que sea, ya no es algo que debas cargar.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> ¿Cómo soltar el duelo?</h3>\n\n<strong>1.  Aceptar lo sucedido</strong>\n<p>No se trata de justificar ni minimizar el dolor, sino de permitir que la realidad sea parte de tu proceso de sanación.</p>\n\n<strong>2.  Honrar lo vivido</strong>\n<p>Honrar lo vivido no significa seguir atados al dolor. Puedes recordar lo importante sin seguir anclado en el sufrimiento.</p>\n\n<strong>3. 🤲 Dejar ir lo que no puedes controlar</strong>\n<p>No podemos cambiar el pasado, pero sí podemos decidir cómo vivir el presente y qué camino tomar en el futuro.</p>\n\n<strong>4. ⏰ Permitir el tiempo para sanar</strong>\n<p>El duelo requiere tiempo. No hay un tiempo exacto para sanar, y cada persona se toma el tiempo que necesita.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Liberar el peso del duelo no resuelto</h2>\n\n<p>Al liberarte de esos duelos no resueltos, puedes empezar a construir nuevas bases emocionales más saludables y abiertas.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 47,
+      "title": "⚖️ Negociando necesidades",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Negociando necesidades</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Qué significa negociar necesidades?</h2>\n\n<p>Negociar no significa ceder en todo, ni hacer que nuestras necesidades sean menos importantes. Se trata de aprender a comunicarlas efectivamente y encontrar puntos de acuerdo.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Identificando nuestras necesidades</h2>\n\n<p>Las necesidades pueden ser emocionales, físicas, psicológicas y sociales. Antes de negociar, necesitas conocerte: ¿Qué es lo que realmente necesito de una relación?</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Negociables vs. No negociables</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Necesidades NO negociables</h3>\n<p>Son fundamentales para el bienestar emocional y psicológico:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Respeto mutuo</li>\n<li>Honestidad</li>\n<li>Fidelidad  </li>\n<li>Comunicación abierta</li>\n<li>Seguridad emocional</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> Necesidades negociables</h3>\n<p>Son aquellas que no comprometen tu salud emocional pero pueden ser más flexibles.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La importancia de la comunicación efectiva</h2>\n\n<p>Para que nuestras necesidades sean escuchadas y respetadas, necesitamos expresarlas de manera clara, honesta y sin miedo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Recomendaciones:</h3>\n\n<strong>1.  Escucha activa</strong>\n<p>Antes de expresar tus necesidades, escucha las del otro.</p>\n\n<strong>2.  Mantén la calma</strong>\n<p>Evita gritos o acusaciones, usa un tono sereno y respetuoso.</p>\n\n<strong>3.  Sé flexible pero firme</strong>\n<p>Reconoce cuándo una necesidad puede ser negociable, pero mantente firme en lo fundamental.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 48,
+      "title": "🏛️ Fundamentos de bienestar",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Fundamentos de bienestar</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Los pilares de una relación sana</h2>\n\n<p>Lo que realmente define la calidad y estabilidad de una relación son los valores compartidos y el compromiso mutuo con el bienestar de la pareja.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> 1. Compromiso: La decisión diaria</h2>\n\n<p>El compromiso no es solo una promesa verbal, sino una <strong>elección diaria</strong> de estar presente en la relación.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> ¿Cómo se ve?</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>La persona está disponible emocionalmente</li>\n<li>Sus palabras y acciones son coherentes</li>\n<li>Ambos hacen esfuerzos para mantener la conexión</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> 2. Respeto: La base innegociable</h2>\n\n<p>Sin respeto, no hay relación sana. Amar a alguien no significa perderse en él ni tolerar faltas que dañen la dignidad propia.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> ¿Cómo se ve?</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Se comunican sin humillar ni invalidar</li>\n<li>Se sienten seguros expresando pensamientos</li>\n<li>No hay manipulación ni control</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> 3. Admiración: Ver lo mejor del otro</h2>\n\n<p>Más allá del amor y la atracción, la admiración mutua es clave en las relaciones duraderas.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> ¿Cómo se ve?</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Te inspira y motiva a crecer</li>\n<li>Valoras sus logros y apoyas sus sueños</li>\n<li>Disfrutas aprender de la otra persona</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> 4. Valores compartidos: La brújula</h2>\n\n<p>Para que una relación funcione a largo plazo, es fundamental compartir valores esenciales sobre familia, fidelidad, crecimiento personal.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 5,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 49,
+      "title": "⚖️ Mi persona equilibrio",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Mi persona equilibrio</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Elegir conscientemente</h2>\n\n<p>Es momento de aplicar todo tu conocimiento para elegir conscientemente a una pareja que te guste, pero que también te haga bien.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Superando el falso dilema</h2>\n\n<p>No se trata de elegir entre:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Lo que me gusta aunque me haga daño</li>\n<li> Lo saludable aunque no me emocione</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> La verdadera opción:</h3>\n<p>Aprender a elegir lo que te gusta <strong>en una versión equilibrada</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Cómo definir mi persona equilibrio?</h2>\n\n<p>Necesitas claridad sobre dos cosas:</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Las características que te atraen</h3>\n<p>Ejemplo: carismático, independiente, con sentido del humor</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Las características que necesitas para una relación sana</h3>\n<p>Ejemplo: comprometido, emocionalmente disponible, respetuoso</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Señales de equilibrio vs. alerta</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Señales de equilibrio:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>La persona tiene lo que te gusta sin comprometer la estabilidad</li>\n<li>Hay emoción pero también tranquilidad y confianza</li>\n<li>No tienes que esforzarte para que funcione, fluye naturalmente</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> Señales de alerta:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Tiene lo que te atrae pero ignora tus necesidades emocionales</li>\n<li>Te sientes en constante incertidumbre</li>\n<li>Tienes que justificar conductas que antes te hicieron daño</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Tu elección consciente</h2>\n\n<p>Amar no es un acto de sacrificio ni de renuncia. Es un acto de <strong>sabiduría</strong>.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 6,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 50,
+      "title": "Conclusión del Tema 2",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Construyendo Cimientos Sólidos</h2>\n\n<p>A lo largo de este tema, has explorado los cimientos que sostienen las relaciones saludables.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Patrones que se repiten:</strong> Has identificado ciclos que puedes romper para elegir conscientemente.\n\n<strong>Soltar duelos:</strong> Has aprendido a liberar el peso del pasado que ya no te pertenece.\n\n<strong>Negociar necesidades:</strong> Has desarrollado herramientas para comunicar y equilibrar lo que necesitas.\n\n<strong>Fundamentos de bienestar:</strong> Has identificado los pilares no negociables de una relación sana.\n\n<strong>Mi persona equilibrio:</strong> Has aprendido a elegir desde la sabiduría, no desde la herida.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Ya no eliges desde la herida o la repetición inconsciente, sino desde la claridad y el amor propio. Ahora tienes las herramientas para construir vínculos sanos, alineados con tu bienestar.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<p>Las relaciones no determinan tu valor, pero sí reflejan cuánto te valoras a ti mismo.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 3 aprenderemos a pasar del amor propio al amor compartido.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 7,
+      "theme_id": 8,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 51,
+      "title": "Del amor propio al amor compartido",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 3: Del amor propio al amor compartido</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El amor propio como cimiento</h2>\n\n<p>El amor propio es el cimiento sobre el cual construimos nuestras relaciones. Si no nos conocemos, valoramos y respetamos a nosotros mismos, es difícil establecer vínculos sanos con los demás.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El equilibrio esencial</h2>\n\n<p>El amor propio no significa aislamiento o autosuficiencia extrema; es el punto de partida para compartir nuestra vida sin perder nuestra esencia.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El desafío</h2>\n\n<p>Aprender a mantener el equilibrio: amar al otro sin dejar de amarnos a nosotros mismos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Comunicación consciente</strong></li>\n<li><strong>Resolución de conflictos</strong>  </li>\n<li><strong>Equilibrio: ¿cómo ser con otro?</strong></li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Habilidades clave</h2>\n\n<p>Para lograrlo, es fundamental desarrollar:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Comunicación consciente</li>\n<li>Resolución de conflictos</li>\n<li>Capacidad de compartir sin perdernos</li>\n\n</ul>El amor no se trata de dos mitades que se complementan, sino de dos personas completas que deciden caminar juntas.\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 9,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 52,
+      "title": "Comunicación consciente",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Comunicación consciente</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El puente que conecta</h2>\n\n<p>La comunicación es el puente que conecta a dos personas. No basta con hablar; es necesario aprender a expresarnos de manera clara, respetuosa y efectiva.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Problemas comunes en la comunicación:</h2>\n\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Reacciones impulsivas en lugar de respuestas reflexionadas</li>\n<li> Suposiciones en lugar de aclaraciones  </li>\n<li> Expectativas no expresadas en lugar de peticiones claras</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> 1. Hablar desde la vulnerabilidad, no desde la acusación</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Evita:</h3>\n<p>\"Nunca me prestas atención cuando hablo.\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Prueba:</h3>\n<p>\"Me siento ignorado/a cuando no me miras mientras hablo, y eso me hace sentir desconectado/a de ti.\"</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> 2. Escucha para comprender, no para responder</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> La escucha activa implica:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Hacer contacto visual y asentir</li>\n<li>No interrumpir ni apresurarse a dar consejos</li>\n<li>Repetir o parafrasear: \"Si entiendo bien, lo que te molesta es...\"</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> 3. Expresar necesidades en lugar de esperar que adivinen</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Evita:</h3>\n<p>\"Últimamente siento que no te importo.\"</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Prueba:</h3>\n<p>\"Me gustaría que planificáramos más tiempo juntos porque eso me hace sentir valorado/a.\"</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Ejemplo práctico: 'El vaso de agua'</h2>\n\n<p>Si tienes sed, en lugar de esperar que tu pareja adivine, simplemente di: \"Me encantaría un vaso de agua, ¿me lo podrías traer?\"</p>\n\n<p>Expresar necesidades claramente evita malentendidos y genera vínculos más sólidos.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 2,
+      "theme_id": 9,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 53,
+      "title": "Resolución de conflictos",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Resolución de conflictos</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El conflicto como oportunidad</h2>\n\n<p>El conflicto en una relación no es una señal de fracaso, sino una <strong>oportunidad de crecimiento</strong>. La diferencia entre una relación saludable y una destructiva está en cómo enfrentamos esos conflictos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">1.  El problema no es el conflicto, sino cómo lo manejamos</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Enfoque destructivo:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Culpar al otro: \"Nunca me prestas atención\"</li>\n<li>Evitar el problema: \"No quiero hablar de esto\"</li>\n<li>Actuar con resentimiento: Distanciarse sin resolver</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> Enfoque constructivo:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Expresar sentimientos sin culpar</li>\n<li>Escuchar con empatía</li>\n<li>Buscar una solución juntos</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">2.  Regulación emocional antes de resolver</h2>\n\n<p>Cuando una discusión se intensifica, el cerebro entra en modo de lucha o huida.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Regla de oro:</h3>\n<strong>No intentes resolver un conflicto cuando las emociones están fuera de control.</strong>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Si la discusión escala:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Pausa: \"Necesito un momento para calmarme\"</li>\n<li>Regula tu emoción: respira, camina, escribe</li>\n<li>Vuelve al diálogo con apertura</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">3.  Comunicar sin atacar</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Errores comunes:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Generalizar: \"Tú siempre... Nunca...\"</li>\n<li>Atacar: \"Eres egoísta\"</li>\n<li>Victimizarse: \"Siempre soy yo quien cede\"</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> Estrategias conscientes:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Usa frases en primera persona</li>\n<li>Pregunta antes de asumir</li>\n<li>Evita lenguaje absolutista</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">4.  Enfócate en la solución, no en ganar</h2>\n\nPregúntate: <strong>¿Prefieres tener razón o fortalecer la relación?</strong>\n\n<p>Las relaciones más fuertes no son aquellas sin problemas, sino aquellas donde ambas personas enfrentan los conflictos con consciencia y respeto.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 9,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 54,
+      "title": "⚖️ Equilibrio: ¿cómo ser con otro?",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Equilibrio: ¿cómo ser con otro?</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La pregunta esencial</h2>\n\n<p>¿Cómo llevamos el amor propio a una relación sin perder nuestra identidad ni caer en el egoísmo?</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Los desequilibrios comunes</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Fusión excesiva</h3>\n<p>Uno se pierde en el otro, dejando de lado sus propias necesidades. La relación se vuelve dependencia emocional.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Distancia excesiva  </h3>\n<p>Cada persona protege tanto su individualidad que no hay espacio para la conexión real. Relaciones frías sin cercanía.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El baile de pareja</h2>\n\n<p>Piensa en una pareja bailando. Si uno se mueve sin tomar en cuenta al otro, el baile se desordena. Pero si ambos se sincronizan, sin perder su propia expresión, el baile fluye con armonía.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Claves para encontrar el equilibrio:</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Espacio propio y compartido</h3>\n<p>Es saludable compartir tiempo juntos, pero también que cada uno tenga sus propios momentos, hobbies y amigos.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Autoconocimiento</h3>\n<p>Saber qué necesitas y qué te hace feliz antes de esperar que la relación lo haga por ti.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Comunicación clara y honesta</h3>\n<p>Expresar lo que sientes sin miedo a perder al otro.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Flexibilidad y adaptabilidad</h3>\n<p>No se trata de imponer tu forma de ser ni de ceder completamente, sino de encontrar un punto medio.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El verdadero equilibrio</h2>\n\n<p>El amor no se trata de dos mitades que se complementan, sino de <strong>dos personas completas que deciden caminar juntas</strong>.</p>\n\n<p>El verdadero equilibrio surge cuando puedes estar con alguien sin dejar de ser tú.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 9,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 55,
+      "title": "Conclusión del Tema 3",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Del Amor Propio al Amor Compartido</h2>\n\n<p>Construir una relación sana no significa perderse en el otro ni cerrarse en una independencia extrema, sino encontrar un equilibrio donde el amor propio y el amor compartido coexistan.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Comunicación consciente:</strong> Has desarrollado habilidades para expresarte con claridad y escuchar con empatía, construyendo puentes en lugar de muros.\n\n<strong>Resolución de conflictos:</strong> Has aprendido que los desacuerdos son oportunidades de crecimiento cuando se manejan con madurez y respeto.\n\n<strong>Equilibrio en la relación:</strong> Has descubierto cómo ser parte de un \"nosotros\" sin dejar de ser \"yo\", integrando tu individualidad en un espacio de amor mutuo.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Para lograrlo, es fundamental una comunicación donde podamos expresar nuestras emociones sin atacar ni reprimirnos. Aprender a gestionar desacuerdos desde la calma fortalece la conexión.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<strong>El amor sano no se trata de llenar vacíos, sino de compartir abundancia.</strong>\n\n<p>Las relaciones más sólidas no nacen de la dependencia ni de la distancia, sino de la integración de dos personas que eligen crecer juntas, respetando su individualidad y creando un espacio de amor mutuo.</p>\n\n<p>---</p>\n\n<strong>¡Felicidades por completar el Módulo 3!</strong>\n\n<p>Has aprendido el arte de amar: desde conocerte profundamente hasta elegir conscientemente y relacionarte de manera equilibrada y auténtica.</p>\n</div>",
+      "card_type": "conclusion",
+      "order_number": 5,
+      "theme_id": 9,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:30:01",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 56,
+      "title": "Introducción al Tema",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Rompiendo Barreras</h1>\n\n<strong>El propósito</strong> de este tema es identificar las barreras mentales que hemos construido, cuestionarlas y reemplazarlas por creencias que realmente nos ayuden a vivir desde nuestra autenticidad.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La reflexión fundamental</h2>\n\n<p>*\"Lo que nos detiene no es lo que somos, sino lo que creemos que somos.\"*</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">¿Por qué es importante?</h2>\n\n<p>A lo largo de nuestra vida, absorbemos creencias, normas y expectativas que moldean nuestra forma de ver el mundo. Muchas de estas ideas vienen de nuestra familia, escuela, cultura y sociedad.</p>\n\n<p>Sin darnos cuenta, terminamos actuando bajo reglas que <strong>ni siquiera hemos elegido conscientemente</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Mis acuerdos</strong> - Los contratos internos que hemos firmado</li>\n<li><strong>La voz interior a la que sirvo</strong> - Identificando nuestra narrativa interna</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Objetivo</h2>\n\n<p>El primer paso para cualquier cambio es reconocer las barreras que hemos construido, muchas veces sin darnos cuenta.</p>\n\n<p>No somos conscientes de los acuerdos internos que hemos hecho con nosotros mismos ni de las voces internas que influyen en nuestras decisiones.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 10,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 17:15:58"
+    },
+    {
+      "id": 57,
+      "title": "📜 Mis acuerdos",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Mis acuerdos</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La casa llena de contratos</h2>\n\n<p>Imagina que tu mente es como una casa llena de contratos firmados. Algunos acuerdos los hiciste de forma consciente, pero la mayoría los <strong>heredaste sin cuestionarlos</strong>.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">Algunos de esos acuerdos dicen:</h3>\n<p>\"Merezco amor y respeto.\"</p>\n<p>\"Si me equivoco, soy un fracaso.\"</p>\n<p>\"Puedo ser auténtico sin miedo.\"</p>\n<p>\"Tengo que ser como los demás esperan.\"</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La pregunta clave</h2>\n\n<p>Si un contrato ya no te sirve, ¿qué harías? Exacto, <strong>lo rompes y escribes uno nuevo</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Los Cuatro Acuerdos de Miguel Ruiz</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Sé impecable con tus palabras</h3>\n<p>Las palabras tienen un poder enorme. Ser impecable significa hablarnos con amor y respeto, tanto a nosotros mismos como a los demás.</p>\n\n<strong>Ejemplo:</strong> En lugar de \"Soy un desastre en las relaciones\", cambia a \"Estoy aprendiendo a relacionarme de una manera más sana\".\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  No te tomes nada personal</h3>\n<p>Lo que los demás dicen o hacen es un reflejo de su propia realidad, no de la nuestra.</p>\n\n<strong>Ejemplo:</strong> Si alguien critica tu trabajo, recuerda que esa opinión es de la otra persona y no define tu valor.\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  No hagas suposiciones</h3>\n<p>Muchas veces sufrimos porque asumimos lo que los demás piensan sin preguntar.</p>\n\n<strong>Ejemplo:</strong> Si un amigo no responde un mensaje, en lugar de asumir que está enojado, simplemente pregúntale si todo está bien.\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">4.  Haz siempre lo mejor que puedas</h3>\n<p>Nuestro \"mejor\" cambia según el día y nuestro estado. Lo importante es dar lo mejor según nuestras posibilidades en cada momento.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Rompiendo las barreras</h2>\n\n<p>Al aplicar estos principios, comenzamos a ver nuestra vida desde una perspectiva más libre, eligiendo conscientemente cómo queremos pensar, hablar y actuar.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 10,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 58,
+      "title": "🗣️ La voz interior a la que sirvo",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">La voz interior a la que sirvo</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La narradora constante</h2>\n\n<p>Nuestra voz interior es la narradora constante de nuestra vida. Es esa conversación interna que nunca se detiene y que define la manera en que nos percibimos a nosotros mismos y al mundo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> La pregunta fundamental:</h3>\n<p>¿Alguna vez te has detenido a escucharla con atención?</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿De dónde viene nuestra voz interior?</h2>\n\n<p>Desde pequeños, absorbemos las palabras de figuras de autoridad como nuestros padres, maestros y la sociedad en general.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">Si en la infancia escuchaste frases como:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>\"No eres suficiente.\"</li>\n<li>\"No puedes cometer errores.\"</li>\n<li>\"No hagas el ridículo.\"</li>\n\n</ul>Es posible que hoy, como adulto, repitas estas ideas en tu mente sin cuestionarlas.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El impacto en nuestras decisiones</h2>\n\n<p>La manera en que nos hablamos influye directamente en:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> Nuestra confianza</li>\n<li> Nuestras acciones  </li>\n<li> Nuestra capacidad de asumir riesgos</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\">Si nuestra voz interior está dominada por el miedo y la autocrítica, tenderemos a:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Evitar desafíos por miedo al fracaso</li>\n<li>Dudar de nuestras capacidades</li>\n<li>Procrastinar proyectos importantes</li>\n<li>Sentirnos atrapados en patrones de autosabotaje</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Transformando la voz crítica en aliada</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Identifica el tipo de voz</h3>\n<p>Durante un día, pon atención a cómo te hablas. ¿Es una voz de apoyo o de juicio?</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Cuestiona su veracidad</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>¿De dónde viene esta creencia?</li>\n<li>¿Es un pensamiento basado en hechos o en el miedo?</li>\n<li>¿Le hablaría de la misma manera a un ser querido?</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Redefine tu diálogo interno</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>\"No eres lo suficientemente bueno\" → \"Estoy aprendiendo y mejorando cada día\"</li>\n<li>\"Siempre fracaso\" → \"Cada error me acerca a una nueva oportunidad\"</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\">4.  Crea afirmaciones positivas</h3>\n<p>Escribe frases que refuercen tu confianza y repítelas diariamente.</p>\n\n<strong>Ejemplo:</strong> \"Confío en mi capacidad para tomar decisiones\".\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 10,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 59,
+      "title": "Conclusión del Tema 1",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Rompiendo las Barreras Mentales</h2>\n\n<p>Romper barreras implica darnos cuenta de que muchas de las creencias que nos limitan <strong>no son nuestras</strong>, sino que fueron aprendidas.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Mis acuerdos:</strong> Has identificado los contratos internos que ya no te sirven y aprendido los principios para crear acuerdos más saludables.\n\n<strong>La voz interior:</strong> Has comenzado a reconocer el tipo de narrativa interna que domina tu mente y cómo transformarla en una aliada.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Al aplicar los Cuatro Acuerdos y transformar tu voz interior, comenzamos a ver nuestra vida desde una perspectiva más libre.</p>\n\n<p>Elegir conscientemente cómo queremos pensar, hablar y actuar es el primer paso hacia la autenticidad.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<p>Este es un proceso que lleva tiempo, pero cada pequeño paso que damos nos acerca a una versión más auténtica y en paz con nosotros mismos.</p>\n\n<strong>La libertad comienza cuando cuestionamos lo que hemos aceptado como verdad sin examinar.</strong>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 2 despertaremos a nuestro verdadero ser auténtico.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 4,
+      "theme_id": 10,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 60,
+      "title": "Despertar auténtico",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 2: Despertar auténtico</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La reflexión de Ralph Waldo Emerson</h2>\n\n<p>*\"Ser tú mismo en un mundo que constantemente intenta hacerte otra persona es el mayor logro.\"*</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Qué es la autenticidad?</h2>\n\n<strong>La autenticidad no es algo que se encuentra, es algo que se cultiva.</strong>\n\n<p>Despertar a nuestro verdadero ser significa cuestionar esas capas de condicionamiento, mirar hacia adentro y conectar con nuestra esencia más pura.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El proceso de despertar</h2>\n\n<p>Es un proceso de exploración y desaprendizaje, que nos lleva a reconocer quiénes somos más allá de:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Las etiquetas</li>\n<li>Las expectativas  </li>\n<li>Los miedos</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtemas:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Tu verdadero ser</strong> - Diferenciando el \"yo aprendido\" del \"yo auténtico\"</li>\n<li><strong>Cultivando la autoconciencia</strong> - El puente hacia la autenticidad</li>\n<li><strong>Abrazando la vulnerabilidad</strong> - La fortaleza de mostrarse tal como somos</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> El objetivo</h2>\n\n<p>Conectar con tu esencia más allá del condicionamiento social y cultural, para vivir desde un lugar de autenticidad y coherencia interna.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 11,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 61,
+      "title": "👤 Tu verdadero ser",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tu verdadero ser</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El error más común</h2>\n\n<p>Muchas personas pasan gran parte de su vida siendo quienes <strong>\"deberían ser\"</strong> en lugar de quienes <strong>realmente son</strong>.</p>\n\n<p>Esto sucede porque desde la infancia absorbemos mensajes sobre lo que es aceptable o deseable.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La pregunta clave</h2>\n\n<strong>¿Estoy viviendo desde mi autenticidad o desde lo que me dijeron que debía ser?</strong>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La diferencia fundamental</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El \"yo aprendido\"</h3>\n<p>La versión de nosotros mismos que hemos construido para adaptarnos:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Me adapto para agradar a los demás</li>\n<li>Tomo decisiones basadas en lo que se espera de mí</li>\n<li>Busco aprobación constante</li>\n<li>Evito mostrar mis emociones o vulnerabilidad</li>\n\n</ul><h3 style=\"color: #2c3e50; margin-top: 20px;\"> El \"yo auténtico\"  </h3>\n<p>Aquella parte que existe sin esfuerzo, sin necesidad de validación externa:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Expreso lo que realmente siento y pienso</li>\n<li>Tomo decisiones alineadas con lo que deseo</li>\n<li>Confío en mi propio criterio</li>\n<li>Me permito sentir y expresarme libremente</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Señales de desconexión con el yo auténtico</h2>\n\n<p>Sensación de que constantemente estamos actuando para complacer a otros</p>\n<p>Insatisfacción o vacío a pesar de lograr objetivos externos</p>\n<p>Miedo de mostrar nuestras emociones reales</p>\n<p>Percepción de falta de dirección o sentirse \"perdidos\"</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Señales de alineación con el yo auténtico</h2>\n\n<p>Mayor claridad sobre lo que queremos y valoramos</p>\n<p>Relaciones más genuinas y significativas</p>\n<p>Sensación de paz interna al actuar desde nuestra verdad</p>\n<p>Flujo natural en nuestras decisiones y acciones</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La clave</h2>\n\n<p>Para entender quién eres realmente, primero necesitas diferenciar entre lo que has aprendido de los demás y lo que proviene de ti mismo/a.</p>\n\n<p>Despertar a tu verdadero ser es comenzar a identificar qué partes de ti se originan en el deseo de encajar y cuáles provienen de tu autenticidad.</p>\n</div>",
+      "card_type": "theory",
+      "order_number": 2,
+      "theme_id": 11,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 62,
+      "title": "Cultivando la autoconciencia",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Cultivando la autoconciencia</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El puente hacia la autenticidad</h2>\n\n<p>Vivir de manera auténtica requiere una profunda comprensión de quiénes somos más allá de nuestras experiencias y roles.</p>\n\n<p>La <strong>autoconciencia es el puente</strong> que nos permite regresar a nuestro ser genuino y vivir en coherencia con lo que realmente sentimos y valoramos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El problema: Desconexión con el verdadero ser</h2>\n\n<p>Cuando olvidamos quienes somos o no tenemos claridad de esto, se nos dificulta más conectarnos con nuestra esencia.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">Señales de desconexión:</h3>\n<p>Sensación de vacío o insatisfacción, aunque todo parezca estar \"bien\"</p>\n<p>Miedo a decepcionar a los demás al expresar nuestras verdaderas opiniones</p>\n<p>Decisiones basadas en lo que se espera de nosotros y no en lo que realmente queremos</p>\n<p>Búsqueda constante de validación externa para sentirnos valiosos</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El reconocimiento de la esencia humana</h2>\n\n<p>Para despertar la autoconciencia, es fundamental recordar que <strong>somos más que nuestros pensamientos, emociones y circunstancias</strong>.</p>\n\n<p>Somos seres espirituales teniendo una experiencia humana.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">Este reconocimiento nos permite:</h3>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li> <strong>Liberarnos del apego a la identidad social</strong>: Nuestro valor no depende de cómo nos perciben los demás</li>\n<li> <strong>Ver más allá de la mente reactiva</strong>: Identificar cuánto viene del condicionamiento y no de nuestra verdadera naturaleza</li>\n<li> <strong>Reconectar con lo que siempre hemos sido</strong>: Antes de que las expectativas del mundo nos moldearan</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> El camino de regreso: despertar la autoconciencia</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Observar sin juzgar</h3>\n<p>La autoconciencia comienza con notar nuestros pensamientos, emociones y comportamientos sin etiquetarlos como \"buenos\" o \"malos\".</p>\n\n<strong>Pregúntate:</strong> ¿De dónde vienen estas ideas sobre mí mismo/a? ¿Son realmente mías o las he aprendido de otros?\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Reconocer patrones limitantes</h3>\n<p>Identificar en qué momentos nos alejamos de nuestra autenticidad y por qué.</p>\n\n<strong>Pregúntate:</strong> ¿En qué situaciones sientes que no puedes ser tú mismo/a? ¿Qué temes que pase si lo eres?\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Diferenciar lo que deseas de lo que aprendiste a desear</h3>\n<p>Muchas veces perseguimos metas que no nos llenan porque nos enseñaron que \"eso es lo correcto\".</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Aceptar todas las partes de ti</h3>\n<p>No se trata de ser perfectos, sino de aceptar todo lo que somos con compasión y sin rechazo.</p>\n</div>",
+      "card_type": "practical",
+      "order_number": 3,
+      "theme_id": 11,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 63,
+      "title": "Abrazando la vulnerabilidad",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Abrazando la vulnerabilidad</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Vulnerabilidad = Debilidad?</h2>\n\n<p>¿Cuántas veces has sentido que mostrarte vulnerable es sinónimo de debilidad? Que si dejas que los demás vean tus miedos, tus dudas o tu dolor, podrían usarlos en tu contra.</p>\n\n<p>La sociedad nos ha enseñado que ser fuerte es \"aguantarse todo\", no llorar y siempre demostrar que tenemos el control.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> <strong>¿Y si en realidad la vulnerabilidad fuera una fortaleza?</strong></h2>\n\n<p>La psicóloga <strong>Brené Brown</strong> dice que la vulnerabilidad es el pegumento que une a las personas. Es la capacidad de mostrarnos tal y como somos, sin máscaras.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> ¿Qué nos conecta realmente?</h3>\n<p>Piensa en esto: ¿qué hace que te sientas cercano a alguien?</p>\n\n<p>Probablemente no sea que todo en su vida es perfecto, sino que ha compartido contigo sus luchas, sus emociones reales.</p>\n\n<strong>Nos conectamos más con la autenticidad que con la perfección.</strong>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Qué pasa cuando evitamos ser vulnerables?</h2>\n\n<p>Caemos en mecanismos de defensa que nos alejan de los demás y de nosotros mismos:</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> La armadura emocional</h3>\n<p>Actuamos como si nada nos afectara. \"Estoy bien, todo bien\", aunque por dentro sintamos lo contrario.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El perfeccionismo  </h3>\n<p>Creemos que si somos lo suficientemente \"buenos\", no nos rechazarán. Nos exigimos más de la cuenta.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> El distanciamiento</h3>\n<p>Evitamos la cercanía con los demás. Nos volvemos fríos o independientes en exceso.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El problema</h2>\n<p>Aunque estos mecanismos nos protejan del dolor, también nos impiden sentir amor, conexión y autenticidad.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Cómo abrazar la vulnerabilidad?</h2>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">1.  Cambia tu perspectiva</h3>\n<p>La vulnerabilidad no es un defecto, es una habilidad que nos hace más humanos.</p>\n\n<strong>Pregúntate:</strong> \"¿Qué pasaría si en lugar de esconder mi vulnerabilidad, la acepto y la comparto con quienes confío?\"\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">2.  Practica expresar lo que sientes</h3>\n<p>En vez de decir \"Nada, no pasa nada\", prueba con \"Me siento triste porque esperaba otra respuesta y no sé cómo manejarlo\".</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">3.  Rodéate de personas seguras</h3>\n<p>No todos merecen ver tu vulnerabilidad. Comparte con personas que te escuchen sin juzgar.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">4. 🤲 Atrévete a pedir ayuda</h3>\n<p>Aceptar que necesitas apoyo no te hace débil, te hace humano.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\">5.  Acepta tus imperfecciones</h3>\n<p>En lugar de castigarte por lo que no puedes controlar, date permiso de ser quien eres.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> La recompensa</h2>\n\nLa vulnerabilidad es el camino hacia la conexión, el amor y la autenticidad. <strong>No necesitas ser perfecto para ser amado, solo necesitas ser tú.</strong>\n</div>",
+      "card_type": "practical",
+      "order_number": 4,
+      "theme_id": 11,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 64,
+      "title": "Conclusión del Tema 2",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El Despertar Auténtico</h2>\n\n<p>Ser auténtico es uno de los mayores actos de valentía que podemos hacer en nuestra vida. No porque sea difícil en sí mismo, sino porque desde pequeños hemos aprendido a adaptarnos para ser aceptados.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Tu verdadero ser:</strong> Has aprendido a diferenciar entre el \"yo aprendido\" y el \"yo auténtico\", reconociendo qué partes de ti vienen del condicionamiento y cuáles de tu esencia.\n\n<strong>Cultivando la autoconciencia:</strong> Has desarrollado la capacidad de observarte sin juicio y reconectar con tu esencia más allá de las expectativas externas.\n\n<strong>Abrazando la vulnerabilidad:</strong> Has descubierto que la vulnerabilidad no es debilidad, sino el coraje de mostrarte tal como eres para crear conexiones auténticas.\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Ahora tienes las herramientas para cuestionar esas capas de condicionamiento y conectar con tu esencia más pura.</p>\n\n<p>Has aprendido que la autenticidad se cultiva a través de la autoconciencia y el coraje de ser vulnerable.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final</h2>\n\n<strong>Queremos ser fieles a nosotros mismos, pero también tememos ser rechazados o incomprendidos.</strong>\n\n<p>El despertar auténtico no está en hacer cambios radicales de la noche a la mañana, sino en aprender a alinear tus acciones con tu esencia, paso a paso.</p>\n\n<p>---</p>\n\n<strong>Próximo paso</strong>: En el Tema 3 crearemos el mapa de acción hacia una vida auténtica.\n</div>",
+      "card_type": "conclusion",
+      "order_number": 5,
+      "theme_id": 11,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 65,
+      "title": "Mapa de acción hacia la autenticidad",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Tema 3: Mapa de acción hacia la autenticidad</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El mayor acto de valentía</h2>\n\n<p>Ser auténtico es uno de los mayores actos de valentía que podemos hacer en nuestra vida. No porque sea difícil en sí mismo, sino porque desde pequeños hemos aprendido a adaptarnos para ser aceptados.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Lo que hemos aprendido</h2>\n\n<p>Nos enseñaron a:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Encajar</li>\n<li>No hacer demasiado ruido  </li>\n<li>Seguir ciertas reglas sociales sin cuestionarlas</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> El conflicto interno</h2>\n\n<p>¿Qué pasa cuando lo que la sociedad espera de ti no encaja con quién realmente eres?</p>\n\n<p>Queremos ser fieles a nosotros mismos, pero también tememos ser:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Rechazados</li>\n<li>Juzgados</li>\n<li>Incomprendidos</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> La respuesta no está en cambios radicales</h2>\n\n<strong>¿Cómo se empieza a vivir con autenticidad?</strong>\n\n<p>No está en hacer cambios radicales de la noche a la mañana, sino en <strong>aprender a alinear tus acciones con tu esencia</strong>.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\">En este tema exploraremos:</h2>\n\n<strong> Subtema:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li><strong>Construir la vida que sí quiero</strong> - Un proceso intencional hacia la autenticidad</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Objetivo final</h2>\n\n<p>Desarrollar un mapa de acción claro y práctico que te permita construir conscientemente una vida alineada con tu verdadero ser, paso a paso.</p>\n</div>",
+      "card_type": "intro",
+      "order_number": 1,
+      "theme_id": 12,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 66,
+      "title": "Construir la vida que sí quiero",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h1 style=\"color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px;\">Construir la vida que sí quiero</h1>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Cambiando la perspectiva</h2>\n\n<p>Muchas veces pensamos que nuestra vida está determinada por:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Las circunstancias</li>\n<li>Lo que nos pasó en el pasado</li>\n<li>La familia en la que nacimos</li>\n<li>Las oportunidades que tuvimos (o no tuvimos)</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> La verdad liberadora</h2>\n\n<strong>En realidad, nuestra vida se construye día a día, con cada decisión, con cada pequeño paso que tomamos.</strong>\n\n<p>Construir la vida que sí queremos no es un acto de suerte ni algo que ocurre de repente. Es un <strong>proceso intencional</strong>, un camino que requiere:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Claridad</li>\n<li>Compromiso  </li>\n<li>Acción</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> ¿Por qué a veces no elegimos la vida que queremos?</h2>\n\n<p>Muchas veces vivimos en <strong>\"piloto automático\"</strong>, atrapados en una rutina que no elegimos del todo.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Creencias limitantes</h3>\n<p>Pensamos cosas como \"no soy suficiente\", \"es demasiado tarde para cambiar\" o \"eso no es para mí\".</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Miedo al cambio</h3>\n<p>Aunque no estemos felices con nuestra vida actual, al menos es familiar. A veces nos quedamos donde estamos porque nos da miedo lo desconocido.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Expectativas externas  </h3>\n<p>La sociedad, la familia y los amigos opinan sobre lo que deberíamos hacer. Tomamos decisiones para complacerlos en lugar de pensar en lo que realmente queremos.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Falta de claridad</h3>\n<p>Sentimos que algo no está bien en nuestra vida, pero no sabemos exactamente qué cambiar o hacia dónde ir.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Pequeñas acciones, grandes cambios</h2>\n\n<strong>Construir la vida que quieres no significa cambiarlo todo de golpe.</strong>\n\n<p>No necesitas dejar tu trabajo, mudarte de país o tomar una decisión radical de un día para otro. Los cambios más importantes comienzan con pequeños pasos.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Ejemplos prácticos:</h3>\n\n<strong>Si quieres más tranquilidad:</strong>\n<p>→ Empieza por crear momentos de calma en tu día</p>\n\n<strong>Si quieres mejores relaciones:</strong>\n<p>→ Empieza a poner límites a quienes te desgastan</p>\n\n<strong>Si quieres cambiar de trabajo:</strong>\n<p>→ Investiga opciones, actualiza tu CV o toma un curso</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> No necesitas tenerlo todo claro para empezar</h2>\n\n<p>Lo que realmente transforma la vida es la capacidad de dar un paso, luego otro, y otro más.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Ejemplo inspirador</h2>\n\n<p>Imagina a alguien que ha pasado años en un trabajo que no le gusta, pero que no se atreve a salir porque le da miedo no encontrar algo mejor.</p>\n\n<strong>Un día decide hacer algo pequeño:</strong>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Se inscribe en un curso</li>\n<li>Actualiza su currículum  </li>\n<li>Habla con alguien que trabaja en un área que le interesa</li>\n\n</ul><strong>Ese paso le da confianza.</strong> Poco a poco, empieza a ver nuevas oportunidades. Meses después, consigue un trabajo que le apasiona.\n\n<strong>No cambió todo en un día, pero comenzó a moverse en la dirección correcta.</strong>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Paso de acción</h2>\n\n<strong>La vida que sí quieres no es un sueño imposible. Es algo que se construye con cada decisión que tomas.</strong>\n\nNo importa cuánto tiempo hayas pasado en un camino que no te hace feliz. <strong>Siempre puedes elegir moverte hacia algo que realmente resuene contigo.</strong>\n\n<strong>No esperes el momento perfecto. Empieza hoy. Un paso, una elección, un cambio a la vez.</strong>\n</div>",
+      "card_type": "practical",
+      "order_number": 2,
+      "theme_id": 12,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    },
+    {
+      "id": 67,
+      "title": "Conclusión del Tema 3",
+      "content": "<div style=\"color: black; font-family: Arial, sans-serif; line-height: 1.6;\">\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> Tu Mapa Hacia la Autenticidad</h2>\n\n<p>Has completado el proceso de crear tu mapa de acción hacia una vida más auténtica y alineada con tu verdadero ser.</p>\n\n<h3 style=\"color: #2c3e50; margin-top: 20px;\"> Lo que has aprendido:</h3>\n\n<strong>Construir la vida que sí quieres:</strong> Has comprendido que la vida no está determinada por las circunstancias, sino que se construye día a día con cada decisión consciente que tomas.\n\n<p>Has identificado las barreras que te impedían elegir conscientemente (creencias limitantes, miedo al cambio, expectativas externas, falta de claridad) y has aprendido que los cambios más duraderos comienzan con pequeños pasos.</p>\n\n<h2 style=\"color: #2c3e50; margin-top: 25px;\"> El resultado</h2>\n\n<p>Ahora tienes claridad sobre:</p>\n<ul style=\"list-style-type: disc; margin-left: 20px;\"><li>Qué es lo que realmente quieres en tu vida</li>\n<li>Cómo comenzar a moverte hacia esa visión  </li>\n<li>La importancia de actuar paso a paso, sin esperar el momento perfecto</li>\n\n</ul><h2 style=\"color: #2c3e50; margin-top: 25px;\"> Reflexión Final del Módulo</h2>\n\n<strong>Has aprendido a resignificar el \"deber ser\" por el \"deseo ser\".</strong>\n\n<p>Ya no vives atrapado en las expectativas externas ni en el miedo al \"qué dirán\". Tienes el derecho y la capacidad de vivir según tus propios deseos y valores.</p>\n\n<p>Cuando actúas desde tu autenticidad, atraes a las personas y oportunidades alineadas contigo. Confías en tu voz interna y en tu capacidad de elegir lo que realmente te hace feliz.</p>\n\n<strong>La vida auténtica no es un destino, es una forma de caminar. Cada día puedes elegir dar un paso más hacia quien realmente eres.</strong>\n\n<p>---</p>\n\n<strong>¡Felicidades por completar el Módulo 4!</strong>\n\n<p>Has transformado la creencia \"Siempre me detengo a pensar en lo que los demás dirán\" por \"Tengo el derecho de vivir según mis propios deseos y valores\".</p>\n</div>",
+      "card_type": "conclusion",
+      "order_number": 3,
+      "theme_id": 12,
+      "is_editable": true,
+      "created_at": "2025-06-03 16:39:43",
+      "updated_at": "2025-06-03 16:55:24"
+    }
+  ],
+  "exercises": [
+    {
+      "id": 1,
+      "title": "Historia y Exploración Emocional",
+      "instructions": "Escribe con sinceridad y detalle. No hay respuestas correctas o incorrectas. Este es un espacio seguro para explorar tu historia.",
+      "sub_questions": "[\"Describe tu historia emocional desde la infancia hasta ahora. \\u00bfQu\\u00e9 eventos o relaciones han marcado tu forma de sentir y expresar emociones?\", \"test\", \"test\"]",
+      "order_number": 1,
+      "theme_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Reconociendo Patrones Emocionales",
+      "instructions": "Reflexiona sobre situaciones recurrentes y tus respuestas automáticas. Identifica al menos 3 patrones emocionales.",
+      "sub_questions": "[\"\\u00bfQu\\u00e9 patrones emocionales reconoces en ti? \\u00bfEn qu\\u00e9 situaciones o con qu\\u00e9 personas tiendes a reaccionar de manera similar?\"]",
+      "order_number": 2,
+      "theme_id": 1
+    },
+    {
+      "id": 3,
+      "title": "Raíces Emocionales",
+      "instructions": "Explora con compasión las experiencias que te han formado. Recuerda que el objetivo es comprender, no juzgar.",
+      "sub_questions": "[\"\\u00bfCu\\u00e1les crees que son las ra\\u00edces de tus principales patrones emocionales? \\u00bfQu\\u00e9 experiencias tempranas pueden haber influido en c\\u00f3mo manejas tus emociones hoy?\"]",
+      "order_number": 3,
+      "theme_id": 1
+    },
+    {
+      "id": 4,
+      "title": "Identificar Emociones Primarias",
+      "instructions": "Anota al menos una emoción por día con el contexto en que apareció. Sé específico sobre la situación y la intensidad de la emoción.",
+      "sub_questions": "[\"Durante una semana, lleva un registro de tus emociones primarias (miedo, tristeza, alegr\\u00eda, enojo, sorpresa, asco). \\u00bfCu\\u00e1les experimentas m\\u00e1s frecuentemente y en qu\\u00e9 contextos?\"]",
+      "order_number": 1,
+      "theme_id": 2
+    },
+    {
+      "id": 5,
+      "title": "Reconocer Necesidades Emocionales",
+      "instructions": "Conecta cada emoción con su necesidad subyacente. Por ejemplo: enojo = necesidad de respeto, tristeza = necesidad de consuelo.",
+      "sub_questions": "[\"Para cada emoci\\u00f3n que identificaste en el ejercicio anterior, preg\\u00fantate: \\u00bfQu\\u00e9 necesidad emocional me est\\u00e1 se\\u00f1alando esta emoci\\u00f3n? \\u00bfQu\\u00e9 requiero en este momento?\"]",
+      "order_number": 2,
+      "theme_id": 2
+    },
+    {
+      "id": 6,
+      "title": "Plan para Satisfacer Necesidades",
+      "instructions": "Sé específico y realista. Define acciones concretas que puedes implementar en tu vida diaria para satisfacer tus necesidades emocionales.",
+      "sub_questions": "[\"Crea un plan concreto para satisfacer las necesidades emocionales que identificaste. \\u00bfQu\\u00e9 acciones espec\\u00edficas puedes tomar para atender mejor tus necesidades?\"]",
+      "order_number": 3,
+      "theme_id": 2
+    },
+    {
+      "id": 7,
+      "title": "Técnicas de Regulación Emocional",
+      "instructions": "Elige al menos 3 técnicas que consideres más útiles para ti y explica cómo las implementarías en situaciones específicas de tu vida.",
+      "sub_questions": "[\"De las 7 t\\u00e9cnicas de regulaci\\u00f3n emocional presentadas, \\u00bfcu\\u00e1les resuenan m\\u00e1s contigo? Describe una situaci\\u00f3n reciente donde podr\\u00edas haber aplicado una de estas t\\u00e9cnicas.\"]",
+      "order_number": 1,
+      "theme_id": 3
+    },
+    {
+      "id": 8,
+      "title": "Comunicación Asertiva",
+      "instructions": "Usa las técnicas de comunicación asertiva: habla en primera persona, sé claro y directo, respeta al otro. Practica el nuevo diálogo.",
+      "sub_questions": "[\"Piensa en una situaci\\u00f3n reciente donde no expresaste una necesidad o emoci\\u00f3n importante. \\u00bfC\\u00f3mo podr\\u00edas haber comunicado esto de manera asertiva? Reescribe la conversaci\\u00f3n.\"]",
+      "order_number": 2,
+      "theme_id": 3
+    },
+    {
+      "id": 9,
+      "title": "Mi Caja de Herramientas Emocionales",
+      "instructions": "Organiza tu caja en categorías: técnicas rápidas (para crisis), herramientas diarias (mantenimiento), estrategias a largo plazo (crecimiento). Incluye al menos 2 elementos por categoría.",
+      "sub_questions": "[\"Crea tu caja de herramientas emocionales personal. \\u00bfQu\\u00e9 t\\u00e9cnicas, frases, recordatorios o actividades incluir\\u00edas para gestionar mejor tus emociones?\"]",
+      "order_number": 3,
+      "theme_id": 3
+    },
+    {
+      "id": 10,
+      "title": "Mi valor",
+      "instructions": "Reflexiona profundamente sobre tus capacidades innatas, tus intenciones y tu potencial. Recuerda que el valor personal no depende de cumplir expectativas externas, sino de reconocer tus cualidades únicas como ser humano. Escribe con detalle sobre cada fortaleza y cómo la has demostrado en tu vida.",
+      "sub_questions": "[\"\\u00bfCu\\u00e1les son tus principales fortalezas personales? Identifica al menos 5 cualidades que te permiten superar obst\\u00e1culos y crear relaciones significativas.\"]",
+      "order_number": 1,
+      "theme_id": 4
+    },
+    {
+      "id": 11,
+      "title": "Identificación de fortalezas",
+      "instructions": "Analiza honestamente cómo estas limitaciones han impactado tu capacidad de reconocer tus fortalezas. Para cada limitación que identifiques, escribe ejemplos específicos de situaciones donde la has experimentado y cómo te ha afectado.",
+      "sub_questions": "[\"\\u00bfCu\\u00e1les de las tres limitaciones comunes (creencias limitantes, perfeccionismo, comparaci\\u00f3n con otros) reconoces m\\u00e1s en ti? Describe c\\u00f3mo te han afectado.\"]",
+      "order_number": 2,
+      "theme_id": 4
+    },
+    {
+      "id": 12,
+      "title": "Una mirada al interior",
+      "instructions": "Este ejercicio requiere introspección profunda. Tómate tiempo para mirar hacia adentro sin juzgar lo que encuentras. Diferencia entre lo que sientes que eres y lo que realmente eres. Describe tu núcleo auténtico, libre de las influencias externas y autocríticas.",
+      "sub_questions": "[\"Imagina que puedes quitar las 'capas' de experiencias que han cubierto tu ser interior. \\u00bfQu\\u00e9 encuentras debajo? \\u00bfCu\\u00e1l es tu esencia verdadera?\"]",
+      "order_number": 3,
+      "theme_id": 4
+    },
+    {
+      "id": 13,
+      "title": "Aceptación y compasión",
+      "instructions": "Practica la autocompasión escribiendo esta carta con amabilidad genuina. Reconoce tus esfuerzos, valida tus sentimientos y recuerda que está bien no ser perfecto. Incluye palabras de aliento y comprensión que normalmente darías a alguien que amas incondicionalmente.",
+      "sub_questions": "[\"Escribe una carta a ti mismo/a como si fueras tu mejor amigo. \\u00bfQu\\u00e9 le dir\\u00edas para mostrar aceptaci\\u00f3n y compasi\\u00f3n por sus imperfecciones?\"]",
+      "order_number": 4,
+      "theme_id": 4
+    },
+    {
+      "id": 14,
+      "title": "Perfectamente imperfect@",
+      "instructions": "Reflexiona sobre los costos emocionales del perfeccionismo en tu vida. Analiza cómo el miedo al fracaso o la necesidad de aprobación externa pueden haberte limitado. Reescribe la situación aplicando el concepto de 'suficientemente bueno' y enfocándote en el aprendizaje en lugar de la perfección.",
+      "sub_questions": "[\"Describe una situaci\\u00f3n reciente donde tu perfeccionismo te caus\\u00f3 estr\\u00e9s o te impidi\\u00f3 avanzar. \\u00bfC\\u00f3mo podr\\u00edas haber manejado esa situaci\\u00f3n abrazando la imperfecci\\u00f3n?\"]",
+      "order_number": 1,
+      "theme_id": 5
+    },
+    {
+      "id": 15,
+      "title": "Darme cuenta de los pensamiento autocríticos",
+      "instructions": "Presta atención a tu diálogo interno durante una semana. Anota los pensamientos autocríticos más frecuentes. Para cada pensamiento, pregúntate: '¿Es esto completamente cierto? ¿Le diría esto a un amigo?' Luego reescribe cada pensamiento con compasión y realismo.",
+      "sub_questions": "[\"Identifica 3 pensamientos autocr\\u00edticos recurrentes que tienes. Para cada uno, cuestiona su veracidad y reescr\\u00edbelo de manera m\\u00e1s compasiva.\"]",
+      "order_number": 2,
+      "theme_id": 5
+    },
+    {
+      "id": 16,
+      "title": "Carta al perfeccionismo - Perdón y Reconocimiento",
+      "instructions": "Trata tu perfeccionismo como una parte de ti que ha tenido buenas intenciones pero métodos dañinos. Agradécele por tratar de mantenerte 'seguro' del rechazo o fracaso, pero explícale por qué ya no necesitas esa protección tan rígida. Despídete con comprensión y establece nuevas formas más saludables de buscar la excelencia.",
+      "sub_questions": "[\"Escribe una carta a tu perfeccionismo. Reconoce c\\u00f3mo ha intentado protegerte, pero tambi\\u00e9n perd\\u00f3nalo y desp\\u00eddete de sus aspectos destructivos.\"]",
+      "order_number": 3,
+      "theme_id": 5
+    },
+    {
+      "id": 17,
+      "title": "Desafío de la imperfección",
+      "instructions": "Elige una actividad donde normalmente buscarías la perfección y hazla intencionalmente 'suficientemente buena'. Puede ser enviar un email sin revisarlo 10 veces, cocinar sin seguir la receta exactamente, o compartir una opinión sin estar 100% seguro. Documenta tus sentimientos antes, durante y después de la experiencia.",
+      "sub_questions": "[\"Comprom\\u00e9tete a hacer algo intencionalmente 'imperfecto' esta semana. Describe qu\\u00e9 har\\u00e1s y c\\u00f3mo te sientes al respecto. Despu\\u00e9s, reflexiona sobre la experiencia.\"]",
+      "order_number": 4,
+      "theme_id": 5
+    },
+    {
+      "id": 18,
+      "title": "Mi fiesta interior",
+      "instructions": "Entrena tu mente para reconocer los logros diarios que normalmente pasas por alto. No importa qué tan pequeños parezcan estos éxitos - cada uno representa progreso y esfuerzo. Para cada éxito, escribe por qué es importante y cómo contribuye a tu crecimiento personal.",
+      "sub_questions": "[\"Haz una lista de 10 peque\\u00f1os-grandes \\u00e9xitos que has tenido en el \\u00faltimo mes. Pueden ser cosas tan simples como levantarte temprano, tener una conversaci\\u00f3n dif\\u00edcil, o aprender algo nuevo.\"]",
+      "order_number": 1,
+      "theme_id": 6
+    },
+    {
+      "id": 19,
+      "title": "Enfoque en el proceso y esfuerzo",
+      "instructions": "Cambia tu perspectiva de orientada a resultados a orientada al proceso. Para tu meta elegida, identifica: 1) Qué estás aprendiendo en el camino, 2) Qué habilidades estás desarrollando, 3) Cómo cada pequeño paso te está transformando. Celebra estos aspectos del proceso independientemente del resultado final.",
+      "sub_questions": "[\"Piensa en una meta importante que tienes. En lugar de enfocarte solo en el resultado final, identifica y celebra 3 aspectos del proceso que ya est\\u00e1s disfrutando o valorando.\"]",
+      "order_number": 2,
+      "theme_id": 6
+    },
+    {
+      "id": 20,
+      "title": "Bases",
+      "instructions": "Haz un recorrido por tus relaciones significativas (románticas, familiares, amistades). Identifica patrones comunes: tipos de personas que eliges, formas de reaccionar ante conflictos, miedos recurrentes. Conecta estos patrones con experiencias tempranas que puedan haberlos originado.",
+      "sub_questions": "[\"Reflexiona sobre tu historia emocional en las relaciones. \\u00bfQu\\u00e9 patrones de comportamiento o elecci\\u00f3n de pareja se repiten en tu vida? \\u00bfC\\u00f3mo crees que tus experiencias de infancia han influido en tu forma de amar?\"]",
+      "order_number": 1,
+      "theme_id": 7
+    },
+    {
+      "id": 21,
+      "title": "Mi estilo de apego",
+      "instructions": "Revisa las descripciones de cada estilo de apego y determina cuál resuena más contigo. Analiza situaciones recientes donde este estilo se haya manifestado. Reflexiona sobre cómo este patrón afecta tu forma de conectar con otros y qué puedes hacer para desarrollar un apego más seguro.",
+      "sub_questions": "[\"Identifica tu estilo de apego predominante (seguro, ansioso, evitativo, desorganizado). \\u00bfC\\u00f3mo se manifiesta este estilo en tus relaciones actuales? Proporciona ejemplos espec\\u00edficos.\"]",
+      "order_number": 2,
+      "theme_id": 7
+    },
+    {
+      "id": 22,
+      "title": "Soy el adulto que necesité",
+      "instructions": "Identifica las carencias emocionales de tu infancia (validación, seguridad, amor incondicional, etc.). Para cada necesidad no satisfecha, desarrolla estrategias concretas de autocuidado que puedes implementar ahora. Escribe un compromiso contigo mismo/a sobre cómo vas a atender estas necesidades.",
+      "sub_questions": "[\"\\u00bfQu\\u00e9 necesidades emocionales no fueron satisfechas en tu infancia? \\u00bfC\\u00f3mo puedes ser ahora el adulto que necesitabas entonces? Describe 3 formas espec\\u00edficas en las que puedes cuidar de ti mismo/a.\"]",
+      "order_number": 3,
+      "theme_id": 7
+    },
+    {
+      "id": 23,
+      "title": "Fundamentos",
+      "instructions": "Crea dos listas claras: una con aspectos que no puedes comprometer para tu bienestar emocional, y otra con aspectos donde puedes ser flexible. Para cada fundamento de bienestar, define qué significa específicamente para ti y cómo se vería en una relación sana.",
+      "sub_questions": "[\"Define tus necesidades no negociables en una relaci\\u00f3n y tus aspectos negociables. \\u00bfCu\\u00e1les son los fundamentos de bienestar que consideras esenciales (compromiso, respeto, admiraci\\u00f3n, valores compartidos)?\"]",
+      "order_number": 1,
+      "theme_id": 8
+    },
+    {
+      "id": 24,
+      "title": "Patrones relacionales",
+      "instructions": "Elige un patrón concreto (por ejemplo: atraerte personas emocionalmente no disponibles, evitar conflictos, ser excesivamente complaciente). Rastrea su origen, comprende su propósito inicial de protección, y desarrolla estrategias específicas para actuar diferente la próxima vez que surja la situación.",
+      "sub_questions": "[\"Analiza un patr\\u00f3n espec\\u00edfico que se repite en tus relaciones. \\u00bfCu\\u00e1ndo comenz\\u00f3 este patr\\u00f3n? \\u00bfQu\\u00e9 funci\\u00f3n cumpl\\u00eda originalmente? \\u00bfC\\u00f3mo puedes cambiarlo conscientemente?\"]",
+      "order_number": 2,
+      "theme_id": 8
+    },
+    {
+      "id": 25,
+      "title": "Mi persona equilibrio",
+      "instructions": "Crea un perfil detallado que integre lo que te gusta con lo que necesitas. Define señales específicas de equilibrio versus señales de alerta. Reflexiona sobre cómo tus elecciones pasadas se alejaron de este equilibrio y qué harás diferente en el futuro.",
+      "sub_questions": "[\"Describe tu 'persona equilibrio': alguien que tenga las caracter\\u00edsticas que te atraen pero tambi\\u00e9n las que necesitas para una relaci\\u00f3n sana. \\u00bfC\\u00f3mo reconocer\\u00edas a esta persona? \\u00bfQu\\u00e9 se\\u00f1ales indicar\\u00edan que es equilibrada?\"]",
+      "order_number": 3,
+      "theme_id": 8
+    },
+    {
+      "id": 26,
+      "title": "Duelos pendientes",
+      "instructions": "Identifica duelos no resueltos que puedan estar influyendo en tu presente. Para cada uno, escribe una carta de despedida donde reconozcas lo vivido, extraigas los aprendizajes y te permitas soltar conscientemente. Define rituales de cierre que te ayuden a liberar este peso emocional.",
+      "sub_questions": "[\"\\u00bfHay alg\\u00fan duelo (p\\u00e9rdida, relaci\\u00f3n pasada, decepci\\u00f3n) que a\\u00fan cargas y que puede estar afectando tus relaciones presentes? \\u00bfC\\u00f3mo puedes honrar esta experiencia y al mismo tiempo soltarla?\"]",
+      "order_number": 4,
+      "theme_id": 8
+    },
+    {
+      "id": 27,
+      "title": "Conexiones",
+      "instructions": "Toma una situación real donde hubo dificultad comunicativa. Reescribe el diálogo usando: 1) Lenguaje en primera persona, 2) Expresión clara de necesidades, 3) Escucha activa. Practica estas nuevas formas de comunicación en tu día a día y documenta los resultados.",
+      "sub_questions": "[\"Practica la comunicaci\\u00f3n consciente: describe una situaci\\u00f3n reciente de conflicto o malentendido. \\u00bfC\\u00f3mo podr\\u00edas haber comunicado tus necesidades de manera m\\u00e1s efectiva usando las herramientas aprendidas?\"]",
+      "order_number": 1,
+      "theme_id": 9
+    },
+    {
+      "id": 28,
+      "title": "Resolución de conflictos",
+      "instructions": "Crea un 'plan de manejo de conflictos' personalizado que incluya: técnicas de autorregulación emocional, estrategias de comunicación no violenta, y métodos para mantener el foco en soluciones. Practica estos pasos en situaciones de menor intensidad para desarrollar el hábito.",
+      "sub_questions": "[\"Dise\\u00f1a tu estrategia personal para manejar conflictos futuros. \\u00bfCu\\u00e1les son tus se\\u00f1ales de alarma emocional? \\u00bfQu\\u00e9 herramientas usar\\u00e1s para regularte? \\u00bfC\\u00f3mo enfocar\\u00e1s la resoluci\\u00f3n hacia soluciones constructivas?\"]",
+      "order_number": 2,
+      "theme_id": 9
+    },
+    {
+      "id": 29,
+      "title": "Mi balance relacional",
+      "instructions": "Define tu concepto personal de equilibrio relacional. Identifica áreas donde tiendes a fusionarte demasiado o a distanciarte excesivamente. Establece límites saludables que te permitan ser auténtico/a mientras nutres la conexión. Crea un compromiso personal sobre cómo vas a mantener este equilibrio.",
+      "sub_questions": "[\"\\u00bfC\\u00f3mo defines el equilibrio entre ser t\\u00fa mismo/a y estar en relaci\\u00f3n con otros? Describe tu visi\\u00f3n de una relaci\\u00f3n donde ambas personas mantienen su individualidad mientras construyen algo juntos.\"]",
+      "order_number": 3,
+      "theme_id": 9
+    },
+    {
+      "id": 30,
+      "title": "Acuerdos",
+      "instructions": "Haz una lista de creencias sobre ti mismo/a, el éxito, las relaciones, etc. que has aceptado sin cuestionar. Para cada una, identifica si viene de tu familia, sociedad o experiencias pasadas. Luego, reescribe esas creencias aplicando los principios: sé impecable con tus palabras, no te tomes nada personal, no hagas suposiciones, haz siempre lo mejor que puedas.",
+      "sub_questions": "[\"Identifica los 'acuerdos' o creencias que has heredado sin cuestionar. \\u00bfCu\\u00e1les de estos acuerdos ya no te sirven? \\u00bfQu\\u00e9 nuevos acuerdos quieres hacer contigo mismo/a basados en los Cuatro Acuerdos de Miguel Ruiz?\"]",
+      "order_number": 1,
+      "theme_id": 10
+    },
+    {
+      "id": 31,
+      "title": "Mi voz interior",
+      "instructions": "Durante 7 días, anota las frases más recurrentes que te dices a ti mismo/a. Clasifícalas como constructivas o destructivas. Para las destructivas, identifica su origen y reformúlalas de manera compasiva. Crea 3 afirmaciones personales que refuercen tu confianza y practícalas diariamente.",
+      "sub_questions": "[\"Analiza tu voz interior durante una semana. \\u00bfQu\\u00e9 tipo de narrativa predomina en tu mente? \\u00bfEs una voz cr\\u00edtica, alentadora, temerosa o confiada? \\u00bfDe d\\u00f3nde crees que viene esta voz y c\\u00f3mo puedes transformarla?\"]",
+      "order_number": 2,
+      "theme_id": 10
+    },
+    {
+      "id": 32,
+      "title": "Ser",
+      "instructions": "Crea dos columnas: una describiendo comportamientos del 'yo aprendido' (adaptado para agradar) y otra del 'yo auténtico' (expresión genuina). Identifica patrones y situaciones específicas donde cada uno predomina. Desarrolla estrategias concretas para aumentar momentos de autenticidad en tu día a día.",
+      "sub_questions": "[\"Diferencia entre tu 'yo aprendido' y tu 'yo aut\\u00e9ntico'. \\u00bfEn qu\\u00e9 situaciones act\\u00faas para complacer a otros versus cu\\u00e1ndo act\\u00faas desde tu autenticidad? \\u00bfQu\\u00e9 te impide ser m\\u00e1s aut\\u00e9ntico/a y qu\\u00e9 necesitas para cultivar m\\u00e1s autoconciencia?\"]",
+      "order_number": 1,
+      "theme_id": 11
+    },
+    {
+      "id": 33,
+      "title": "Vulnerabilidad auténtica",
+      "instructions": "Reflexiona sobre tus mecanismos de defensa (armadura emocional, perfeccionismo, distanciamiento). Identifica una relación importante donde podrías ser más vulnerable de manera segura. Practica expresar una emoción auténtica en lugar de esconderla detrás de frases como 'estoy bien'.",
+      "sub_questions": "[\"\\u00bfC\\u00f3mo te relacionas con la vulnerabilidad? \\u00bfLa ves como debilidad o fortaleza? Describe una situaci\\u00f3n donde mostrarte vulnerable podr\\u00eda fortalecer una relaci\\u00f3n o ayudarte a crecer. \\u00bfQu\\u00e9 te impide abrazarla?\"]",
+      "order_number": 2,
+      "theme_id": 11
+    },
+    {
+      "id": 34,
+      "title": "Realidad",
+      "instructions": "Visualiza tu vida ideal viviendo desde la autenticidad. Compárala con tu realidad actual e identifica las brechas más importantes. Para cada área de desalineación (trabajo, relaciones, estilo de vida), define un paso pequeño y concreto que puedas tomar en los próximos 30 días. No busques cambios radicales, sino acciones consistentes.",
+      "sub_questions": "[\"Define la vida que S\\u00cd quieres construir. \\u00bfQu\\u00e9 aspectos de tu vida actual no est\\u00e1n alineados con tu verdadero ser? \\u00bfCu\\u00e1les son los primeros 3 peque\\u00f1os pasos que puedes dar para moverte hacia tu visi\\u00f3n aut\\u00e9ntica?\"]",
+      "order_number": 1,
+      "theme_id": 12
+    }
+  ],
+  "user_responses": [
+    {
+      "user_id": 1,
+      "exercise_id": 1,
+      "response_text": "test",
+      "submitted_at": "2025-08-02 17:58:03"
+    },
+    {
+      "user_id": 1,
+      "exercise_id": 2,
+      "response_text": "test",
+      "submitted_at": "2025-08-02 18:00:29"
+    },
+    {
+      "user_id": 1,
+      "exercise_id": 3,
+      "response_text": "test",
+      "submitted_at": "2025-06-03 12:14:13"
+    }
+  ],
+  "user_sub_question_responses": [
+    {
+      "user_id": 1,
+      "exercise_id": 10,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 14:50:20",
+      "updated_at": "2025-08-31 14:55:07"
+    },
+    {
+      "user_id": 1,
+      "exercise_id": 11,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 14:50:22",
+      "updated_at": "2025-08-31 14:55:09"
+    },
+    {
+      "user_id": 1,
+      "exercise_id": 12,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 14:50:23",
+      "updated_at": "2025-08-31 14:55:10"
+    },
+    {
+      "user_id": 1,
+      "exercise_id": 13,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 14:50:24",
+      "updated_at": "2025-08-31 14:55:10"
+    },
+    {
+      "user_id": 3,
+      "exercise_id": 1,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 17:42:05",
+      "updated_at": "2025-08-31 17:58:37"
+    },
+    {
+      "user_id": 3,
+      "exercise_id": 1,
+      "sub_question_index": 1,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 17:42:05",
+      "updated_at": "2025-08-31 17:58:37"
+    },
+    {
+      "user_id": 3,
+      "exercise_id": 1,
+      "sub_question_index": 2,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 17:42:05",
+      "updated_at": "2025-08-31 17:58:37"
+    },
+    {
+      "user_id": 3,
+      "exercise_id": 2,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 17:42:08",
+      "updated_at": "2025-08-31 17:58:39"
+    },
+    {
+      "user_id": 3,
+      "exercise_id": 3,
+      "sub_question_index": 0,
+      "response_text": "test",
+      "submitted_at": "2025-08-31 17:42:09",
+      "updated_at": "2025-08-31 17:58:40"
+    }
+  ],
+  "user_progress": [
+    {
+      "user_id": 1,
+      "module_id": 1,
+      "theme_id": 1,
+      "exercise_id": null,
+      "completed": true,
+      "completed_at": "2025-06-03 12:14:13"
+    },
+    {
+      "user_id": 3,
+      "module_id": 1,
+      "theme_id": 1,
+      "exercise_id": null,
+      "completed": true,
+      "completed_at": "2025-08-31 18:01:10"
+    }
+  ],
+  "stats": {
+    "total_users": 3,
+    "total_modules": 5,
+    "total_themes": 12,
+    "total_cards": 67,
+    "total_exercises": 34,
+    "total_responses": 3,
+    "total_sub_responses": 9,
+    "total_progress": 2
+  }
+}
