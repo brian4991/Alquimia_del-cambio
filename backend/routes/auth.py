@@ -89,7 +89,10 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         access_token = generate_oauth_token(user)
         
         # Redirect to frontend with token
-        frontend_url = f"http://localhost:5174/auth/callback?token={access_token}"
+        # Use Railway URL or localhost for development
+        import os
+        base_url = os.environ.get("FRONTEND_URL", "http://localhost:5174")
+        frontend_url = f"{base_url}/auth/callback?token={access_token}"
         return RedirectResponse(url=frontend_url)
         
     except Exception as e:
