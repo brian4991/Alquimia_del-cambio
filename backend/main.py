@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -78,6 +78,42 @@ def api_root():
         "version": "1.0.0",
         "docs": "/docs"
     }
+
+# Serve specific static files at root level
+@app.get("/vite.svg")
+def get_vite_svg():
+    from fastapi.responses import FileResponse
+    file_path = FRONTEND_DIST / "vite.svg"
+    if file_path.exists():
+        return FileResponse(str(file_path))
+    raise HTTPException(status_code=404, detail="File not found")
+
+@app.get("/café.jpg")
+def get_cafe_jpg():
+    from fastapi.responses import FileResponse
+    file_path = FRONTEND_DIST / "café.jpg"
+    if file_path.exists():
+        return FileResponse(str(file_path))
+    raise HTTPException(status_code=404, detail="File not found")
+
+# Add routes for other common static files
+@app.get("/{filename}")
+def serve_static_file(filename: str):
+    """Serve static files like images, icons, etc."""
+    from fastapi.responses import FileResponse
+    from fastapi import HTTPException
+    
+    # Only serve specific file types to avoid conflicts with API routes
+    allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico', '.webp', '.mp3', '.wav'}
+    file_ext = '.' + filename.split('.')[-1].lower() if '.' in filename else ''
+    
+    if file_ext in allowed_extensions:
+        file_path = FRONTEND_DIST / filename
+        if file_path.exists() and file_path.is_file():
+            return FileResponse(str(file_path))
+    
+    # If not a static file or doesn't exist, continue to next route
+    raise HTTPException(status_code=404, detail="File not found")
 
 # Catch-all route for React Router (SPA)
 @app.get("/{path:path}")
