@@ -120,8 +120,8 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     try {
       const token = localStorage.getItem('token');
       const url = editingCard 
-        ? `/api/cards/${editingCard.id}` 
-        : `/api/themes/${selectedTheme.id}/cards`;
+        ? `${config.apiUrl}/api/cards/${editingCard.id}` 
+        : `${config.apiUrl}/themes/${selectedTheme.id}/cards`;
       const method = editingCard ? 'PUT' : 'POST';
       
       const response = await fetch(url, {

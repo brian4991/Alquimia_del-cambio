@@ -28,8 +28,8 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
     try {
       const token = localStorage.getItem('token');
       const url = editingTheme 
-        ? `/api/themes/${editingTheme.id}` 
-        : `/api/modules/${selectedModule.id}/themes`;
+        ? `${config.apiUrl}/themes/${editingTheme.id}` 
+        : `${config.apiUrl}/modules/${selectedModule.id}/themes`;
       const method = editingTheme ? 'PUT' : 'POST';
       
       const response = await fetch(url, {

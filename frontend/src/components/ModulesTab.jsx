@@ -25,7 +25,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
     
     try {
       const token = localStorage.getItem('token');
-      const url = editingModule ? `/api/modules/${editingModule.id}` : '/api/modules';
+      const url = editingModule ? `${config.apiUrl}/modules/${editingModule.id}` : `${config.apiUrl}/modules`;
       const method = editingModule ? 'PUT' : 'POST';
       
       console.log(`${method} request to ${url}`, formData); // Debug log

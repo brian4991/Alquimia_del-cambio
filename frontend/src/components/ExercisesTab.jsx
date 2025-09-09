@@ -35,8 +35,8 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
     try {
       const token = localStorage.getItem('token');
       const url = editingExercise 
-        ? `/api/exercises/${editingExercise.id}` 
-        : `/api/themes/${selectedTheme.id}/exercises`;
+        ? `${config.apiUrl}/exercises/${editingExercise.id}` 
+        : `${config.apiUrl}/themes/${selectedTheme.id}/exercises`;
       const method = editingExercise ? 'PUT' : 'POST';
       
       const payload = {
