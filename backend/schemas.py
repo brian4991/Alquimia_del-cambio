@@ -82,23 +82,6 @@ class ExerciseResponse(BaseModel):
     user_response: Optional[str] = None
     sub_question_responses: dict = {}  # {index: response_text}
 
-# Card Exercise Response schemas
-class CardExerciseResponseRequest(BaseModel):
-    card_id: int
-    question_index: int
-    response_text: str
-
-class CardExerciseResponseUpdate(BaseModel):
-    response_text: str
-
-class CardExerciseResponse(BaseModel):
-    id: int
-    user_id: int
-    card_id: int
-    question_index: int
-    response_text: str
-    submitted_at: datetime
-    updated_at: datetime
 
 # Module schemas
 class ModuleCreate(BaseModel):
