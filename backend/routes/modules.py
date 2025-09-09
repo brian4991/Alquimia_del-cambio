@@ -6,6 +6,41 @@ from typing import List
 from auth import get_current_user, get_current_admin_user
 from database import get_db
 from models import User, Module, Theme, Exercise, UserProgress, UserResponseDB, UserSubQuestionResponseDB, ThemeCard
+
+# Railway compatibility helper
+def get_theme_card_count_safe(db, theme_id):
+    """Safe way to count theme cards that works on both local and Railway"""
+    import os
+    if os.environ.get("DATABASE_URL"):
+        # Railway: use raw SQL
+        from sqlalchemy import text
+        result = db.execute(text("SELECT COUNT(*) FROM theme_cards WHERE theme_id = :theme_id"), {"theme_id": theme_id})
+        return result.scalar()
+    else:
+        # Local: normal SQLAlchemy
+        return db.query(ThemeCard).filter(ThemeCard.theme_id == theme_id).count()
+
+def get_theme_card_safe(db, card_id):
+    """Safe way to get a theme card that works on both local and Railway"""
+    import os
+    if os.environ.get("DATABASE_URL"):
+        # Railway: use raw SQL
+        from sqlalchemy import text
+        result = db.execute(text("""
+            SELECT id, title, content, card_type, order_number, theme_id, is_editable, created_at, updated_at
+            FROM theme_cards WHERE id = :card_id
+        """), {"card_id": card_id})
+        row = result.fetchone()
+        if not row:
+            return None
+        # Create a simple object with the data
+        class SimpleCard:
+            def __init__(self, data):
+                self.id, self.title, self.content, self.card_type, self.order_number, self.theme_id, self.is_editable, self.created_at, self.updated_at = data
+        return SimpleCard(row)
+    else:
+        # Local: normal SQLAlchemy
+        return db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
 from schemas import (
     ModuleResponse, ThemeResponse, ExerciseResponse, ExerciseResponseRequest, 
     SubQuestionResponseRequest,
@@ -111,8 +146,8 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
                 ).first()
                 is_unlocked = prev_progress is not None
         
-        # Count total cards for this theme
-        total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
+        # Count total cards for this theme (Railway compatible)
+        total_cards = get_theme_card_count_safe(db, theme.id)
         
         result.append(ThemeResponse(
             id=theme.id,
@@ -145,8 +180,8 @@ def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db:
         UserProgress.completed == True
     ).first()
     
-    # Count total cards for this theme
-    total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
+    # Count total cards for this theme (Railway compatible)
+    total_cards = get_theme_card_count_safe(db, theme.id)
     
     return ThemeResponse(
         id=theme.id,
@@ -258,10 +293,25 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
 @router.get("/cards/{card_id}", response_model=ThemeCardResponse)
 def get_card(card_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Get a specific card"""
-    card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
+    card = get_theme_card_safe(db, card_id)
     if not card:
         raise HTTPException(status_code=404, detail="Card not found")
-    return card
+    
+    # Return compatible response
+    return ThemeCardResponse(
+        id=card.id,
+        title=card.title,
+        content=card.content,
+        card_type=card.card_type,
+        order_number=card.order_number,
+        theme_id=card.theme_id,
+        is_editable=card.is_editable,
+        created_at=card.created_at,
+        updated_at=card.updated_at,
+        exercise_instructions=getattr(card, 'exercise_instructions', None),
+        exercise_questions=getattr(card, 'exercise_questions', []),
+        user_responses=None
+    )
 
 @router.post("/themes/{theme_id}/cards", response_model=ThemeCardResponse)
 def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
@@ -789,8 +839,8 @@ def update_theme(theme_id: int, theme_data: ThemeUpdate, current_admin: User = D
     db.commit()
     db.refresh(theme)
     
-    # Count total cards for this theme
-    total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
+    # Count total cards for this theme (Railway compatible)
+    total_cards = get_theme_card_count_safe(db, theme.id)
     
     return ThemeResponse(
         id=theme.id,
