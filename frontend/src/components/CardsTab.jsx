@@ -19,6 +19,11 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
   
   // Exercise-specific states
   const [newQuestion, setNewQuestion] = useState('');
+  const [questionType, setQuestionType] = useState('text'); // 'text' or 'table'
+  const [tableConfig, setTableConfig] = useState({
+    columns: [{ title: 'Colonne 1', type: 'text' }],
+    rows: 3
+  });
 
   const cardTypes = [
     { value: 'intro', label: 'Introduction', color: 'bg-green-50 border-green-200', icon: '🎯' },
@@ -195,11 +200,24 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
   // Exercise question management functions
   const addQuestion = () => {
     if (newQuestion.trim()) {
+      const questionObj = {
+        type: questionType,
+        question: newQuestion.trim(),
+        ...(questionType === 'table' ? { table_config: { ...tableConfig } } : {})
+      };
+      
       setFormData({
         ...formData,
-        exercise_questions: [...formData.exercise_questions, newQuestion.trim()]
+        exercise_questions: [...formData.exercise_questions, questionObj]
       });
+      
+      // Reset form
       setNewQuestion('');
+      setQuestionType('text');
+      setTableConfig({
+        columns: [{ title: 'Colonne 1', type: 'text' }],
+        rows: 3
+      });
     }
   };
 
@@ -213,11 +231,44 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
 
   const updateQuestion = (index, newText) => {
     const updatedQuestions = [...formData.exercise_questions];
-    updatedQuestions[index] = newText;
+    if (typeof updatedQuestions[index] === 'string') {
+      // Legacy string format - convert to object
+      updatedQuestions[index] = { type: 'text', question: newText };
+    } else {
+      // New object format
+      updatedQuestions[index] = { ...updatedQuestions[index], question: newText };
+    }
     setFormData({
       ...formData,
       exercise_questions: updatedQuestions
     });
+  };
+
+  // Table configuration functions
+  const addTableColumn = () => {
+    setTableConfig({
+      ...tableConfig,
+      columns: [...tableConfig.columns, { title: `Colonne ${tableConfig.columns.length + 1}`, type: 'text' }]
+    });
+  };
+
+  const updateTableColumn = (index, field, value) => {
+    const updatedColumns = [...tableConfig.columns];
+    updatedColumns[index] = { ...updatedColumns[index], [field]: value };
+    setTableConfig({
+      ...tableConfig,
+      columns: updatedColumns
+    });
+  };
+
+  const removeTableColumn = (index) => {
+    if (tableConfig.columns.length > 1) {
+      const updatedColumns = tableConfig.columns.filter((_, i) => i !== index);
+      setTableConfig({
+        ...tableConfig,
+        columns: updatedColumns
+      });
+    }
   };
 
   if (!selectedTheme) {
@@ -339,47 +390,147 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
                   </label>
                   
                   {/* Add new question */}
-                  <div className="flex space-x-2 mb-3">
-                    <input
-                      type="text"
-                      value={newQuestion}
-                      onChange={(e) => setNewQuestion(e.target.value)}
-                      className="flex-1 border border-gray-300 rounded-md px-3 py-2"
-                      placeholder="Tapez une nouvelle question..."
-                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addQuestion())}
-                    />
-                    <button
-                      type="button"
-                      onClick={addQuestion}
-                      className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                    >
-                      Ajouter
-                    </button>
+                  <div className="space-y-3 mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                    <div className="flex items-center space-x-4">
+                      <label className="text-sm font-medium text-gray-700">Type de question :</label>
+                      <select
+                        value={questionType}
+                        onChange={(e) => setQuestionType(e.target.value)}
+                        className="border border-gray-300 rounded-md px-3 py-1 text-sm"
+                      >
+                        <option value="text">📝 Question texte</option>
+                        <option value="table">📊 Question tableau</option>
+                      </select>
+                    </div>
+                    
+                    <div className="flex space-x-2">
+                      <input
+                        type="text"
+                        value={newQuestion}
+                        onChange={(e) => setNewQuestion(e.target.value)}
+                        className="flex-1 border border-gray-300 rounded-md px-3 py-2"
+                        placeholder="Tapez la question..."
+                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addQuestion())}
+                      />
+                      <button
+                        type="button"
+                        onClick={addQuestion}
+                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                      >
+                        Ajouter
+                      </button>
+                    </div>
+                    
+                    {/* Table configuration (only shown when table type is selected) */}
+                    {questionType === 'table' && (
+                      <div className="space-y-3 border-t pt-3">
+                        <h4 className="text-sm font-medium text-gray-700">Configuration du tableau :</h4>
+                        
+                        {/* Columns configuration */}
+                        <div>
+                          <label className="text-xs text-gray-600 mb-2 block">Colonnes :</label>
+                          <div className="space-y-2">
+                            {tableConfig.columns.map((column, index) => (
+                              <div key={index} className="flex items-center space-x-2">
+                                <input
+                                  type="text"
+                                  value={column.title}
+                                  onChange={(e) => updateTableColumn(index, 'title', e.target.value)}
+                                  className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
+                                  placeholder="Nom de la colonne"
+                                />
+                                <select
+                                  value={column.type}
+                                  onChange={(e) => updateTableColumn(index, 'type', e.target.value)}
+                                  className="border border-gray-300 rounded px-2 py-1 text-sm"
+                                >
+                                  <option value="text">Texte</option>
+                                  <option value="number">Nombre</option>
+                                </select>
+                                <button
+                                  type="button"
+                                  onClick={() => removeTableColumn(index)}
+                                  className="text-red-600 hover:text-red-800 p-1"
+                                  disabled={tableConfig.columns.length <= 1}
+                                >
+                                  <TrashIcon className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ))}
+                            <button
+                              type="button"
+                              onClick={addTableColumn}
+                              className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+                            >
+                              <PlusIcon className="w-4 h-4 mr-1" />
+                              Ajouter colonne
+                            </button>
+                          </div>
+                        </div>
+                        
+                        {/* Rows configuration */}
+                        <div>
+                          <label className="text-xs text-gray-600 mb-1 block">Nombre de lignes :</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="20"
+                            value={tableConfig.rows}
+                            onChange={(e) => setTableConfig({ ...tableConfig, rows: parseInt(e.target.value) || 1 })}
+                            className="border border-gray-300 rounded px-2 py-1 text-sm w-20"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Questions list */}
                   {formData.exercise_questions.length > 0 && (
-                    <div className="space-y-2 max-h-40 overflow-y-auto border rounded-md p-3 bg-gray-50">
-                      {formData.exercise_questions.map((question, index) => (
-                        <div key={index} className="flex items-center space-x-2 bg-white p-2 rounded border">
-                          <span className="text-sm font-medium text-gray-500 w-8">
-                            {index + 1}.
-                          </span>
-                          <input
-                            type="text"
-                            value={question}
-                            onChange={(e) => updateQuestion(index, e.target.value)}
-                            className="flex-1 border-0 bg-transparent focus:ring-0 text-sm"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => removeQuestion(index)}
-                            className="text-red-600 hover:text-red-800 p-1"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
+                    <div className="space-y-3 max-h-60 overflow-y-auto border rounded-md p-3 bg-gray-50">
+                      {formData.exercise_questions.map((question, index) => {
+                        const questionObj = typeof question === 'string' 
+                          ? { type: 'text', question: question }
+                          : question;
+                        
+                        return (
+                          <div key={index} className="bg-white p-3 rounded border">
+                            <div className="flex items-start space-x-2">
+                              <span className="text-sm font-medium text-gray-500 w-8 mt-1">
+                                {index + 1}.
+                              </span>
+                              <div className="flex-1">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <span className={`text-xs px-2 py-1 rounded-full ${
+                                    questionObj.type === 'table' 
+                                      ? 'bg-blue-100 text-blue-700' 
+                                      : 'bg-gray-100 text-gray-700'
+                                  }`}>
+                                    {questionObj.type === 'table' ? '📊 Tableau' : '📝 Texte'}
+                                  </span>
+                                </div>
+                                <input
+                                  type="text"
+                                  value={questionObj.question}
+                                  onChange={(e) => updateQuestion(index, e.target.value)}
+                                  className="w-full border border-gray-200 rounded px-2 py-1 text-sm"
+                                />
+                                {questionObj.type === 'table' && questionObj.table_config && (
+                                  <div className="mt-2 text-xs text-gray-600">
+                                    📊 {questionObj.table_config.columns?.length || 0} colonnes, {questionObj.table_config.rows || 0} lignes
+                                  </div>
+                                )}
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => removeQuestion(index)}
+                                className="text-red-600 hover:text-red-800 p-1"
+                              >
+                                <TrashIcon className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                   

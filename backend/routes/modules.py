@@ -185,7 +185,16 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
             exercise_questions = []
             if card.exercise_questions:
                 try:
-                    exercise_questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
+                    parsed_questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
+                    # Convert to ExerciseQuestion objects if they're still dicts
+                    from schemas import ExerciseQuestion
+                    exercise_questions = []
+                    for q in parsed_questions:
+                        if isinstance(q, dict):
+                            exercise_questions.append(ExerciseQuestion(**q))
+                        else:
+                            # Legacy string format - convert to text question
+                            exercise_questions.append(ExerciseQuestion(type="text", question=str(q)))
                 except:
                     exercise_questions = []
         
@@ -236,7 +245,12 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
     # Set exercise-specific fields if this is an exercise card
     if card_data.card_type == "exercise":
         new_card.exercise_instructions = card_data.exercise_instructions
-        new_card.exercise_questions = json.dumps(card_data.exercise_questions or [])
+        # Convert ExerciseQuestion objects to JSON
+        if card_data.exercise_questions:
+            questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
+            new_card.exercise_questions = json.dumps(questions_json)
+        else:
+            new_card.exercise_questions = json.dumps([])
     
     db.add(new_card)
     db.commit()
@@ -288,7 +302,9 @@ def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = 
     if card_data.exercise_instructions is not None:
         card.exercise_instructions = card_data.exercise_instructions
     if card_data.exercise_questions is not None:
-        card.exercise_questions = json.dumps(card_data.exercise_questions)
+        # Convert ExerciseQuestion objects to JSON
+        questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
+        card.exercise_questions = json.dumps(questions_json)
     
     # Clear exercise fields if card type is changed from exercise to something else
     if card_data.card_type is not None and card_data.card_type != "exercise":

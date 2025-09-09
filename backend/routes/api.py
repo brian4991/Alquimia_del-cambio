@@ -89,7 +89,12 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
     # Set exercise-specific fields if this is an exercise card
     if card_data.card_type == "exercise":
         new_card.exercise_instructions = card_data.exercise_instructions
-        new_card.exercise_questions = json.dumps(card_data.exercise_questions or [])
+        # Convert ExerciseQuestion objects to JSON
+        if card_data.exercise_questions:
+            questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
+            new_card.exercise_questions = json.dumps(questions_json)
+        else:
+            new_card.exercise_questions = json.dumps([])
     
     db.add(new_card)
     db.commit()

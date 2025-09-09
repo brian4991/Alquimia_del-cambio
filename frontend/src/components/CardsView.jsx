@@ -19,6 +19,7 @@ import {
 } from '@heroicons/react/24/outline';
 import api from '../services/api';
 import RichTextEditor from './RichTextEditor';
+import ExerciseTable from './ExerciseTable';
 
 const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
   const navigate = useNavigate();
@@ -217,6 +218,12 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
         [questionIndex]: value
       }
     }));
+  };
+
+  const handleTableDataChange = (cardId, questionIndex, tableData) => {
+    // Convert table data to JSON string for storage
+    const jsonData = JSON.stringify(tableData);
+    handleResponseChange(cardId, questionIndex, jsonData);
   };
 
   const submitExerciseResponse = async (cardId, questionIndex, responseText) => {
@@ -506,34 +513,68 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
                     Preguntas del ejercicio
                   </h4>
                   
-                  {currentCard.exercise_questions.map((question, index) => {
+                  {currentCard.exercise_questions.map((questionObj, index) => {
+                    // Handle both legacy string format and new object format
+                    const question = typeof questionObj === 'string' 
+                      ? { type: 'text', question: questionObj }
+                      : questionObj;
+                    
                     const responseValue = exerciseResponses[currentCard.id]?.[index] || '';
                     
                     return (
                       <div key={index} className="bg-white rounded-xl border-2 border-orange-200 p-6">
                         <div className="mb-4">
-                          <label className="block font-inter text-sm font-medium text-orange-800 mb-2">
-                            <span className="inline-flex items-center justify-center w-6 h-6 bg-orange-500 text-white rounded-full text-xs font-bold mr-2">
-                              {index + 1}
+                          <div className="flex items-center justify-between mb-2">
+                            <label className="block font-inter text-sm font-medium text-orange-800">
+                              <span className="inline-flex items-center justify-center w-6 h-6 bg-orange-500 text-white rounded-full text-xs font-bold mr-2">
+                                {index + 1}
+                              </span>
+                              {question.question}
+                            </label>
+                            <span className={`text-xs px-2 py-1 rounded-full ${
+                              question.type === 'table' 
+                                ? 'bg-blue-100 text-blue-700' 
+                                : 'bg-gray-100 text-gray-700'
+                            }`}>
+                              {question.type === 'table' ? '📊 Tableau' : '📝 Texte'}
                             </span>
-                            {question}
-                          </label>
+                          </div>
                         </div>
                         
-                        <textarea
-                          value={responseValue}
-                          onChange={(e) => handleResponseChange(currentCard.id, index, e.target.value)}
-                          className="w-full border border-orange-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-inter min-h-[120px] resize-vertical"
-                          placeholder="Escribe tu respuesta aquí..."
-                        />
+                        {/* Render different input types based on question type */}
+                        {question.type === 'table' && question.table_config ? (
+                          <div className="space-y-4">
+                            <ExerciseTable
+                              tableConfig={question.table_config}
+                              questionIndex={index}
+                              cardId={currentCard.id}
+                              initialData={responseValue ? (() => {
+                                try {
+                                  return JSON.parse(responseValue);
+                                } catch {
+                                  return {};
+                                }
+                              })() : {}}
+                              onDataChange={(data) => handleTableDataChange(currentCard.id, index, data)}
+                              readOnly={false}
+                            />
+                          </div>
+                        ) : (
+                          <textarea
+                            value={responseValue}
+                            onChange={(e) => handleResponseChange(currentCard.id, index, e.target.value)}
+                            className="w-full border border-orange-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-inter min-h-[120px] resize-vertical"
+                            placeholder="Escribe tu respuesta aquí..."
+                          />
+                        )}
                         
                         {/* Individual save button */}
                         <div className="mt-3 flex justify-end">
                           <button
                             onClick={() => submitExerciseResponse(currentCard.id, index, responseValue)}
-                            disabled={submittingResponse || !responseValue.trim()}
+                            disabled={submittingResponse || !responseValue || (typeof responseValue === 'string' && !responseValue.trim())}
                             className={`px-4 py-2 rounded-lg font-inter text-sm font-medium transition-elegant ${
-                              responseValue.trim() 
+                              responseValue && (typeof responseValue !== 'string' || responseValue.trim())
                                 ? 'bg-orange-500 hover:bg-orange-600 text-white'
                                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                             }`}

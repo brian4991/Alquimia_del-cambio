@@ -13,6 +13,7 @@ import {
   ShieldCheckIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
+import AdminTableView from './AdminTableView';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
 import { getUserResponses, getAllModulesAdmin, validateUserModule, revokeUserModule, validateUser, revokeUserValidation } from '../services/api';
 import { config } from '../config';
@@ -516,9 +517,26 @@ const UserDetailView = () => {
                                         </div>
                                       </div>
                                       <div className="bg-white rounded-lg p-3">
-                                        <p className="text-sm text-slate-700 leading-relaxed">
-                                          {response.response_text}
-                                        </p>
+                                        {/* Check if this is a table response */}
+                                        {response.response_type === 'card_exercise' && 
+                                         response.table_config ? (
+                                          <AdminTableView 
+                                            tableData={response.response_text}
+                                            tableConfig={response.table_config}
+                                            questionText={response.sub_question_text}
+                                          />
+                                        ) : response.response_type === 'card_exercise' && 
+                                           response.response_text.startsWith('{') && 
+                                           response.response_text.includes('"0":') ? (
+                                          <AdminTableView 
+                                            tableData={response.response_text}
+                                            questionText={response.sub_question_text}
+                                          />
+                                        ) : (
+                                          <p className="text-sm text-slate-700 leading-relaxed">
+                                            {response.response_text}
+                                          </p>
+                                        )}
                                       </div>
                                     </div>
                                   ))}

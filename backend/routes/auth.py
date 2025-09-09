@@ -388,6 +388,18 @@ def get_user_responses(
             except:
                 pass
         
+        # Get table config if this is a table question
+        table_config = None
+        if card.exercise_questions:
+            try:
+                questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
+                if questions and response.question_index < len(questions):
+                    question_obj = questions[response.question_index]
+                    if isinstance(question_obj, dict) and question_obj.get("type") == "table":
+                        table_config = question_obj.get("table_config")
+            except:
+                pass
+
         result.append({
             "id": f"card_{response.id}",
             "exercise_id": f"card_{card.id}",
@@ -399,6 +411,7 @@ def get_user_responses(
             "sub_question_index": response.question_index,
             "sub_question_text": question_text,
             "submitted_at": response.submitted_at,
+            "table_config": table_config,
         })
     
     # Sort all responses by date (most recent first)
