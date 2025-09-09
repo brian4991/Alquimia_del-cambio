@@ -39,8 +39,9 @@ class ThemeCardResponse(BaseModel):
     created_at: datetime
     updated_at: datetime
     # Exercise-specific fields (only populated when card_type = "exercise")
+    # Note: These fields are disabled on Railway until migration is complete
     exercise_instructions: Optional[str] = None
-    exercise_questions: Optional[List[ExerciseQuestion]] = None
+    exercise_questions: Optional[List[str]] = None  # Simplified for Railway compatibility
     # User responses for exercise cards (only for current user)
     user_responses: Optional[dict] = None  # {question_index: response_text}
 
@@ -50,9 +51,9 @@ class ThemeCardCreate(BaseModel):
     card_type: str = "content"
     order_number: int
     # Exercise-specific fields (optional, used when card_type = "exercise")
-    # Note: These fields may not be available in all database versions
+    # Note: Simplified for Railway compatibility
     exercise_instructions: Optional[str] = None
-    exercise_questions: Optional[List[ExerciseQuestion]] = None
+    exercise_questions: Optional[List[str]] = None
 
 class ThemeCardUpdate(BaseModel):
     title: Optional[str] = None
@@ -61,7 +62,7 @@ class ThemeCardUpdate(BaseModel):
     order_number: Optional[int] = None
     # Exercise-specific fields (optional, used when card_type = "exercise")
     exercise_instructions: Optional[str] = None
-    exercise_questions: Optional[List[ExerciseQuestion]] = None
+    exercise_questions: Optional[List[str]] = None
 
 # Exercise schemas
 class ExerciseCreate(BaseModel):

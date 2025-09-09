@@ -162,58 +162,98 @@ def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db:
 @router.get("/themes/{theme_id}/cards", response_model=List[ThemeCardResponse])
 def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Get all cards for a theme"""
-    from models import UserCardResponseDB
-    import json
+    import os
     
-    cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme_id).order_by(ThemeCard.order_number).all()
+    # Simple approach: disable exercise features on Railway for now
+    is_railway = os.environ.get("DATABASE_URL") is not None
     
-    result = []
-    for card in cards:
-        # For exercise cards, get user responses
-        user_responses = None
-        if card.card_type == "exercise":
-            # Get user's responses for this exercise card
-            responses = db.query(UserCardResponseDB).filter(
-                UserCardResponseDB.user_id == current_user.id,
-                UserCardResponseDB.card_id == card.id
-            ).all()
-            
-            # Create a dict mapping question_index to response_text
-            user_responses = {resp.question_index: resp.response_text for resp in responses}
-            
-            # Parse exercise_questions from JSON if it's a string (only if column exists)
-            exercise_questions = []
-            if hasattr(card, 'exercise_questions') and card.exercise_questions:
-                try:
-                    parsed_questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
-                    # Convert to ExerciseQuestion objects if they're still dicts
-                    from schemas import ExerciseQuestion
-                    exercise_questions = []
-                    for q in parsed_questions:
-                        if isinstance(q, dict):
-                            exercise_questions.append(ExerciseQuestion(**q))
-                        else:
-                            # Legacy string format - convert to text question
-                            exercise_questions.append(ExerciseQuestion(type="text", question=str(q)))
-                except:
-                    exercise_questions = []
+    if is_railway:
+        # Railway: simple query without exercise columns
+        from sqlalchemy import text
+        sql_query = text("""
+            SELECT id, title, content, card_type, order_number, theme_id, is_editable, 
+                   created_at, updated_at
+            FROM theme_cards 
+            WHERE theme_id = :theme_id 
+            ORDER BY order_number
+        """)
         
-        result.append(ThemeCardResponse(
-            id=card.id,
-            title=card.title,
-            content=card.content,
-            card_type=card.card_type,
-            order_number=card.order_number,
-            theme_id=card.theme_id,
-            is_editable=card.is_editable,
-            created_at=card.created_at,
-            updated_at=card.updated_at,
-            exercise_instructions=getattr(card, 'exercise_instructions', None) if card.card_type == "exercise" else None,
-            exercise_questions=exercise_questions if card.card_type == "exercise" else None,
-            user_responses=user_responses if card.card_type == "exercise" else None
-        ))
+        result_proxy = db.execute(sql_query, {"theme_id": theme_id})
+        cards_data = result_proxy.fetchall()
+        
+        result = []
+        for card_row in cards_data:
+            card_id, title, content, card_type, order_number, theme_id_val, is_editable, created_at, updated_at = card_row
+            
+            result.append(ThemeCardResponse(
+                id=card_id,
+                title=title,
+                content=content,
+                card_type=card_type,
+                order_number=order_number,
+                theme_id=theme_id_val,
+                is_editable=is_editable,
+                created_at=created_at,
+                updated_at=updated_at,
+                exercise_instructions=None,
+                exercise_questions=[],
+                user_responses=None
+            ))
+        
+        return result
     
-    return result
+    else:
+        # Local: full functionality with exercise columns
+        cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme_id).order_by(ThemeCard.order_number).all()
+        
+        result = []
+        for card in cards:
+            # Basic card data
+            exercise_instructions = getattr(card, 'exercise_instructions', None)
+            exercise_questions = []
+            user_responses = None
+            
+            # Process exercise data if available
+            if card.card_type == "exercise":
+                try:
+                    from models import UserCardResponseDB
+                    
+                    # Get user responses
+                    responses = db.query(UserCardResponseDB).filter(
+                        UserCardResponseDB.user_id == current_user.id,
+                        UserCardResponseDB.card_id == card.id
+                    ).all()
+                    
+                    user_responses = {resp.question_index: resp.response_text for resp in responses}
+                    
+                    # Parse exercise questions (simplified to strings for now)
+                    if hasattr(card, 'exercise_questions') and card.exercise_questions:
+                        import json
+                        try:
+                            parsed = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
+                            exercise_questions = [str(q) if isinstance(q, dict) else str(q) for q in parsed]
+                        except:
+                            exercise_questions = []
+                            
+                except Exception:
+                    pass
+            
+            result.append(ThemeCardResponse(
+                id=card.id,
+                title=card.title,
+                content=card.content,
+                card_type=card.card_type,
+                order_number=card.order_number,
+                theme_id=card.theme_id,
+                is_editable=card.is_editable,
+                created_at=card.created_at,
+                updated_at=card.updated_at,
+                exercise_instructions=exercise_instructions,
+                exercise_questions=exercise_questions,
+                user_responses=user_responses
+            ))
+        
+        return result
 
 @router.get("/cards/{card_id}", response_model=ThemeCardResponse)
 def get_card(card_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
