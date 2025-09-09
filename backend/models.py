@@ -62,17 +62,12 @@ class ThemeCard(Base):
     theme_id = Column(Integer, ForeignKey("themes.id"), nullable=False)
     is_editable = Column(Boolean, default=True)
     
-    # Exercise-specific fields (only used when card_type = "exercise")
-    # Note: These fields may not exist in all database versions
-    exercise_instructions = Column(Text, nullable=True)  # Instructions for the exercise
-    exercise_questions = Column(JSON, nullable=True, default="[]")  # List of questions for the exercise
     
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     
     # Relationships
     theme = relationship("Theme", back_populates="cards")
-    card_responses = relationship("UserCardResponseDB", back_populates="card")
 
 class Exercise(Base):
     __tablename__ = "exercises"
@@ -125,17 +120,3 @@ class UserSubQuestionResponseDB(Base):
     # Relationships
     user = relationship("User")
     exercise = relationship("Exercise")
-
-class UserCardResponseDB(Base):
-    __tablename__ = "user_card_responses"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    card_id = Column(Integer, ForeignKey("theme_cards.id"), nullable=False)
-    question_index = Column(Integer, nullable=False)  # Index of the question being answered
-    response_text = Column(Text, nullable=True)
-    submitted_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-    
-    # Relationships
-    user = relationship("User")
-    card = relationship("ThemeCard", back_populates="card_responses") 

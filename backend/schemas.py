@@ -21,11 +21,6 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-# Exercise Question schema (defined first to be used in other schemas)
-class ExerciseQuestion(BaseModel):
-    type: str = "text"  # "text" or "table"
-    question: str
-    table_config: Optional[dict] = None  # Only for table type questions
 
 # Theme Card schemas
 class ThemeCardResponse(BaseModel):
@@ -38,22 +33,12 @@ class ThemeCardResponse(BaseModel):
     is_editable: bool
     created_at: datetime
     updated_at: datetime
-    # Exercise-specific fields (only populated when card_type = "exercise")
-    # Note: These fields are disabled on Railway until migration is complete
-    exercise_instructions: Optional[str] = None
-    exercise_questions: Optional[List[str]] = None  # Simplified for Railway compatibility
-    # User responses for exercise cards (only for current user)
-    user_responses: Optional[dict] = None  # {question_index: response_text}
 
 class ThemeCardCreate(BaseModel):
     title: str
     content: str
     card_type: str = "content"
     order_number: int
-    # Exercise-specific fields (optional, used when card_type = "exercise")
-    # Note: Simplified for Railway compatibility
-    exercise_instructions: Optional[str] = None
-    exercise_questions: Optional[List[str]] = None
 
 class ThemeCardUpdate(BaseModel):
     title: Optional[str] = None
