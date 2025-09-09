@@ -145,8 +145,8 @@ def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db:
         UserProgress.completed == True
     ).first()
     
-    # Count total cards for this theme (Railway compatible)
-    total_cards = get_theme_card_count_safe(db, theme.id)
+    # Count total cards for this theme
+    total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
     
     return ThemeResponse(
         id=theme.id,
@@ -679,8 +679,8 @@ def update_theme(theme_id: int, theme_data: ThemeUpdate, current_admin: User = D
     db.commit()
     db.refresh(theme)
     
-    # Count total cards for this theme (Railway compatible)
-    total_cards = get_theme_card_count_safe(db, theme.id)
+    # Count total cards for this theme
+    total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
     
     return ThemeResponse(
         id=theme.id,
