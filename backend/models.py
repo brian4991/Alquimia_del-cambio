@@ -63,6 +63,7 @@ class ThemeCard(Base):
     is_editable = Column(Boolean, default=True)
     
     # Exercise-specific fields (only used when card_type = "exercise")
+    # Note: These fields may not exist in all database versions
     exercise_instructions = Column(Text, nullable=True)  # Instructions for the exercise
     exercise_questions = Column(JSON, nullable=True, default="[]")  # List of questions for the exercise
     

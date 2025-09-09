@@ -181,9 +181,9 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
             # Create a dict mapping question_index to response_text
             user_responses = {resp.question_index: resp.response_text for resp in responses}
             
-            # Parse exercise_questions from JSON if it's a string
+            # Parse exercise_questions from JSON if it's a string (only if column exists)
             exercise_questions = []
-            if card.exercise_questions:
+            if hasattr(card, 'exercise_questions') and card.exercise_questions:
                 try:
                     parsed_questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
                     # Convert to ExerciseQuestion objects if they're still dicts
@@ -208,7 +208,7 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
             is_editable=card.is_editable,
             created_at=card.created_at,
             updated_at=card.updated_at,
-            exercise_instructions=card.exercise_instructions if card.card_type == "exercise" else None,
+            exercise_instructions=getattr(card, 'exercise_instructions', None) if card.card_type == "exercise" else None,
             exercise_questions=exercise_questions if card.card_type == "exercise" else None,
             user_responses=user_responses if card.card_type == "exercise" else None
         ))
@@ -242,15 +242,17 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
         theme_id=theme_id
     )
     
-    # Set exercise-specific fields if this is an exercise card
+    # Set exercise-specific fields if this is an exercise card (only if columns exist)
     if card_data.card_type == "exercise":
-        new_card.exercise_instructions = card_data.exercise_instructions
-        # Convert ExerciseQuestion objects to JSON
-        if card_data.exercise_questions:
-            questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
-            new_card.exercise_questions = json.dumps(questions_json)
-        else:
-            new_card.exercise_questions = json.dumps([])
+        if hasattr(new_card, 'exercise_instructions'):
+            new_card.exercise_instructions = card_data.exercise_instructions
+        if hasattr(new_card, 'exercise_questions'):
+            # Convert ExerciseQuestion objects to JSON
+            if card_data.exercise_questions:
+                questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
+                new_card.exercise_questions = json.dumps(questions_json)
+            else:
+                new_card.exercise_questions = json.dumps([])
     
     db.add(new_card)
     db.commit()
@@ -298,18 +300,20 @@ def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = 
     if card_data.order_number is not None:
         card.order_number = card_data.order_number
     
-    # Update exercise-specific fields
-    if card_data.exercise_instructions is not None:
+    # Update exercise-specific fields (only if columns exist)
+    if card_data.exercise_instructions is not None and hasattr(card, 'exercise_instructions'):
         card.exercise_instructions = card_data.exercise_instructions
-    if card_data.exercise_questions is not None:
+    if card_data.exercise_questions is not None and hasattr(card, 'exercise_questions'):
         # Convert ExerciseQuestion objects to JSON
         questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
         card.exercise_questions = json.dumps(questions_json)
     
-    # Clear exercise fields if card type is changed from exercise to something else
+    # Clear exercise fields if card type is changed from exercise to something else (only if columns exist)
     if card_data.card_type is not None and card_data.card_type != "exercise":
-        card.exercise_instructions = None
-        card.exercise_questions = None
+        if hasattr(card, 'exercise_instructions'):
+            card.exercise_instructions = None
+        if hasattr(card, 'exercise_questions'):
+            card.exercise_questions = None
     
     card.updated_at = func.now()
     

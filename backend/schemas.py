@@ -50,6 +50,7 @@ class ThemeCardCreate(BaseModel):
     card_type: str = "content"
     order_number: int
     # Exercise-specific fields (optional, used when card_type = "exercise")
+    # Note: These fields may not be available in all database versions
     exercise_instructions: Optional[str] = None
     exercise_questions: Optional[List[ExerciseQuestion]] = None
 
