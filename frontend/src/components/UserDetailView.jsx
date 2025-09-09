@@ -499,9 +499,15 @@ const UserDetailView = () => {
                                           <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
                                             response.response_type === 'sub_question' 
                                               ? 'bg-blue-100 text-blue-700' 
+                                              : response.response_type === 'card_exercise'
+                                              ? 'bg-orange-100 text-orange-700'
                                               : 'bg-slate-100 text-slate-500'
                                           }`}>
-                                            {response.response_type === 'sub_question' ? '🔸 Sous-question' : '📝 Principal'}
+                                            {response.response_type === 'sub_question' 
+                                              ? '🔸 Sous-question' 
+                                              : response.response_type === 'card_exercise'
+                                              ? '📝 Carte Exercice'
+                                              : '📝 Principal'}
                                           </span>
                                           <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
                                             <ClockIcon className="w-3 h-3 mr-1" />

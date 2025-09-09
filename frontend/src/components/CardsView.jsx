@@ -51,6 +51,10 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [saving, setSaving] = useState(false);
+  
+  // Exercise-specific states
+  const [exerciseResponses, setExerciseResponses] = useState({});
+  const [submittingResponse, setSubmittingResponse] = useState(false);
 
   useEffect(() => {
     fetchThemeAndCards();
@@ -66,6 +70,16 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
       // Then fetch cards
       const cardsResponse = await api.get(`/themes/${themeId}/cards`);
       setCards(cardsResponse.data);
+      
+      // Initialize exercise responses from cards data
+      const responses = {};
+      cardsResponse.data.forEach(card => {
+        if (card.card_type === 'exercise' && card.user_responses) {
+          responses[card.id] = card.user_responses;
+        }
+      });
+      setExerciseResponses(responses);
+      
       setCurrentCardIndex(0);
     } catch (err) {
       setError('Error loading theme and cards');
@@ -142,6 +156,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
       case 'practical': return Settings;
       case 'resources': return FolderOpen;
       case 'conclusion': return Sparkles;
+      case 'exercise': return FileText; // We can import a better icon later
       default: return FileText;
     }
   };
@@ -178,12 +193,83 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
         text: 'text-gray-800',
         accent: 'bg-gray-100'
       };
+      case 'exercise': return {
+        bg: 'bg-orange-50',
+        border: 'border-orange-200',
+        text: 'text-orange-800',
+        accent: 'bg-orange-100'
+      };
       default: return {
         bg: 'bg-white',
         border: 'border-gray-200',
         text: 'text-gray-800',
         accent: 'bg-gray-100'
       };
+    }
+  };
+
+  // Exercise response functions
+  const handleResponseChange = (cardId, questionIndex, value) => {
+    setExerciseResponses(prev => ({
+      ...prev,
+      [cardId]: {
+        ...prev[cardId],
+        [questionIndex]: value
+      }
+    }));
+  };
+
+  const submitExerciseResponse = async (cardId, questionIndex, responseText) => {
+    try {
+      setSubmittingResponse(true);
+      
+      await api.post(`/cards/${cardId}/responses`, {
+        card_id: cardId,
+        question_index: questionIndex,
+        response_text: responseText
+      });
+      
+      // Update local state
+      setExerciseResponses(prev => ({
+        ...prev,
+        [cardId]: {
+          ...prev[cardId],
+          [questionIndex]: responseText
+        }
+      }));
+      
+    } catch (err) {
+      console.error('Error submitting response:', err);
+      alert('Error submitting response');
+    } finally {
+      setSubmittingResponse(false);
+    }
+  };
+
+  const saveAllExerciseResponses = async (cardId) => {
+    try {
+      setSubmittingResponse(true);
+      const cardResponses = exerciseResponses[cardId] || {};
+      
+      // Submit all responses for this card
+      const promises = Object.entries(cardResponses).map(([questionIndex, responseText]) => {
+        if (responseText && responseText.trim()) {
+          return api.post(`/cards/${cardId}/responses`, {
+            card_id: cardId,
+            question_index: parseInt(questionIndex),
+            response_text: responseText.trim()
+          });
+        }
+      }).filter(Boolean);
+      
+      await Promise.all(promises);
+      alert('Réponses sauvegardées avec succès !');
+      
+    } catch (err) {
+      console.error('Error saving responses:', err);
+      alert('Erreur lors de la sauvegarde');
+    } finally {
+      setSubmittingResponse(false);
     }
   };
 
@@ -395,6 +481,84 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
               />
             )}
           </div>
+
+          {/* Exercise Section */}
+          {currentCard.card_type === 'exercise' && currentCard.exercise_questions && (
+            <div className="mt-8 border-t pt-8">
+              <div className="space-y-6">
+                {/* Exercise Instructions */}
+                {currentCard.exercise_instructions && (
+                  <div className="glass-effect-sage rounded-xl p-6">
+                    <h4 className="font-inter text-lg font-semibold text-sage-dark mb-3 flex items-center">
+                      <span className="mr-2">💡</span>
+                      Instrucciones
+                    </h4>
+                    <p className="font-inter text-sage-dark leading-relaxed">
+                      {currentCard.exercise_instructions}
+                    </p>
+                  </div>
+                )}
+
+                {/* Exercise Questions */}
+                <div className="space-y-4">
+                  <h4 className="font-inter text-xl font-semibold text-orange-800 flex items-center">
+                    <span className="mr-2">📝</span>
+                    Preguntas del ejercicio
+                  </h4>
+                  
+                  {currentCard.exercise_questions.map((question, index) => {
+                    const responseValue = exerciseResponses[currentCard.id]?.[index] || '';
+                    
+                    return (
+                      <div key={index} className="bg-white rounded-xl border-2 border-orange-200 p-6">
+                        <div className="mb-4">
+                          <label className="block font-inter text-sm font-medium text-orange-800 mb-2">
+                            <span className="inline-flex items-center justify-center w-6 h-6 bg-orange-500 text-white rounded-full text-xs font-bold mr-2">
+                              {index + 1}
+                            </span>
+                            {question}
+                          </label>
+                        </div>
+                        
+                        <textarea
+                          value={responseValue}
+                          onChange={(e) => handleResponseChange(currentCard.id, index, e.target.value)}
+                          className="w-full border border-orange-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 font-inter min-h-[120px] resize-vertical"
+                          placeholder="Escribe tu respuesta aquí..."
+                        />
+                        
+                        {/* Individual save button */}
+                        <div className="mt-3 flex justify-end">
+                          <button
+                            onClick={() => submitExerciseResponse(currentCard.id, index, responseValue)}
+                            disabled={submittingResponse || !responseValue.trim()}
+                            className={`px-4 py-2 rounded-lg font-inter text-sm font-medium transition-elegant ${
+                              responseValue.trim() 
+                                ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            }`}
+                          >
+                            {submittingResponse ? 'Guardando...' : 'Guardar respuesta'}
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  
+                  {/* Save all responses button */}
+                  <div className="mt-6 text-center">
+                    <button
+                      onClick={() => saveAllExerciseResponses(currentCard.id)}
+                      disabled={submittingResponse}
+                      className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-xl font-inter font-medium transition-elegant disabled:opacity-50"
+                    >
+                      {submittingResponse ? 'Guardando...' : 'Guardar todas las respuestas'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Navigation flèches */}

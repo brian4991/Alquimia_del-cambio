@@ -12,8 +12,13 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     title: '',
     content: '',
     card_type: 'content',
-    order_number: cards.length + 1
+    order_number: cards.length + 1,
+    exercise_instructions: '',
+    exercise_questions: []
   });
+  
+  // Exercise-specific states
+  const [newQuestion, setNewQuestion] = useState('');
 
   const cardTypes = [
     { value: 'intro', label: 'Introduction', color: 'bg-green-50 border-green-200', icon: '🎯' },
@@ -21,6 +26,7 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     { value: 'practical', label: 'Pratique', color: 'bg-green-50 border-green-200', icon: '🛠️' },
     { value: 'resources', label: 'Ressources', color: 'bg-orange-50 border-orange-200', icon: '📖' },
     { value: 'conclusion', label: 'Conclusion', color: 'bg-pink-50 border-pink-200', icon: '✨' },
+    { value: 'exercise', label: 'Exercice', color: 'bg-orange-50 border-orange-200', icon: '📝' },
     { value: 'content', label: 'Contenu général', color: 'bg-gray-50 border-gray-200', icon: '📄' }
   ];
 
@@ -32,6 +38,7 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       case 'practical': return Settings;
       case 'resources': return FolderOpen;
       case 'conclusion': return Sparkles;
+      case 'exercise': return FileText; // We'll import a better icon later
       default: return FileText;
     }
   };
@@ -68,6 +75,12 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
         text: 'text-gray-800',
         accent: 'bg-gray-100'
       };
+      case 'exercise': return {
+        bg: 'bg-orange-50',
+        border: 'border-orange-200',
+        text: 'text-orange-800',
+        accent: 'bg-orange-100'
+      };
       default: return {
         bg: 'bg-white',
         border: 'border-gray-200',
@@ -89,6 +102,14 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     if (!selectedTheme) {
       alert('Veuillez sélectionner un thème d\'abord');
       return;
+    }
+
+    // Validation for exercise cards
+    if (formData.card_type === 'exercise') {
+      if (!formData.exercise_questions || formData.exercise_questions.length === 0) {
+        alert('Veuillez ajouter au moins une question pour cet exercice');
+        return;
+      }
     }
 
     try {
@@ -142,7 +163,9 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       title: card.title,
       content: card.content,
       card_type: card.card_type,
-      order_number: card.order_number
+      order_number: card.order_number,
+      exercise_instructions: card.exercise_instructions || '',
+      exercise_questions: card.exercise_questions || []
     });
     setShowCreateForm(true);
   };
@@ -152,8 +175,11 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       title: '',
       content: '',
       card_type: 'content',
-      order_number: cards.length + 1
+      order_number: cards.length + 1,
+      exercise_instructions: '',
+      exercise_questions: []
     });
+    setNewQuestion('');
   };
 
   const handleCancel = () => {
@@ -164,6 +190,34 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
 
   const getCardTypeInfo = (type) => {
     return cardTypes.find(ct => ct.value === type) || cardTypes[cardTypes.length - 1];
+  };
+
+  // Exercise question management functions
+  const addQuestion = () => {
+    if (newQuestion.trim()) {
+      setFormData({
+        ...formData,
+        exercise_questions: [...formData.exercise_questions, newQuestion.trim()]
+      });
+      setNewQuestion('');
+    }
+  };
+
+  const removeQuestion = (index) => {
+    const updatedQuestions = formData.exercise_questions.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      exercise_questions: updatedQuestions
+    });
+  };
+
+  const updateQuestion = (index, newText) => {
+    const updatedQuestions = [...formData.exercise_questions];
+    updatedQuestions[index] = newText;
+    setFormData({
+      ...formData,
+      exercise_questions: updatedQuestions
+    });
   };
 
   if (!selectedTheme) {
@@ -256,6 +310,87 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
                 showButtons={false}
               />
             </div>
+
+            {/* Exercise-specific fields */}
+            {formData.card_type === 'exercise' && (
+              <div className="space-y-4 border-t pt-4">
+                <h3 className="text-lg font-medium text-gray-900 flex items-center">
+                  <span className="mr-2">📝</span>
+                  Configuration de l'exercice
+                </h3>
+                
+                {/* Exercise Instructions */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Instructions de l'exercice
+                  </label>
+                  <textarea
+                    value={formData.exercise_instructions}
+                    onChange={(e) => setFormData({ ...formData, exercise_instructions: e.target.value })}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[100px]"
+                    placeholder="Donnez des instructions claires pour cet exercice..."
+                  />
+                </div>
+
+                {/* Exercise Questions */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Questions de l'exercice
+                  </label>
+                  
+                  {/* Add new question */}
+                  <div className="flex space-x-2 mb-3">
+                    <input
+                      type="text"
+                      value={newQuestion}
+                      onChange={(e) => setNewQuestion(e.target.value)}
+                      className="flex-1 border border-gray-300 rounded-md px-3 py-2"
+                      placeholder="Tapez une nouvelle question..."
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addQuestion())}
+                    />
+                    <button
+                      type="button"
+                      onClick={addQuestion}
+                      className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                    >
+                      Ajouter
+                    </button>
+                  </div>
+
+                  {/* Questions list */}
+                  {formData.exercise_questions.length > 0 && (
+                    <div className="space-y-2 max-h-40 overflow-y-auto border rounded-md p-3 bg-gray-50">
+                      {formData.exercise_questions.map((question, index) => (
+                        <div key={index} className="flex items-center space-x-2 bg-white p-2 rounded border">
+                          <span className="text-sm font-medium text-gray-500 w-8">
+                            {index + 1}.
+                          </span>
+                          <input
+                            type="text"
+                            value={question}
+                            onChange={(e) => updateQuestion(index, e.target.value)}
+                            className="flex-1 border-0 bg-transparent focus:ring-0 text-sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeQuestion(index)}
+                            className="text-red-600 hover:text-red-800 p-1"
+                          >
+                            <TrashIcon className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {formData.exercise_questions.length === 0 && (
+                    <p className="text-sm text-gray-500 italic">
+                      Aucune question ajoutée. Ajoutez au moins une question pour cet exercice.
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
 
             <div className="flex justify-between items-center">
               <button
