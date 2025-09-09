@@ -32,18 +32,29 @@ class ThemeCardResponse(BaseModel):
     is_editable: bool
     created_at: datetime
     updated_at: datetime
+    # Exercise-specific fields (only populated when card_type = "exercise")
+    exercise_instructions: Optional[str] = None
+    exercise_questions: Optional[List[str]] = None
+    # User responses for exercise cards (only for current user)
+    user_responses: Optional[dict] = None  # {question_index: response_text}
 
 class ThemeCardCreate(BaseModel):
     title: str
     content: str
     card_type: str = "content"
     order_number: int
+    # Exercise-specific fields (optional, used when card_type = "exercise")
+    exercise_instructions: Optional[str] = None
+    exercise_questions: Optional[List[str]] = None
 
 class ThemeCardUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     card_type: Optional[str] = None
     order_number: Optional[int] = None
+    # Exercise-specific fields (optional, used when card_type = "exercise")
+    exercise_instructions: Optional[str] = None
+    exercise_questions: Optional[List[str]] = None
 
 # Exercise schemas
 class ExerciseCreate(BaseModel):
@@ -77,6 +88,24 @@ class ExerciseResponse(BaseModel):
     sub_questions: List[str] = []
     user_response: Optional[str] = None
     sub_question_responses: dict = {}  # {index: response_text}
+
+# Card Exercise Response schemas
+class CardExerciseResponseRequest(BaseModel):
+    card_id: int
+    question_index: int
+    response_text: str
+
+class CardExerciseResponseUpdate(BaseModel):
+    response_text: str
+
+class CardExerciseResponse(BaseModel):
+    id: int
+    user_id: int
+    card_id: int
+    question_index: int
+    response_text: str
+    submitted_at: datetime
+    updated_at: datetime
 
 # Module schemas
 class ModuleCreate(BaseModel):

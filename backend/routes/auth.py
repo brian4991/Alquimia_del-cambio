@@ -364,6 +364,43 @@ def get_user_responses(
             "submitted_at": response.submitted_at,
         })
     
+    # Get card exercise responses (user_card_responses table) - NEW SYSTEM
+    from models import UserCardResponseDB, ThemeCard
+    card_responses = db.query(UserCardResponseDB, ThemeCard, Theme, Module).join(
+        ThemeCard, UserCardResponseDB.card_id == ThemeCard.id
+    ).join(
+        Theme, ThemeCard.theme_id == Theme.id
+    ).join(
+        Module, Theme.module_id == Module.id
+    ).filter(
+        UserCardResponseDB.user_id == user_id
+    ).order_by(UserCardResponseDB.submitted_at.desc()).all()
+    
+    for response, card, theme, module in card_responses:
+        # Get the question text from card's exercise_questions
+        question_text = f"Question {response.question_index + 1}"
+        if card.exercise_questions:
+            try:
+                import json
+                questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
+                if questions and response.question_index < len(questions):
+                    question_text = questions[response.question_index]
+            except:
+                pass
+        
+        result.append({
+            "id": f"card_{response.id}",
+            "exercise_id": f"card_{card.id}",
+            "exercise_title": f"{card.title} - Q{response.question_index + 1}",
+            "theme_title": theme.title,
+            "module_title": module.title,
+            "response_text": response.response_text,
+            "response_type": "card_exercise",
+            "sub_question_index": response.question_index,
+            "sub_question_text": question_text,
+            "submitted_at": response.submitted_at,
+        })
+    
     # Sort all responses by date (most recent first)
     result.sort(key=lambda x: x['submitted_at'], reverse=True)
     
@@ -378,26 +415,39 @@ def get_users_stats(
     
     total_users = db.query(func.count(User.id)).scalar()
     active_users = db.query(func.count(User.id)).filter(User.is_active == True).scalar()
-    total_responses = db.query(func.count(UserResponseDB.id)).scalar()
+    
+    # Count all types of responses
+    old_responses = db.query(func.count(UserResponseDB.id)).scalar()
+    sub_responses = db.query(func.count(UserSubQuestionResponseDB.id)).scalar()
+    
+    # Count card exercise responses
+    from models import UserCardResponseDB
+    card_responses = db.query(func.count(UserCardResponseDB.id)).scalar()
+    
+    total_responses = old_responses + sub_responses + card_responses
     
     # Get users with their response counts and progress
-    users_with_responses = db.query(
+    # We'll calculate response counts separately since we have multiple tables
+    users_base = db.query(
         User.id,
         User.username,
         User.email,
         User.role,
         User.provider,
         User.is_active,
-        User.created_at,
-        func.count(UserResponseDB.id).label('response_count')
-    ).outerjoin(
-        UserResponseDB, User.id == UserResponseDB.user_id
-    ).group_by(User.id).all()
+        User.created_at
+    ).all()
     
     users_data = []
-    for user_data in users_with_responses:
+    for user_data in users_base:
         # Get the full user object for validated_modules
         full_user = db.query(User).filter(User.id == user_data.id).first()
+        
+        # Calculate total response count for this user from all tables
+        old_count = db.query(func.count(UserResponseDB.id)).filter(UserResponseDB.user_id == user_data.id).scalar() or 0
+        sub_count = db.query(func.count(UserSubQuestionResponseDB.id)).filter(UserSubQuestionResponseDB.user_id == user_data.id).scalar() or 0
+        card_count = db.query(func.count(UserCardResponseDB.id)).filter(UserCardResponseDB.user_id == user_data.id).scalar() or 0
+        total_response_count = old_count + sub_count + card_count
         
         # Calculate user progress
         user_progress = get_user_progress(db, user_data.id)
@@ -422,7 +472,7 @@ def get_users_stats(
             "is_active": user_data.is_active,
             "is_validated": full_user.is_validated,
             "created_at": user_data.created_at,
-            "response_count": user_data.response_count,
+            "response_count": total_response_count,
             "validated_modules": validated_modules,
             "progress": user_progress
         })

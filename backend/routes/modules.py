@@ -10,6 +10,7 @@ from schemas import (
     ModuleResponse, ThemeResponse, ExerciseResponse, ExerciseResponseRequest, 
     SubQuestionResponseRequest,
     ThemeCardResponse, ThemeCardCreate, ThemeCardUpdate,
+    CardExerciseResponseRequest, CardExerciseResponseUpdate, CardExerciseResponse,
     ModuleCreate, ModuleUpdate, ThemeCreate, ThemeUpdate, 
     ExerciseCreate, ExerciseUpdate
 )
@@ -161,8 +162,49 @@ def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db:
 @router.get("/themes/{theme_id}/cards", response_model=List[ThemeCardResponse])
 def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Get all cards for a theme"""
+    from models import UserCardResponseDB
+    import json
+    
     cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme_id).order_by(ThemeCard.order_number).all()
-    return cards
+    
+    result = []
+    for card in cards:
+        # For exercise cards, get user responses
+        user_responses = None
+        if card.card_type == "exercise":
+            # Get user's responses for this exercise card
+            responses = db.query(UserCardResponseDB).filter(
+                UserCardResponseDB.user_id == current_user.id,
+                UserCardResponseDB.card_id == card.id
+            ).all()
+            
+            # Create a dict mapping question_index to response_text
+            user_responses = {resp.question_index: resp.response_text for resp in responses}
+            
+            # Parse exercise_questions from JSON if it's a string
+            exercise_questions = []
+            if card.exercise_questions:
+                try:
+                    exercise_questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
+                except:
+                    exercise_questions = []
+        
+        result.append(ThemeCardResponse(
+            id=card.id,
+            title=card.title,
+            content=card.content,
+            card_type=card.card_type,
+            order_number=card.order_number,
+            theme_id=card.theme_id,
+            is_editable=card.is_editable,
+            created_at=card.created_at,
+            updated_at=card.updated_at,
+            exercise_instructions=card.exercise_instructions if card.card_type == "exercise" else None,
+            exercise_questions=exercise_questions if card.card_type == "exercise" else None,
+            user_responses=user_responses if card.card_type == "exercise" else None
+        ))
+    
+    return result
 
 @router.get("/cards/{card_id}", response_model=ThemeCardResponse)
 def get_card(card_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
@@ -175,6 +217,8 @@ def get_card(card_id: int, current_user: User = Depends(get_current_user), db: S
 @router.post("/themes/{theme_id}/cards", response_model=ThemeCardResponse)
 def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Create a new card"""
+    import json
+    
     # Verify theme exists
     theme = db.query(Theme).filter(Theme.id == theme_id).first()
     if not theme:
@@ -189,15 +233,43 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
         theme_id=theme_id
     )
     
+    # Set exercise-specific fields if this is an exercise card
+    if card_data.card_type == "exercise":
+        new_card.exercise_instructions = card_data.exercise_instructions
+        new_card.exercise_questions = json.dumps(card_data.exercise_questions or [])
+    
     db.add(new_card)
     db.commit()
     db.refresh(new_card)
     
-    return new_card
+    # Parse exercise_questions for response
+    exercise_questions_parsed = []
+    if new_card.card_type == "exercise" and new_card.exercise_questions:
+        try:
+            exercise_questions_parsed = json.loads(new_card.exercise_questions)
+        except:
+            exercise_questions_parsed = []
+    
+    return ThemeCardResponse(
+        id=new_card.id,
+        title=new_card.title,
+        content=new_card.content,
+        card_type=new_card.card_type,
+        order_number=new_card.order_number,
+        theme_id=new_card.theme_id,
+        is_editable=new_card.is_editable,
+        created_at=new_card.created_at,
+        updated_at=new_card.updated_at,
+        exercise_instructions=new_card.exercise_instructions,
+        exercise_questions=exercise_questions_parsed,
+        user_responses=None
+    )
 
 @router.put("/cards/{card_id}", response_model=ThemeCardResponse)
 def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Update a card"""
+    import json
+    
     card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
     if not card:
         raise HTTPException(status_code=404, detail="Card not found")
@@ -212,12 +284,44 @@ def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = 
     if card_data.order_number is not None:
         card.order_number = card_data.order_number
     
+    # Update exercise-specific fields
+    if card_data.exercise_instructions is not None:
+        card.exercise_instructions = card_data.exercise_instructions
+    if card_data.exercise_questions is not None:
+        card.exercise_questions = json.dumps(card_data.exercise_questions)
+    
+    # Clear exercise fields if card type is changed from exercise to something else
+    if card_data.card_type is not None and card_data.card_type != "exercise":
+        card.exercise_instructions = None
+        card.exercise_questions = None
+    
     card.updated_at = func.now()
     
     db.commit()
     db.refresh(card)
     
-    return card
+    # Parse exercise_questions for response
+    exercise_questions_parsed = []
+    if card.card_type == "exercise" and card.exercise_questions:
+        try:
+            exercise_questions_parsed = json.loads(card.exercise_questions)
+        except:
+            exercise_questions_parsed = []
+    
+    return ThemeCardResponse(
+        id=card.id,
+        title=card.title,
+        content=card.content,
+        card_type=card.card_type,
+        order_number=card.order_number,
+        theme_id=card.theme_id,
+        is_editable=card.is_editable,
+        created_at=card.created_at,
+        updated_at=card.updated_at,
+        exercise_instructions=card.exercise_instructions,
+        exercise_questions=exercise_questions_parsed,
+        user_responses=None
+    )
 
 @router.delete("/cards/{card_id}")
 def delete_card(card_id: int, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
@@ -725,4 +829,112 @@ def delete_exercise(exercise_id: int, current_admin: User = Depends(get_current_
     db.delete(exercise)
     db.commit()
     
-    return {"message": "Exercise deleted successfully"} 
+    return {"message": "Exercise deleted successfully"}
+
+# ===============================
+# CARD EXERCISE RESPONSE ROUTES
+# ===============================
+
+@router.post("/cards/{card_id}/responses")
+def submit_card_exercise_response(
+    card_id: int, 
+    response_data: CardExerciseResponseRequest, 
+    current_user: User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    """Submit or update a response to an exercise card question"""
+    from models import UserCardResponseDB
+    
+    # Verify card exists and is an exercise card
+    card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
+    if not card:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    if card.card_type != "exercise":
+        raise HTTPException(status_code=400, detail="Card is not an exercise card")
+    
+    # Check if response already exists
+    existing_response = db.query(UserCardResponseDB).filter(
+        UserCardResponseDB.user_id == current_user.id,
+        UserCardResponseDB.card_id == card_id,
+        UserCardResponseDB.question_index == response_data.question_index
+    ).first()
+    
+    if existing_response:
+        # Update existing response
+        existing_response.response_text = response_data.response_text
+        existing_response.updated_at = func.now()
+        db.commit()
+        db.refresh(existing_response)
+        return {
+            "message": "Response updated successfully",
+            "response_id": existing_response.id
+        }
+    else:
+        # Create new response
+        new_response = UserCardResponseDB(
+            user_id=current_user.id,
+            card_id=card_id,
+            question_index=response_data.question_index,
+            response_text=response_data.response_text
+        )
+        db.add(new_response)
+        db.commit()
+        db.refresh(new_response)
+        return {
+            "message": "Response submitted successfully",
+            "response_id": new_response.id
+        }
+
+@router.get("/cards/{card_id}/responses")
+def get_card_exercise_responses(
+    card_id: int, 
+    current_user: User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    """Get all responses for an exercise card (current user only)"""
+    from models import UserCardResponseDB
+    
+    # Verify card exists and is an exercise card
+    card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
+    if not card:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    if card.card_type != "exercise":
+        raise HTTPException(status_code=400, detail="Card is not an exercise card")
+    
+    # Get user's responses for this card
+    responses = db.query(UserCardResponseDB).filter(
+        UserCardResponseDB.user_id == current_user.id,
+        UserCardResponseDB.card_id == card_id
+    ).order_by(UserCardResponseDB.question_index).all()
+    
+    return {
+        "card_id": card_id,
+        "responses": {resp.question_index: resp.response_text for resp in responses}
+    }
+
+@router.delete("/cards/{card_id}/responses/{question_index}")
+def delete_card_exercise_response(
+    card_id: int,
+    question_index: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Delete a specific response to an exercise card question"""
+    from models import UserCardResponseDB
+    
+    # Find and delete the response
+    response = db.query(UserCardResponseDB).filter(
+        UserCardResponseDB.user_id == current_user.id,
+        UserCardResponseDB.card_id == card_id,
+        UserCardResponseDB.question_index == question_index
+    ).first()
+    
+    if not response:
+        raise HTTPException(status_code=404, detail="Response not found")
+    
+    db.delete(response)
+    db.commit()
+    
+    return {"message": "Response deleted successfully"} 
