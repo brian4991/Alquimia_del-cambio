@@ -364,55 +364,7 @@ def get_user_responses(
             "submitted_at": response.submitted_at,
         })
     
-    # Get card exercise responses (user_card_responses table) - NEW SYSTEM
-    from models import UserCardResponseDB, ThemeCard
-    card_responses = db.query(UserCardResponseDB, ThemeCard, Theme, Module).join(
-        ThemeCard, UserCardResponseDB.card_id == ThemeCard.id
-    ).join(
-        Theme, ThemeCard.theme_id == Theme.id
-    ).join(
-        Module, Theme.module_id == Module.id
-    ).filter(
-        UserCardResponseDB.user_id == user_id
-    ).order_by(UserCardResponseDB.submitted_at.desc()).all()
-    
-    for response, card, theme, module in card_responses:
-        # Get the question text from card's exercise_questions
-        question_text = f"Question {response.question_index + 1}"
-        if card.exercise_questions:
-            try:
-                import json
-                questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
-                if questions and response.question_index < len(questions):
-                    question_text = questions[response.question_index]
-            except:
-                pass
-        
-        # Get table config if this is a table question
-        table_config = None
-        if card.exercise_questions:
-            try:
-                questions = json.loads(card.exercise_questions) if isinstance(card.exercise_questions, str) else card.exercise_questions
-                if questions and response.question_index < len(questions):
-                    question_obj = questions[response.question_index]
-                    if isinstance(question_obj, dict) and question_obj.get("type") == "table":
-                        table_config = question_obj.get("table_config")
-            except:
-                pass
-
-        result.append({
-            "id": f"card_{response.id}",
-            "exercise_id": f"card_{card.id}",
-            "exercise_title": f"{card.title} - Q{response.question_index + 1}",
-            "theme_title": theme.title,
-            "module_title": module.title,
-            "response_text": response.response_text,
-            "response_type": "card_exercise",
-            "sub_question_index": response.question_index,
-            "sub_question_text": question_text,
-            "submitted_at": response.submitted_at,
-            "table_config": table_config,
-        })
+    # Card exercise responses removed for Railway compatibility
     
     # Sort all responses by date (most recent first)
     result.sort(key=lambda x: x['submitted_at'], reverse=True)
@@ -433,11 +385,8 @@ def get_users_stats(
     old_responses = db.query(func.count(UserResponseDB.id)).scalar()
     sub_responses = db.query(func.count(UserSubQuestionResponseDB.id)).scalar()
     
-    # Count card exercise responses
-    from models import UserCardResponseDB
-    card_responses = db.query(func.count(UserCardResponseDB.id)).scalar()
-    
-    total_responses = old_responses + sub_responses + card_responses
+    # Card exercise responses removed for Railway compatibility
+    total_responses = old_responses + sub_responses
     
     # Get users with their response counts and progress
     # We'll calculate response counts separately since we have multiple tables
@@ -459,8 +408,8 @@ def get_users_stats(
         # Calculate total response count for this user from all tables
         old_count = db.query(func.count(UserResponseDB.id)).filter(UserResponseDB.user_id == user_data.id).scalar() or 0
         sub_count = db.query(func.count(UserSubQuestionResponseDB.id)).filter(UserSubQuestionResponseDB.user_id == user_data.id).scalar() or 0
-        card_count = db.query(func.count(UserCardResponseDB.id)).filter(UserCardResponseDB.user_id == user_data.id).scalar() or 0
-        total_response_count = old_count + sub_count + card_count
+        # Card exercise responses removed for Railway compatibility
+        total_response_count = old_count + sub_count
         
         # Calculate user progress
         user_progress = get_user_progress(db, user_data.id)
