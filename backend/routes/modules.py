@@ -189,7 +189,18 @@ def get_card(card_id: int, current_user: User = Depends(get_current_user), db: S
     card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
     if not card:
         raise HTTPException(status_code=404, detail="Card not found")
-    return card
+    
+    return ThemeCardResponse(
+        id=card.id,
+        title=card.title,
+        content=card.content,
+        card_type=card.card_type,
+        order_number=card.order_number,
+        theme_id=card.theme_id,
+        is_editable=card.is_editable,
+        created_at=card.created_at,
+        updated_at=card.updated_at
+    )
 
 @router.post("/themes/{theme_id}/cards", response_model=ThemeCardResponse)
 def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
@@ -214,7 +225,17 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
     db.commit()
     db.refresh(new_card)
     
-    return new_card
+    return ThemeCardResponse(
+        id=new_card.id,
+        title=new_card.title,
+        content=new_card.content,
+        card_type=new_card.card_type,
+        order_number=new_card.order_number,
+        theme_id=new_card.theme_id,
+        is_editable=new_card.is_editable,
+        created_at=new_card.created_at,
+        updated_at=new_card.updated_at
+    )
 
 @router.put("/cards/{card_id}", response_model=ThemeCardResponse)
 def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
@@ -240,7 +261,17 @@ def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = 
     db.commit()
     db.refresh(card)
     
-    return card
+    return ThemeCardResponse(
+        id=card.id,
+        title=card.title,
+        content=card.content,
+        card_type=card.card_type,
+        order_number=card.order_number,
+        theme_id=card.theme_id,
+        is_editable=card.is_editable,
+        created_at=card.created_at,
+        updated_at=card.updated_at
+    )
 
 @router.delete("/cards/{card_id}")
 def delete_card(card_id: int, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
