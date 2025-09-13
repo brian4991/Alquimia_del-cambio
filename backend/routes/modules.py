@@ -162,10 +162,36 @@ def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db:
 @router.get("/themes/{theme_id}/cards", response_model=List[ThemeCardResponse])
 def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Get all cards for a theme"""
+    import json
+    
     cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme_id).order_by(ThemeCard.order_number).all()
     
     result = []
     for card in cards:
+        # Parse exercise_questions if it exists
+        exercise_questions_parsed = []
+        if card.card_type == "exercise" and card.exercise_questions:
+            try:
+                parsed_data = json.loads(card.exercise_questions)
+                # Handle both old string format and new object format
+                if isinstance(parsed_data, list):
+                    exercise_questions_parsed = []
+                    for item in parsed_data:
+                        if isinstance(item, str):
+                            # Convert old string format to new object format
+                            exercise_questions_parsed.append({
+                                "type": "text",
+                                "question": item
+                            })
+                        elif isinstance(item, dict):
+                            # Already in correct format
+                            exercise_questions_parsed.append(item)
+                else:
+                    exercise_questions_parsed = []
+            except Exception as e:
+                print(f"Error parsing exercise_questions for card {card.id}: {e}")
+                exercise_questions_parsed = []
+        
         result.append(ThemeCardResponse(
             id=card.id,
             title=card.title,
@@ -176,9 +202,8 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
             is_editable=card.is_editable,
             created_at=card.created_at,
             updated_at=card.updated_at,
-            exercise_instructions=None,
-            exercise_questions=[],
-            user_responses=None
+            exercise_instructions=card.exercise_instructions,
+            exercise_questions=exercise_questions_parsed
         ))
     
     return result
@@ -221,9 +246,28 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
         theme_id=theme_id
     )
     
+    # Set exercise-specific fields if this is an exercise card
+    if card_data.card_type == "exercise":
+        new_card.exercise_instructions = card_data.exercise_instructions
+        
+        # Convert exercise questions to JSON
+        if card_data.exercise_questions:
+            questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
+            new_card.exercise_questions = json.dumps(questions_json)
+        else:
+            new_card.exercise_questions = json.dumps([])
+    
     db.add(new_card)
     db.commit()
     db.refresh(new_card)
+    
+    # Parse exercise_questions for response
+    exercise_questions_parsed = []
+    if new_card.card_type == "exercise" and new_card.exercise_questions:
+        try:
+            exercise_questions_parsed = json.loads(new_card.exercise_questions)
+        except Exception as e:
+            exercise_questions_parsed = []
     
     return ThemeCardResponse(
         id=new_card.id,
@@ -234,7 +278,9 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
         theme_id=new_card.theme_id,
         is_editable=new_card.is_editable,
         created_at=new_card.created_at,
-        updated_at=new_card.updated_at
+        updated_at=new_card.updated_at,
+        exercise_instructions=new_card.exercise_instructions,
+        exercise_questions=exercise_questions_parsed
     )
 
 @router.put("/cards/{card_id}", response_model=ThemeCardResponse)

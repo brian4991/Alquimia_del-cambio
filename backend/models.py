@@ -62,6 +62,9 @@ class ThemeCard(Base):
     theme_id = Column(Integer, ForeignKey("themes.id"), nullable=False)
     is_editable = Column(Boolean, default=True)
     
+    # Exercise-specific fields
+    exercise_instructions = Column(Text, nullable=True)
+    exercise_questions = Column(JSON, nullable=True, default="[]")
     
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())

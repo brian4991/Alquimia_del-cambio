@@ -33,12 +33,18 @@ class ThemeCardResponse(BaseModel):
     is_editable: bool
     created_at: datetime
     updated_at: datetime
+    # Exercise-specific fields
+    exercise_instructions: Optional[str] = None
+    exercise_questions: Optional[List[dict]] = None
 
 class ThemeCardCreate(BaseModel):
     title: str
     content: str
     card_type: str = "content"
     order_number: int
+    # Exercise-specific fields
+    exercise_instructions: Optional[str] = None
+    exercise_questions: Optional[List[dict]] = None
 
 class ThemeCardUpdate(BaseModel):
     title: Optional[str] = None
@@ -47,7 +53,7 @@ class ThemeCardUpdate(BaseModel):
     order_number: Optional[int] = None
     # Exercise-specific fields (optional, used when card_type = "exercise")
     exercise_instructions: Optional[str] = None
-    exercise_questions: Optional[List[str]] = None
+    exercise_questions: Optional[List[dict]] = None
 
 # Exercise schemas
 class ExerciseCreate(BaseModel):

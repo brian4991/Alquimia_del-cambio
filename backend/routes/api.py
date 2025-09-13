@@ -25,6 +25,8 @@ def get_card(card_id: int, current_user: User = Depends(get_current_admin_user),
 @router.put("/cards/{card_id}", response_model=ThemeCardResponse)
 def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Update a card"""
+    import json
+    
     card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
     if not card:
         raise HTTPException(status_code=404, detail="Card not found")
@@ -38,6 +40,18 @@ def update_card(card_id: int, card_data: ThemeCardUpdate, current_admin: User = 
         card.card_type = card_data.card_type
     if card_data.order_number is not None:
         card.order_number = card_data.order_number
+    
+    # Update exercise-specific fields if this is an exercise card
+    if card_data.card_type == "exercise" or card.card_type == "exercise":
+        if card_data.exercise_instructions is not None:
+            card.exercise_instructions = card_data.exercise_instructions
+        if card_data.exercise_questions is not None:
+            # Convert exercise questions to JSON
+            if card_data.exercise_questions:
+                questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
+                card.exercise_questions = json.dumps(questions_json)
+            else:
+                card.exercise_questions = json.dumps([])
     
     card.updated_at = func.now()
     
@@ -107,7 +121,7 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
     if new_card.card_type == "exercise" and new_card.exercise_questions:
         try:
             exercise_questions_parsed = json.loads(new_card.exercise_questions)
-        except:
+        except Exception as e:
             exercise_questions_parsed = []
     
     return ThemeCardResponse(
@@ -121,8 +135,7 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
         created_at=new_card.created_at,
         updated_at=new_card.updated_at,
         exercise_instructions=new_card.exercise_instructions,
-        exercise_questions=exercise_questions_parsed,
-        user_responses=None
+        exercise_questions=exercise_questions_parsed
     )
 
 @router.delete("/cards/{card_id}")

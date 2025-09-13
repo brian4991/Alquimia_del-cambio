@@ -138,9 +138,14 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
         setEditingCard(null);
         resetForm();
         onLoadCards(selectedTheme.id);
+      } else {
+        const responseData = await response.json();
+        console.error('API Error:', responseData);
+        alert('Erreur lors de la sauvegarde: ' + (responseData.detail || 'Erreur inconnue'));
       }
     } catch (error) {
       console.error('Error saving card:', error);
+      alert('Erreur réseau: ' + error.message);
     }
   };
 
@@ -633,6 +638,97 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
                   className="rich-content max-w-none font-inter text-lg"
                   dangerouslySetInnerHTML={{ __html: formData.content || '<p>El contenido aparecerá aquí...</p>' }}
                 />
+
+                {/* Exercise Preview Section */}
+                {formData.card_type === 'exercise' && (
+                  <div className="mt-8 border-t pt-8">
+                    <div className="space-y-6">
+                      {/* Exercise Instructions */}
+                      {formData.exercise_instructions && (
+                        <div className="glass-effect-sage rounded-xl p-6">
+                          <h4 className="font-inter text-lg font-semibold text-sage-dark mb-3 flex items-center">
+                            <span className="mr-2">💡</span>
+                            Instrucciones
+                          </h4>
+                          <p className="font-inter text-sage-dark leading-relaxed">
+                            {formData.exercise_instructions}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Exercise Questions */}
+                      {formData.exercise_questions && formData.exercise_questions.length > 0 && (
+                        <div className="space-y-4">
+                          <h4 className="font-inter text-xl font-semibold text-orange-800 flex items-center">
+                            <span className="mr-2">📝</span>
+                            Preguntas del ejercicio
+                          </h4>
+                          
+                          {formData.exercise_questions.map((questionObj, index) => {
+                            const question = typeof questionObj === 'string' 
+                              ? { type: 'text', question: questionObj }
+                              : questionObj;
+                            
+                            return (
+                              <div key={index} className="bg-white rounded-xl border-2 border-orange-200 p-6">
+                                <div className="flex items-start justify-between mb-4">
+                                  <h5 className="font-inter text-lg font-semibold text-gray-800">
+                                    Pregunta {index + 1}
+                                  </h5>
+                                  <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">
+                                    {question.type === 'table' ? 'Tabla' : 'Texto'}
+                                  </span>
+                                </div>
+                                
+                                <p className="font-inter text-gray-700 mb-4">
+                                  {question.question}
+                                </p>
+
+                                {question.type === 'table' && question.table_config && (
+                                  <div className="bg-gray-50 rounded-lg p-4">
+                                    <h6 className="font-medium text-gray-800 mb-3">Vista previa de tabla:</h6>
+                                    <div className="overflow-x-auto">
+                                      <table className="w-full border-collapse border border-gray-300">
+                                        <thead>
+                                          <tr className="bg-gray-100">
+                                            {question.table_config.columns.map((col, colIndex) => (
+                                              <th key={colIndex} className="border border-gray-300 px-3 py-2 text-left font-medium">
+                                                {col.title}
+                                              </th>
+                                            ))}
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {Array.from({ length: question.table_config.rows }, (_, rowIndex) => (
+                                            <tr key={rowIndex}>
+                                              {question.table_config.columns.map((col, colIndex) => (
+                                                <td key={colIndex} className="border border-gray-300 px-3 py-2">
+                                                  <div className="h-8 bg-gray-100 rounded opacity-50"></div>
+                                                </td>
+                                              ))}
+                                            </tr>
+                                          ))}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {question.type === 'text' && (
+                                  <div className="bg-gray-50 rounded-lg p-4">
+                                    <div className="h-24 bg-gray-100 rounded opacity-50 flex items-center justify-center">
+                                      <span className="text-gray-500 text-sm">Área de respuesta de texto</span>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -663,6 +759,11 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
                       <span className="ml-2 px-2 py-1 bg-white rounded-full text-xs text-gray-600">
                         {cardTypeInfo.label}
                       </span>
+                      {card.card_type === 'exercise' && (
+                        <span className="ml-2 px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs">
+                          ID: {card.id} | Q: {card.exercise_questions ? card.exercise_questions.length : 0}
+                        </span>
+                      )}
                     </div>
                     <p className="text-gray-700 mb-3 line-clamp-3">{card.content}</p>
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
