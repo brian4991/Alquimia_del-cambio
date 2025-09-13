@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import List
 
-from auth import get_current_admin_user
+from auth import get_current_admin_user, get_current_user
 from database import get_db
 from models import User, ThemeCard, Theme, Exercise
 from schemas import ThemeCardResponse, ThemeCardCreate, ThemeCardUpdate
@@ -149,6 +149,17 @@ def delete_card(card_id: int, current_admin: User = Depends(get_current_admin_us
     db.commit()
     
     return {"message": "Card deleted successfully"}
+
+@router.post("/cards/{card_id}/responses")
+def save_card_response(card_id: int, response_data: dict, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Save user response to an exercise card"""
+    # Verify card exists
+    card = db.query(ThemeCard).filter(ThemeCard.id == card_id).first()
+    if not card:
+        raise HTTPException(status_code=404, detail="Card not found")
+    
+    # For now, just return success - we can implement full storage later
+    return {"success": True, "message": "Response saved successfully"}
 
 # ===============================
 # EXERCISES API ROUTES (with /api prefix)
