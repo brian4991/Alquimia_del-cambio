@@ -223,6 +223,27 @@ const UserDetailView = () => {
     setEditedText('');
   };
 
+  const isTableResponse = (responseText) => {
+    if (!responseText || typeof responseText !== 'string') return false;
+    
+    try {
+      const parsed = JSON.parse(responseText);
+      // Check if it's a table-like structure: {"0": {"0": "value"}, "1": {"0": "value"}}
+      return (
+        typeof parsed === 'object' &&
+        parsed !== null &&
+        Object.keys(parsed).every(key => !isNaN(key)) && // All keys are numeric strings
+        Object.values(parsed).every(row => 
+          typeof row === 'object' && 
+          row !== null &&
+          Object.keys(row).every(colKey => !isNaN(colKey)) // Row keys are also numeric
+        )
+      );
+    } catch {
+      return false;
+    }
+  };
+
   const getModuleResponses = (moduleId) => {
     return userResponses.filter(response => {
       // We need to match responses to modules somehow
@@ -664,6 +685,19 @@ const UserDetailView = () => {
                                                     </button>
                                                   </div>
                                                 </div>
+                                              ) : isTableResponse(response.response_text) ? (
+                                                <div className="space-y-2">
+                                                  <div className="bg-blue-50 rounded-md p-3 border border-blue-200 mb-4">
+                                                    <div className="flex items-center text-sm text-blue-800 mb-2">
+                                                      <span className="mr-2">📊</span>
+                                                      <span className="font-medium">Tabla de respuestas:</span>
+                                                    </div>
+                                                  </div>
+                                                  <AdminTableView 
+                                                    tableData={response.response_text}
+                                                    questionText={response.question_text}
+                                                  />
+                                                </div>
                                               ) : (
                                                 <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
                                                   {response.response_text}
@@ -779,13 +813,19 @@ const UserDetailView = () => {
                                               tableConfig={response.table_config}
                                               questionText={response.sub_question_text}
                                             />
-                                          ) : (response.response_type === 'card_exercise' || response.response_type === 'exercise_section') && 
-                                             response.response_text.startsWith('{') && 
-                                             response.response_text.includes('"0":') ? (
-                                            <AdminTableView 
-                                              tableData={response.response_text}
-                                              questionText={response.sub_question_text}
-                                            />
+                                          ) : isTableResponse(response.response_text) ? (
+                                            <div className="space-y-2">
+                                              <div className="bg-blue-50 rounded-md p-3 border border-blue-200 mb-4">
+                                                <div className="flex items-center text-sm text-blue-800 mb-2">
+                                                  <span className="mr-2">📊</span>
+                                                  <span className="font-medium">Tabla de respuestas:</span>
+                                                </div>
+                                              </div>
+                                              <AdminTableView 
+                                                tableData={response.response_text}
+                                                questionText={response.sub_question_text}
+                                              />
+                                            </div>
                                           ) : editingResponse === response.id ? (
                                             <div className="space-y-3">
                                               <textarea
