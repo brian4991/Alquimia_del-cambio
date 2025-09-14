@@ -60,3 +60,25 @@ def migrate_exercise_fields(current_admin: User = Depends(get_current_admin_user
     except Exception as e:
         db.rollback()
         return {"success": False, "error": str(e), "details": results}
+
+@router.post("/admin/migrate-exercise-sections")
+def migrate_exercise_sections(current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
+    """Add exercise_sections column for multi-section exercises"""
+    results = []
+    
+    # Add exercise_sections column
+    try:
+        db.execute(text("ALTER TABLE theme_cards ADD COLUMN exercise_sections JSON NULL DEFAULT '[]'"))
+        results.append("✅ exercise_sections column added")
+    except Exception as e:
+        if "already exists" in str(e) or "duplicate column" in str(e).lower():
+            results.append("⚠️ exercise_sections column already exists")
+        else:
+            results.append(f"❌ Error adding exercise_sections: {e}")
+    
+    try:
+        db.commit()
+        return {"success": True, "message": "Exercise sections migration completed", "details": results}
+    except Exception as e:
+        db.rollback()
+        return {"success": False, "error": str(e), "details": results}

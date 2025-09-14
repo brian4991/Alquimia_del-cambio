@@ -65,6 +65,7 @@ class ThemeCard(Base):
     # Exercise-specific fields
     exercise_instructions = Column(Text, nullable=True)
     exercise_questions = Column(JSON, nullable=True, default="[]")
+    exercise_sections = Column(JSON, nullable=True, default="[]")
     
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
@@ -80,6 +81,14 @@ class Exercise(Base):
     sub_questions = Column(JSON, nullable=True, default="[]")
     order_number = Column(Integer, nullable=False)
     theme_id = Column(Integer, ForeignKey("themes.id"), nullable=False)
+    
+    # Exercise-specific fields (same as cards)
+    exercise_instructions = Column(Text, nullable=True)
+    exercise_questions = Column(JSON, nullable=True, default="[]")
+    exercise_sections = Column(JSON, nullable=True, default="[]")
+    
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     
     # Relationships
     theme = relationship("Theme", back_populates="exercises")

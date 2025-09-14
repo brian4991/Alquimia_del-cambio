@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { config } from '../config';
+import ExerciseTable from './ExerciseTable';
 import { 
   DocumentTextIcon, 
   PencilSquareIcon, 
@@ -77,10 +78,22 @@ const ThemeView = () => {
           // Main exercise response
           initialResponses[exercise.id] = exercise.user_response || '';
           
-          // Sub-question responses
+          // Legacy sub-question responses
           if (exercise.sub_question_responses) {
             Object.entries(exercise.sub_question_responses).forEach(([index, response]) => {
               initialResponses[`${exercise.id}_${index}`] = response || '';
+            });
+          }
+          
+          // New exercise sections responses
+          if (exercise.exercise_sections) {
+            exercise.exercise_sections.forEach((section, sectionIndex) => {
+              if (section.questions) {
+                section.questions.forEach((question, questionIndex) => {
+                  const responseKey = `${exercise.id}_section_${sectionIndex}_question_${questionIndex}`;
+                  initialResponses[responseKey] = '';
+                });
+              }
             });
           }
         });
@@ -104,14 +117,51 @@ const ThemeView = () => {
     }));
   };
 
+  const handleTableDataChange = (responseKey, data) => {
+    setResponses(prev => ({
+      ...prev,
+      [responseKey]: data
+    }));
+  };
+
   const areAllQuestionsAnswered = () => {
     const currentExerciseData = exercises[currentExercise];
-    if (!currentExerciseData?.sub_questions) return false;
     
-    return currentExerciseData.sub_questions.every((_, questionIndex) => {
-      const responseKey = `${currentExerciseData.id}_${questionIndex}`;
-      return responses[responseKey]?.trim();
-    });
+    // Check legacy sub-questions
+    if (currentExerciseData?.sub_questions && currentExerciseData.sub_questions.length > 0) {
+      const allLegacyAnswered = currentExerciseData.sub_questions.every((_, questionIndex) => {
+        const responseKey = `${currentExerciseData.id}_${questionIndex}`;
+        return responses[responseKey]?.trim();
+      });
+      if (!allLegacyAnswered) return false;
+    }
+    
+    // Check new exercise sections
+    if (currentExerciseData?.exercise_sections && currentExerciseData.exercise_sections.length > 0) {
+      for (let sectionIndex = 0; sectionIndex < currentExerciseData.exercise_sections.length; sectionIndex++) {
+        const section = currentExerciseData.exercise_sections[sectionIndex];
+        if (section.questions && section.questions.length > 0) {
+          for (let questionIndex = 0; questionIndex < section.questions.length; questionIndex++) {
+            const responseKey = `${currentExerciseData.id}_section_${sectionIndex}_question_${questionIndex}`;
+            const response = responses[responseKey];
+            
+            // For table questions, check if it has data
+            if (section.questions[questionIndex].type === 'table') {
+              if (!response || (typeof response === 'object' && Object.keys(response).length === 0)) {
+                return false;
+              }
+            } else {
+              // For text questions, check if it's not empty
+              if (!response || !response.trim()) {
+                return false;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    return true;
   };
 
   const handleSubmitExercise = async () => {
@@ -124,7 +174,7 @@ const ThemeView = () => {
 
     setSubmitting(true);
     try {
-      // Submit all sub-question responses
+      // Submit legacy sub-question responses
       if (exercise.sub_questions) {
         for (let questionIndex = 0; questionIndex < exercise.sub_questions.length; questionIndex++) {
           const responseKey = `${exercise.id}_${questionIndex}`;
@@ -143,6 +193,38 @@ const ThemeView = () => {
                 response_text: responseText
               })
             });
+          }
+        }
+      }
+
+      // Submit new exercise sections responses
+      if (exercise.exercise_sections) {
+        for (let sectionIndex = 0; sectionIndex < exercise.exercise_sections.length; sectionIndex++) {
+          const section = exercise.exercise_sections[sectionIndex];
+          if (section.questions) {
+            for (let questionIndex = 0; questionIndex < section.questions.length; questionIndex++) {
+              const responseKey = `${exercise.id}_section_${sectionIndex}_question_${questionIndex}`;
+              const responseData = responses[responseKey];
+              
+              if (responseData) {
+                const responseText = typeof responseData === 'object' ? JSON.stringify(responseData) : responseData;
+                
+                if (responseText && responseText.trim()) {
+                  await fetch(`${config.apiUrl}/submit-sub-question-response`, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                      exercise_id: exercise.id,
+                      sub_question_index: `section_${sectionIndex}_question_${questionIndex}`,
+                      response_text: responseText
+                    })
+                  });
+                }
+              }
+            }
           }
         }
       }
@@ -410,25 +492,115 @@ const ThemeView = () => {
               )}
               
               <div className="space-y-8">
-                {/* Questions et réponses */}
-                {currentExerciseData?.sub_questions && currentExerciseData.sub_questions.length > 0 ? (
-                  currentExerciseData.sub_questions.map((question, questionIndex) => (
-                    <div key={questionIndex} className="space-y-4">
-                      <div className="glass-effect-sage rounded-xl p-4">
-                        <h3 className="font-inter text-lg font-medium text-sage-dark">
-                          {question}
-                        </h3>
+                {/* Legacy sub-questions */}
+                {currentExerciseData?.sub_questions && currentExerciseData.sub_questions.length > 0 && (
+                  <div className="space-y-6">
+                    <h3 className="font-inter text-xl font-semibold text-black mb-4">Preguntas</h3>
+                    {currentExerciseData.sub_questions.map((question, questionIndex) => (
+                      <div key={questionIndex} className="space-y-4">
+                        <div className="glass-effect-sage rounded-xl p-4">
+                          <h4 className="font-inter text-lg font-medium text-sage-dark">
+                            {question}
+                          </h4>
+                        </div>
+                        
+                        <textarea
+                          value={responses[`${currentExerciseData.id}_${questionIndex}`] || ''}
+                          onChange={(e) => handleResponseChange(`${currentExerciseData.id}_${questionIndex}`, e.target.value)}
+                          placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo."
+                          className="w-full h-40 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-base leading-relaxed text-black placeholder-taupe"
+                        />
                       </div>
-                      
-                      <textarea
-                        value={responses[`${currentExerciseData.id}_${questionIndex}`] || ''}
-                        onChange={(e) => handleResponseChange(`${currentExerciseData.id}_${questionIndex}`, e.target.value)}
-                        placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo."
-                        className="w-full h-40 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-base leading-relaxed text-black placeholder-taupe"
-                      />
-                    </div>
-                  ))
-                ) : (
+                    ))}
+                  </div>
+                )}
+
+                {/* New exercise sections */}
+                {currentExerciseData?.exercise_sections && currentExerciseData.exercise_sections.length > 0 && (
+                  <div className="space-y-8">
+                    {currentExerciseData.exercise_sections.map((section, sectionIndex) => (
+                      <div key={sectionIndex} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 p-6">
+                        <div className="mb-6">
+                          <h3 className="font-inter text-xl font-bold text-green-800 mb-3 flex items-center">
+                            <span className="mr-2">📋</span>
+                            {section.title}
+                          </h3>
+                          {section.instructions && (
+                            <div className="bg-white/80 rounded-lg p-4 border border-green-200 mb-4">
+                              <p className="font-inter text-green-900 leading-relaxed italic">
+                                <span className="font-medium">Instrucciones:</span> "{section.instructions}"
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        {section.questions && section.questions.length > 0 && (
+                          <div className="space-y-6">
+                            {section.questions.map((question, questionIndex) => {
+                              const responseKey = `${currentExerciseData.id}_section_${sectionIndex}_question_${questionIndex}`;
+                              const responseValue = responses[responseKey];
+                              
+                              return (
+                                <div key={questionIndex} className="bg-white rounded-lg border border-green-200 p-5">
+                                  <div className="mb-4">
+                                    <div className="flex items-start mb-3">
+                                      <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full mr-3 mt-1">
+                                        Pregunta {questionIndex + 1}
+                                      </span>
+                                      <h4 className="font-inter text-lg font-medium text-gray-800 flex-1">
+                                        {question.question}
+                                      </h4>
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Render different input types based on question type */}
+                                  {question.type === 'table' && question.table_config ? (
+                                    <div className="space-y-4">
+                                      <div className="bg-blue-50 rounded-md p-3 border border-blue-200 mb-4">
+                                        <div className="flex items-center text-sm text-blue-800 mb-2">
+                                          <span className="mr-2">📊</span>
+                                          <span className="font-medium">Completa la siguiente tabla:</span>
+                                        </div>
+                                        <div className="text-xs text-blue-600">
+                                          {question.table_config.columns?.length || 0} columnas × {question.table_config.rows || 3} filas
+                                        </div>
+                                      </div>
+                                      <ExerciseTable
+                                        tableConfig={question.table_config}
+                                        questionIndex={questionIndex}
+                                        cardId={currentExerciseData.id}
+                                        initialData={responseValue ? (() => {
+                                          try {
+                                            return typeof responseValue === 'string' ? JSON.parse(responseValue) : responseValue;
+                                          } catch {
+                                            return {};
+                                          }
+                                        })() : {}}
+                                        onDataChange={(data) => handleTableDataChange(responseKey, data)}
+                                        readOnly={false}
+                                      />
+                                    </div>
+                                  ) : (
+                                    <textarea
+                                      value={typeof responseValue === 'string' ? responseValue : ''}
+                                      onChange={(e) => handleResponseChange(responseKey, e.target.value)}
+                                      placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo."
+                                      className="w-full h-40 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 glass-effect resize-none font-inter text-base leading-relaxed text-black placeholder-taupe"
+                                    />
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Show message if no questions available */}
+                {(!currentExerciseData?.sub_questions || currentExerciseData.sub_questions.length === 0) && 
+                 (!currentExerciseData?.exercise_sections || currentExerciseData.exercise_sections.length === 0) && (
                   <div className="text-center py-8 text-gray-500">
                     <p>No hay preguntas disponibles para este ejercicio.</p>
                   </div>

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List, Optional, Union
 from datetime import datetime
 
 # User schemas
@@ -23,6 +23,11 @@ class Token(BaseModel):
 
 
 # Theme Card schemas
+class ExerciseSection(BaseModel):
+    title: str
+    instructions: str
+    questions: List[dict] = []
+
 class ThemeCardResponse(BaseModel):
     id: int
     title: str
@@ -33,18 +38,22 @@ class ThemeCardResponse(BaseModel):
     is_editable: bool
     created_at: datetime
     updated_at: datetime
-    # Exercise-specific fields
+    # Exercise-specific fields (legacy - for backward compatibility)
     exercise_instructions: Optional[str] = None
     exercise_questions: Optional[List[dict]] = None
+    # New exercise sections
+    exercise_sections: Optional[List[ExerciseSection]] = None
 
 class ThemeCardCreate(BaseModel):
     title: str
     content: str
     card_type: str = "content"
     order_number: int
-    # Exercise-specific fields
+    # Exercise-specific fields (legacy)
     exercise_instructions: Optional[str] = None
     exercise_questions: Optional[List[dict]] = None
+    # New exercise sections
+    exercise_sections: Optional[List[ExerciseSection]] = None
 
 class ThemeCardUpdate(BaseModel):
     title: Optional[str] = None
@@ -54,6 +63,8 @@ class ThemeCardUpdate(BaseModel):
     # Exercise-specific fields (optional, used when card_type = "exercise")
     exercise_instructions: Optional[str] = None
     exercise_questions: Optional[List[dict]] = None
+    # New exercise sections
+    exercise_sections: Optional[List[ExerciseSection]] = None
 
 # Exercise schemas
 class ExerciseCreate(BaseModel):
@@ -61,12 +72,22 @@ class ExerciseCreate(BaseModel):
     instructions: Optional[str] = None
     order_number: int
     sub_questions: List[str] = []
+    
+    # Exercise-specific fields (same as cards)
+    exercise_instructions: Optional[str] = None
+    exercise_questions: List[dict] = []
+    exercise_sections: List[dict] = []
 
 class ExerciseUpdate(BaseModel):
     title: Optional[str] = None
     instructions: Optional[str] = None
     order_number: Optional[int] = None
     sub_questions: Optional[List[str]] = None
+    
+    # Exercise-specific fields (same as cards)
+    exercise_instructions: Optional[str] = None
+    exercise_questions: Optional[List[dict]] = None
+    exercise_sections: Optional[List[dict]] = None
 
 class ExerciseResponseRequest(BaseModel):
     exercise_id: int
@@ -75,7 +96,7 @@ class ExerciseResponseRequest(BaseModel):
 # Sub-question response schema
 class SubQuestionResponseRequest(BaseModel):
     exercise_id: int
-    sub_question_index: int
+    sub_question_index: Union[int, str]  # Support both legacy (int) and new format (str)
     response_text: str
 
 class ExerciseResponse(BaseModel):
@@ -87,6 +108,11 @@ class ExerciseResponse(BaseModel):
     sub_questions: List[str] = []
     user_response: Optional[str] = None
     sub_question_responses: dict = {}  # {index: response_text}
+    
+    # Exercise-specific fields (same as cards)
+    exercise_instructions: Optional[str] = None
+    exercise_questions: List[dict] = []
+    exercise_sections: List[dict] = []
 
 
 # Module schemas

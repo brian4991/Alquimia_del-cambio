@@ -14,7 +14,8 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     card_type: 'content',
     order_number: cards.length + 1,
     exercise_instructions: '',
-    exercise_questions: []
+    exercise_questions: [],
+    exercise_sections: []
   });
   
   // Exercise-specific states
@@ -24,6 +25,11 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     columns: [{ title: 'Colonne 1', type: 'text' }],
     rows: 3
   });
+  
+  // Exercise sections states
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const [newSectionTitle, setNewSectionTitle] = useState('');
+  const [newSectionInstructions, setNewSectionInstructions] = useState('');
 
   const cardTypes = [
     { value: 'intro', label: 'Introduction', color: 'bg-green-50 border-green-200', icon: '🎯' },
@@ -175,7 +181,8 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       card_type: card.card_type,
       order_number: card.order_number,
       exercise_instructions: card.exercise_instructions || '',
-      exercise_questions: card.exercise_questions || []
+      exercise_questions: card.exercise_questions || [],
+      exercise_sections: card.exercise_sections || []
     });
     setShowCreateForm(true);
   };
@@ -187,9 +194,13 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       card_type: 'content',
       order_number: cards.length + 1,
       exercise_instructions: '',
-      exercise_questions: []
+      exercise_questions: [],
+      exercise_sections: []
     });
     setNewQuestion('');
+    setCurrentSectionIndex(0);
+    setNewSectionTitle('');
+    setNewSectionInstructions('');
   };
 
   const handleCancel = () => {
@@ -274,6 +285,82 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
         columns: updatedColumns
       });
     }
+  };
+
+  // Exercise sections management functions
+  const addSection = () => {
+    if (newSectionTitle.trim()) {
+      const newSection = {
+        title: newSectionTitle.trim(),
+        instructions: newSectionInstructions.trim(),
+        questions: []
+      };
+      
+      setFormData({
+        ...formData,
+        exercise_sections: [...formData.exercise_sections, newSection]
+      });
+      
+      setNewSectionTitle('');
+      setNewSectionInstructions('');
+      setCurrentSectionIndex(formData.exercise_sections.length);
+    }
+  };
+
+  const removeSection = (index) => {
+    const updatedSections = formData.exercise_sections.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      exercise_sections: updatedSections
+    });
+    
+    if (currentSectionIndex >= updatedSections.length && updatedSections.length > 0) {
+      setCurrentSectionIndex(updatedSections.length - 1);
+    } else if (updatedSections.length === 0) {
+      setCurrentSectionIndex(0);
+    }
+  };
+
+  const addQuestionToSection = (sectionIndex) => {
+    if (newQuestion.trim() && sectionIndex < formData.exercise_sections.length) {
+      const questionObj = {
+        type: questionType,
+        question: newQuestion.trim(),
+        ...(questionType === 'table' ? { table_config: { ...tableConfig } } : {})
+      };
+      
+      const updatedSections = [...formData.exercise_sections];
+      updatedSections[sectionIndex] = {
+        ...updatedSections[sectionIndex],
+        questions: [...updatedSections[sectionIndex].questions, questionObj]
+      };
+      
+      setFormData({
+        ...formData,
+        exercise_sections: updatedSections
+      });
+      
+      // Reset form
+      setNewQuestion('');
+      setQuestionType('text');
+      setTableConfig({
+        columns: [{ title: 'Colonne 1', type: 'text' }],
+        rows: 3
+      });
+    }
+  };
+
+  const removeQuestionFromSection = (sectionIndex, questionIndex) => {
+    const updatedSections = [...formData.exercise_sections];
+    updatedSections[sectionIndex] = {
+      ...updatedSections[sectionIndex],
+      questions: updatedSections[sectionIndex].questions.filter((_, i) => i !== questionIndex)
+    };
+    
+    setFormData({
+      ...formData,
+      exercise_sections: updatedSections
+    });
   };
 
   if (!selectedTheme) {
@@ -369,180 +456,214 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
 
             {/* Exercise-specific fields */}
             {formData.card_type === 'exercise' && (
-              <div className="space-y-4 border-t pt-4">
+              <div className="space-y-6 border-t pt-4">
                 <h3 className="text-lg font-medium text-gray-900 flex items-center">
                   <span className="mr-2">📝</span>
-                  Configuration de l'exercice
+                  Configuration de l'exercice par sections
                 </h3>
                 
-                {/* Exercise Instructions */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Instructions de l'exercice
-                  </label>
-                  <textarea
-                    value={formData.exercise_instructions}
-                    onChange={(e) => setFormData({ ...formData, exercise_instructions: e.target.value })}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[100px]"
-                    placeholder="Donnez des instructions claires pour cet exercice..."
-                  />
-                </div>
+                {/* New Exercise Sections System */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-md font-medium text-gray-900">
+                      🎯 Sections d'exercices ({formData.exercise_sections.length})
+                    </h4>
+                  </div>
 
-                {/* Exercise Questions */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Questions de l'exercice
-                  </label>
-                  
-                  {/* Add new question */}
-                  <div className="space-y-3 mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                    <div className="flex items-center space-x-4">
-                      <label className="text-sm font-medium text-gray-700">Type de question :</label>
-                      <select
-                        value={questionType}
-                        onChange={(e) => setQuestionType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-1 text-sm"
-                      >
-                        <option value="text">📝 Question texte</option>
-                        <option value="table">📊 Question tableau</option>
-                      </select>
+                  {/* Add new section form */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Titre de la section
+                        </label>
+                        <input
+                          type="text"
+                          value={newSectionTitle}
+                          onChange={(e) => setNewSectionTitle(e.target.value)}
+                          className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                          placeholder="Ex: Réflexion personnelle"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Instructions
+                        </label>
+                        <textarea
+                          value={newSectionInstructions}
+                          onChange={(e) => setNewSectionInstructions(e.target.value)}
+                          className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[60px] text-sm"
+                          placeholder="Instructions pour cette section..."
+                        />
+                      </div>
                     </div>
-                    
-                    <div className="flex space-x-2">
-                      <input
-                        type="text"
-                        value={newQuestion}
-                        onChange={(e) => setNewQuestion(e.target.value)}
-                        className="flex-1 border border-gray-300 rounded-md px-3 py-2"
-                        placeholder="Tapez la question..."
-                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addQuestion())}
-                      />
-                      <button
-                        type="button"
-                        onClick={addQuestion}
-                        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
-                      >
-                        Ajouter
-                      </button>
-                    </div>
-                    
-                    {/* Table configuration (only shown when table type is selected) */}
-                    {questionType === 'table' && (
-                      <div className="space-y-3 border-t pt-3">
-                        <h4 className="text-sm font-medium text-gray-700">Configuration du tableau :</h4>
-                        
-                        {/* Columns configuration */}
-                        <div>
-                          <label className="text-xs text-gray-600 mb-2 block">Colonnes :</label>
+                    <button
+                      type="button"
+                      onClick={addSection}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700"
+                      disabled={!newSectionTitle.trim()}
+                    >
+                      + Ajouter Section
+                    </button>
+                  </div>
+
+                  {/* Exercise Sections List */}
+                  {formData.exercise_sections.length > 0 && (
+                    <div className="space-y-4">
+                      {formData.exercise_sections.map((section, sectionIndex) => (
+                        <div key={sectionIndex} className="bg-white border border-gray-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <h5 className="font-medium text-gray-900 flex items-center">
+                              <span className="mr-2">📋</span>
+                              {section.title}
+                              <span className="ml-2 text-sm text-gray-500">
+                                ({section.questions.length} questions)
+                              </span>
+                            </h5>
+                            <button
+                              type="button"
+                              onClick={() => removeSection(sectionIndex)}
+                              className="text-red-600 hover:text-red-800 text-sm"
+                            >
+                              <TrashIcon className="w-4 h-4" />
+                            </button>
+                          </div>
+                          
+                          {section.instructions && (
+                            <p className="text-sm text-gray-600 mb-3 italic">
+                              "{section.instructions}"
+                            </p>
+                          )}
+
+                          {/* Add question to this section */}
+                          {currentSectionIndex === sectionIndex && (
+                            <div className="mb-3 p-3 bg-green-50 border border-green-200 rounded">
+                              <div className="space-y-2">
+                                <div className="flex items-center space-x-2">
+                                  <select
+                                    value={questionType}
+                                    onChange={(e) => setQuestionType(e.target.value)}
+                                    className="border border-gray-300 rounded px-2 py-1 text-sm"
+                                  >
+                                    <option value="text">📝 Texte</option>
+                                    <option value="table">📊 Tableau</option>
+                                  </select>
+                                  <input
+                                    type="text"
+                                    value={newQuestion}
+                                    onChange={(e) => setNewQuestion(e.target.value)}
+                                    className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
+                                    placeholder="Question..."
+                                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addQuestionToSection(sectionIndex))}
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => addQuestionToSection(sectionIndex)}
+                                    className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700"
+                                  >
+                                    + Question
+                                  </button>
+                                </div>
+
+                                {/* Table configuration */}
+                                {questionType === 'table' && (
+                                  <div className="bg-white p-3 rounded border text-sm">
+                                    <div className="flex items-center justify-between mb-2">
+                                      <span className="font-medium">Configuration tableau:</span>
+                                      <div className="flex items-center space-x-2">
+                                        <span>Lignes:</span>
+                                        <input
+                                          type="number"
+                                          value={tableConfig.rows}
+                                          onChange={(e) => setTableConfig({ ...tableConfig, rows: parseInt(e.target.value) || 3 })}
+                                          className="w-16 border border-gray-300 rounded px-2 py-1"
+                                          min="1"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div className="space-y-1">
+                                      {tableConfig.columns.map((col, colIndex) => (
+                                        <div key={colIndex} className="flex items-center space-x-2">
+                                          <input
+                                            type="text"
+                                            value={col.title}
+                                            onChange={(e) => updateTableColumn(colIndex, 'title', e.target.value)}
+                                            className="flex-1 border border-gray-300 rounded px-2 py-1"
+                                            placeholder="Colonne..."
+                                          />
+                                          <select
+                                            value={col.type}
+                                            onChange={(e) => updateTableColumn(colIndex, 'type', e.target.value)}
+                                            className="border border-gray-300 rounded px-2 py-1"
+                                          >
+                                            <option value="text">Texte</option>
+                                            <option value="number">Nombre</option>
+                                          </select>
+                                          {tableConfig.columns.length > 1 && (
+                                            <button
+                                              type="button"
+                                              onClick={() => removeTableColumn(colIndex)}
+                                              className="text-red-500 hover:text-red-700"
+                                            >
+                                              <TrashIcon className="w-4 h-4" />
+                                            </button>
+                                          )}
+                                        </div>
+                                      ))}
+                                      <button
+                                        type="button"
+                                        onClick={addTableColumn}
+                                        className="text-blue-600 hover:text-blue-800 text-sm"
+                                      >
+                                        + Colonne
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Questions for this section */}
                           <div className="space-y-2">
-                            {tableConfig.columns.map((column, index) => (
-                              <div key={index} className="flex items-center space-x-2">
-                                <input
-                                  type="text"
-                                  value={column.title}
-                                  onChange={(e) => updateTableColumn(index, 'title', e.target.value)}
-                                  className="flex-1 border border-gray-300 rounded px-2 py-1 text-sm"
-                                  placeholder="Nom de la colonne"
-                                />
-                                <select
-                                  value={column.type}
-                                  onChange={(e) => updateTableColumn(index, 'type', e.target.value)}
-                                  className="border border-gray-300 rounded px-2 py-1 text-sm"
-                                >
-                                  <option value="text">Texte</option>
-                                  <option value="number">Nombre</option>
-                                </select>
+                            {section.questions.map((question, qIndex) => (
+                              <div key={qIndex} className="flex items-center justify-between bg-gray-50 p-2 rounded">
+                                <div className="flex-1">
+                                  <span className="text-sm">
+                                    {question.type === 'table' ? '📊' : '📝'} {question.question}
+                                  </span>
+                                </div>
                                 <button
                                   type="button"
-                                  onClick={() => removeTableColumn(index)}
-                                  className="text-red-600 hover:text-red-800 p-1"
-                                  disabled={tableConfig.columns.length <= 1}
+                                  onClick={() => removeQuestionFromSection(sectionIndex, qIndex)}
+                                  className="text-red-500 hover:text-red-700 ml-2"
                                 >
                                   <TrashIcon className="w-4 h-4" />
                                 </button>
                               </div>
                             ))}
+                          </div>
+
+                          {/* Button to activate question adding for this section */}
+                          {currentSectionIndex !== sectionIndex && (
                             <button
                               type="button"
-                              onClick={addTableColumn}
-                              className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+                              onClick={() => setCurrentSectionIndex(sectionIndex)}
+                              className="mt-2 text-blue-600 hover:text-blue-800 text-sm"
                             >
-                              <PlusIcon className="w-4 h-4 mr-1" />
-                              Ajouter colonne
+                              + Ajouter questions à cette section
                             </button>
-                          </div>
+                          )}
                         </div>
-                        
-                        {/* Rows configuration */}
-                        <div>
-                          <label className="text-xs text-gray-600 mb-1 block">Nombre de lignes :</label>
-                          <input
-                            type="number"
-                            min="1"
-                            max="20"
-                            value={tableConfig.rows}
-                            onChange={(e) => setTableConfig({ ...tableConfig, rows: parseInt(e.target.value) || 1 })}
-                            className="border border-gray-300 rounded px-2 py-1 text-sm w-20"
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Questions list */}
-                  {formData.exercise_questions.length > 0 && (
-                    <div className="space-y-3 max-h-60 overflow-y-auto border rounded-md p-3 bg-gray-50">
-                      {formData.exercise_questions.map((question, index) => {
-                        const questionObj = typeof question === 'string' 
-                          ? { type: 'text', question: question }
-                          : question;
-                        
-                        return (
-                          <div key={index} className="bg-white p-3 rounded border">
-                            <div className="flex items-start space-x-2">
-                              <span className="text-sm font-medium text-gray-500 w-8 mt-1">
-                                {index + 1}.
-                              </span>
-                              <div className="flex-1">
-                                <div className="flex items-center space-x-2 mb-2">
-                                  <span className={`text-xs px-2 py-1 rounded-full ${
-                                    questionObj.type === 'table' 
-                                      ? 'bg-blue-100 text-blue-700' 
-                                      : 'bg-gray-100 text-gray-700'
-                                  }`}>
-                                    {questionObj.type === 'table' ? '📊 Tableau' : '📝 Texte'}
-                                  </span>
-                                </div>
-                                <input
-                                  type="text"
-                                  value={questionObj.question}
-                                  onChange={(e) => updateQuestion(index, e.target.value)}
-                                  className="w-full border border-gray-200 rounded px-2 py-1 text-sm"
-                                />
-                                {questionObj.type === 'table' && questionObj.table_config && (
-                                  <div className="mt-2 text-xs text-gray-600">
-                                    📊 {questionObj.table_config.columns?.length || 0} colonnes, {questionObj.table_config.rows || 0} lignes
-                                  </div>
-                                )}
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => removeQuestion(index)}
-                                className="text-red-600 hover:text-red-800 p-1"
-                              >
-                                <TrashIcon className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
+                      ))}
                     </div>
                   )}
-                  
-                  {formData.exercise_questions.length === 0 && (
-                    <p className="text-sm text-gray-500 italic">
-                      Aucune question ajoutée. Ajoutez au moins une question pour cet exercice.
-                    </p>
+
+                  {formData.exercise_sections.length === 0 && (
+                    <div className="text-center py-6 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                      <p className="mb-2">Aucune section d'exercice créée</p>
+                      <p className="text-sm">Ajoutez un titre et des instructions ci-dessus, puis cliquez sur "Ajouter Section"</p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -643,87 +764,106 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
                 {formData.card_type === 'exercise' && (
                   <div className="mt-8 border-t pt-8">
                     <div className="space-y-6">
-                      {/* Exercise Instructions */}
-                      {formData.exercise_instructions && (
-                        <div className="glass-effect-sage rounded-xl p-6">
-                          <h4 className="font-inter text-lg font-semibold text-sage-dark mb-3 flex items-center">
-                            <span className="mr-2">💡</span>
-                            Instrucciones
-                          </h4>
-                          <p className="font-inter text-sage-dark leading-relaxed">
-                            {formData.exercise_instructions}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Exercise Questions */}
-                      {formData.exercise_questions && formData.exercise_questions.length > 0 && (
-                        <div className="space-y-4">
+                      {/* Exercise Sections Preview */}
+                      {formData.exercise_sections && formData.exercise_sections.length > 0 ? (
+                        <div className="space-y-8">
                           <h4 className="font-inter text-xl font-semibold text-orange-800 flex items-center">
-                            <span className="mr-2">📝</span>
-                            Preguntas del ejercicio
+                            <span className="mr-2">🎯</span>
+                            Vista previa del ejercicio por secciones
                           </h4>
                           
-                          {formData.exercise_questions.map((questionObj, index) => {
-                            const question = typeof questionObj === 'string' 
-                              ? { type: 'text', question: questionObj }
-                              : questionObj;
-                            
-                            return (
-                              <div key={index} className="bg-white rounded-xl border-2 border-orange-200 p-6">
-                                <div className="flex items-start justify-between mb-4">
-                                  <h5 className="font-inter text-lg font-semibold text-gray-800">
-                                    Pregunta {index + 1}
-                                  </h5>
-                                  <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">
-                                    {question.type === 'table' ? 'Tabla' : 'Texto'}
-                                  </span>
-                                </div>
-                                
-                                <p className="font-inter text-gray-700 mb-4">
-                                  {question.question}
-                                </p>
-
-                                {question.type === 'table' && question.table_config && (
-                                  <div className="bg-gray-50 rounded-lg p-4">
-                                    <h6 className="font-medium text-gray-800 mb-3">Vista previa de tabla:</h6>
-                                    <div className="overflow-x-auto">
-                                      <table className="w-full border-collapse border border-gray-300">
-                                        <thead>
-                                          <tr className="bg-gray-100">
-                                            {question.table_config.columns.map((col, colIndex) => (
-                                              <th key={colIndex} className="border border-gray-300 px-3 py-2 text-left font-medium">
-                                                {col.title}
-                                              </th>
-                                            ))}
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {Array.from({ length: question.table_config.rows }, (_, rowIndex) => (
-                                            <tr key={rowIndex}>
-                                              {question.table_config.columns.map((col, colIndex) => (
-                                                <td key={colIndex} className="border border-gray-300 px-3 py-2">
-                                                  <div className="h-8 bg-gray-100 rounded opacity-50"></div>
-                                                </td>
-                                              ))}
-                                            </tr>
-                                          ))}
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                )}
-
-                                {question.type === 'text' && (
-                                  <div className="bg-gray-50 rounded-lg p-4">
-                                    <div className="h-24 bg-gray-100 rounded opacity-50 flex items-center justify-center">
-                                      <span className="text-gray-500 text-sm">Área de respuesta de texto</span>
-                                    </div>
+                          {formData.exercise_sections.map((section, sectionIndex) => (
+                            <div key={sectionIndex} className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 p-6">
+                              {/* Section Header */}
+                              <div className="mb-6">
+                                <h5 className="font-inter text-xl font-bold text-blue-800 mb-2 flex items-center">
+                                  <span className="mr-2">📋</span>
+                                  {section.title}
+                                </h5>
+                                {section.instructions && (
+                                  <div className="bg-white/70 rounded-lg p-4 border border-blue-200">
+                                    <p className="font-inter text-blue-900 leading-relaxed italic">
+                                      "{section.instructions}"
+                                    </p>
                                   </div>
                                 )}
                               </div>
-                            );
-                          })}
+
+                              {/* Section Questions */}
+                              {section.questions && section.questions.length > 0 && (
+                                <div className="space-y-4">
+                                  {section.questions.map((question, questionIndex) => (
+                                    <div key={questionIndex} className="bg-white rounded-lg border border-blue-200 p-4">
+                                      <div className="flex items-start justify-between mb-3">
+                                        <h6 className="font-inter text-md font-semibold text-gray-800">
+                                          Pregunta {questionIndex + 1}
+                                        </h6>
+                                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                                          {question.type === 'table' ? '📊 Tabla' : '📝 Texto'}
+                                        </span>
+                                      </div>
+                                      
+                                      <p className="font-inter text-gray-700 mb-4">
+                                        {question.question}
+                                      </p>
+
+                                      {/* Table Preview */}
+                                      {question.type === 'table' && question.table_config && (
+                                        <div className="bg-gray-50 rounded-lg p-4">
+                                          <h6 className="font-medium text-gray-800 mb-3">Vista previa de tabla:</h6>
+                                          <div className="overflow-x-auto">
+                                            <table className="w-full border-collapse border border-gray-300">
+                                              <thead>
+                                                <tr className="bg-gray-100">
+                                                  {question.table_config.columns.map((col, colIndex) => (
+                                                    <th key={colIndex} className="border border-gray-300 px-3 py-2 text-left font-medium">
+                                                      {col.title}
+                                                    </th>
+                                                  ))}
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                {Array.from({ length: question.table_config.rows }, (_, rowIndex) => (
+                                                  <tr key={rowIndex}>
+                                                    {question.table_config.columns.map((col, colIndex) => (
+                                                      <td key={colIndex} className="border border-gray-300 px-3 py-2">
+                                                        <div className="h-8 bg-gray-100 rounded opacity-50"></div>
+                                                      </td>
+                                                    ))}
+                                                  </tr>
+                                                ))}
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      )}
+
+                                      {/* Text Input Preview */}
+                                      {question.type === 'text' && (
+                                        <div className="bg-gray-50 rounded-lg p-4">
+                                          <div className="h-24 bg-gray-100 rounded opacity-50 flex items-center justify-center">
+                                            <span className="text-gray-500 text-sm">Área de respuesta de texto</span>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+
+                              {/* Empty section indicator */}
+                              {(!section.questions || section.questions.length === 0) && (
+                                <div className="text-center py-4 text-blue-600 bg-blue-50 rounded-lg border border-blue-200">
+                                  <p className="text-sm italic">Esta sección no tiene preguntas aún</p>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                          <p className="mb-2">Sin secciones de ejercicio</p>
+                          <p className="text-sm">Crea secciones arriba para ver la vista previa aquí</p>
                         </div>
                       )}
                     </div>

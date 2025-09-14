@@ -346,19 +346,64 @@ def get_user_responses(
     ).order_by(UserSubQuestionResponseDB.submitted_at.desc()).all()
     
     for response, exercise, theme, module in sub_responses:
-        # Get the sub-question text
+        # Parse sub_questions and exercise_sections from JSON if they exist
+        import json
+        sub_questions = []
+        if exercise.sub_questions:
+            try:
+                sub_questions = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
+            except:
+                sub_questions = []
+        
+        exercise_sections = []
+        if exercise.exercise_sections:
+            try:
+                exercise_sections = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
+            except:
+                exercise_sections = []
+        
+        # Get the question text based on the index type
         sub_question_text = "Question"
-        if exercise.sub_questions and response.sub_question_index < len(exercise.sub_questions):
-            sub_question_text = exercise.sub_questions[response.sub_question_index]
+        exercise_title_suffix = ""
+        response_type = "sub_question"
+        
+        if isinstance(response.sub_question_index, int):
+            # Legacy format: integer index
+            if sub_questions and response.sub_question_index < len(sub_questions):
+                sub_question_text = sub_questions[response.sub_question_index]
+                exercise_title_suffix = f" - Q{response.sub_question_index + 1}"
+        elif isinstance(response.sub_question_index, str) and response.sub_question_index.startswith("section_"):
+            # New format: "section_X_question_Y"
+            response_type = "exercise_section"
+            try:
+                parts = response.sub_question_index.split("_")
+                if len(parts) >= 4:  # section_X_question_Y
+                    section_index = int(parts[1])
+                    question_index = int(parts[3])
+                    
+                    if section_index < len(exercise_sections):
+                        section = exercise_sections[section_index]
+                        section_title = section.get('title', f'Section {section_index + 1}')
+                        
+                        if section.get('questions') and question_index < len(section['questions']):
+                            question = section['questions'][question_index]
+                            sub_question_text = question.get('question', 'Question')
+                            exercise_title_suffix = f" - {section_title} - Q{question_index + 1}"
+                        else:
+                            exercise_title_suffix = f" - {section_title}"
+                    else:
+                        exercise_title_suffix = f" - {response.sub_question_index}"
+            except (ValueError, IndexError):
+                exercise_title_suffix = f" - {response.sub_question_index}"
         
         result.append({
             "id": f"sub_{response.id}",
             "exercise_id": exercise.id,
-            "exercise_title": f"{exercise.title} - Q{response.sub_question_index + 1}",
+            "exercise_title": f"{exercise.title}{exercise_title_suffix}",
             "theme_title": theme.title,
             "module_title": module.title,
             "response_text": response.response_text,
-            "response_type": "sub_question",
+            "response_type": response_type,
             "sub_question_index": response.sub_question_index,
             "sub_question_text": sub_question_text,
             "submitted_at": response.submitted_at,
@@ -370,6 +415,220 @@ def get_user_responses(
     result.sort(key=lambda x: x['submitted_at'], reverse=True)
     
     return result
+
+@router.get("/auth/admin/users/{user_id}/current-responses")
+def get_user_current_responses(
+    user_id: int,
+    current_admin: User = Depends(get_current_admin_user), 
+    db: Session = Depends(get_db)
+):
+    """Get current responses from a user (only for existing exercises) - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    result = []
+    
+    # Get all modules, themes, and exercises with their current responses
+    modules = db.query(Module).all()
+    
+    for module in modules:
+        module_data = {
+            "module_id": module.id,
+            "module_title": module.title,
+            "themes": []
+        }
+        
+        for theme in module.themes:
+            theme_data = {
+                "theme_id": theme.id,
+                "theme_title": theme.title,
+                "exercises": []
+            }
+            
+            for exercise in theme.exercises:
+                # Parse exercise data
+                import json
+                sub_questions = []
+                if exercise.sub_questions:
+                    try:
+                        sub_questions = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
+                    except:
+                        sub_questions = []
+                
+                exercise_sections = []
+                if exercise.exercise_sections:
+                    try:
+                        exercise_sections = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
+                    except:
+                        exercise_sections = []
+                
+                exercise_data = {
+                    "exercise_id": exercise.id,
+                    "exercise_title": exercise.title,
+                    "exercise_instructions": exercise.exercise_instructions,
+                    "sub_questions": sub_questions,
+                    "exercise_sections": exercise_sections,
+                    "responses": []
+                }
+                
+                # Get main exercise response
+                main_response = db.query(UserResponseDB).filter(
+                    UserResponseDB.user_id == user_id,
+                    UserResponseDB.exercise_id == exercise.id
+                ).first()
+                
+                if main_response:
+                    exercise_data["responses"].append({
+                        "id": f"old_{main_response.id}",
+                        "type": "main",
+                        "question_text": "Respuesta principal",
+                        "response_text": main_response.response_text,
+                        "submitted_at": main_response.submitted_at
+                    })
+                
+                # Get sub-question responses (both legacy and new format)
+                sub_responses = db.query(UserSubQuestionResponseDB).filter(
+                    UserSubQuestionResponseDB.user_id == user_id,
+                    UserSubQuestionResponseDB.exercise_id == exercise.id
+                ).all()
+                
+                for sub_response in sub_responses:
+                    question_text = "Question"
+                    response_type = "sub_question"
+                    
+                    if isinstance(sub_response.sub_question_index, int):
+                        # Legacy format
+                        if sub_questions and sub_response.sub_question_index < len(sub_questions):
+                            question_text = sub_questions[sub_response.sub_question_index]
+                    elif isinstance(sub_response.sub_question_index, str) and sub_response.sub_question_index.startswith("section_"):
+                        # New format
+                        response_type = "exercise_section"
+                        try:
+                            parts = sub_response.sub_question_index.split("_")
+                            if len(parts) >= 4:
+                                section_index = int(parts[1])
+                                question_index = int(parts[3])
+                                
+                                if section_index < len(exercise_sections):
+                                    section = exercise_sections[section_index]
+                                    section_title = section.get('title', f'Section {section_index + 1}')
+                                    
+                                    if section.get('questions') and question_index < len(section['questions']):
+                                        question = section['questions'][question_index]
+                                        question_text = f"{section_title} - {question.get('question', 'Question')}"
+                        except (ValueError, IndexError):
+                            question_text = sub_response.sub_question_index
+                    
+                    exercise_data["responses"].append({
+                        "id": f"sub_{sub_response.id}",
+                        "type": response_type,
+                        "question_text": question_text,
+                        "response_text": sub_response.response_text,
+                        "submitted_at": sub_response.updated_at or sub_response.created_at,
+                        "sub_question_index": sub_response.sub_question_index
+                    })
+                
+                # Only include exercises that have responses
+                if exercise_data["responses"]:
+                    theme_data["exercises"].append(exercise_data)
+            
+            # Only include themes that have exercises with responses
+            if theme_data["exercises"]:
+                module_data["themes"].append(theme_data)
+        
+        # Only include modules that have themes with exercises with responses
+        if module_data["themes"]:
+            result.append(module_data)
+    
+    return result
+
+@router.put("/auth/admin/users/{user_id}/responses/{response_id}")
+def update_user_response(
+    user_id: int,
+    response_id: str,  # Format: "old_123" or "sub_456"
+    response_data: dict,
+    current_admin: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Update a user response - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Parse response_id to determine type and actual ID
+    if response_id.startswith("old_"):
+        # Old-style response
+        actual_id = int(response_id.replace("old_", ""))
+        response = db.query(UserResponseDB).filter(
+            UserResponseDB.id == actual_id,
+            UserResponseDB.user_id == user_id
+        ).first()
+        if not response:
+            raise HTTPException(status_code=404, detail="Response not found")
+        
+        response.response_text = response_data.get("response_text", response.response_text)
+        response.submitted_at = func.now()
+        
+    elif response_id.startswith("sub_"):
+        # Sub-question response
+        actual_id = int(response_id.replace("sub_", ""))
+        response = db.query(UserSubQuestionResponseDB).filter(
+            UserSubQuestionResponseDB.id == actual_id,
+            UserSubQuestionResponseDB.user_id == user_id
+        ).first()
+        if not response:
+            raise HTTPException(status_code=404, detail="Response not found")
+        
+        response.response_text = response_data.get("response_text", response.response_text)
+        response.updated_at = func.now()
+    else:
+        raise HTTPException(status_code=400, detail="Invalid response ID format")
+    
+    db.commit()
+    return {"message": "Response updated successfully"}
+
+@router.delete("/auth/admin/users/{user_id}/responses/{response_id}")
+def delete_user_response(
+    user_id: int,
+    response_id: str,  # Format: "old_123" or "sub_456"
+    current_admin: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Delete a user response - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Parse response_id to determine type and actual ID
+    if response_id.startswith("old_"):
+        # Old-style response
+        actual_id = int(response_id.replace("old_", ""))
+        response = db.query(UserResponseDB).filter(
+            UserResponseDB.id == actual_id,
+            UserResponseDB.user_id == user_id
+        ).first()
+        if not response:
+            raise HTTPException(status_code=404, detail="Response not found")
+        
+        db.delete(response)
+        
+    elif response_id.startswith("sub_"):
+        # Sub-question response
+        actual_id = int(response_id.replace("sub_", ""))
+        response = db.query(UserSubQuestionResponseDB).filter(
+            UserSubQuestionResponseDB.id == actual_id,
+            UserSubQuestionResponseDB.user_id == user_id
+        ).first()
+        if not response:
+            raise HTTPException(status_code=404, detail="Response not found")
+        
+        db.delete(response)
+    else:
+        raise HTTPException(status_code=400, detail="Invalid response ID format")
+    
+    db.commit()
+    return {"message": "Response deleted successfully"}
 
 @router.get("/auth/admin/users/stats")
 def get_users_stats(

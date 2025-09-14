@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 from typing import List
+import json
 
 from auth import get_current_user, get_current_admin_user
 from database import get_db
@@ -168,29 +169,35 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
     
     result = []
     for card in cards:
-        # Parse exercise_questions if it exists
+        # Parse exercise data
         exercise_questions_parsed = []
-        if card.card_type == "exercise" and card.exercise_questions:
-            try:
-                parsed_data = json.loads(card.exercise_questions)
-                # Handle both old string format and new object format
-                if isinstance(parsed_data, list):
-                    exercise_questions_parsed = []
-                    for item in parsed_data:
-                        if isinstance(item, str):
-                            # Convert old string format to new object format
-                            exercise_questions_parsed.append({
-                                "type": "text",
-                                "question": item
-                            })
-                        elif isinstance(item, dict):
-                            # Already in correct format
-                            exercise_questions_parsed.append(item)
-                else:
-                    exercise_questions_parsed = []
-            except Exception as e:
-                print(f"Error parsing exercise_questions for card {card.id}: {e}")
-                exercise_questions_parsed = []
+        exercise_sections_parsed = []
+        
+        if card.card_type == "exercise":
+            # Parse legacy exercise_questions
+            if card.exercise_questions:
+                try:
+                    parsed_data = json.loads(card.exercise_questions)
+                    if isinstance(parsed_data, list):
+                        exercise_questions_parsed = []
+                        for item in parsed_data:
+                            if isinstance(item, str):
+                                exercise_questions_parsed.append({
+                                    "type": "text",
+                                    "question": item
+                                })
+                            elif isinstance(item, dict):
+                                exercise_questions_parsed.append(item)
+                except Exception as e:
+                    print(f"Error parsing exercise_questions for card {card.id}: {e}")
+            
+            # Parse new exercise_sections
+            if hasattr(card, 'exercise_sections') and card.exercise_sections:
+                try:
+                    exercise_sections_parsed = json.loads(card.exercise_sections)
+                except Exception as e:
+                    print(f"Error parsing exercise_sections for card {card.id}: {e}")
+                    exercise_sections_parsed = []
         
         result.append(ThemeCardResponse(
             id=card.id,
@@ -203,7 +210,8 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
             created_at=card.created_at,
             updated_at=card.updated_at,
             exercise_instructions=card.exercise_instructions,
-            exercise_questions=exercise_questions_parsed
+            exercise_questions=exercise_questions_parsed,
+            exercise_sections=exercise_sections_parsed
         ))
     
     return result
@@ -248,26 +256,44 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
     
     # Set exercise-specific fields if this is an exercise card
     if card_data.card_type == "exercise":
+        # Legacy fields (for backward compatibility)
         new_card.exercise_instructions = card_data.exercise_instructions
         
-        # Convert exercise questions to JSON
         if card_data.exercise_questions:
             questions_json = [q.dict() if hasattr(q, 'dict') else q for q in card_data.exercise_questions]
             new_card.exercise_questions = json.dumps(questions_json)
         else:
             new_card.exercise_questions = json.dumps([])
+        
+        # New sections system
+        if card_data.exercise_sections:
+            sections_json = [s.dict() if hasattr(s, 'dict') else s for s in card_data.exercise_sections]
+            new_card.exercise_sections = json.dumps(sections_json)
+        else:
+            new_card.exercise_sections = json.dumps([])
     
     db.add(new_card)
     db.commit()
     db.refresh(new_card)
     
-    # Parse exercise_questions for response
+    # Parse exercise data for response
     exercise_questions_parsed = []
-    if new_card.card_type == "exercise" and new_card.exercise_questions:
-        try:
-            exercise_questions_parsed = json.loads(new_card.exercise_questions)
-        except Exception as e:
-            exercise_questions_parsed = []
+    exercise_sections_parsed = []
+    
+    if new_card.card_type == "exercise":
+        # Parse legacy questions
+        if new_card.exercise_questions:
+            try:
+                exercise_questions_parsed = json.loads(new_card.exercise_questions)
+            except Exception as e:
+                exercise_questions_parsed = []
+        
+        # Parse new sections
+        if hasattr(new_card, 'exercise_sections') and new_card.exercise_sections:
+            try:
+                exercise_sections_parsed = json.loads(new_card.exercise_sections)
+            except Exception as e:
+                exercise_sections_parsed = []
     
     return ThemeCardResponse(
         id=new_card.id,
@@ -280,7 +306,8 @@ def create_card(theme_id: int, card_data: ThemeCardCreate, current_admin: User =
         created_at=new_card.created_at,
         updated_at=new_card.updated_at,
         exercise_instructions=new_card.exercise_instructions,
-        exercise_questions=exercise_questions_parsed
+        exercise_questions=exercise_questions_parsed,
+        exercise_sections=exercise_sections_parsed
     )
 
 @router.put("/cards/{card_id}", response_model=ThemeCardResponse)
@@ -368,6 +395,23 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
             except:
                 sub_questions = []
         
+        # Parse exercise_questions and exercise_sections from JSON
+        exercise_questions = []
+        if exercise.exercise_questions:
+            try:
+                import json
+                exercise_questions = json.loads(exercise.exercise_questions) if isinstance(exercise.exercise_questions, str) else exercise.exercise_questions
+            except:
+                exercise_questions = []
+        
+        exercise_sections = []
+        if exercise.exercise_sections:
+            try:
+                import json
+                exercise_sections = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
+            except:
+                exercise_sections = []
+        
         result.append(ExerciseResponse(
             id=exercise.id,
             title=exercise.title,
@@ -376,7 +420,10 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
             order_number=exercise.order_number,
             theme_id=exercise.theme_id,
             user_response=user_response.response_text if user_response else None,
-            sub_question_responses=sub_responses_dict
+            sub_question_responses=sub_responses_dict,
+            exercise_instructions=exercise.exercise_instructions,
+            exercise_questions=exercise_questions,
+            exercise_sections=exercise_sections
         ))
     
     return result
@@ -419,8 +466,47 @@ def submit_sub_question_response(
         raise HTTPException(status_code=404, detail="Exercise not found")
     
     # Validate sub_question_index is valid
-    if not exercise.sub_questions or response.sub_question_index >= len(exercise.sub_questions):
-        raise HTTPException(status_code=400, detail="Invalid sub-question index")
+    # Parse exercise data to handle both legacy and new formats
+    import json
+    sub_questions = []
+    if exercise.sub_questions:
+        try:
+            sub_questions = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
+        except:
+            sub_questions = []
+    
+    exercise_sections = []
+    if exercise.exercise_sections:
+        try:
+            exercise_sections = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
+        except:
+            exercise_sections = []
+    
+    # Validate based on the type of sub_question_index
+    if isinstance(response.sub_question_index, int):
+        # Legacy format: validate against sub_questions
+        if not sub_questions or response.sub_question_index >= len(sub_questions):
+            raise HTTPException(status_code=400, detail="Invalid sub-question index")
+    elif isinstance(response.sub_question_index, str) and response.sub_question_index.startswith("section_"):
+        # New format: validate against exercise_sections
+        try:
+            parts = response.sub_question_index.split("_")
+            if len(parts) >= 4:  # section_X_question_Y
+                section_index = int(parts[1])
+                question_index = int(parts[3])
+                
+                if section_index >= len(exercise_sections):
+                    raise HTTPException(status_code=400, detail="Invalid section index")
+                
+                section = exercise_sections[section_index]
+                if not section.get('questions') or question_index >= len(section['questions']):
+                    raise HTTPException(status_code=400, detail="Invalid question index in section")
+            else:
+                raise HTTPException(status_code=400, detail="Invalid sub-question index format")
+        except (ValueError, IndexError):
+            raise HTTPException(status_code=400, detail="Invalid sub-question index format")
+    else:
+        raise HTTPException(status_code=400, detail="Invalid sub-question index type")
     
     # Check if response already exists
     existing_response = db.query(UserSubQuestionResponseDB).filter(
@@ -763,26 +849,44 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_admin:
     if not theme:
         raise HTTPException(status_code=404, detail="Theme not found")
     
+    # Convert lists to JSON strings for storage
+    import json
+    sub_questions_json = json.dumps(exercise_data.sub_questions) if exercise_data.sub_questions else "[]"
+    exercise_questions_json = json.dumps(exercise_data.exercise_questions) if exercise_data.exercise_questions else "[]"
+    exercise_sections_json = json.dumps(exercise_data.exercise_sections) if exercise_data.exercise_sections else "[]"
+    
     new_exercise = Exercise(
         title=exercise_data.title,
         instructions=exercise_data.instructions,
-        sub_questions=exercise_data.sub_questions,
+        sub_questions=sub_questions_json,
         order_number=exercise_data.order_number,
-        theme_id=theme_id
+        theme_id=theme_id,
+        exercise_instructions=exercise_data.exercise_instructions,
+        exercise_questions=exercise_questions_json,
+        exercise_sections=exercise_sections_json
     )
     
     db.add(new_exercise)
     db.commit()
     db.refresh(new_exercise)
     
+    # Parse JSON fields back for response
+    sub_questions = json.loads(new_exercise.sub_questions) if new_exercise.sub_questions else []
+    exercise_questions = json.loads(new_exercise.exercise_questions) if new_exercise.exercise_questions else []
+    exercise_sections = json.loads(new_exercise.exercise_sections) if new_exercise.exercise_sections else []
+    
     return ExerciseResponse(
         id=new_exercise.id,
         title=new_exercise.title,
         instructions=new_exercise.instructions,
-        sub_questions=new_exercise.sub_questions or [],
+        sub_questions=sub_questions,
         order_number=new_exercise.order_number,
         theme_id=new_exercise.theme_id,
-        user_response=None
+        user_response=None,
+        sub_question_responses={},
+        exercise_instructions=new_exercise.exercise_instructions,
+        exercise_questions=exercise_questions,
+        exercise_sections=exercise_sections
     )
 
 @router.put("/exercises/{exercise_id}", response_model=ExerciseResponse)
@@ -798,21 +902,38 @@ def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_adm
     if exercise_data.instructions is not None:
         exercise.instructions = exercise_data.instructions
     if exercise_data.sub_questions is not None:
-        exercise.sub_questions = exercise_data.sub_questions
+        exercise.sub_questions = json.dumps(exercise_data.sub_questions) if exercise_data.sub_questions else "[]"
     if exercise_data.order_number is not None:
         exercise.order_number = exercise_data.order_number
     
+    # Update new exercise fields
+    if exercise_data.exercise_instructions is not None:
+        exercise.exercise_instructions = exercise_data.exercise_instructions
+    if exercise_data.exercise_questions is not None:
+        exercise.exercise_questions = json.dumps(exercise_data.exercise_questions) if exercise_data.exercise_questions else "[]"
+    if exercise_data.exercise_sections is not None:
+        exercise.exercise_sections = json.dumps(exercise_data.exercise_sections) if exercise_data.exercise_sections else "[]"
+    
     db.commit()
     db.refresh(exercise)
+    
+    # Parse JSON fields back for response
+    sub_questions = json.loads(exercise.sub_questions) if exercise.sub_questions else []
+    exercise_questions = json.loads(exercise.exercise_questions) if exercise.exercise_questions else []
+    exercise_sections = json.loads(exercise.exercise_sections) if exercise.exercise_sections else []
     
     return ExerciseResponse(
         id=exercise.id,
         title=exercise.title,
         instructions=exercise.instructions,
-        sub_questions=exercise.sub_questions or [],
+        sub_questions=sub_questions,
         order_number=exercise.order_number,
         theme_id=exercise.theme_id,
-        user_response=None
+        user_response=None,
+        sub_question_responses={},
+        exercise_instructions=exercise.exercise_instructions,
+        exercise_questions=exercise_questions,
+        exercise_sections=exercise_sections
     )
 
 @router.delete("/exercises/{exercise_id}")
@@ -822,7 +943,18 @@ def delete_exercise(exercise_id: int, current_admin: User = Depends(get_current_
     if not exercise:
         raise HTTPException(status_code=404, detail="Exercise not found")
     
-    db.delete(exercise)
-    db.commit()
-    
-    return {"message": "Exercise deleted successfully"}
+    try:
+        # First, delete all related user responses
+        db.query(UserResponseDB).filter(UserResponseDB.exercise_id == exercise_id).delete()
+        
+        # Delete all related sub-question responses
+        db.query(UserSubQuestionResponseDB).filter(UserSubQuestionResponseDB.exercise_id == exercise_id).delete()
+        
+        # Now delete the exercise
+        db.delete(exercise)
+        db.commit()
+        
+        return {"message": "Exercise deleted successfully"}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error deleting exercise: {str(e)}")

@@ -11,7 +11,9 @@ import {
   SparklesIcon,
   AcademicCapIcon,
   ShieldCheckIcon,
-  ExclamationTriangleIcon
+  ExclamationTriangleIcon,
+  PencilIcon,
+  TrashIcon
 } from '@heroicons/react/24/outline';
 import AdminTableView from './AdminTableView';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
@@ -27,6 +29,10 @@ const UserDetailView = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [validatingModule, setValidatingModule] = useState(null);
+  const [editingResponse, setEditingResponse] = useState(null);
+  const [editedText, setEditedText] = useState('');
+  const [currentResponses, setCurrentResponses] = useState([]);
+  const [activeTab, setActiveTab] = useState('current'); // 'current' or 'history'
 
   useEffect(() => {
     loadUserData();
@@ -36,9 +42,18 @@ const UserDetailView = () => {
     try {
       setLoading(true);
       
-      // Get user responses
+      // Get user responses (history)
       const responses = await getUserResponses(userId);
       setUserResponses(responses);
+      
+      // Get current responses (linked to existing exercises)
+      const currentResponsesData = await fetch(`${config.apiUrl}/auth/admin/users/${userId}/current-responses`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      if (currentResponsesData.ok) {
+        const currentData = await currentResponsesData.json();
+        setCurrentResponses(currentData);
+      }
       
       // Get all modules for validation (admin endpoint)
       const modulesData = await getAllModulesAdmin();
@@ -144,6 +159,68 @@ const UserDetailView = () => {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const handleEditResponse = (response) => {
+    setEditingResponse(response.id);
+    setEditedText(response.response_text);
+  };
+
+  const handleSaveResponse = async (responseId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${config.apiUrl}/auth/admin/users/${userId}/responses/${responseId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ response_text: editedText })
+      });
+
+      if (response.ok) {
+        // Reload user data to refresh the responses
+        await loadUserData();
+        setEditingResponse(null);
+        setEditedText('');
+      } else {
+        alert('Error al actualizar la respuesta');
+      }
+    } catch (error) {
+      console.error('Error updating response:', error);
+      alert('Error al actualizar la respuesta');
+    }
+  };
+
+  const handleDeleteResponse = async (responseId) => {
+    if (!window.confirm('¿Estás seguro de que quieres eliminar esta respuesta?')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${config.apiUrl}/auth/admin/users/${userId}/responses/${responseId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        // Reload user data to refresh the responses
+        await loadUserData();
+      } else {
+        alert('Error al eliminar la respuesta');
+      }
+    } catch (error) {
+      console.error('Error deleting response:', error);
+      alert('Error al eliminar la respuesta');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingResponse(null);
+    setEditedText('');
   };
 
   const getModuleResponses = (moduleId) => {
@@ -450,104 +527,305 @@ const UserDetailView = () => {
               <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-purple-50">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
                   <DocumentTextIcon className="w-6 h-6 mr-3 text-purple-600" />
-                  Respuestas por Módulo
+                  Respuestas del Usuario
                 </h2>
-                <p className="text-slate-600 mt-2">Revisa las respuestas organizadas por módulo y tema</p>
+                <p className="text-slate-600 mt-2">Revisa y edita las respuestas del usuario</p>
+                
+                {/* Tabs */}
+                <div className="mt-4 flex space-x-1">
+                  <button
+                    onClick={() => setActiveTab('current')}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                      activeTab === 'current'
+                        ? 'bg-blue-600 text-white'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                  >
+                    📋 Respuestas Actuales
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('history')}
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                      activeTab === 'history'
+                        ? 'bg-blue-600 text-white'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                    }`}
+                  >
+                    🕒 Historial Completo
+                  </button>
+                </div>
               </div>
               
               <div className="p-6">
-                {Object.keys(responsesByModule).length === 0 ? (
-                  <div className="text-center py-16 text-slate-500">
-                    <DocumentTextIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
-                    <p className="text-xl font-medium">No hay respuestas registradas</p>
-                    <p className="text-sm mt-2">El usuario aún no ha completado ejercicios</p>
-                  </div>
-                ) : (
-                  <div className="space-y-8">
-                    {Object.entries(responsesByModule).map(([moduleTitle, moduleData]) => (
-                      <div key={moduleTitle} className="border border-slate-200 rounded-xl overflow-hidden">
-                        <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-b border-slate-200">
-                          <h3 className="text-lg font-bold text-slate-900 flex items-center">
-                            <AcademicCapIcon className="w-5 h-5 mr-2 text-blue-600" />
-                            {moduleTitle}
-                          </h3>
-                        </div>
-                        
-                        <div className="p-4">
-                          <div className="space-y-6">
-                            {Object.entries(moduleData.themes).map(([themeTitle, responses]) => (
-                              <div key={themeTitle} className="bg-white rounded-lg p-4">
-                                <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
-                                  <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
-                                  {themeTitle}
-                                </h4>
-                                
-                                <div className="space-y-3">
-                                  {responses.map((response, index) => (
-                                    <div key={index} className="bg-white rounded-lg p-4 border border-slate-200">
-                                      <div className="flex justify-between items-start mb-3">
-                                        <div>
-                                          <h5 className="font-medium text-slate-900 text-sm">
-                                            {response.exercise_title}
-                                          </h5>
-                                          {response.response_type === 'sub_question' && response.sub_question_text && (
-                                            <p className="text-xs text-blue-600 mt-1 font-medium">
-                                              📝 {response.sub_question_text}
-                                            </p>
-                                          )}
-                                        </div>
-                                        <div className="flex flex-col items-end space-y-1">
-                                          <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
-                                            response.response_type === 'sub_question' 
-                                              ? 'bg-blue-100 text-blue-700' 
-                                              : response.response_type === 'card_exercise'
-                                              ? 'bg-orange-100 text-orange-700'
-                                              : 'bg-slate-100 text-slate-500'
-                                          }`}>
-                                            {response.response_type === 'sub_question' 
-                                              ? '🔸 Sous-question' 
-                                              : response.response_type === 'card_exercise'
-                                              ? '📝 Carte Exercice'
-                                              : '📝 Principal'}
-                                          </span>
-                                          <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
-                                            <ClockIcon className="w-3 h-3 mr-1" />
-                                            {formatDate(response.submitted_at)}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div className="bg-white rounded-lg p-3">
-                                        {/* Check if this is a table response */}
-                                        {response.response_type === 'card_exercise' && 
-                                         response.table_config ? (
-                                          <AdminTableView 
-                                            tableData={response.response_text}
-                                            tableConfig={response.table_config}
-                                            questionText={response.sub_question_text}
-                                          />
-                                        ) : response.response_type === 'card_exercise' && 
-                                           response.response_text.startsWith('{') && 
-                                           response.response_text.includes('"0":') ? (
-                                          <AdminTableView 
-                                            tableData={response.response_text}
-                                            questionText={response.sub_question_text}
-                                          />
-                                        ) : (
-                                          <p className="text-sm text-slate-700 leading-relaxed">
-                                            {response.response_text}
-                                          </p>
-                                        )}
+                {activeTab === 'current' ? (
+                  /* Current Responses Tab */
+                  currentResponses.length === 0 ? (
+                    <div className="text-center py-16 text-slate-500">
+                      <DocumentTextIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
+                      <p className="text-xl font-medium">No hay respuestas actuales</p>
+                      <p className="text-sm mt-2">El usuario no tiene respuestas en ejercicios existentes</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-6">
+                      {currentResponses.map((module) => (
+                        <div key={module.module_id} className="border border-slate-200 rounded-xl overflow-hidden">
+                          <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 border-b border-slate-200">
+                            <h3 className="text-lg font-bold text-slate-900 flex items-center">
+                              <AcademicCapIcon className="w-5 h-5 mr-2 text-green-600" />
+                              {module.module_title}
+                              <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                                ACTIVO
+                              </span>
+                            </h3>
+                          </div>
+                          
+                          <div className="p-4">
+                            <div className="space-y-6">
+                              {module.themes.map((theme) => (
+                                <div key={theme.theme_id} className="space-y-4">
+                                  <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
+                                    <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                    {theme.theme_title}
+                                  </h4>
+                                  
+                                  {theme.exercises.map((exercise) => (
+                                    <div key={exercise.exercise_id} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                                      <h5 className="font-medium text-slate-800 mb-3 flex items-center">
+                                        <BookOpenIcon className="w-4 h-4 mr-2 text-slate-600" />
+                                        {exercise.exercise_title}
+                                      </h5>
+                                      
+                                      <div className="space-y-3">
+                                        {exercise.responses.map((response) => (
+                                          <div key={response.id} className="bg-white rounded-lg p-4 border border-slate-200">
+                                            <div className="flex justify-between items-start mb-3">
+                                              <div className="flex-1">
+                                                <p className="text-sm font-medium text-slate-700 mb-1">
+                                                  {response.question_text}
+                                                </p>
+                                                <span className={`text-xs px-2 py-1 rounded-full ${
+                                                  response.type === 'main' 
+                                                    ? 'bg-purple-100 text-purple-700' 
+                                                    : response.type === 'sub_question'
+                                                    ? 'bg-blue-100 text-blue-700'
+                                                    : 'bg-green-100 text-green-700'
+                                                }`}>
+                                                  {response.type === 'main' 
+                                                    ? '📝 Principal' 
+                                                    : response.type === 'sub_question'
+                                                    ? '🔸 Sous-question'
+                                                    : '🎯 Sous-exercice'}
+                                                </span>
+                                              </div>
+                                              <div className="flex items-start space-x-3">
+                                                <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
+                                                  <ClockIcon className="w-3 h-3 mr-1" />
+                                                  {formatDate(response.submitted_at)}
+                                                </span>
+                                                <div className="flex flex-col space-y-1">
+                                                  <button
+                                                    onClick={() => handleEditResponse(response)}
+                                                    className="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                                                    title="Editar respuesta"
+                                                  >
+                                                    <PencilIcon className="w-4 h-4" />
+                                                  </button>
+                                                  <button
+                                                    onClick={() => handleDeleteResponse(response.id)}
+                                                    className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
+                                                    title="Eliminar respuesta"
+                                                  >
+                                                    <TrashIcon className="w-4 h-4" />
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div className="bg-white rounded-lg p-3">
+                                              {editingResponse === response.id ? (
+                                                <div className="space-y-3">
+                                                  <textarea
+                                                    value={editedText}
+                                                    onChange={(e) => setEditedText(e.target.value)}
+                                                    className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm"
+                                                    placeholder="Editar respuesta..."
+                                                  />
+                                                  <div className="flex justify-end space-x-2">
+                                                    <button
+                                                      onClick={handleCancelEdit}
+                                                      className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                                                    >
+                                                      Cancelar
+                                                    </button>
+                                                    <button
+                                                      onClick={() => handleSaveResponse(response.id)}
+                                                      className="px-3 py-1 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded transition-colors"
+                                                    >
+                                                      Guardar
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              ) : (
+                                                <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                                                  {response.response_text}
+                                                </p>
+                                              )}
+                                            </div>
+                                          </div>
+                                        ))}
                                       </div>
                                     </div>
                                   ))}
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )
+                ) : (
+                  /* History Tab - Keep existing structure */
+                  Object.keys(responsesByModule).length === 0 ? (
+                    <div className="text-center py-16 text-slate-500">
+                      <DocumentTextIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
+                      <p className="text-xl font-medium">No hay respuestas en el historial</p>
+                      <p className="text-sm mt-2">El usuario aún no ha completado ejercicios</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-8">
+                      {Object.entries(responsesByModule).map(([moduleTitle, moduleData]) => (
+                        <div key={moduleTitle} className="border border-slate-200 rounded-xl overflow-hidden">
+                          <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-b border-slate-200">
+                            <h3 className="text-lg font-bold text-slate-900 flex items-center">
+                              <AcademicCapIcon className="w-5 h-5 mr-2 text-orange-600" />
+                              {moduleTitle}
+                              <span className="ml-2 text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
+                                HISTORIAL
+                              </span>
+                            </h3>
+                          </div>
+                          
+                          <div className="p-4">
+                            <div className="space-y-6">
+                              {Object.entries(moduleData.themes).map(([themeTitle, responses]) => (
+                                <div key={themeTitle} className="bg-white rounded-lg p-4">
+                                  <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
+                                    <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                    {themeTitle}
+                                  </h4>
+                                  
+                                  <div className="space-y-3">
+                                    {responses.map((response, index) => (
+                                      <div key={index} className="bg-white rounded-lg p-4 border border-slate-200">
+                                        <div className="flex justify-between items-start mb-3">
+                                          <div className="flex-1">
+                                            <h5 className="font-medium text-slate-900 text-sm">
+                                              {response.exercise_title}
+                                            </h5>
+                                            {(response.response_type === 'sub_question' || response.response_type === 'exercise_section') && response.sub_question_text && (
+                                              <p className="text-xs text-blue-600 mt-1 font-medium">
+                                                📝 {response.sub_question_text}
+                                              </p>
+                                            )}
+                                          </div>
+                                          <div className="flex items-start space-x-3">
+                                            <div className="flex flex-col items-end space-y-1">
+                                              <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
+                                                response.response_type === 'sub_question' 
+                                                  ? 'bg-blue-100 text-blue-700' 
+                                                  : response.response_type === 'card_exercise'
+                                                  ? 'bg-orange-100 text-orange-700'
+                                                  : response.response_type === 'exercise_section'
+                                                  ? 'bg-green-100 text-green-700'
+                                                  : 'bg-slate-100 text-slate-500'
+                                              }`}>
+                                                {response.response_type === 'sub_question' 
+                                                  ? '🔸 Sous-question' 
+                                                  : response.response_type === 'card_exercise'
+                                                  ? '📝 Carte Exercice'
+                                                  : response.response_type === 'exercise_section'
+                                                  ? '🎯 Sous-exercice'
+                                                  : '📝 Principal'}
+                                              </span>
+                                              <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
+                                                <ClockIcon className="w-3 h-3 mr-1" />
+                                                {formatDate(response.submitted_at)}
+                                              </span>
+                                            </div>
+                                            <div className="flex flex-col space-y-1">
+                                              <button
+                                                onClick={() => handleEditResponse(response)}
+                                                className="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                                                title="Editar respuesta"
+                                              >
+                                                <PencilIcon className="w-4 h-4" />
+                                              </button>
+                                              <button
+                                                onClick={() => handleDeleteResponse(response.id)}
+                                                className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
+                                                title="Eliminar respuesta"
+                                              >
+                                                <TrashIcon className="w-4 h-4" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div className="bg-white rounded-lg p-3">
+                                          {/* Check if this is a table response */}
+                                          {(response.response_type === 'card_exercise' || response.response_type === 'exercise_section') && 
+                                           response.table_config ? (
+                                            <AdminTableView 
+                                              tableData={response.response_text}
+                                              tableConfig={response.table_config}
+                                              questionText={response.sub_question_text}
+                                            />
+                                          ) : (response.response_type === 'card_exercise' || response.response_type === 'exercise_section') && 
+                                             response.response_text.startsWith('{') && 
+                                             response.response_text.includes('"0":') ? (
+                                            <AdminTableView 
+                                              tableData={response.response_text}
+                                              questionText={response.sub_question_text}
+                                            />
+                                          ) : editingResponse === response.id ? (
+                                            <div className="space-y-3">
+                                              <textarea
+                                                value={editedText}
+                                                onChange={(e) => setEditedText(e.target.value)}
+                                                className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm"
+                                                placeholder="Editar respuesta..."
+                                              />
+                                              <div className="flex justify-end space-x-2">
+                                                <button
+                                                  onClick={handleCancelEdit}
+                                                  className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                                                >
+                                                  Cancelar
+                                                </button>
+                                                <button
+                                                  onClick={() => handleSaveResponse(response.id)}
+                                                  className="px-3 py-1 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded transition-colors"
+                                                >
+                                                  Guardar
+                                                </button>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                                              {response.response_text}
+                                            </p>
+                                          )}
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )
                 )}
               </div>
             </div>
