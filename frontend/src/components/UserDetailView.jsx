@@ -720,71 +720,71 @@ const UserDetailView = () => {
                 ) : (
                   /* History Tab - Keep existing structure */
                   Object.keys(responsesByModule).length === 0 ? (
-                    <div className="text-center py-16 text-slate-500">
-                      <DocumentTextIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
+                  <div className="text-center py-16 text-slate-500">
+                    <DocumentTextIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
                       <p className="text-xl font-medium">No hay respuestas en el historial</p>
-                      <p className="text-sm mt-2">El usuario aún no ha completado ejercicios</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-8">
-                      {Object.entries(responsesByModule).map(([moduleTitle, moduleData]) => (
-                        <div key={moduleTitle} className="border border-slate-200 rounded-xl overflow-hidden">
+                    <p className="text-sm mt-2">El usuario aún no ha completado ejercicios</p>
+                  </div>
+                ) : (
+                  <div className="space-y-8">
+                    {Object.entries(responsesByModule).map(([moduleTitle, moduleData]) => (
+                      <div key={moduleTitle} className="border border-slate-200 rounded-xl overflow-hidden">
                           <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-b border-slate-200">
-                            <h3 className="text-lg font-bold text-slate-900 flex items-center">
+                          <h3 className="text-lg font-bold text-slate-900 flex items-center">
                               <AcademicCapIcon className="w-5 h-5 mr-2 text-orange-600" />
-                              {moduleTitle}
+                            {moduleTitle}
                               <span className="ml-2 text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
                                 HISTORIAL
                               </span>
-                            </h3>
-                          </div>
-                          
-                          <div className="p-4">
-                            <div className="space-y-6">
-                              {Object.entries(moduleData.themes).map(([themeTitle, responses]) => (
-                                <div key={themeTitle} className="bg-white rounded-lg p-4">
-                                  <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
-                                    <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
-                                    {themeTitle}
-                                  </h4>
-                                  
-                                  <div className="space-y-3">
-                                    {responses.map((response, index) => (
-                                      <div key={index} className="bg-white rounded-lg p-4 border border-slate-200">
-                                        <div className="flex justify-between items-start mb-3">
+                          </h3>
+                        </div>
+                        
+                        <div className="p-4">
+                          <div className="space-y-6">
+                            {Object.entries(moduleData.themes).map(([themeTitle, responses]) => (
+                              <div key={themeTitle} className="bg-white rounded-lg p-4">
+                                <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
+                                  <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                  {themeTitle}
+                                </h4>
+                                
+                                <div className="space-y-3">
+                                  {responses.map((response, index) => (
+                                    <div key={index} className="bg-white rounded-lg p-4 border border-slate-200">
+                                      <div className="flex justify-between items-start mb-3">
                                           <div className="flex-1">
-                                            <h5 className="font-medium text-slate-900 text-sm">
-                                              {response.exercise_title}
-                                            </h5>
+                                          <h5 className="font-medium text-slate-900 text-sm">
+                                            {response.exercise_title}
+                                          </h5>
                                             {(response.response_type === 'sub_question' || response.response_type === 'exercise_section') && response.sub_question_text && (
-                                              <p className="text-xs text-blue-600 mt-1 font-medium">
-                                                📝 {response.sub_question_text}
-                                              </p>
-                                            )}
-                                          </div>
+                                            <p className="text-xs text-blue-600 mt-1 font-medium">
+                                              📝 {response.sub_question_text}
+                                            </p>
+                                          )}
+                                        </div>
                                           <div className="flex items-start space-x-3">
-                                            <div className="flex flex-col items-end space-y-1">
-                                              <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
-                                                response.response_type === 'sub_question' 
-                                                  ? 'bg-blue-100 text-blue-700' 
-                                                  : response.response_type === 'card_exercise'
-                                                  ? 'bg-orange-100 text-orange-700'
+                                        <div className="flex flex-col items-end space-y-1">
+                                          <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
+                                            response.response_type === 'sub_question' 
+                                              ? 'bg-blue-100 text-blue-700' 
+                                              : response.response_type === 'card_exercise'
+                                              ? 'bg-orange-100 text-orange-700'
                                                   : response.response_type === 'exercise_section'
                                                   ? 'bg-green-100 text-green-700'
-                                                  : 'bg-slate-100 text-slate-500'
-                                              }`}>
-                                                {response.response_type === 'sub_question' 
-                                                  ? '🔸 Sous-question' 
-                                                  : response.response_type === 'card_exercise'
-                                                  ? '📝 Carte Exercice'
+                                              : 'bg-slate-100 text-slate-500'
+                                          }`}>
+                                            {response.response_type === 'sub_question' 
+                                              ? '🔸 Sous-question' 
+                                              : response.response_type === 'card_exercise'
+                                              ? '📝 Carte Exercice'
                                                   : response.response_type === 'exercise_section'
                                                   ? '🎯 Sous-exercice'
-                                                  : '📝 Principal'}
-                                              </span>
-                                              <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
-                                                <ClockIcon className="w-3 h-3 mr-1" />
-                                                {formatDate(response.submitted_at)}
-                                              </span>
+                                              : '📝 Principal'}
+                                          </span>
+                                          <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
+                                            <ClockIcon className="w-3 h-3 mr-1" />
+                                            {formatDate(response.submitted_at)}
+                                          </span>
                                             </div>
                                             <div className="flex flex-col space-y-1">
                                               <button
@@ -802,17 +802,17 @@ const UserDetailView = () => {
                                                 <TrashIcon className="w-4 h-4" />
                                               </button>
                                             </div>
-                                          </div>
                                         </div>
-                                        <div className="bg-white rounded-lg p-3">
-                                          {/* Check if this is a table response */}
+                                      </div>
+                                      <div className="bg-white rounded-lg p-3">
+                                        {/* Check if this is a table response */}
                                           {(response.response_type === 'card_exercise' || response.response_type === 'exercise_section') && 
-                                           response.table_config ? (
-                                            <AdminTableView 
-                                              tableData={response.response_text}
-                                              tableConfig={response.table_config}
-                                              questionText={response.sub_question_text}
-                                            />
+                                         response.table_config ? (
+                                          <AdminTableView 
+                                            tableData={response.response_text}
+                                            tableConfig={response.table_config}
+                                            questionText={response.sub_question_text}
+                                          />
                                           ) : isTableResponse(response.response_text) ? (
                                             <div className="space-y-2">
                                               <div className="bg-blue-50 rounded-md p-3 border border-blue-200 mb-4">
@@ -821,10 +821,10 @@ const UserDetailView = () => {
                                                   <span className="font-medium">Tabla de respuestas:</span>
                                                 </div>
                                               </div>
-                                              <AdminTableView 
-                                                tableData={response.response_text}
-                                                questionText={response.sub_question_text}
-                                              />
+                                          <AdminTableView 
+                                            tableData={response.response_text}
+                                            questionText={response.sub_question_text}
+                                          />
                                             </div>
                                           ) : editingResponse === response.id ? (
                                             <div className="space-y-3">
@@ -851,20 +851,20 @@ const UserDetailView = () => {
                                             </div>
                                           ) : (
                                             <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-                                              {response.response_text}
-                                            </p>
-                                          )}
-                                        </div>
+                                            {response.response_text}
+                                          </p>
+                                        )}
                                       </div>
-                                    ))}
-                                  </div>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
+                  </div>
                   )
                 )}
               </div>
