@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from database import create_tables, get_db
 from init_data import init_database
 from routes import auth, modules, legacy, api, admin_import, create_modules
+import migrate_theme_cards
 import migrate_endpoint
 
 # Get the project root directory
@@ -53,6 +54,7 @@ app.include_router(modules.router)  # No prefix for modules (to keep existing fr
 app.include_router(api.router, prefix="/api")  # API prefix for card operations
 app.include_router(admin_import.router)  # Admin import routes
 app.include_router(create_modules.router)  # Create modules routes
+app.include_router(migrate_theme_cards.router)  # Theme cards migration
 app.include_router(migrate_endpoint.router)  # Temporary migration endpoint
 app.include_router(legacy.router)
 
