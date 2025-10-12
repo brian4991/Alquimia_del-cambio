@@ -39,11 +39,11 @@ def export_local_data():
                 "id": user.id,
                 "username": user.username,
                 "email": user.email,
-                "hashed_password": user.hashed_password,
-                "full_name": user.full_name,
-                "is_admin": user.is_admin,
-                "is_active": user.is_active,
-                "google_id": user.google_id
+                "password_hash": user.password_hash,
+                "role": user.role,
+                "provider": user.provider,
+                "provider_id": user.provider_id,
+                "is_active": user.is_active
             })
         print(f"   ✓ {len(data['users'])} utilisateurs")
         
@@ -102,8 +102,29 @@ def clear_railway_database(db):
     
     try:
         # Delete in order to respect foreign keys
+        # First, delete all data from tables that might have foreign keys
+        from sqlalchemy import text
+        
+        # Disable foreign key checks temporarily for easier deletion
+        db.execute(text("SET session_replication_role = 'replica';"))
+        
+        # Delete from all tables
         deleted_cards = db.query(ThemeCard).delete()
         print(f"   ✓ {deleted_cards} cartes supprimées")
+        
+        # Try to delete from exercises table if it exists
+        try:
+            db.execute(text("DELETE FROM exercises"))
+            print(f"   ✓ Exercices supprimés")
+        except:
+            pass
+        
+        # Try to delete from user_responses if it exists
+        try:
+            db.execute(text("DELETE FROM user_responses"))
+            print(f"   ✓ Réponses utilisateurs supprimées")
+        except:
+            pass
         
         deleted_themes = db.query(Theme).delete()
         print(f"   ✓ {deleted_themes} thèmes supprimés")
@@ -112,8 +133,11 @@ def clear_railway_database(db):
         print(f"   ✓ {deleted_modules} modules supprimés")
         
         # Keep admin user but delete others
-        deleted_users = db.query(User).filter(User.is_admin == False).delete()
+        deleted_users = db.query(User).filter(User.role != 'admin').delete()
         print(f"   ✓ {deleted_users} utilisateurs non-admin supprimés")
+        
+        # Re-enable foreign key checks
+        db.execute(text("SET session_replication_role = 'origin';"))
         
         db.commit()
         print("   ✓ Toutes les données supprimées")
@@ -149,6 +173,15 @@ def import_to_railway(data):
         # Create tables if they don't exist
         Base.metadata.create_all(bind=engine)
         print("   ✓ Tables créées/vérifiées")
+        
+        # Add theme_type column if it doesn't exist
+        try:
+            from sqlalchemy import text
+            db.execute(text("ALTER TABLE themes ADD COLUMN IF NOT EXISTS theme_type VARCHAR(50) DEFAULT 'theme'"))
+            db.commit()
+            print("   ✓ Colonne theme_type ajoutée/vérifiée")
+        except Exception as e:
+            print(f"   Note: {e}")
         
         # Clear existing data
         if not clear_railway_database(db):
