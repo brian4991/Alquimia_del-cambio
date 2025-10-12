@@ -67,7 +67,10 @@ def get_profile(current_user: User = Depends(get_current_user)):
 @router.get("/google")
 async def google_login(request: Request):
     """Initiate Google OAuth login"""
-    redirect_uri = request.url_for('google_callback')
+    # Use explicit redirect URI to match Google Console configuration
+    import os
+    base_url = os.environ.get("BACKEND_URL", str(request.base_url).rstrip('/'))
+    redirect_uri = f"{base_url}/auth/google/callback"
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 @router.get("/google/callback")
