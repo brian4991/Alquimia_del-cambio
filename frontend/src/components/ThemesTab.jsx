@@ -8,7 +8,7 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    order_number: themes.length + 1
+    order_number: 1
   });
 
   // Load themes when module is selected
@@ -17,6 +17,12 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
       onLoadThemes(selectedModule.id);
     }
   }, [selectedModule]);
+
+  // Filter out recursos (only show normal themes)
+  const normalThemes = themes.filter(theme => {
+    console.log('[DEBUG] Theme:', theme.title, 'type:', theme.theme_type);
+    return !theme.theme_type || theme.theme_type === 'theme';
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +44,10 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          theme_type: 'theme'  // Explicitly mark as theme (not resource)
+        })
       });
 
       if (response.ok) {
@@ -84,7 +93,7 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
     setFormData({
       title: '',
       content: '',
-      order_number: themes.length + 1
+      order_number: normalThemes.length + 1
     });
   };
 
@@ -190,12 +199,12 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
 
       {/* Themes List */}
       <div className="space-y-4">
-        {themes.length === 0 ? (
+        {normalThemes.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             Aucun thème trouvé pour ce module. Créez votre premier thème !
           </div>
         ) : (
-          themes.map((theme) => (
+          normalThemes.map((theme) => (
             <div
               key={theme.id}
               className={`border rounded-lg p-4 hover:shadow-md transition-all cursor-pointer ${

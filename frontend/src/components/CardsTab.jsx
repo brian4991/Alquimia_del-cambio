@@ -367,9 +367,9 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     return (
       <div className="text-center py-12">
         <ExclamationTriangleIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun thème sélectionné</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun thème/recurso sélectionné</h3>
         <p className="text-gray-600">
-          Veuillez d'abord sélectionner un thème dans l'onglet "Thèmes" pour gérer ses cartes.
+          Veuillez d'abord sélectionner un thème (onglet "Thèmes") ou un recurso (onglet "Recursos") pour gérer ses cartes.
         </p>
       </div>
     );
@@ -380,7 +380,9 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Gestion des Cartes</h2>
-          <p className="text-gray-600">Thème sélectionné: {selectedTheme.title}</p>
+          <p className="text-gray-600">
+            {selectedTheme.theme_type === 'resource' ? 'Recurso' : 'Thème'} sélectionné: {selectedTheme.title}
+          </p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}

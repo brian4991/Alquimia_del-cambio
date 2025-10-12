@@ -20,6 +20,7 @@ const ModuleView = () => {
   const { moduleId } = useParams();
   const [module, setModule] = useState(null);
   const [themes, setThemes] = useState([]);
+  const [recursos, setRecursos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -51,7 +52,13 @@ const ModuleView = () => {
           }
         });
         const themesData = await themesResponse.json();
-        setThemes(themesData);
+        
+        // Separate themes and recursos
+        const normalThemes = themesData.filter(t => !t.theme_type || t.theme_type === 'theme');
+        const recursosData = themesData.filter(t => t.theme_type === 'resource');
+        
+        setThemes(normalThemes);
+        setRecursos(recursosData);
 
       } catch (err) {
         setError('Erreur lors du chargement du module');
@@ -225,15 +232,17 @@ const ModuleView = () => {
         </div>
       </div>
 
-      {/* Themes Section */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
-          <ClipboardList className="w-6 h-6 mr-3 text-sage-700" />
-          Temas del Módulo
-        </h2>
-        
-        <div className="space-y-6">
-          {themes.map((theme, index) => (
+      {/* Themes and Recursos Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        {/* Themes Column (left, 2/3) */}
+        <div className="lg:col-span-2">
+          <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
+            <ClipboardList className="w-6 h-6 mr-3 text-sage-700" />
+            Temas del Módulo
+          </h2>
+          
+          <div className="space-y-6">
+            {themes.map((theme, index) => (
             <div
               key={theme.id}
               className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-sage-200 p-6 transition-all duration-300 ${
@@ -289,7 +298,57 @@ const ModuleView = () => {
                 {theme.content.substring(0, 200)}...
               </div>
             </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Recursos Column (right, 1/3) */}
+        <div>
+          <h2 className="text-2xl font-inter font-bold text-amber-800 mb-6 flex items-center">
+            <Lightbulb className="w-6 h-6 mr-3 text-amber-700" />
+            Recursos
+          </h2>
+          
+          {recursos.length > 0 ? (
+            <div className="space-y-4">
+              {recursos.map((recurso) => (
+                <Link
+                  key={recurso.id}
+                  to={`/theme/${recurso.id}`}
+                  className="block bg-gradient-to-br from-amber-50 to-amber-100 backdrop-blur-sm rounded-xl shadow-lg border border-amber-300 p-5 transition-all duration-300 hover:shadow-xl hover:scale-105"
+                >
+                  <div className="flex items-start space-x-3 mb-3">
+                    <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
+                      <BookOpen className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-amber-900 mb-1">
+                        {recurso.title}
+                      </h3>
+                      <p className="text-amber-700 text-sm line-clamp-3">
+                        {recurso.content.substring(0, 100)}...
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-amber-300">
+                    <span className="text-xs text-amber-700 font-medium">
+                      📚 Recurso Adicional
+                    </span>
+                    <span className="text-amber-600 text-xs">
+                      Ver más →
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-amber-50 border-2 border-dashed border-amber-300 rounded-xl p-6 text-center">
+              <BookOpen className="w-12 h-12 text-amber-400 mx-auto mb-3" />
+              <p className="text-amber-700 text-sm">
+                No hay recursos adicionales disponibles para este módulo todavía.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 

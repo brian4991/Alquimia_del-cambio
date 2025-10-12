@@ -46,6 +46,7 @@ class Theme(Base):
     content = Column(Text, nullable=False)  # Kept for backward compatibility
     order_number = Column(Integer, nullable=False)
     module_id = Column(Integer, ForeignKey("modules.id"), nullable=False)
+    theme_type = Column(String(50), default="theme")  # "theme" or "resource"
     
     # Relationships
     module = relationship("Module", back_populates="themes")
@@ -77,6 +78,7 @@ class Exercise(Base):
     __tablename__ = "exercises"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
+    parent_title = Column(String(200), nullable=True)  # Titre du groupe d'exercices (ex: "Ejercicio #1: Historia")
     instructions = Column(Text, nullable=True)
     sub_questions = Column(JSON, nullable=True, default="[]")
     order_number = Column(Integer, nullable=False)

@@ -10,6 +10,7 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
+    parent_title: '',
     instructions: '',
     order_number: exercises.length + 1,
     exercise_sections: []
@@ -99,6 +100,7 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
     setEditingExercise(exercise);
     setFormData({
       title: exercise.title,
+      parent_title: exercise.parent_title || '',
       instructions: exercise.instructions,
       order_number: exercise.order_number,
       exercise_sections: exercise.exercise_sections || []
@@ -109,6 +111,7 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
   const resetForm = () => {
     setFormData({
       title: '',
+      parent_title: '',
       instructions: '',
       order_number: exercises.length + 1,
       exercise_sections: []
@@ -280,13 +283,14 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Titre de l'exercice
+                  Titre de l'exercice (ex: "Ejercicio 1.1: Titre")
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full p-3 border border-gray-300 rounded-md"
+                  placeholder="Ejercicio 1.1: ..."
                   required
                 />
               </div>
@@ -302,6 +306,23 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                   min="1"
                 />
               </div>
+            </div>
+
+            {/* Parent Title Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Titre du groupe (parent_title) - Affiché en haut
+              </label>
+              <input
+                type="text"
+                value={formData.parent_title}
+                onChange={(e) => setFormData({ ...formData, parent_title: e.target.value })}
+                className="w-full p-3 border border-gray-300 rounded-md"
+                placeholder="Ex: Ejercicio #1: Historia"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                Ce titre regroupe plusieurs exercices (ex: tous les exercices 1.1, 1.2, 1.3 afficheront ce titre en haut)
+              </p>
             </div>
 
             {/* Instructions */}
@@ -633,9 +654,16 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                 <div className="flex-1">
                   <div className="flex items-center mb-3">
                     <span className="text-lg mr-2">🎯</span>
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      {exercise.order_number}. {exercise.title}
-                    </h3>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {exercise.order_number}. {exercise.title}
+                      </h3>
+                      {exercise.parent_title && (
+                        <p className="text-sm text-purple-600 mt-1">
+                          📂 Groupe: {exercise.parent_title}
+                        </p>
+                      )}
+                    </div>
                   </div>
                   
                   {/* Sub-Exercises */}

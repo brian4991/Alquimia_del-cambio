@@ -69,6 +69,7 @@ class ThemeCardUpdate(BaseModel):
 # Exercise schemas
 class ExerciseCreate(BaseModel):
     title: str
+    parent_title: Optional[str] = None
     instructions: Optional[str] = None
     order_number: int
     sub_questions: List[str] = []
@@ -80,6 +81,7 @@ class ExerciseCreate(BaseModel):
 
 class ExerciseUpdate(BaseModel):
     title: Optional[str] = None
+    parent_title: Optional[str] = None
     instructions: Optional[str] = None
     order_number: Optional[int] = None
     sub_questions: Optional[List[str]] = None
@@ -102,6 +104,7 @@ class SubQuestionResponseRequest(BaseModel):
 class ExerciseResponse(BaseModel):
     id: int
     title: str
+    parent_title: Optional[str] = None
     instructions: Optional[str]
     order_number: int
     theme_id: int
@@ -157,11 +160,13 @@ class ThemeCreate(BaseModel):
     title: str
     content: str = ""
     order_number: int
+    theme_type: str = "theme"  # "theme" or "resource"
 
 class ThemeUpdate(BaseModel):
     title: Optional[str] = None
     content: Optional[str] = None
     order_number: Optional[int] = None
+    theme_type: Optional[str] = None
 
 class ThemeResponse(BaseModel):
     id: int
@@ -169,6 +174,7 @@ class ThemeResponse(BaseModel):
     content: str  # Kept for backward compatibility
     order_number: int
     module_id: int
+    theme_type: str = "theme"  # "theme" or "resource"
     is_completed: bool = False
     is_unlocked: bool = False
     total_cards: int = 0  # Number of cards in this theme 

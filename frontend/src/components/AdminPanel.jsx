@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PlusIcon, PencilIcon, TrashIcon, BookOpenIcon, DocumentTextIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, TrashIcon, BookOpenIcon, DocumentTextIcon, AcademicCapIcon, LightBulbIcon } from '@heroicons/react/24/outline';
 import ModulesTab from './ModulesTab';
 import ThemesTab from './ThemesTab';
+import RecursosTab from './RecursosTab';
 import CardsTab from './CardsTab';
 import ExercisesTab from './ExercisesTab';
 import { config } from '../config';
@@ -77,6 +78,7 @@ const AdminPanel = () => {
   const tabs = [
     { id: 'modules', label: 'Modules', icon: BookOpenIcon },
     { id: 'themes', label: 'Thèmes', icon: DocumentTextIcon },
+    { id: 'recursos', label: 'Recursos', icon: LightBulbIcon },
     { id: 'cards', label: 'Cartes', icon: DocumentTextIcon },
     { id: 'exercises', label: 'Exercices', icon: AcademicCapIcon }
   ];
@@ -86,7 +88,7 @@ const AdminPanel = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Panneau d'Administration</h1>
-          <p className="text-gray-600">Gérez vos modules, thèmes, cartes et exercices</p>
+          <p className="text-gray-600">Gérez vos modules, thèmes, recursos, cartes et exercices</p>
         </div>
 
         {/* Navigation Tabs */}
@@ -133,6 +135,19 @@ const AdminPanel = () => {
               modules={modules}
               onThemeSelect={setSelectedTheme}
               onLoadThemes={loadThemes}
+            />
+          )}
+
+          {activeTab === 'recursos' && (
+            <RecursosTab 
+              selectedModule={selectedModule}
+              modules={modules}
+              selectedRecurso={selectedTheme}
+              onRecursoSelect={setSelectedTheme}
+              onLoadRecursos={(recursos) => {
+                // You can use this to update state if needed
+                console.log('Recursos loaded:', recursos);
+              }}
             />
           )}
 

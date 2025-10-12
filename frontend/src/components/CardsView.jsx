@@ -21,7 +21,7 @@ import api from '../services/api';
 import RichTextEditor from './RichTextEditor';
 import ExerciseTable from './ExerciseTable';
 
-const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
+const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter = null }) => {
   const navigate = useNavigate();
 
   // Decode JWT token to get user info
@@ -59,7 +59,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
 
   useEffect(() => {
     fetchThemeAndCards();
-  }, [themeId]);
+  }, [themeId, cardTypeFilter]);
 
   const fetchThemeAndCards = async () => {
     try {
@@ -70,7 +70,14 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
       
       // Then fetch cards
       const cardsResponse = await api.get(`/themes/${themeId}/cards`);
-      setCards(cardsResponse.data);
+      
+      // Filter cards by type if cardTypeFilter is provided
+      let filteredCards = cardsResponse.data;
+      if (cardTypeFilter) {
+        filteredCards = cardsResponse.data.filter(card => card.card_type === cardTypeFilter);
+      }
+      
+      setCards(filteredCards);
       
       // Initialize exercise responses from cards data
       const responses = {};
@@ -298,7 +305,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
           <XMarkIcon className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <p className="text-red-600 mb-4 font-inter">{error}</p>
           <button 
-            onClick={fetchCards}
+            onClick={fetchThemeAndCards}
             className="btn-sage font-inter"
           >
             Reintentar
@@ -312,14 +319,18 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises }) => {
     return (
       <div className="min-h-screen gradient-elegant flex items-center justify-center">
         <div className="modern-card text-center">
-          <DocumentTextIcon className="w-16 h-16 text-taupe mx-auto mb-4" />
-                      <p className="text-taupe-dark mb-4 font-inter text-lg">Ningún contenido disponible para este tema.</p>
-            <button 
-              onClick={onBack}
-              className="btn-taupe font-inter"
-            >
-              Volver
-            </button>
+          <FolderOpen className="w-16 h-16 text-taupe mx-auto mb-4" />
+          <p className="text-taupe-dark mb-4 font-inter text-lg">
+            {cardTypeFilter === 'resources' 
+              ? 'No hay recursos disponibles para este tema todavía.' 
+              : 'Ningún contenido disponible para este tema.'}
+          </p>
+          <button 
+            onClick={onBack}
+            className="btn-taupe font-inter"
+          >
+            Volver
+          </button>
         </div>
       </div>
     );

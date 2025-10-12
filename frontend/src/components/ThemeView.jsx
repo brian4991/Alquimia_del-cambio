@@ -325,7 +325,10 @@ const ThemeView = () => {
       <CardsView 
         themeId={parseInt(themeId)}
         themeName={theme.title}
-        onBack={() => setShowCards(false)}
+        onBack={() => {
+          setShowCards(false);
+          setShowContent(true);
+        }}
         onGoToExercises={() => {
           setShowContent(false);
           setShowCards(false);
@@ -451,7 +454,7 @@ const ThemeView = () => {
             </div>
             <div>
               <h1 className="font-inter text-3xl font-semibold text-black mb-2">
-                {currentExerciseData?.title}
+                {currentExerciseData?.parent_title || currentExerciseData?.title}
               </h1>
               <p className="font-inter text-taupe text-lg">
                 Ejercicio {currentExercise + 1} de {exercises.length}

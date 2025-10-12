@@ -121,6 +121,7 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
             content=theme.content,
             order_number=theme.order_number,
             module_id=theme.module_id,
+            theme_type=theme.theme_type if hasattr(theme, 'theme_type') and theme.theme_type else "theme",
             is_completed=theme_progress is not None,
             is_unlocked=is_unlocked,
             total_cards=total_cards
@@ -155,6 +156,7 @@ def get_theme(theme_id: int, current_user: User = Depends(get_current_user), db:
         content=theme.content,
         order_number=theme.order_number,
         module_id=theme.module_id,
+        theme_type=theme.theme_type if hasattr(theme, 'theme_type') and theme.theme_type else "theme",
         is_completed=theme_progress is not None,
         is_unlocked=True,  # We'll assume it's unlocked if they can access it
         total_cards=total_cards
@@ -415,6 +417,7 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
         result.append(ExerciseResponse(
             id=exercise.id,
             title=exercise.title,
+            parent_title=exercise.parent_title,
             instructions=exercise.instructions,
             sub_questions=sub_questions,
             order_number=exercise.order_number,
@@ -771,16 +774,23 @@ def create_theme(module_id: int, theme_data: ThemeCreate, current_admin: User = 
     if not module:
         raise HTTPException(status_code=404, detail="Module not found")
     
+    # Get theme_type from theme_data, default to "theme"
+    theme_type_value = getattr(theme_data, 'theme_type', 'theme')
+    print(f"[DEBUG] Creating theme with type: {theme_type_value}")
+    
     new_theme = Theme(
         title=theme_data.title,
         content=theme_data.content,
         order_number=theme_data.order_number,
-        module_id=module_id
+        module_id=module_id,
+        theme_type=theme_type_value
     )
     
     db.add(new_theme)
     db.commit()
     db.refresh(new_theme)
+    
+    print(f"[DEBUG] Theme created with ID: {new_theme.id}, theme_type: {new_theme.theme_type}")
     
     return ThemeResponse(
         id=new_theme.id,
@@ -788,6 +798,7 @@ def create_theme(module_id: int, theme_data: ThemeCreate, current_admin: User = 
         content=new_theme.content,
         order_number=new_theme.order_number,
         module_id=new_theme.module_id,
+        theme_type=new_theme.theme_type or "theme",
         is_completed=False,
         is_unlocked=True,
         total_cards=0
@@ -807,6 +818,8 @@ def update_theme(theme_id: int, theme_data: ThemeUpdate, current_admin: User = D
         theme.content = theme_data.content
     if theme_data.order_number is not None:
         theme.order_number = theme_data.order_number
+    if theme_data.theme_type is not None:
+        theme.theme_type = theme_data.theme_type
     
     db.commit()
     db.refresh(theme)
@@ -820,6 +833,7 @@ def update_theme(theme_id: int, theme_data: ThemeUpdate, current_admin: User = D
         content=theme.content,
         order_number=theme.order_number,
         module_id=theme.module_id,
+        theme_type=theme.theme_type if hasattr(theme, 'theme_type') else "theme",
         is_completed=False,
         is_unlocked=True,
         total_cards=total_cards
@@ -857,6 +871,7 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_admin:
     
     new_exercise = Exercise(
         title=exercise_data.title,
+        parent_title=exercise_data.parent_title,
         instructions=exercise_data.instructions,
         sub_questions=sub_questions_json,
         order_number=exercise_data.order_number,
@@ -878,6 +893,7 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_admin:
     return ExerciseResponse(
         id=new_exercise.id,
         title=new_exercise.title,
+        parent_title=new_exercise.parent_title,
         instructions=new_exercise.instructions,
         sub_questions=sub_questions,
         order_number=new_exercise.order_number,
@@ -899,6 +915,8 @@ def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_adm
     # Update fields if provided
     if exercise_data.title is not None:
         exercise.title = exercise_data.title
+    if exercise_data.parent_title is not None:
+        exercise.parent_title = exercise_data.parent_title
     if exercise_data.instructions is not None:
         exercise.instructions = exercise_data.instructions
     if exercise_data.sub_questions is not None:
@@ -925,6 +943,7 @@ def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_adm
     return ExerciseResponse(
         id=exercise.id,
         title=exercise.title,
+        parent_title=exercise.parent_title,
         instructions=exercise.instructions,
         sub_questions=sub_questions,
         order_number=exercise.order_number,
