@@ -129,13 +129,13 @@ async def facebook_callback(request: Request, db: Session = Depends(get_db)):
 
 # Admin Routes
 
-@router.get("/auth/admin/users")
+@router.get("/admin/users")
 def get_all_users(current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Get all users - Admin only"""
     users = db.query(User).all()
     return users
 
-@router.get("/auth/admin/modules")
+@router.get("/admin/modules")
 def get_all_modules_admin(current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):
     """Get all modules for admin - no access control"""
     modules = db.query(Module).filter(Module.is_active == True).order_by(Module.order_number).all()
@@ -175,7 +175,7 @@ def update_user_role(
     db.commit()
     return {"message": f"User role updated to {new_role}"}
 
-@router.post("/auth/admin/users/{user_id}/validate-module/{module_id}")
+@router.post("/admin/users/{user_id}/validate-module/{module_id}")
 def validate_user_module(
     user_id: int,
     module_id: int,
@@ -220,7 +220,7 @@ def validate_user_module(
             "validated_modules": validated_modules
         }
 
-@router.delete("/auth/admin/users/{user_id}/validate-module/{module_id}")
+@router.delete("/admin/users/{user_id}/validate-module/{module_id}")
 def revoke_user_module_validation(
     user_id: int,
     module_id: int,
@@ -265,7 +265,7 @@ def revoke_user_module_validation(
             "validated_modules": validated_modules
         }
 
-@router.post("/auth/admin/users/{user_id}/validate")
+@router.post("/admin/users/{user_id}/validate")
 def validate_user(
     user_id: int,
     current_admin: User = Depends(get_current_admin_user),
@@ -281,7 +281,7 @@ def validate_user(
     
     return {"message": f"User {user.username} has been validated and can now progress normally"}
 
-@router.delete("/auth/admin/users/{user_id}/validate")
+@router.delete("/admin/users/{user_id}/validate")
 def revoke_user_validation(
     user_id: int,
     current_admin: User = Depends(get_current_admin_user),
@@ -297,7 +297,7 @@ def revoke_user_validation(
     
     return {"message": f"User {user.username} validation has been revoked"}
 
-@router.get("/auth/admin/users/{user_id}/responses")
+@router.get("/admin/users/{user_id}/responses")
 def get_user_responses(
     user_id: int,
     current_admin: User = Depends(get_current_admin_user), 
@@ -416,7 +416,7 @@ def get_user_responses(
     
     return result
 
-@router.get("/auth/admin/users/{user_id}/current-responses")
+@router.get("/admin/users/{user_id}/current-responses")
 def get_user_current_responses(
     user_id: int,
     current_admin: User = Depends(get_current_admin_user), 
@@ -543,7 +543,7 @@ def get_user_current_responses(
     
     return result
 
-@router.put("/auth/admin/users/{user_id}/responses/{response_id}")
+@router.put("/admin/users/{user_id}/responses/{response_id}")
 def update_user_response(
     user_id: int,
     response_id: str,  # Format: "old_123" or "sub_456"
@@ -588,7 +588,7 @@ def update_user_response(
     db.commit()
     return {"message": "Response updated successfully"}
 
-@router.delete("/auth/admin/users/{user_id}/responses/{response_id}")
+@router.delete("/admin/users/{user_id}/responses/{response_id}")
 def delete_user_response(
     user_id: int,
     response_id: str,  # Format: "old_123" or "sub_456"
@@ -630,7 +630,7 @@ def delete_user_response(
     db.commit()
     return {"message": "Response deleted successfully"}
 
-@router.get("/auth/admin/users/stats")
+@router.get("/admin/users/stats")
 def get_users_stats(
     current_admin: User = Depends(get_current_admin_user), 
     db: Session = Depends(get_db)

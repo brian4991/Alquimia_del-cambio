@@ -34,21 +34,21 @@ api.interceptors.response.use(
 
 // Auth API
 export const login = async (username, password) => {
-  const response = await api.post('/login', { username, password })
+  const response = await api.post('/auth/login', { username, password })
   const { access_token } = response.data
   localStorage.setItem('token', access_token)
   return response.data
 }
 
 export const register = async (username, email, password) => {
-  const response = await api.post('/register', { username, email, password })
+  const response = await api.post('/auth/register', { username, email, password })
   const { access_token } = response.data
   localStorage.setItem('token', access_token)
   return response.data
 }
 
 export const getProfile = async () => {
-  const response = await api.get('/profile')
+  const response = await api.get('/auth/profile')
   return response.data
 }
 

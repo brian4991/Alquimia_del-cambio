@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 
 from database import create_tables, get_db
 from init_data import init_database
@@ -19,6 +20,17 @@ app = FastAPI(
     title="Alquimia del Cambio",
     version="1.0.0",
     description="Aplicación de transformación personal y desarrollo emocional"
+)
+
+# Session middleware (required for OAuth)
+SECRET_KEY = os.environ.get("SECRET_KEY", "your-secret-key-here-change-in-production")
+app.add_middleware(
+    SessionMiddleware, 
+    secret_key=SECRET_KEY,
+    session_cookie="alquimia_session",
+    max_age=3600,
+    same_site="lax",
+    https_only=False  # Set to True in production with HTTPS
 )
 
 # CORS middleware
@@ -53,7 +65,7 @@ if FRONTEND_DIST.exists():
     app.mount("/static", StaticFiles(directory=str(FRONTEND_DIST)), name="static")
 
 # Include routers
-app.include_router(auth.router)  # No prefix for auth (OAuth routes work at root)
+app.include_router(auth.router, prefix="/auth")  # Auth routes with /auth prefix
 app.include_router(modules.router)  # No prefix for modules (to keep existing frontend working)
 app.include_router(api.router, prefix="/api")  # API prefix for card operations
 app.include_router(admin_import.router)  # Admin import routes

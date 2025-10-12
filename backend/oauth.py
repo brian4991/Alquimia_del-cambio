@@ -4,24 +4,38 @@ from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
 from starlette.requests import Request
 import os
+from dotenv import load_dotenv
 
 from models import User
 from database import get_db
 from auth import create_access_token
 
+# Load environment variables from .env file
+load_dotenv()
+
 # OAuth Configuration
 config = Config(environ=os.environ)
 oauth = OAuth(config)
 
-# Google OAuth
+# Google OAuth - Complete manual configuration
 oauth.register(
     name='google',
     client_id=config('GOOGLE_CLIENT_ID', default=''),
     client_secret=config('GOOGLE_CLIENT_SECRET', default=''),
-    server_metadata_url='https://accounts.google.com/.well-known/openid_configuration',
+    authorize_url='https://accounts.google.com/o/oauth2/v2/auth',
+    access_token_url='https://oauth2.googleapis.com/token',
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs',
+    userinfo_endpoint='https://www.googleapis.com/oauth2/v3/userinfo',
     client_kwargs={
-        'scope': 'openid email profile'
+        'scope': 'openid email profile',
     },
+    server_metadata={
+        'issuer': 'https://accounts.google.com',
+        'authorization_endpoint': 'https://accounts.google.com/o/oauth2/v2/auth',
+        'token_endpoint': 'https://oauth2.googleapis.com/token',
+        'userinfo_endpoint': 'https://www.googleapis.com/oauth2/v3/userinfo',
+        'jwks_uri': 'https://www.googleapis.com/oauth2/v3/certs',
+    }
 )
 
 # Facebook OAuth
