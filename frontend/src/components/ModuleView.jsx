@@ -75,10 +75,21 @@ const ModuleView = () => {
     if (audioRef.current) {
       if (isAudioPlaying) {
         audioRef.current.pause();
+        setIsAudioPlaying(false);
       } else {
-        audioRef.current.play();
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsAudioPlaying(true);
+            })
+            .catch(error => {
+              console.error('Error playing audio:', error);
+              alert(`Error al reproducir el audio: ${error.message}`);
+              setIsAudioPlaying(false);
+            });
+        }
       }
-      setIsAudioPlaying(!isAudioPlaying);
     }
   };
 
@@ -177,10 +188,10 @@ const ModuleView = () => {
                 </div>
                 <audio
                   ref={audioRef}
+                  src={`/audio/${module.audio_file}`}
                   onEnded={handleAudioEnded}
                   className="hidden"
                 >
-                  <source src={`/audio/${module.audio_file}`} type="audio/mpeg" />
                   Tu navegador no soporta la reproducción de audio.
                 </audio>
               </div>
@@ -304,47 +315,40 @@ const ModuleView = () => {
 
         {/* Recursos Column (right, 1/3) */}
         <div>
-          <h2 className="text-2xl font-inter font-bold text-amber-800 mb-6 flex items-center">
-            <Lightbulb className="w-6 h-6 mr-3 text-amber-700" />
+          <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
+            <Lightbulb className="w-6 h-6 mr-3 text-sage-700" />
             Recursos
           </h2>
           
           {recursos.length > 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {recursos.map((recurso) => (
                 <Link
                   key={recurso.id}
                   to={`/theme/${recurso.id}`}
-                  className="block bg-gradient-to-br from-amber-50 to-amber-100 backdrop-blur-sm rounded-xl shadow-lg border border-amber-300 p-5 transition-all duration-300 hover:shadow-xl hover:scale-105"
+                  className="block rounded-2xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl min-h-[152px]"
+                  style={{ backgroundColor: '#6b745a' }}
                 >
-                  <div className="flex items-start space-x-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0">
+                  <div className="flex items-start space-x-4 mb-4">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm flex-shrink-0">
                       <BookOpen className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-amber-900 mb-1">
+                      <h3 className="text-xl font-semibold text-white mb-2">
                         {recurso.title}
                       </h3>
-                      <p className="text-amber-700 text-sm line-clamp-3">
-                        {recurso.content.substring(0, 100)}...
-                      </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-amber-300">
-                    <span className="text-xs text-amber-700 font-medium">
-                      📚 Recurso Adicional
-                    </span>
-                    <span className="text-amber-600 text-xs">
-                      Ver más →
-                    </span>
+                  <div className="text-white/90 text-sm leading-relaxed">
+                    {recurso.content.substring(0, 200)}...
                   </div>
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="bg-amber-50 border-2 border-dashed border-amber-300 rounded-xl p-6 text-center">
-              <BookOpen className="w-12 h-12 text-amber-400 mx-auto mb-3" />
-              <p className="text-amber-700 text-sm">
+            <div className="bg-gradient-calm border-2 border-dashed border-sage-300 rounded-xl p-6 text-center">
+              <BookOpen className="w-12 h-12 text-sage-400 mx-auto mb-3" />
+              <p className="text-sage-600 text-sm">
                 No hay recursos adicionales disponibles para este módulo todavía.
               </p>
             </div>

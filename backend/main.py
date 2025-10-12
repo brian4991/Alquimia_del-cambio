@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 
 from database import create_tables, get_db
 from init_data import init_database
-from routes import auth, modules, legacy, api, admin_import, create_modules
+from routes import auth, modules, legacy, api, admin_import, create_modules, uploads
 import migrate_theme_cards
 
 # Get the project root directory
@@ -37,6 +37,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount audio files directory
+FRONTEND_PUBLIC_AUDIO = PROJECT_ROOT / "frontend" / "public" / "audio"
+if FRONTEND_PUBLIC_AUDIO.exists():
+    app.mount("/audio", StaticFiles(directory=str(FRONTEND_PUBLIC_AUDIO)), name="audio")
+
 # Mount static files (frontend build) - only if the directory exists
 if FRONTEND_DIST.exists():
     # Mount assets directory for JS/CSS files
@@ -54,6 +59,7 @@ app.include_router(api.router, prefix="/api")  # API prefix for card operations
 app.include_router(admin_import.router)  # Admin import routes
 app.include_router(create_modules.router)  # Create modules routes
 app.include_router(migrate_theme_cards.router)  # Theme cards migration
+app.include_router(uploads.router, prefix="/api")  # File uploads
 app.include_router(legacy.router)
 
 @app.on_event("startup")

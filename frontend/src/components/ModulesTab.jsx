@@ -7,6 +7,8 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
   const [editingModule, setEditingModule] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [audioFile, setAudioFile] = useState(null);
+  const [uploadingAudio, setUploadingAudio] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -18,17 +20,66 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
     order_number: 1
   });
 
+  const handleAudioUpload = async (file) => {
+    if (!file) return null;
+    
+    setUploadingAudio(true);
+    try {
+      const token = localStorage.getItem('token');
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      
+      const response = await fetch(`${config.apiUrl}/api/upload/audio`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: uploadFormData
+      });
+      
+      const data = await response.json();
+      if (response.ok) {
+        return data.filename;
+      } else {
+        throw new Error(data.detail || 'Upload failed');
+      }
+    } catch (error) {
+      console.error('Audio upload error:', error);
+      setError(`Erreur d'upload audio: ${error.message}`);
+      return null;
+    } finally {
+      setUploadingAudio(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
     
     try {
+      // Upload audio file if present
+      let audioFileName = formData.audio_file;
+      if (audioFile) {
+        const uploadedFileName = await handleAudioUpload(audioFile);
+        if (uploadedFileName) {
+          audioFileName = uploadedFileName;
+        } else {
+          setIsLoading(false);
+          return; // Stop if upload failed
+        }
+      }
+      
       const token = localStorage.getItem('token');
       const url = editingModule ? `${config.apiUrl}/modules/${editingModule.id}` : `${config.apiUrl}/modules`;
       const method = editingModule ? 'PUT' : 'POST';
       
-      console.log(`${method} request to ${url}`, formData); // Debug log
+      const dataToSubmit = {
+        ...formData,
+        audio_file: audioFileName
+      };
+      
+      console.log(`${method} request to ${url}`, dataToSubmit); // Debug log
       
       const response = await fetch(url, {
         method,
@@ -36,7 +87,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(dataToSubmit)
       });
 
       const responseData = await response.json();
@@ -114,6 +165,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
       audio_file: '',
       order_number: Math.max(1, Array.isArray(modules) ? modules.length + 1 : 1)
     });
+    setAudioFile(null);
     setError(null);
   };
 
@@ -251,16 +303,32 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Fichier audio
+                  Fichier audio (MP3)
                 </label>
-                <input
-                  type="text"
-                  value={formData.audio_file}
-                  onChange={(e) => setFormData({ ...formData, audio_file: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="URL ou nom du fichier"
-                  disabled={isLoading}
-                />
+                <div className="space-y-2">
+                  <input
+                    type="file"
+                    accept=".mp3,audio/mpeg"
+                    onChange={(e) => setAudioFile(e.target.files[0])}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    disabled={isLoading || uploadingAudio}
+                  />
+                  {audioFile && (
+                    <p className="text-sm text-gray-600">
+                      Fichier sélectionné: {audioFile.name}
+                    </p>
+                  )}
+                  {formData.audio_file && !audioFile && (
+                    <p className="text-sm text-green-600">
+                      Fichier actuel: {formData.audio_file}
+                    </p>
+                  )}
+                  {uploadingAudio && (
+                    <p className="text-sm text-blue-600">
+                      Upload en cours...
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -655,17 +655,28 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
             <div className="modern-card bg-gradient-to-r from-sage to-taupe text-white">
               <Sparkles className="w-16 h-16 mx-auto mb-6 opacity-90" />
               <h3 className="font-inter text-2xl font-semibold mb-4">
-                ¡Felicidades!
+                {theme?.theme_type === 'resource' ? '¡Recurso completado!' : '¡Felicidades!'}
               </h3>
               <p className="font-inter text-lg mb-8 opacity-90 leading-relaxed">
-                Has terminado la exploración de este contenido.<br />
-                Continúa tu recorrido con los ejercicios prácticos.
+                {theme?.theme_type === 'resource' 
+                  ? 'Has terminado la exploración de este recurso.'
+                  : 'Has terminado la exploración de este contenido.'
+                }
+                {theme?.theme_type !== 'resource' && (
+                  <><br />Continúa tu recorrido con los ejercicios prácticos.</>
+                )}
               </p>
               <button
-                onClick={onBack}
+                onClick={() => {
+                  if (theme?.theme_type === 'resource') {
+                    navigate(`/module/${theme.module_id}`);
+                  } else {
+                    onBack();
+                  }
+                }}
                 className="bg-white text-sage px-10 py-4 rounded-xl font-inter font-medium hover:shadow-elegant transition-elegant"
               >
-                Continuar con ejercicios
+                {theme?.theme_type === 'resource' ? 'Volver al módulo' : 'Continuar con ejercicios'}
               </button>
             </div>
           </div>

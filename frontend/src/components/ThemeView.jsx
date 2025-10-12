@@ -71,6 +71,12 @@ const ThemeView = () => {
         }
         
         setTheme({...foundTheme, moduleId});
+        
+        // If theme is a resource, go directly to cards view
+        if (foundTheme.theme_type === 'resource') {
+          setShowContent(false);
+          setShowCards(true);
+        }
 
         // Initialize responses with existing user responses
         const initialResponses = {};
@@ -326,8 +332,13 @@ const ThemeView = () => {
         themeId={parseInt(themeId)}
         themeName={theme.title}
         onBack={() => {
-          setShowCards(false);
-          setShowContent(true);
+          // If it's a resource, go back to module instead of showing content page
+          if (theme.theme_type === 'resource') {
+            navigate(`/module/${theme.moduleId}`);
+          } else {
+            setShowCards(false);
+            setShowContent(true);
+          }
         }}
         onGoToExercises={() => {
           setShowContent(false);
