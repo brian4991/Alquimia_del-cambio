@@ -31,8 +31,12 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
     result = []
     for module in modules:
         # Check if user has access to this module
-        # Module 1 is always accessible, others need validation
-        has_access = module.order_number == 1 or module.id in validated_modules
+        # Admins: full preview access to all modules
+        if getattr(current_user, "role", None) == "admin":
+            has_access = True
+        else:
+            # Module 1 is always accessible, others need validation
+            has_access = module.order_number == 1 or module.id in validated_modules
         
         # Check if module is completed
         module_progress = db.query(UserProgress).filter(
@@ -79,8 +83,8 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
 def get_module_themes(module_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     themes = db.query(Theme).filter(Theme.module_id == module_id).order_by(Theme.order_number).all()
     
-    # Check if user is validated
-    user_is_validated = current_user.is_validated
+    # Check if user is validated (admins see everything unlocked)
+    user_is_validated = True if getattr(current_user, "role", None) == "admin" else current_user.is_validated
     
     result = []
     for i, theme in enumerate(themes):
@@ -92,25 +96,29 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
         ).first()
         
         # Check if theme is unlocked
-        if not user_is_validated:
-            # Non-validated users: only first theme of module 1 is unlocked
-            if module_id == 1 and i == 0:
-                is_unlocked = True
-            else:
-                is_unlocked = False
+        if getattr(current_user, "role", None) == "admin":
+            # Admins: all themes unlocked for preview
+            is_unlocked = True
         else:
-            # Validated users: normal sequential progression
-            if i == 0:
-                is_unlocked = True
+            if not user_is_validated:
+                # Non-validated users: only first theme of module 1 is unlocked
+                if module_id == 1 and i == 0:
+                    is_unlocked = True
+                else:
+                    is_unlocked = False
             else:
-                # Check if previous theme is completed
-                prev_theme = themes[i-1]
-                prev_progress = db.query(UserProgress).filter(
-                    UserProgress.user_id == current_user.id,
-                    UserProgress.theme_id == prev_theme.id,
-                    UserProgress.completed == True
-                ).first()
-                is_unlocked = prev_progress is not None
+                # Validated users: normal sequential progression
+                if i == 0:
+                    is_unlocked = True
+                else:
+                    # Check if previous theme is completed
+                    prev_theme = themes[i-1]
+                    prev_progress = db.query(UserProgress).filter(
+                        UserProgress.user_id == current_user.id,
+                        UserProgress.theme_id == prev_theme.id,
+                        UserProgress.completed == True
+                    ).first()
+                    is_unlocked = prev_progress is not None
         
         # Count total cards for this theme
         total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
