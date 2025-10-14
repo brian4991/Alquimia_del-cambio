@@ -179,17 +179,19 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
     
     result = []
     for card in cards:
-        # Parse exercise data
+        # Parse exercise data defensively (handle JSON string or list)
         exercise_questions_parsed = []
         exercise_sections_parsed = []
         
         if card.card_type == "exercise":
             # Parse legacy exercise_questions
-            if card.exercise_questions:
+            if getattr(card, 'exercise_questions', None):
                 try:
-                    parsed_data = json.loads(card.exercise_questions)
+                    if isinstance(card.exercise_questions, str):
+                        parsed_data = json.loads(card.exercise_questions)
+                    else:
+                        parsed_data = card.exercise_questions
                     if isinstance(parsed_data, list):
-                        exercise_questions_parsed = []
                         for item in parsed_data:
                             if isinstance(item, str):
                                 exercise_questions_parsed.append({
@@ -200,11 +202,20 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
                                 exercise_questions_parsed.append(item)
                 except Exception as e:
                     print(f"Error parsing exercise_questions for card {card.id}: {e}")
+                    exercise_questions_parsed = []
             
             # Parse new exercise_sections
-            if hasattr(card, 'exercise_sections') and card.exercise_sections:
+            if hasattr(card, 'exercise_sections') and getattr(card, 'exercise_sections') is not None:
                 try:
-                    exercise_sections_parsed = json.loads(card.exercise_sections)
+                    if isinstance(card.exercise_sections, str):
+                        exercise_sections_parsed = json.loads(card.exercise_sections)
+                    elif isinstance(card.exercise_sections, list):
+                        exercise_sections_parsed = card.exercise_sections
+                    else:
+                        exercise_sections_parsed = []
+                    # Ensure it's a list
+                    if not isinstance(exercise_sections_parsed, list):
+                        exercise_sections_parsed = []
                 except Exception as e:
                     print(f"Error parsing exercise_sections for card {card.id}: {e}")
                     exercise_sections_parsed = []
