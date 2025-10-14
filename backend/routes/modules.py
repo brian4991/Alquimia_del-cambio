@@ -407,30 +407,33 @@ def get_theme_exercises(theme_id: int, current_user: User = Depends(get_current_
             for resp in sub_question_responses
         }
         
-        # Parse sub_questions from JSON string to list
+        # Parse sub_questions from JSON string to list (force list)
         sub_questions = []
-        if exercise.sub_questions:
+        if exercise.sub_questions is not None:
             try:
                 import json
-                sub_questions = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
-            except:
+                parsed = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
+                sub_questions = parsed if isinstance(parsed, list) else []
+            except Exception:
                 sub_questions = []
         
         # Parse exercise_questions and exercise_sections from JSON
         exercise_questions = []
-        if exercise.exercise_questions:
+        if getattr(exercise, 'exercise_questions', None) is not None:
             try:
                 import json
-                exercise_questions = json.loads(exercise.exercise_questions) if isinstance(exercise.exercise_questions, str) else exercise.exercise_questions
-            except:
+                parsed_eq = json.loads(exercise.exercise_questions) if isinstance(exercise.exercise_questions, str) else exercise.exercise_questions
+                exercise_questions = parsed_eq if isinstance(parsed_eq, list) else []
+            except Exception:
                 exercise_questions = []
         
         exercise_sections = []
-        if exercise.exercise_sections:
+        if getattr(exercise, 'exercise_sections', None) is not None:
             try:
                 import json
-                exercise_sections = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
-            except:
+                parsed_es = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
+                exercise_sections = parsed_es if isinstance(parsed_es, list) else []
+            except Exception:
                 exercise_sections = []
         
         result.append(ExerciseResponse(
