@@ -47,13 +47,15 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         raise HTTPException(status_code=401, detail="User is inactive")
     return user
 
-def get_current_admin_user(current_user: User = Depends(get_current_user)):
-    if current_user.role != "admin":
+def get_current_admin_user(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Re-fetch user from DB to get latest role (in case it was updated after token generation)
+    fresh_user = db.query(User).filter(User.id == current_user.id).first()
+    if not fresh_user or fresh_user.role != "admin":
         raise HTTPException(
             status_code=403, 
             detail="Admin access required. You don't have permission to access this resource."
         )
-    return current_user
+    return fresh_user
 
 def create_admin_user(username: str, email: str, password: str, db: Session):
     """Create an admin user - useful for initialization"""
