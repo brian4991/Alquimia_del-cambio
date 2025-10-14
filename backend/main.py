@@ -40,9 +40,8 @@ app.add_middleware(
         "http://localhost:3000", 
         "http://localhost:5173",
         "http://localhost:5174",
-        "https://*.vercel.app",
-        "https://*.railway.app",
-        "https://your-domain.com"  # Remplace par ton domaine final
+        "https://alquimia-del-cambio.vercel.app",
+        "https://alquimiadel-cambio-production.up.railway.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
