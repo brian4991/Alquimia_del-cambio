@@ -67,7 +67,7 @@ async def create_or_get_oauth_user(provider: str, user_info: dict, db: Session):
     if not email:
         raise HTTPException(status_code=400, detail="Email not provided by OAuth provider")
     
-    # Check if user already exists with this provider
+    # Check if user already exists with this provider and provider_id (most reliable)
     existing_user = db.query(User).filter(
         User.provider == provider,
         User.provider_id == str(provider_id)
@@ -76,7 +76,7 @@ async def create_or_get_oauth_user(provider: str, user_info: dict, db: Session):
     if existing_user:
         return existing_user
     
-    # Check if user exists with same email but different provider
+    # Check if user exists with same email (link accounts)
     email_user = db.query(User).filter(User.email == email).first()
     if email_user:
         # Link the OAuth account to existing user
@@ -86,7 +86,13 @@ async def create_or_get_oauth_user(provider: str, user_info: dict, db: Session):
         db.refresh(email_user)
         return email_user
     
-    # Create new user
+    # Create new user - ensure unique username
+    base_username = username
+    counter = 1
+    while db.query(User).filter(User.username == username).first():
+        username = f"{base_username}_{counter}"
+        counter += 1
+    
     new_user = User(
         username=username,
         email=email,
