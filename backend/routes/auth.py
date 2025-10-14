@@ -13,50 +13,51 @@ from oauth import oauth, create_or_get_oauth_user, generate_oauth_token
 
 router = APIRouter(tags=["authentication"])
 
-@router.post("/register", response_model=Token)
-def register(user: UserCreate, db: Session = Depends(get_db)):
-    # Check if user exists
-    if db.query(User).filter(User.username == user.username).first():
-        raise HTTPException(status_code=400, detail="Username already registered")
-    if db.query(User).filter(User.email == user.email).first():
-        raise HTTPException(status_code=400, detail="Email already registered")
-    
-    # Create new user
-    hashed_password = hash_password(user.password)
-    db_user = User(
-        username=user.username, 
-        email=user.email, 
-        password_hash=hashed_password,
-        role="user",  # Default role
-        provider="local"
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    
-    # Create access token
-    access_token = create_access_token(data={
-        "sub": db_user.username,
-        "user_id": db_user.id,
-        "role": db_user.role
-    })
-    return {"access_token": access_token, "token_type": "bearer"}
+# Local authentication disabled - OAuth only (Google)
+# @router.post("/register", response_model=Token)
+# def register(user: UserCreate, db: Session = Depends(get_db)):
+#     # Check if user exists
+#     if db.query(User).filter(User.username == user.username).first():
+#         raise HTTPException(status_code=400, detail="Username already registered")
+#     if db.query(User).filter(User.email == user.email).first():
+#         raise HTTPException(status_code=400, detail="Email already registered")
+#     
+#     # Create new user
+#     hashed_password = hash_password(user.password)
+#     db_user = User(
+#         username=user.username, 
+#         email=user.email, 
+#         password_hash=hashed_password,
+#         role="user",  # Default role
+#         provider="local"
+#     )
+#     db.add(db_user)
+#     db.commit()
+#     db.refresh(db_user)
+#     
+#     # Create access token
+#     access_token = create_access_token(data={
+#         "sub": db_user.username,
+#         "user_id": db_user.id,
+#         "role": db_user.role
+#     })
+#     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/login", response_model=Token)
-def login(user: UserLogin, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.username == user.username).first()
-    if not db_user or not verify_password(user.password, db_user.password_hash):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-    if not db_user.is_active:
-        raise HTTPException(status_code=401, detail="Account is inactive")
-    
-    access_token = create_access_token(data={
-        "sub": db_user.username,
-        "user_id": db_user.id,
-        "role": db_user.role
-    })
-    return {"access_token": access_token, "token_type": "bearer"}
+# @router.post("/login", response_model=Token)
+# def login(user: UserLogin, db: Session = Depends(get_db)):
+#     db_user = db.query(User).filter(User.username == user.username).first()
+#     if not db_user or not verify_password(user.password, db_user.password_hash):
+#         raise HTTPException(status_code=401, detail="Invalid credentials")
+#     
+#     if not db_user.is_active:
+#         raise HTTPException(status_code=401, detail="Account is inactive")
+#     
+#     access_token = create_access_token(data={
+#         "sub": db_user.username,
+#         "user_id": db_user.id,
+#         "role": db_user.role
+#     })
+#     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.get("/profile", response_model=UserResponse)
 def get_profile(current_user: User = Depends(get_current_user)):
