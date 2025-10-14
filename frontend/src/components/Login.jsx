@@ -56,12 +56,7 @@ const Login = () => {
             <span className="ml-3 text-lg">Continuar con Google</span>
           </button>
 
-          {/* Footer */}
-          <div className="mt-8 text-center">
-            <p className="text-xs text-sage-500 leading-relaxed">
-              Al conectarte, aceptas comenzar tu viaje de transformación personal con amor y respeto hacia ti mismo.
-            </p>
-          </div>
+          {/* Footer removed per request */}
         </div>
 
         {/* Bottom decorative text */}
