@@ -5,6 +5,7 @@ import ThemesTab from './ThemesTab';
 import RecursosTab from './RecursosTab';
 import CardsTab from './CardsTab';
 import ExercisesTab from './ExercisesTab';
+import Dashboard from './Dashboard';
 import { config } from '../config';
 
 const AdminPanel = () => {
@@ -76,6 +77,7 @@ const AdminPanel = () => {
   };
 
   const tabs = [
+    { id: 'preview', label: 'Mi Programa', icon: BookOpenIcon },
     { id: 'modules', label: 'Modules', icon: BookOpenIcon },
     { id: 'themes', label: 'Thèmes', icon: DocumentTextIcon },
     { id: 'recursos', label: 'Recursos', icon: LightBulbIcon },
@@ -118,6 +120,9 @@ const AdminPanel = () => {
 
         {/* Content Area */}
         <div className="bg-white rounded-lg shadow-sm p-6">
+          {activeTab === 'preview' && (
+            <Dashboard />
+          )}
           {activeTab === 'modules' && (
             <ModulesTab 
               modules={modules} 
