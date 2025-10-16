@@ -500,11 +500,10 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
             )}
           </div>
 
-          {/* Exercise Section */}
-          {currentCard.card_type === 'exercise' && currentCard.exercise_questions && (
+          {/* Exercise Section - HIDDEN: Only show content message, exercise UI removed */}
+          {/* {currentCard.card_type === 'exercise' && currentCard.exercise_questions && (
             <div className="mt-8 border-t pt-8">
               <div className="space-y-6">
-                {/* Exercise Instructions */}
                 {currentCard.exercise_instructions && (
                   <div className="glass-effect-sage rounded-xl p-6">
                     <h4 className="font-inter text-lg font-semibold text-sage-dark mb-3 flex items-center">
@@ -517,7 +516,6 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
                   </div>
                 )}
 
-                {/* Exercise Questions */}
                 <div className="space-y-4">
                   <h4 className="font-inter text-xl font-semibold text-orange-800 flex items-center">
                     <span className="mr-2">📝</span>
@@ -525,7 +523,6 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
                   </h4>
                   
                   {currentCard.exercise_questions.map((questionObj, index) => {
-                    // Handle both legacy string format and new object format
                     const question = typeof questionObj === 'string' 
                       ? { type: 'text', question: questionObj }
                       : questionObj;
@@ -552,7 +549,6 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
                           </div>
                         </div>
                         
-                        {/* Render different input types based on question type */}
                         {question.type === 'table' && question.table_config ? (
                           <div className="space-y-4">
                             <ExerciseTable
@@ -579,7 +575,6 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
                           />
                         )}
                         
-                        {/* Individual save button */}
                         <div className="mt-3 flex justify-end">
                           <button
                             onClick={() => submitExerciseResponse(currentCard.id, index, responseValue)}
@@ -597,7 +592,6 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
                     );
                   })}
                   
-                  {/* Save all responses button */}
                   <div className="mt-6 text-center">
                     <button
                       onClick={() => saveAllExerciseResponses(currentCard.id)}
@@ -610,7 +604,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
                 </div>
               </div>
             </div>
-          )}
+          )} */}
         </div>
 
         {/* Navigation flèches */}
