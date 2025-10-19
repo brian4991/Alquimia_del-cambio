@@ -134,3 +134,17 @@ class UserSubQuestionResponseDB(Base):
     # Relationships
     user = relationship("User")
     exercise = relationship("Exercise")
+
+class CardResponse(Base):
+    __tablename__ = "card_responses"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    card_id = Column(Integer, ForeignKey("theme_cards.id"), nullable=False)
+    question_index = Column(Integer, nullable=False)  # Index of the question in the card
+    response_text = Column(Text, nullable=True)
+    submitted_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    
+    # Relationships
+    user = relationship("User")
+    card = relationship("ThemeCard")

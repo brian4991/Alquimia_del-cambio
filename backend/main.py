@@ -165,6 +165,55 @@ def migrate_sub_question_index_endpoint():
             "status": "failed"
         }
 
+# TEMPORARY ENDPOINT - Remove after migration
+@app.post("/admin/migrate-card-responses")
+def migrate_card_responses_endpoint():
+    """
+    Temporary endpoint to create card_responses table
+    For storing user responses to card-based exercises
+    """
+    from database import create_tables
+    from sqlalchemy import text
+    from database import engine
+    
+    try:
+        # Create all missing tables
+        create_tables()
+        
+        # Verify table exists
+        with engine.connect() as conn:
+            result = conn.execute(text("""
+                SELECT table_name FROM information_schema.tables 
+                WHERE table_name='card_responses'
+            """))
+            
+            if result.fetchone():
+                # Get table structure
+                result = conn.execute(text("""
+                    SELECT column_name, data_type 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'card_responses'
+                    ORDER BY ordinal_position
+                """))
+                columns = result.fetchall()
+                
+                return {
+                    "message": "Table 'card_responses' created successfully!",
+                    "columns": [{"name": col[0], "type": col[1]} for col in columns],
+                    "status": "success"
+                }
+            else:
+                return {
+                    "error": "Failed to create table 'card_responses'",
+                    "status": "failed"
+                }
+                
+    except Exception as e:
+        return {
+            "error": str(e),
+            "status": "failed"
+        }
+
 # Serve specific static files at root level
 @app.get("/vite.svg")
 def get_vite_svg():

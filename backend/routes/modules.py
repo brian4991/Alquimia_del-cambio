@@ -6,7 +6,7 @@ import json
 
 from auth import get_current_user, get_current_admin_user
 from database import get_db
-from models import User, Module, Theme, Exercise, UserProgress, UserResponseDB, UserSubQuestionResponseDB, ThemeCard
+from models import User, Module, Theme, Exercise, UserProgress, UserResponseDB, UserSubQuestionResponseDB, ThemeCard, CardResponse
 
 from schemas import (
     ModuleResponse, ThemeResponse, ExerciseResponse, ExerciseResponseRequest, 
@@ -182,6 +182,7 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
         # Parse exercise data defensively (handle JSON string or list)
         exercise_questions_parsed = []
         exercise_sections_parsed = []
+        user_responses_dict = None
         
         if card.card_type == "exercise":
             # Parse legacy exercise_questions
@@ -219,6 +220,18 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
                 except Exception as e:
                     print(f"Error parsing exercise_sections for card {card.id}: {e}")
                     exercise_sections_parsed = []
+            
+            # Get user's responses for this card's exercise
+            card_responses = db.query(CardResponse).filter(
+                CardResponse.user_id == current_user.id,
+                CardResponse.card_id == card.id
+            ).all()
+            
+            if card_responses:
+                user_responses_dict = {
+                    str(resp.question_index): resp.response_text 
+                    for resp in card_responses
+                }
         
         result.append(ThemeCardResponse(
             id=card.id,
@@ -232,7 +245,8 @@ def get_theme_cards(theme_id: int, current_user: User = Depends(get_current_user
             updated_at=card.updated_at,
             exercise_instructions=card.exercise_instructions,
             exercise_questions=exercise_questions_parsed,
-            exercise_sections=exercise_sections_parsed
+            exercise_sections=exercise_sections_parsed,
+            user_responses=user_responses_dict
         ))
     
     return result

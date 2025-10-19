@@ -97,7 +97,9 @@ const ThemeView = () => {
               if (section.questions) {
                 section.questions.forEach((question, questionIndex) => {
                   const responseKey = `${exercise.id}_section_${sectionIndex}_question_${questionIndex}`;
-                  initialResponses[responseKey] = '';
+                  const subQuestionKey = `section_${sectionIndex}_question_${questionIndex}`;
+                  // Load existing response if available
+                  initialResponses[responseKey] = exercise.sub_question_responses?.[subQuestionKey] || '';
                 });
               }
             });
