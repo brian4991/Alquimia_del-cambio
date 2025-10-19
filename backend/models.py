@@ -126,7 +126,7 @@ class UserSubQuestionResponseDB(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     exercise_id = Column(Integer, ForeignKey("exercises.id"), nullable=False)
-    sub_question_index = Column(Integer, nullable=False)
+    sub_question_index = Column(String, nullable=False)  # Changed to String to support 'section_X_question_Y' format
     response_text = Column(Text, nullable=True)
     submitted_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())

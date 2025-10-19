@@ -371,34 +371,43 @@ def get_user_responses(
         exercise_title_suffix = ""
         response_type = "sub_question"
         
+        # Handle both int and string representations
         if isinstance(response.sub_question_index, int):
             # Legacy format: integer index
             if sub_questions and response.sub_question_index < len(sub_questions):
                 sub_question_text = sub_questions[response.sub_question_index]
                 exercise_title_suffix = f" - Q{response.sub_question_index + 1}"
-        elif isinstance(response.sub_question_index, str) and response.sub_question_index.startswith("section_"):
-            # New format: "section_X_question_Y"
-            response_type = "exercise_section"
+        elif isinstance(response.sub_question_index, str):
+            # Check if it's a string representation of an integer (legacy format stored as string)
             try:
-                parts = response.sub_question_index.split("_")
-                if len(parts) >= 4:  # section_X_question_Y
-                    section_index = int(parts[1])
-                    question_index = int(parts[3])
-                    
-                    if section_index < len(exercise_sections):
-                        section = exercise_sections[section_index]
-                        section_title = section.get('title', f'Section {section_index + 1}')
-                        
-                        if section.get('questions') and question_index < len(section['questions']):
-                            question = section['questions'][question_index]
-                            sub_question_text = question.get('question', 'Question')
-                            exercise_title_suffix = f" - {section_title} - Q{question_index + 1}"
-                        else:
-                            exercise_title_suffix = f" - {section_title}"
-                    else:
+                index_int = int(response.sub_question_index)
+                if sub_questions and index_int < len(sub_questions):
+                    sub_question_text = sub_questions[index_int]
+                    exercise_title_suffix = f" - Q{index_int + 1}"
+            except ValueError:
+                # Not a plain integer, check if it's the new "section_X_question_Y" format
+                if response.sub_question_index.startswith("section_"):
+                    response_type = "exercise_section"
+                    try:
+                        parts = response.sub_question_index.split("_")
+                        if len(parts) >= 4:  # section_X_question_Y
+                            section_index = int(parts[1])
+                            question_index = int(parts[3])
+                            
+                            if section_index < len(exercise_sections):
+                                section = exercise_sections[section_index]
+                                section_title = section.get('title', f'Section {section_index + 1}')
+                                
+                                if section.get('questions') and question_index < len(section['questions']):
+                                    question = section['questions'][question_index]
+                                    sub_question_text = question.get('question', 'Question')
+                                    exercise_title_suffix = f" - {section_title} - Q{question_index + 1}"
+                                else:
+                                    exercise_title_suffix = f" - {section_title}"
+                            else:
+                                exercise_title_suffix = f" - {response.sub_question_index}"
+                    except (ValueError, IndexError):
                         exercise_title_suffix = f" - {response.sub_question_index}"
-            except (ValueError, IndexError):
-                exercise_title_suffix = f" - {response.sub_question_index}"
         
         result.append({
             "id": f"sub_{response.id}",
@@ -502,27 +511,34 @@ def get_user_current_responses(
                     response_type = "sub_question"
                     
                     if isinstance(sub_response.sub_question_index, int):
-                        # Legacy format
+                        # Legacy format: integer
                         if sub_questions and sub_response.sub_question_index < len(sub_questions):
                             question_text = sub_questions[sub_response.sub_question_index]
-                    elif isinstance(sub_response.sub_question_index, str) and sub_response.sub_question_index.startswith("section_"):
-                        # New format
-                        response_type = "exercise_section"
+                    elif isinstance(sub_response.sub_question_index, str):
+                        # Check if it's a string representation of an integer (legacy format stored as string)
                         try:
-                            parts = sub_response.sub_question_index.split("_")
-                            if len(parts) >= 4:
-                                section_index = int(parts[1])
-                                question_index = int(parts[3])
-                                
-                                if section_index < len(exercise_sections):
-                                    section = exercise_sections[section_index]
-                                    section_title = section.get('title', f'Section {section_index + 1}')
-                                    
-                                    if section.get('questions') and question_index < len(section['questions']):
-                                        question = section['questions'][question_index]
-                                        question_text = f"{section_title} - {question.get('question', 'Question')}"
-                        except (ValueError, IndexError):
-                            question_text = sub_response.sub_question_index
+                            index_int = int(sub_response.sub_question_index)
+                            if sub_questions and index_int < len(sub_questions):
+                                question_text = sub_questions[index_int]
+                        except ValueError:
+                            # Not a plain integer, check if it's the new "section_X_question_Y" format
+                            if sub_response.sub_question_index.startswith("section_"):
+                                response_type = "exercise_section"
+                                try:
+                                    parts = sub_response.sub_question_index.split("_")
+                                    if len(parts) >= 4:
+                                        section_index = int(parts[1])
+                                        question_index = int(parts[3])
+                                        
+                                        if section_index < len(exercise_sections):
+                                            section = exercise_sections[section_index]
+                                            section_title = section.get('title', f'Section {section_index + 1}')
+                                            
+                                            if section.get('questions') and question_index < len(section['questions']):
+                                                question = section['questions'][question_index]
+                                                question_text = f"{section_title} - {question.get('question', 'Question')}"
+                                except (ValueError, IndexError):
+                                    question_text = sub_response.sub_question_index
                     
                     exercise_data["responses"].append({
                         "id": f"sub_{sub_response.id}",

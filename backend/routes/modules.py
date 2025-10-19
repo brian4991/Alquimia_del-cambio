@@ -533,11 +533,14 @@ def submit_sub_question_response(
     else:
         raise HTTPException(status_code=400, detail="Invalid sub-question index type")
     
+    # Normalize sub_question_index to string for database storage
+    sub_question_index_str = str(response.sub_question_index)
+    
     # Check if response already exists
     existing_response = db.query(UserSubQuestionResponseDB).filter(
         UserSubQuestionResponseDB.user_id == current_user.id,
         UserSubQuestionResponseDB.exercise_id == response.exercise_id,
-        UserSubQuestionResponseDB.sub_question_index == response.sub_question_index
+        UserSubQuestionResponseDB.sub_question_index == sub_question_index_str
     ).first()
     
     if existing_response:
@@ -549,7 +552,7 @@ def submit_sub_question_response(
         db_response = UserSubQuestionResponseDB(
             user_id=current_user.id,
             exercise_id=response.exercise_id,
-            sub_question_index=response.sub_question_index,
+            sub_question_index=sub_question_index_str,
             response_text=response.response_text
         )
         db.add(db_response)
