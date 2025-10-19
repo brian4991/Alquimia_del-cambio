@@ -1,9 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { config } from '../config'
+import { login, register } from '../services/api'
 
 const Login = () => {
+  const navigate = useNavigate()
+  const isLocalMode = config.environment === 'development'
+  const [showRegister, setShowRegister] = useState(false)
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
   const handleGoogleLogin = () => {
     window.location.href = `${config.apiUrl}/auth/google`
+  }
+
+  const handleLocalLogin = async (e) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    
+    try {
+      await login(formData.username, formData.password)
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Error al iniciar sesión')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleLocalRegister = async (e) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+    
+    try {
+      await register(formData.username, formData.email, formData.password)
+      navigate('/dashboard')
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Error al registrarse')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -41,6 +84,90 @@ const Login = () => {
             </p>
           </div>
 
+          {/* Local Dev Login Form - Only in Development */}
+          {isLocalMode && (
+            <form onSubmit={showRegister ? handleLocalRegister : handleLocalLogin} className="space-y-4 mb-6">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
+              
+              <div>
+                <label className="block text-sm font-medium text-sage-700 mb-2">
+                  Usuario
+                </label>
+                <input
+                  type="text"
+                  value={formData.username}
+                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  className="w-full px-4 py-3 border border-sage-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage-400"
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              {showRegister && (
+                <div>
+                  <label className="block text-sm font-medium text-sage-700 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full px-4 py-3 border border-sage-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage-400"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-medium text-sage-700 mb-2">
+                  Contraseña
+                </label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  className="w-full px-4 py-3 border border-sage-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage-400"
+                  required
+                  disabled={loading}
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 px-6 bg-sage-600 text-white rounded-lg font-medium hover:bg-sage-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Cargando...' : (showRegister ? 'Registrarse' : 'Iniciar Sesión')}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowRegister(!showRegister)
+                  setError('')
+                }}
+                className="w-full text-sm text-sage-600 hover:text-sage-800 transition-colors"
+                disabled={loading}
+              >
+                {showRegister ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
+              </button>
+
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-sage-300"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-sage-500">O continúa con</span>
+                </div>
+              </div>
+            </form>
+          )}
+
           {/* Google Login Button */}
           <button
             type="button"
@@ -56,7 +183,14 @@ const Login = () => {
             <span className="ml-3 text-lg">Continuar con Google</span>
           </button>
 
-          {/* Footer removed per request */}
+          {/* Dev Mode Indicator */}
+          {isLocalMode && (
+            <div className="mt-4 text-center">
+              <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
+                🔧 Modo Desarrollo
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Bottom decorative text */}

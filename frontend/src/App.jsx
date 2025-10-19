@@ -9,7 +9,7 @@ import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
 import Layout from './components/Layout';
-import PsychologyLanding from './components/PsychologyLanding';
+import LandingPage from './components/LandingPage';
 import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
@@ -176,7 +176,8 @@ const App = () => {
               </ProtectedRoute>
             } 
           />
-          <Route path="/" element={<PsychologyLanding />} />
+          <Route path="/landing" element={<LandingPage />} />
+          <Route path="/" element={<Navigate to="/landing" />} />
         </Routes>
       </div>
     </Router>

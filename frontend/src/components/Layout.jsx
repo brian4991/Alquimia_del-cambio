@@ -52,6 +52,12 @@ const Layout = ({ children }) => {
           icon: CogIcon, 
           label: 'Gestión Contenido',
           description: 'Crear y modificar módulos'
+        },
+        {
+          path: '/landing', 
+          icon: HeartIcon, 
+          label: 'Retiro Ámate',
+          description: 'Página de presentación del retiro'
         }
       ];
     } else {
@@ -62,6 +68,12 @@ const Layout = ({ children }) => {
           icon: HomeIcon, 
           label: 'Mi Programa',
           description: 'Tu recorrido de transformación personal'
+        },
+        {
+          path: '/landing', 
+          icon: HeartIcon, 
+          label: 'Retiro Ámate',
+          description: 'Descubre nuestro retiro transformador'
         }
       ];
     }
