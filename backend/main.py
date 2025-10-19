@@ -101,6 +101,70 @@ def api_root():
         "docs": "/docs"
     }
 
+# TEMPORARY ENDPOINT - Remove after migration
+@app.post("/admin/migrate-sub-question-index")
+def migrate_sub_question_index_endpoint():
+    """
+    Temporary endpoint to run sub_question_index migration
+    Changes column from INTEGER to TEXT to support new exercise format
+    """
+    from sqlalchemy import text
+    from database import engine
+    
+    try:
+        with engine.connect() as conn:
+            with conn.begin():
+                # Check current column type
+                result = conn.execute(text("""
+                    SELECT column_name, data_type 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'user_sub_question_responses' 
+                    AND column_name = 'sub_question_index'
+                """))
+                
+                current_col = result.fetchone()
+                if not current_col:
+                    return {"error": "Column not found", "status": "failed"}
+                
+                current_type = current_col[1]
+                
+                if current_type == 'text' or current_type == 'character varying':
+                    return {
+                        "message": "Migration already completed - column is already TEXT",
+                        "current_type": current_type,
+                        "status": "already_done"
+                    }
+                
+                # Alter column type
+                conn.execute(text("""
+                    ALTER TABLE user_sub_question_responses 
+                    ALTER COLUMN sub_question_index TYPE TEXT 
+                    USING sub_question_index::TEXT
+                """))
+                
+                # Verify
+                result = conn.execute(text("""
+                    SELECT column_name, data_type 
+                    FROM information_schema.columns 
+                    WHERE table_name = 'user_sub_question_responses' 
+                    AND column_name = 'sub_question_index'
+                """))
+                
+                new_col = result.fetchone()
+                
+                return {
+                    "message": "Migration completed successfully!",
+                    "old_type": current_type,
+                    "new_type": new_col[1],
+                    "status": "success"
+                }
+                
+    except Exception as e:
+        return {
+            "error": str(e),
+            "status": "failed"
+        }
+
 # Serve specific static files at root level
 @app.get("/vite.svg")
 def get_vite_svg():
