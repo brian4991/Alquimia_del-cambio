@@ -213,14 +213,14 @@ const AdminUsersTracking = () => {
             </div>
             
             <div className="p-8">
-              {users.length === 0 ? (
+              {users.filter(user => user.role !== 'admin').length === 0 ? (
                 <div className="text-center py-16 text-slate-500">
                   <UsersIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
                   <p className="text-xl font-medium">No hay usuarios registrados</p>
                 </div>
               ) : (
                 <div className="space-y-6 max-h-[600px] overflow-y-auto">
-                  {users.map((user) => (
+                  {users.filter(user => user.role !== 'admin').map((user) => (
                     <div
                       key={user.id}
                       className="p-6 rounded-2xl border-2 border-slate-200 hover:border-slate-200 hover:scale-[1.01] transition-all duration-300 cursor-pointer hover:shadow-lg"

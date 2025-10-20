@@ -251,7 +251,7 @@ const Layout = ({ children }) => {
                 </span>
               </div>
               <p className="font-inter text-sm text-taupe">
-                © 2024 Cambio de Paradigma. Desarrollado con pasión para tu florecimiento.
+                © 2024 Cambio de Paradigma. 
               </p>
             </div>
           </div>
