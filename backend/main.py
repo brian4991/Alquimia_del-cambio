@@ -17,7 +17,7 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 
 # FastAPI app
 app = FastAPI(
-    title="Alquimia del Cambio",
+    title="Cambio de Paradigma",
     version="1.0.0",
     description="Aplicación de transformación personal y desarrollo emocional"
 )
@@ -96,7 +96,7 @@ def root():
 @app.get("/api")
 def api_root():
     return {
-        "message": "Welcome to Alquimia del Cambio API",
+        "message": "Welcome to Cambio de Paradigma API",
         "version": "1.0.0",
         "docs": "/docs"
     }

@@ -66,7 +66,7 @@ const Login = () => {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-inter font-bold text-white mb-4">
-            Alquimia del Cambio
+            Cambio de Paradigma
           </h1>
           <p className="text-sage-200 text-lg">
             Bienvenido a tu viaje de transformación

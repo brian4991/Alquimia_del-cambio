@@ -41,6 +41,12 @@ const Layout = ({ children }) => {
     if (userInfo && userInfo.role === 'admin') {
       // Admin navigation - different from regular users
       return [
+        { 
+          path: '/dashboard', 
+          icon: HomeIcon, 
+          label: 'Mi Programa',
+          description: 'Tu recorrido de transformación personal'
+        },
         {
           path: '/admin/users', 
           icon: UserIcon, 
@@ -50,14 +56,8 @@ const Layout = ({ children }) => {
         {
           path: '/admin', 
           icon: CogIcon, 
-          label: 'Gestión Contenido',
+          label: 'Panel Admin',
           description: 'Crear y modificar módulos'
-        },
-        {
-          path: '/landing', 
-          icon: HeartIcon, 
-          label: 'Retiro Ámate',
-          description: 'Página de presentación del retiro'
         }
       ];
     } else {
@@ -68,12 +68,6 @@ const Layout = ({ children }) => {
           icon: HomeIcon, 
           label: 'Mi Programa',
           description: 'Tu recorrido de transformación personal'
-        },
-        {
-          path: '/landing', 
-          icon: HeartIcon, 
-          label: 'Retiro Ámate',
-          description: 'Descubre nuestro retiro transformador'
         }
       ];
     }
@@ -91,7 +85,7 @@ const Layout = ({ children }) => {
                 <div className="relative">
                   <img 
                     src="/Logo nr.png" 
-                    alt="Alquimia del Cambio" 
+                    alt="Cambio de Paradigma" 
                     className="w-16 h-16 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       // Fallback vers l'icône si le logo n'est pas trouvé
@@ -105,7 +99,7 @@ const Layout = ({ children }) => {
                 </div>
                 <div className="hidden sm:block">
                               <h1 className="font-inter text-3xl font-bold text-gray-800 tracking-tight">
-              Alquimia del Cambio
+              Cambio de Paradigma
             </h1>
                   <p className="font-inter text-sm text-gray-600 mt-1">
                     Tu camino de transformación personal
@@ -116,7 +110,7 @@ const Layout = ({ children }) => {
               {/* Titre mobile */}
               <div className="sm:hidden">
                               <h1 className="font-inter text-xl font-bold text-gray-800 tracking-tight">
-                Alquimia del Cambio
+                Cambio de Paradigma
               </h1>
               </div>
             </div>
@@ -185,7 +179,20 @@ const Layout = ({ children }) => {
                 
                 <button
                   onClick={handleLogout}
-                  className="group flex items-center space-x-2 px-4 py-3 text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-2xl transition-all duration-300 font-inter font-medium hover:shadow-md hover:scale-105 border border-red-200 hover:border-red-300"
+                  style={{
+                    backgroundColor: '#f4f2ed',
+                    color: '#a28d72',
+                    borderColor: '#d4c5b0'
+                  }}
+                  className="group flex items-center space-x-2 px-4 py-3 border-2 rounded-2xl transition-all duration-300 font-inter font-medium hover:shadow-md hover:scale-105"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#a28d72';
+                    e.currentTarget.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f4f2ed';
+                    e.currentTarget.style.color = '#a28d72';
+                  }}
                   title="Cerrar sesión"
                 >
                   <ArrowRightOnRectangleIcon className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
@@ -240,11 +247,11 @@ const Layout = ({ children }) => {
                   <SparklesIcon className="w-5 h-5 text-white" />
                 </div>
                 <span className="font-inter text-lg font-semibold text-black">
-                  Alquimia del Cambio
+                  Cambio de Paradigma
                 </span>
               </div>
               <p className="font-inter text-sm text-taupe">
-                © 2024 Alquimia del Cambio. Desarrollado con pasión para tu florecimiento.
+                © 2024 Cambio de Paradigma. Desarrollado con pasión para tu florecimiento.
               </p>
             </div>
           </div>

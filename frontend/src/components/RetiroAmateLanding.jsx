@@ -17,14 +17,14 @@ const LandingPage = () => {
           <div className="flex items-center space-x-4">
             <img 
               src="/Logo nr.png" 
-              alt="Alquimia del Cambio" 
+              alt="Cambio de Paradigma" 
               className="w-12 h-12 object-contain"
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
             />
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Alquimia del Cambio</h1>
+              <h1 className="text-2xl font-bold text-gray-800">Cambio de Paradigma</h1>
               <p className="text-xs text-taupe-600">Retiro Ámate</p>
             </div>
           </div>

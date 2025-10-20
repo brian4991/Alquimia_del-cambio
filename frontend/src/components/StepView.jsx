@@ -13,6 +13,11 @@ const StepView = () => {
   const [error, setError] = useState('');
   const [stepCompleted, setStepCompleted] = useState(false);
 
+  // Scroll to top when exercise changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentExercise]);
+
   useEffect(() => {
     const fetchExercises = async () => {
       try {

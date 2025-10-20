@@ -28,6 +28,11 @@ const ThemeView = () => {
   const [showContent, setShowContent] = useState(true);
   const [showCards, setShowCards] = useState(false);
 
+  // Scroll to top when exercise changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentExercise]);
+
   useEffect(() => {
     const fetchThemeData = async () => {
       try {

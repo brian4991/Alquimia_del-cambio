@@ -9,7 +9,8 @@ import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
 import Layout from './components/Layout';
-import LandingPage from './components/LandingPage';
+import ProgramLanding from './components/ProgramLanding';
+import RetiroAmateLanding from './components/RetiroAmateLanding';
 import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
@@ -176,8 +177,8 @@ const App = () => {
               </ProtectedRoute>
             } 
           />
-          <Route path="/landing" element={<LandingPage />} />
-          <Route path="/" element={<Navigate to="/landing" />} />
+          <Route path="/" element={<ProgramLanding />} />
+          <Route path="/retiro-amate" element={<RetiroAmateLanding />} />
         </Routes>
       </div>
     </Router>
