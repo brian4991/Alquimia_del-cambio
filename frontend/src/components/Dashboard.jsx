@@ -309,7 +309,7 @@ const Dashboard = () => {
           Tu transformación comienza hoy
         </h3>
         <blockquote className="font-inter text-lg text-taupe-dark leading-relaxed max-w-2xl mx-auto mb-8 italic">
-          "Cada paso de tu recorrido es una oportunidad de descubrir quién eres realmente y florecer plenamente."
+          "Cada paso de tu recorrido es una oportunidad de descubrir quién eres realmente."
         </blockquote>
       </div>
     </div>
