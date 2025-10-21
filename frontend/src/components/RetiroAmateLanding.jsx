@@ -1,9 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EditableSection from './EditableSection';
+import { config } from '../config';
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
+  const [pageContent, setPageContent] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  // Load page content
+  useEffect(() => {
+    loadPageContent();
+  }, []);
+
+  const loadPageContent = async () => {
+    try {
+      const response = await fetch(`${config.apiUrl}/api/page-content/retiro`);
+      if (response.ok) {
+        const data = await response.json();
+        setPageContent(data.sections || {});
+      }
+    } catch (error) {
+      console.error('Error loading page content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveSection = async (sectionKey, content) => {
+    const updatedContent = {
+      ...pageContent,
+      [sectionKey]: content
+    };
+
+    try {
+      const response = await fetch(`${config.apiUrl}/api/page-content/retiro`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sections: updatedContent })
+      });
+
+      if (response.ok) {
+        setPageContent(updatedContent);
+        alert('Contenido guardado correctamente');
+      } else {
+        throw new Error('Failed to save content');
+      }
+    } catch (error) {
+      console.error('Error saving content:', error);
+      throw error;
+    }
+  };
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -46,12 +96,24 @@ const LandingPage = () => {
           <div className="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-8 flex items-center justify-center text-xs text-gray-600">
             [LOGO-002]
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 leading-tight">
-            Despierta la luz que habita en ti, eleva tu autoestima y sana desde adentro en un lugar seguro y único.
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-10">
-            Vive una experiencia transformadora de amor propio, sanidad y bienestar emocional.
-          </p>
+          <EditableSection
+            sectionKey="hero_title"
+            content={pageContent.hero_title}
+            onSave={saveSection}
+          >
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 leading-tight">
+              Despierta la luz que habita en ti, eleva tu autoestima y sana desde adentro en un lugar seguro y único.
+            </h1>
+          </EditableSection>
+          <EditableSection
+            sectionKey="hero_subtitle"
+            content={pageContent.hero_subtitle}
+            onSave={saveSection}
+          >
+            <p className="text-xl md:text-2xl text-gray-600 mb-10">
+              Vive una experiencia transformadora de amor propio, sanidad y bienestar emocional.
+            </p>
+          </EditableSection>
           <button 
             style={{backgroundColor: '#6b745a'}}
             className="text-white px-12 py-4 rounded-full text-lg font-semibold hover:opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
@@ -64,30 +126,50 @@ const LandingPage = () => {
       {/* Date & Location */}
       <section className="py-16" style={{backgroundColor: '#F5F5F0'}}>
         <div className="container mx-auto max-w-4xl text-center px-6">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
-            27, 28 de Febrero y 1 de Marzo 2026
-          </h2>
-          <p className="text-2xl text-gray-600">
-            Isla de Barú, Cartagena - Colombia
-          </p>
+          <EditableSection
+            sectionKey="date_location"
+            content={pageContent.date_location}
+            onSave={saveSection}
+          >
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
+                27, 28 de Febrero y 1 de Marzo 2026
+              </h2>
+              <p className="text-2xl text-gray-600">
+                Isla de Barú, Cartagena - Colombia
+              </p>
+            </div>
+          </EditableSection>
         </div>
       </section>
 
       {/* Experience Description */}
       <section className="py-20 bg-white">
         <div className="container mx-auto max-w-5xl text-center px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8 leading-relaxed">
-            Vive una experiencia única y transformadora durante 3 días, en un paraíso rodeado de mar donde viviremos una fusión de sanidad emocional, espiritualidad, conexión y plenitud
-          </h2>
+          <EditableSection
+            sectionKey="experience_description"
+            content={pageContent.experience_description}
+            onSave={saveSection}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8 leading-relaxed">
+              Vive una experiencia única y transformadora durante 3 días, en un paraíso rodeado de mar donde viviremos una fusión de sanidad emocional, espiritualidad, conexión y plenitud
+            </h2>
+          </EditableSection>
         </div>
       </section>
 
       {/* Why This Retreat */}
       <section className="py-20" style={{backgroundColor: '#F9F6F3'}}>
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            ¿POR QUÉ EL RETIRO ÁMATE ES PARA TI?
-          </h2>
+          <EditableSection
+            sectionKey="why_retreat_title"
+            content={pageContent.why_retreat_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              ¿POR QUÉ EL RETIRO ÁMATE ES PARA TI?
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               'Sabes que necesitas soltar y sanar heridas del pasado y crear una vida consciente, saludable, donde reine el bienestar, el que tú necesites y elijas para ti.',
@@ -133,36 +215,50 @@ const LandingPage = () => {
       {/* Pricing Section */}
       <section className="py-20" style={{backgroundColor: '#eef2ec'}}>
         <div className="container mx-auto max-w-4xl px-6">
-          <div className="text-center mb-12">
-            <div className="inline-block bg-white px-6 py-3 rounded-full mb-6 shadow-md border-2" style={{borderColor: '#6b745a'}}>
-              <span style={{color: '#6b745a'}} className="font-bold text-lg">¡Sólo para mujeres!</span>
+          <EditableSection
+            sectionKey="pricing_header"
+            content={pageContent.pricing_header}
+            onSave={saveSection}
+          >
+            <div className="text-center mb-12">
+              <div className="inline-block bg-white px-6 py-3 rounded-full mb-6 shadow-md border-2" style={{borderColor: '#6b745a'}}>
+                <span style={{color: '#6b745a'}} className="font-bold text-lg">¡Sólo para mujeres!</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                DESCUENTO DE PREVENTA
+              </h2>
+              <p className="text-gray-600 text-lg mb-2">(Por tiempo limitado)</p>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              DESCUENTO DE PREVENTA
-            </h2>
-            <p className="text-gray-600 text-lg mb-2">(Por tiempo limitado)</p>
-          </div>
+          </EditableSection>
 
           <div className="bg-white rounded-3xl shadow-2xl p-10 mb-8 border border-stone-200">
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <div className="text-center border-r border-gray-200">
-                <p className="text-gray-600 mb-2">Residentes fuera de Colombia</p>
-                <p className="text-2xl text-gray-400 line-through mb-2">$1,299 USD</p>
-                <p style={{color: '#6b745a'}} className="text-5xl font-bold">$1,099 USD</p>
-              </div>
-              <div className="text-center">
-                <p className="text-gray-600 mb-2">Residentes en Colombia</p>
-                <p className="text-2xl text-gray-400 line-through mb-2">$4,299,000 COP</p>
-                <p style={{color: '#6b745a'}} className="text-5xl font-bold">$3,999,000 COP</p>
-              </div>
-            </div>
+            <EditableSection
+              sectionKey="pricing_details"
+              content={pageContent.pricing_details}
+              onSave={saveSection}
+            >
+              <div>
+                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                  <div className="text-center border-r border-gray-200">
+                    <p className="text-gray-600 mb-2">Residentes fuera de Colombia</p>
+                    <p className="text-2xl text-gray-400 line-through mb-2">$1,299 USD</p>
+                    <p style={{color: '#6b745a'}} className="text-5xl font-bold">$1,099 USD</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-gray-600 mb-2">Residentes en Colombia</p>
+                    <p className="text-2xl text-gray-400 line-through mb-2">$4,299,000 COP</p>
+                    <p style={{color: '#6b745a'}} className="text-5xl font-bold">$3,999,000 COP</p>
+                  </div>
+                </div>
 
-            <div className="text-center mb-8">
-              <p className="text-gray-700 mb-4">Pago completo o pago a cuotas</p>
-              <p className="text-sm text-gray-600 mb-6">
-                En cuotas el primer pago se hace a la hora de la inscripción, y las siguientes cuotas se cobran cada 30 días.
-              </p>
-            </div>
+                <div className="text-center mb-8">
+                  <p className="text-gray-700 mb-4">Pago completo o pago a cuotas</p>
+                  <p className="text-sm text-gray-600 mb-6">
+                    En cuotas el primer pago se hace a la hora de la inscripción, y las siguientes cuotas se cobran cada 30 días.
+                  </p>
+                </div>
+              </div>
+            </EditableSection>
 
             <div className="text-center">
               <button 
@@ -185,9 +281,15 @@ const LandingPage = () => {
       {/* What's Included & What to Expect - 2 colonnes */}
       <section className="py-20 bg-white">
         <div className="container mx-auto max-w-7xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            ¡3 DÍAS QUE LO CAMBIARÁN TODO!
-          </h2>
+          <EditableSection
+            sectionKey="three_days_title"
+            content={pageContent.three_days_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              ¡3 DÍAS QUE LO CAMBIARÁN TODO!
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-2 gap-0">
             {/* Colonne 1: Que Incluye - Background sage-100 */}
             <div className="p-12" style={{backgroundColor: '#eef2ec'}}>
@@ -284,9 +386,15 @@ const LandingPage = () => {
       {/* Location - Barú - Image + Texte avec background */}
       <section className="py-20 bg-white">
         <div className="container mx-auto max-w-7xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
-            Barú, Cartagena - Colombia
-          </h2>
+          <EditableSection
+            sectionKey="location_title"
+            content={pageContent.location_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
+              Barú, Cartagena - Colombia
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-2 gap-0">
             {/* Image à gauche */}
             <div className="h-full min-h-[500px]">
@@ -296,14 +404,20 @@ const LandingPage = () => {
             </div>
             {/* Texte avec background à droite */}
             <div className="p-12" style={{backgroundColor: '#dde6d7'}}>
-              <div className="space-y-6">
-                <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                  <strong>La Isla Barú en Cartagena</strong>, Colombia, es un refugio mágico en la costa del Caribe. Este lugar es reconocido por sus playas de arena blanca, aguas cristalinas y una atmósfera de paz y tranquilidad que invita a la sanidad y bienestar. La serenidad del entorno, los paisajes tropicales y las aguas turquesas del mar Caribe te sumergen en una experiencia única. La Isla Barú de Cartagena es un destino verdaderamente maravilloso y memorable.
-                </p>
-                <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                  El lugar donde viviremos esta experiencia transformadora está ubicado a solo 1 hora de Cartagena. <strong>Es el escenario donde encontrarás el maravilloso hotel de lujo donde se llevará a cabo nuestro retiro Ámate</strong>, y donde disfrutaremos en paz y plenitud este encuentro que nos cambiará la vida.
-                </p>
-              </div>
+              <EditableSection
+                sectionKey="location_description"
+                content={pageContent.location_description}
+                onSave={saveSection}
+              >
+                <div className="space-y-6">
+                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                    <strong>La Isla Barú en Cartagena</strong>, Colombia, es un refugio mágico en la costa del Caribe. Este lugar es reconocido por sus playas de arena blanca, aguas cristalinas y una atmósfera de paz y tranquilidad que invita a la sanidad y bienestar. La serenidad del entorno, los paisajes tropicales y las aguas turquesas del mar Caribe te sumergen en una experiencia única. La Isla Barú de Cartagena es un destino verdaderamente maravilloso y memorable.
+                  </p>
+                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                    El lugar donde viviremos esta experiencia transformadora está ubicado a solo 1 hora de Cartagena. <strong>Es el escenario donde encontrarás el maravilloso hotel de lujo donde se llevará a cabo nuestro retiro Ámate</strong>, y donde disfrutaremos en paz y plenitud este encuentro que nos cambiará la vida.
+                  </p>
+                </div>
+              </EditableSection>
             </div>
           </div>
         </div>
@@ -341,9 +455,15 @@ const LandingPage = () => {
       {/* Why We're Different */}
       <section className="py-20" style={{backgroundColor: '#f4f2ed'}}>
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            ¿POR QUÉ NUESTROS RETIROS SON DIFERENTES Y ÚNICOS?
-          </h2>
+          <EditableSection
+            sectionKey="why_different_title"
+            content={pageContent.why_different_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              ¿POR QUÉ NUESTROS RETIROS SON DIFERENTES Y ÚNICOS?
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
@@ -412,28 +532,34 @@ const LandingPage = () => {
                 [IMG-FOUNDER-001: Photo professionnelle de Victoria Novoa]
               </div>
             </div>
-            <div>
-              <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                Hola, Hermosa
-              </h2>
-              <h3 style={{color: '#6b745a'}} className="text-3xl font-semibold mb-6">
-                Soy Victoria Novoa
-              </h3>
-              <div className="space-y-4 text-gray-700 leading-relaxed">
-                <p>
-                  Mujer apasionada por el bienestar emocional y la salud mental, lo cual me ha llevado hoy en día a formarme como Psicóloga Clínica y de Salud, Líder Coach y Life Coach, experta en Inteligencia Emocional, diplomada en Neuropsicología del desarrollo, Magister en Psicoterapia Cognitivo Conductual y Magister en Terapia del Bienestar emocional y Terapias de la Tercera Generación en la Práctica Psicológica.
-                </p>
-                <p>
-                  Hace más de 9 años me he dedicado a ayudar a miles de mujeres alrededor del mundo, a las que he acompañado en su proceso de autoconocimiento y amor propio; les ayudo a reconstruir su seguridad y a romper creencias, pensamientos, malos hábitos e ideales que las han limitado por años.
-                </p>
-                <p>
-                  Creo en el poder de la mente, creo en el potencial que hay en ti, creo en el propósito dado por Dios a tu vida, y por eso he creado este retiro para ti. Tengo la firme convicción de que este tiempo llevará tu vida a un nuevo nivel.
-                </p>
-                <p className="font-semibold">
-                  En este retiro voy a compartir contigo todas las herramientas y conocimientos que me han ayudado para recuperar mi esencia de mujer, reafirmar mi valor y vivir en plenitud.
-                </p>
+            <EditableSection
+              sectionKey="founder_bio"
+              content={pageContent.founder_bio}
+              onSave={saveSection}
+            >
+              <div>
+                <h2 className="text-4xl font-bold text-gray-800 mb-6">
+                  Hola, Hermosa
+                </h2>
+                <h3 style={{color: '#6b745a'}} className="text-3xl font-semibold mb-6">
+                  Soy Victoria Novoa
+                </h3>
+                <div className="space-y-4 text-gray-700 leading-relaxed">
+                  <p>
+                    Mujer apasionada por el bienestar emocional y la salud mental, lo cual me ha llevado hoy en día a formarme como Psicóloga Clínica y de Salud, Líder Coach y Life Coach, experta en Inteligencia Emocional, diplomada en Neuropsicología del desarrollo, Magister en Psicoterapia Cognitivo Conductual y Magister en Terapia del Bienestar emocional y Terapias de la Tercera Generación en la Práctica Psicológica.
+                  </p>
+                  <p>
+                    Hace más de 9 años me he dedicado a ayudar a miles de mujeres alrededor del mundo, a las que he acompañado en su proceso de autoconocimiento y amor propio; les ayudo a reconstruir su seguridad y a romper creencias, pensamientos, malos hábitos e ideales que las han limitado por años.
+                  </p>
+                  <p>
+                    Creo en el poder de la mente, creo en el potencial que hay en ti, creo en el propósito dado por Dios a tu vida, y por eso he creado este retiro para ti. Tengo la firme convicción de que este tiempo llevará tu vida a un nuevo nivel.
+                  </p>
+                  <p className="font-semibold">
+                    En este retiro voy a compartir contigo todas las herramientas y conocimientos que me han ayudado para recuperar mi esencia de mujer, reafirmar mi valor y vivir en plenitud.
+                  </p>
+                </div>
               </div>
-            </div>
+            </EditableSection>
           </div>
         </div>
       </section>
@@ -441,9 +567,15 @@ const LandingPage = () => {
       {/* Testimonials */}
       <section className="py-20" style={{backgroundColor: '#FDFCFB'}}>
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            Testimonios
-          </h2>
+          <EditableSection
+            sectionKey="testimonials_title"
+            content={pageContent.testimonials_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              Testimonios
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
@@ -496,9 +628,15 @@ const LandingPage = () => {
       {/* FAQ Section */}
       <section className="py-20" style={{backgroundColor: '#F5F5F0'}}>
         <div className="container mx-auto max-w-4xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            Preguntas frecuentes
-          </h2>
+          <EditableSection
+            sectionKey="faq_title"
+            content={pageContent.faq_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              Preguntas frecuentes
+            </h2>
+          </EditableSection>
           <div className="space-y-4">
             {[
               {
@@ -554,18 +692,27 @@ const LandingPage = () => {
       {/* CTA Section */}
       <section className="py-20" style={{backgroundColor: '#6b745a'}}>
         <div className="container mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            ¿Tienes dudas?
-          </h2>
-          <p className="text-xl text-white mb-4">
-            ¿No sabes si es para ti?
-          </p>
-          <p className="text-xl text-white mb-8">
-            ¿No has ido nunca de retiro?
-          </p>
-          <p className="text-white text-lg mb-8">
-            Escríbeme y estaré lista con todo mi equipo para brindarte toda la ayuda que necesites.
-          </p>
+          <EditableSection
+            sectionKey="cta_final"
+            content={pageContent.cta_final}
+            onSave={saveSection}
+            editClassName="p-4 bg-white/20 border-2 border-white/50 rounded-lg"
+          >
+            <div>
+              <h2 className="text-4xl font-bold text-white mb-6">
+                ¿Tienes dudas?
+              </h2>
+              <p className="text-xl text-white mb-4">
+                ¿No sabes si es para ti?
+              </p>
+              <p className="text-xl text-white mb-8">
+                ¿No has ido nunca de retiro?
+              </p>
+              <p className="text-white text-lg mb-8">
+                Escríbeme y estaré lista con todo mi equipo para brindarte toda la ayuda que necesites.
+              </p>
+            </div>
+          </EditableSection>
           <button 
             style={{color: '#6b745a'}}
             className="bg-white px-12 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"

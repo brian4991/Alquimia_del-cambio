@@ -130,12 +130,6 @@ const ExerciseTable = ({
           ))}
         </tbody>
       </table>
-      
-      {!readOnly && (
-        <div className="mt-2 text-xs text-gray-500">
-          💡 Remplissez le tableau ligne par ligne. Les champs numériques n'acceptent que des nombres.
-        </div>
-      )}
     </div>
   );
 };

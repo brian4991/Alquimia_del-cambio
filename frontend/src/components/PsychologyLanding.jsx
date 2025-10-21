@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EditableSection from './EditableSection';
+import { config } from '../config';
 
 const PsychologyLanding = () => {
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
   const [scrollY, setScrollY] = useState(0);
+  const [pageContent, setPageContent] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -15,6 +19,52 @@ const PsychologyLanding = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Load page content
+  useEffect(() => {
+    loadPageContent();
+  }, []);
+
+  const loadPageContent = async () => {
+    try {
+      const response = await fetch(`${config.apiUrl}/api/page-content/psychology`);
+      if (response.ok) {
+        const data = await response.json();
+        setPageContent(data.sections || {});
+      }
+    } catch (error) {
+      console.error('Error loading page content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveSection = async (sectionKey, content) => {
+    const updatedContent = {
+      ...pageContent,
+      [sectionKey]: content
+    };
+
+    try {
+      const response = await fetch(`${config.apiUrl}/api/page-content/psychology`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sections: updatedContent })
+      });
+
+      if (response.ok) {
+        setPageContent(updatedContent);
+        alert('Contenido guardado correctamente');
+      } else {
+        throw new Error('Failed to save content');
+      }
+    } catch (error) {
+      console.error('Error saving content:', error);
+      throw error;
+    }
+  };
 
   const services = [
     {
@@ -224,30 +274,36 @@ const PsychologyLanding = () => {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-left">
-              <h1 className="text-5xl md:text-6xl font-inter font-light text-sage-800 mb-6 leading-tight">
-                Encuentra tu 
-                <span className="text-taupe-600 font-medium block relative">
-                  equilibrio interior
-                  <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-taupe rounded-full" />
-                </span>
-              </h1>
-              <p className="text-xl text-sage-600 mb-8 leading-relaxed font-inter">
-                Un acompañamiento psicológico afectuoso y personalizado para ayudarte a 
-                superar tus dificultades y revelar tu pleno potencial.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onClick={() => navigate('/login')}
-                  className="bg-gradient-sage text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-sage hover:scale-105 transition-all duration-300 transform"
-                >
-                  Reservar cita
-                </button>
-                <button className="border-2 border-sage-300 text-sage-700 px-8 py-4 rounded-full text-lg font-medium hover:bg-sage-50 hover:border-sage-400 transition-all duration-300 transform hover:scale-105">
-                  Saber más
-                </button>
+            <EditableSection
+              sectionKey="hero_content"
+              content={pageContent.hero_content}
+              onSave={saveSection}
+            >
+              <div className="text-left">
+                <h1 className="text-5xl md:text-6xl font-inter font-light text-sage-800 mb-6 leading-tight">
+                  Encuentra tu 
+                  <span className="text-taupe-600 font-medium block relative">
+                    equilibrio interior
+                    <div className="absolute -bottom-2 left-0 w-24 h-1 bg-gradient-taupe rounded-full" />
+                  </span>
+                </h1>
+                <p className="text-xl text-sage-600 mb-8 leading-relaxed font-inter">
+                  Un acompañamiento psicológico afectuoso y personalizado para ayudarte a 
+                  superar tus dificultades y revelar tu pleno potencial.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button 
+                    onClick={() => navigate('/login')}
+                    className="bg-gradient-sage text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-sage hover:scale-105 transition-all duration-300 transform"
+                  >
+                    Reservar cita
+                  </button>
+                  <button className="border-2 border-sage-300 text-sage-700 px-8 py-4 rounded-full text-lg font-medium hover:bg-sage-50 hover:border-sage-400 transition-all duration-300 transform hover:scale-105">
+                    Saber más
+                  </button>
+                </div>
               </div>
-            </div>
+            </EditableSection>
             <div className="relative">
               <div className="relative z-10">
                 <img 
@@ -298,14 +354,21 @@ const PsychologyLanding = () => {
                 style={{ animation: 'gentle-float 6s ease-in-out infinite' }}
               />
             </div>
-            <div>
-              <h2 className="text-4xl font-inter font-light text-sage-800 mb-6">
-                Un enfoque <span className="text-taupe-600 font-medium">humano</span> y afectuoso
-              </h2>
-              <p className="text-lg text-sage-600 mb-6 leading-relaxed font-inter">
-                Psicóloga titulada, te acompaño con empatía y profesionalismo 
-                en tu camino de desarrollo personal y bienestar.
-              </p>
+            <EditableSection
+              sectionKey="about_intro"
+              content={pageContent.about_intro}
+              onSave={saveSection}
+            >
+              <div>
+                <h2 className="text-4xl font-inter font-light text-sage-800 mb-6">
+                  Un enfoque <span className="text-taupe-600 font-medium">humano</span> y afectuoso
+                </h2>
+                <p className="text-lg text-sage-600 mb-6 leading-relaxed font-inter">
+                  Psicóloga titulada, te acompaño con empatía y profesionalismo 
+                  en tu camino de desarrollo personal y bienestar.
+                </p>
+              </div>
+            </EditableSection>
               <div className="space-y-4">
                 <div className="flex items-center group">
                   <div className="w-3 h-3 bg-gradient-sage rounded-full mr-4 group-hover:scale-125 transition-transform duration-300" />
@@ -328,10 +391,16 @@ const PsychologyLanding = () => {
       {/* Services Section with enhanced cards */}
       <section id="services" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Mis servicios de acompañamiento</h2>
-            <p className="text-xl text-sage-600 font-inter">Soluciones personalizadas para tu bienestar</p>
-          </div>
+          <EditableSection
+            sectionKey="services_title"
+            content={pageContent.services_title}
+            onSave={saveSection}
+          >
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-inter font-light text-sage-800 mb-4">Mis servicios de acompañamiento</h2>
+              <p className="text-xl text-sage-600 font-inter">Soluciones personalizadas para tu bienestar</p>
+            </div>
+          </EditableSection>
           <div className="grid md:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <div key={index} className={`relative p-8 rounded-3xl shadow-elegant hover:shadow-sage transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 ${service.popular ? 'bg-gradient-sage text-white' : 'bg-white border border-sage-100'}`}>
@@ -786,10 +855,19 @@ const PsychologyLanding = () => {
         </div>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-4xl font-inter font-light mb-6">¿Lista/o para comenzar tu transformación?</h2>
-          <p className="text-xl mb-8 opacity-90 font-inter">
-            Te acompaño con cariño hacia un bienestar duradero.
-          </p>
+          <EditableSection
+            sectionKey="cta_final"
+            content={pageContent.cta_final}
+            onSave={saveSection}
+            editClassName="p-4 bg-white/20 border-2 border-white/50 rounded-lg"
+          >
+            <div>
+              <h2 className="text-4xl font-inter font-light mb-6">¿Lista/o para comenzar tu transformación?</h2>
+              <p className="text-xl mb-8 opacity-90 font-inter">
+                Te acompaño con cariño hacia un bienestar duradero.
+              </p>
+            </div>
+          </EditableSection>
           <button 
             onClick={() => navigate('/login')}
             className="bg-white text-sage-700 px-8 py-4 rounded-full text-lg font-medium hover:bg-sage-50 transition-all duration-300 shadow-elegant hover:shadow-taupe transform hover:scale-105"

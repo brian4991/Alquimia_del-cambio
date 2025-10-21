@@ -583,9 +583,9 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                         <div className="space-y-3">
                           <h7 className="font-semibold text-gray-800 text-sm">Questions ({section.questions.length}):</h7>
                           {section.questions.map((question, questionIndex) => (
-                            <div key={questionIndex} className="bg-white rounded-lg border border-green-200 p-4">
+                            <div key={questionIndex} className="bg-white rounded-lg border border-sage-200 p-4">
                               <div className="flex items-start">
-                                <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-1">
+                                <span className="bg-sage-100 text-sage-800 text-xs font-medium px-2 py-1 rounded-full mr-3 mt-1">
                                   Q{questionIndex + 1}
                                 </span>
                                 <div className="flex-1">
@@ -594,11 +594,7 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                                   </div>
                                   {question.type === 'table' && question.table_config && (
                                     <div className="bg-blue-50 rounded-md p-3 border border-blue-200">
-                                      <div className="flex items-center text-sm text-blue-800">
-                                        <span className="mr-2">📊</span>
-                                        <span className="font-medium">Tableau à remplir:</span>
-                                      </div>
-                                      <div className="text-xs text-blue-600 mt-1">
+                                      <div className="text-xs text-blue-600">
                                         {question.table_config.columns?.length || 0} colonnes × {question.table_config.rows || 3} lignes
                                       </div>
                                       {question.table_config.columns && question.table_config.columns.length > 0 && (
@@ -671,17 +667,17 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                     <div className="space-y-3">
                       <h4 className="font-medium text-gray-900">Sous-exercices :</h4>
                       {exercise.exercise_sections.map((section, sectionIndex) => (
-                        <div key={sectionIndex} className="bg-green-50 rounded-md p-3 border border-green-200">
-                          <h5 className="font-medium text-green-900 mb-2">
+                        <div key={sectionIndex} className="bg-sage-50 rounded-md p-3 border border-sage-200">
+                          <h5 className="font-medium text-sage-900 mb-2">
                             📋 {section.title}
                           </h5>
                           {section.instructions && (
-                            <p className="text-green-800 italic text-sm mb-2">"{section.instructions}"</p>
+                            <p className="text-sage-800 italic text-sm mb-2">"{section.instructions}"</p>
                           )}
                           {section.questions && section.questions.length > 0 && (
                             <div className="space-y-1">
                               {section.questions.map((question, qIndex) => (
-                                <div key={qIndex} className="text-sm text-gray-700 pl-3 border-l-2 border-green-300">
+                                <div key={qIndex} className="text-sm text-gray-700 pl-3 border-l-2 border-sage-300">
                                   {question.question}
                                   {question.type === 'table' && <span className="text-xs text-gray-500 ml-1">(Tableau)</span>}
                                 </div>

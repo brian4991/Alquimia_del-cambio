@@ -540,15 +540,15 @@ const ThemeView = () => {
                 {currentExerciseData?.exercise_sections && currentExerciseData.exercise_sections.length > 0 && (
                   <div className="space-y-8">
                     {currentExerciseData.exercise_sections.map((section, sectionIndex) => (
-                      <div key={sectionIndex} className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 p-6">
+                      <div key={sectionIndex} className="bg-gradient-to-r from-sage-50 to-sage-100 rounded-xl border-2 border-sage-200 p-6">
                         <div className="mb-6">
-                          <h3 className="font-inter text-xl font-bold text-green-800 mb-3 flex items-center">
+                          <h3 className="font-inter text-xl font-bold text-sage-800 mb-3 flex items-center">
                             <span className="mr-2">📋</span>
                             {section.title}
                           </h3>
                           {section.instructions && (
-                            <div className="bg-white/80 rounded-lg p-4 border border-green-200 mb-4">
-                              <p className="font-inter text-green-900 leading-relaxed italic">
+                            <div className="bg-white/80 rounded-lg p-4 border border-sage-200 mb-4">
+                              <p className="font-inter text-sage-900 leading-relaxed italic">
                                 <span className="font-medium">Instrucciones:</span> "{section.instructions}"
                               </p>
                             </div>
@@ -562,10 +562,10 @@ const ThemeView = () => {
                               const responseValue = responses[responseKey];
                               
                               return (
-                                <div key={questionIndex} className="bg-white rounded-lg border border-green-200 p-5">
+                                <div key={questionIndex} className="bg-white rounded-lg border border-sage-200 p-5">
                                   <div className="mb-4">
                                     <div className="flex items-start mb-3">
-                                      <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full mr-3 mt-1">
+                                      <span className="bg-sage-100 text-sage-800 text-sm font-medium px-3 py-1 rounded-full mr-3 mt-1">
                                         Pregunta {questionIndex + 1}
                                       </span>
                                       <h4 className="font-inter text-lg font-medium text-gray-800 flex-1">
@@ -577,15 +577,6 @@ const ThemeView = () => {
                                   {/* Render different input types based on question type */}
                                   {question.type === 'table' && question.table_config ? (
                                     <div className="space-y-4">
-                                      <div className="bg-blue-50 rounded-md p-3 border border-blue-200 mb-4">
-                                        <div className="flex items-center text-sm text-blue-800 mb-2">
-                                          <span className="mr-2">📊</span>
-                                          <span className="font-medium">Completa la siguiente tabla:</span>
-                                        </div>
-                                        <div className="text-xs text-blue-600">
-                                          {question.table_config.columns?.length || 0} columnas × {question.table_config.rows || 3} filas
-                                        </div>
-                                      </div>
                                       <ExerciseTable
                                         tableConfig={question.table_config}
                                         questionIndex={questionIndex}

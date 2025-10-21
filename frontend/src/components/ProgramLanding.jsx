@@ -1,8 +1,58 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import EditableSection from './EditableSection';
+import { config } from '../config';
 
 const ProgramLanding = () => {
   const navigate = useNavigate();
+  const [pageContent, setPageContent] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  // Load page content
+  useEffect(() => {
+    loadPageContent();
+  }, []);
+
+  const loadPageContent = async () => {
+    try {
+      const response = await fetch(`${config.apiUrl}/api/page-content/program`);
+      if (response.ok) {
+        const data = await response.json();
+        setPageContent(data.sections || {});
+      }
+    } catch (error) {
+      console.error('Error loading page content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const saveSection = async (sectionKey, content) => {
+    const updatedContent = {
+      ...pageContent,
+      [sectionKey]: content
+    };
+
+    try {
+      const response = await fetch(`${config.apiUrl}/api/page-content/program`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sections: updatedContent })
+      });
+
+      if (response.ok) {
+        setPageContent(updatedContent);
+        alert('Contenido guardado correctamente');
+      } else {
+        throw new Error('Failed to save content');
+      }
+    } catch (error) {
+      console.error('Error saving content:', error);
+      throw error;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -41,12 +91,24 @@ const ProgramLanding = () => {
           <div className="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-8 flex items-center justify-center text-xs text-gray-600">
             [LOGO-PROGRAMA]
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 leading-tight">
-            Transforma tu vida con Cambio de Paradigma
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-10">
-            Un programa completo de 5 módulos para tu desarrollo personal y bienestar emocional
-          </p>
+          <EditableSection
+            sectionKey="hero_title"
+            content={pageContent.hero_title}
+            onSave={saveSection}
+          >
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 leading-tight">
+              Transforma tu vida con Cambio de Paradigma
+            </h1>
+          </EditableSection>
+          <EditableSection
+            sectionKey="hero_subtitle"
+            content={pageContent.hero_subtitle}
+            onSave={saveSection}
+          >
+            <p className="text-xl md:text-2xl text-gray-600 mb-10">
+              Un programa completo de 5 módulos para tu desarrollo personal y bienestar emocional
+            </p>
+          </EditableSection>
           <button 
             onClick={() => navigate('/login')}
             style={{backgroundColor: '#6b745a'}}
@@ -60,26 +122,38 @@ const ProgramLanding = () => {
       {/* Program Overview */}
       <section className="py-20" style={{backgroundColor: '#F5F5F0'}}>
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            ¿QUÉ ES ALQUIMIA DEL CAMBIO?
-          </h2>
+          <EditableSection
+            sectionKey="overview_title"
+            content={pageContent.overview_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              ¿QUÉ ES ALQUIMIA DEL CAMBIO?
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <div className="w-full h-96 bg-gray-200 rounded-2xl flex items-center justify-center text-gray-600">
                 [IMG-PROGRAMA-001: Mujer en transformación personal]
               </div>
             </div>
-            <div className="space-y-6">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Cambio de Paradigma es un programa de transformación personal diseñado para guiarte en un viaje profundo de autoconocimiento, sanación emocional y desarrollo personal.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                A través de 5 módulos cuidadosamente estructurados, te acompañaremos paso a paso en tu proceso de crecimiento personal, ayudándote a fortalecer tu autoestima, sanar heridas del pasado y construir la vida que mereces.
-              </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Cada módulo incluye contenido teórico, ejercicios prácticos de reflexión y herramientas aplicables a tu vida diaria.
-              </p>
-            </div>
+            <EditableSection
+              sectionKey="overview_description"
+              content={pageContent.overview_description}
+              onSave={saveSection}
+            >
+              <div className="space-y-6">
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Cambio de Paradigma es un programa de transformación personal diseñado para guiarte en un viaje profundo de autoconocimiento, sanación emocional y desarrollo personal.
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  A través de 5 módulos cuidadosamente estructurados, te acompañaremos paso a paso en tu proceso de crecimiento personal, ayudándote a fortalecer tu autoestima, sanar heridas del pasado y construir la vida que mereces.
+                </p>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  Cada módulo incluye contenido teórico, ejercicios prácticos de reflexión y herramientas aplicables a tu vida diaria.
+                </p>
+              </div>
+            </EditableSection>
           </div>
         </div>
       </section>
@@ -87,9 +161,15 @@ const ProgramLanding = () => {
       {/* 5 Modules */}
       <section className="py-20 bg-white">
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            LOS 5 MÓDULOS DEL PROGRAMA
-          </h2>
+          <EditableSection
+            sectionKey="modules_title"
+            content={pageContent.modules_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              LOS 5 MÓDULOS DEL PROGRAMA
+            </h2>
+          </EditableSection>
           <div className="space-y-8">
             {[
               {
@@ -153,9 +233,15 @@ const ProgramLanding = () => {
       {/* Benefits */}
       <section className="py-20" style={{backgroundColor: '#F9F6F3'}}>
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            ¿POR QUÉ ELEGIR ALQUIMIA DEL CAMBIO?
-          </h2>
+          <EditableSection
+            sectionKey="benefits_title"
+            content={pageContent.benefits_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              ¿POR QUÉ ELEGIR ALQUIMIA DEL CAMBIO?
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
@@ -209,9 +295,15 @@ const ProgramLanding = () => {
       {/* How It Works */}
       <section className="py-20 bg-white">
         <div className="container mx-auto max-w-5xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            ¿CÓMO FUNCIONA?
-          </h2>
+          <EditableSection
+            sectionKey="how_it_works_title"
+            content={pageContent.how_it_works_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              ¿CÓMO FUNCIONA?
+            </h2>
+          </EditableSection>
           <div className="space-y-6">
             {[
               {
@@ -268,9 +360,15 @@ const ProgramLanding = () => {
       {/* Testimonials */}
       <section className="py-20" style={{backgroundColor: '#eef2ec'}}>
         <div className="container mx-auto max-w-6xl px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-            Lo que dicen nuestras participantes
-          </h2>
+          <EditableSection
+            sectionKey="testimonials_title"
+            content={pageContent.testimonials_title}
+            onSave={saveSection}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
+              Lo que dicen nuestras participantes
+            </h2>
+          </EditableSection>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
@@ -322,25 +420,31 @@ const ProgramLanding = () => {
                 [IMG-VICTORIA-PROGRAMA: Victoria Novoa profesional]
               </div>
             </div>
-            <div>
-              <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                Creado por Victoria Novoa
-              </h2>
-              <h3 style={{color: '#6b745a'}} className="text-2xl font-semibold mb-6">
-                Psicóloga Clínica y Coach de Vida
-              </h3>
-              <div className="space-y-4 text-gray-700 leading-relaxed">
-                <p>
-                  Psicóloga Clínica y de Salud, Líder Coach y Life Coach, experta en Inteligencia Emocional, diplomada en Neuropsicología del desarrollo, Magister en Psicoterapia Cognitivo Conductual y Magister en Terapia del Bienestar emocional.
-                </p>
-                <p>
-                  Con más de 9 años de experiencia ayudando a miles de mujeres alrededor del mundo en su proceso de autoconocimiento y amor propio, he diseñado este programa para acompañarte en tu camino de transformación personal.
-                </p>
-                <p className="font-semibold" style={{color: '#6b745a'}}>
-                  Mi misión es ayudarte a reconectar con tu esencia, fortalecer tu autoestima y construir la vida plena que mereces.
-                </p>
+            <EditableSection
+              sectionKey="founder_bio"
+              content={pageContent.founder_bio}
+              onSave={saveSection}
+            >
+              <div>
+                <h2 className="text-4xl font-bold text-gray-800 mb-6">
+                  Creado por Victoria Novoa
+                </h2>
+                <h3 style={{color: '#6b745a'}} className="text-2xl font-semibold mb-6">
+                  Psicóloga Clínica y Coach de Vida
+                </h3>
+                <div className="space-y-4 text-gray-700 leading-relaxed">
+                  <p>
+                    Psicóloga Clínica y de Salud, Líder Coach y Life Coach, experta en Inteligencia Emocional, diplomada en Neuropsicología del desarrollo, Magister en Psicoterapia Cognitivo Conductual y Magister en Terapia del Bienestar emocional.
+                  </p>
+                  <p>
+                    Con más de 9 años de experiencia ayudando a miles de mujeres alrededor del mundo en su proceso de autoconocimiento y amor propio, he diseñado este programa para acompañarte en tu camino de transformación personal.
+                  </p>
+                  <p className="font-semibold" style={{color: '#6b745a'}}>
+                    Mi misión es ayudarte a reconectar con tu esencia, fortalecer tu autoestima y construir la vida plena que mereces.
+                  </p>
+                </div>
               </div>
-            </div>
+            </EditableSection>
           </div>
         </div>
       </section>
@@ -348,12 +452,21 @@ const ProgramLanding = () => {
       {/* CTA Final */}
       <section className="py-20" style={{backgroundColor: '#6b745a'}}>
         <div className="container mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            ¿Lista para transformar tu vida?
-          </h2>
-          <p className="text-xl text-white mb-10 leading-relaxed">
-            Únete a miles de mujeres que ya están viviendo su transformación personal con Cambio de Paradigma.
-          </p>
+          <EditableSection
+            sectionKey="cta_final"
+            content={pageContent.cta_final}
+            onSave={saveSection}
+            editClassName="p-4 bg-white/20 border-2 border-white/50 rounded-lg"
+          >
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                ¿Lista para transformar tu vida?
+              </h2>
+              <p className="text-xl text-white mb-10 leading-relaxed">
+                Únete a miles de mujeres que ya están viviendo su transformación personal con Cambio de Paradigma.
+              </p>
+            </div>
+          </EditableSection>
           <button 
             onClick={() => navigate('/login')}
             style={{color: '#6b745a'}}

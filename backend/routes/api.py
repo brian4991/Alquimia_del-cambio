@@ -5,7 +5,7 @@ from typing import List
 
 from auth import get_current_admin_user, get_current_user
 from database import get_db
-from models import User, ThemeCard, Theme, Exercise
+from models import User, ThemeCard, Theme, Exercise, PageContent
 from schemas import ThemeCardResponse, ThemeCardCreate, ThemeCardUpdate
 
 router = APIRouter(tags=["api"])
@@ -194,4 +194,53 @@ def create_exercise(theme_id: int, exercise_data: dict, current_admin: User = De
         "sub_questions": new_exercise.sub_questions,
         "order_number": new_exercise.order_number,
         "theme_id": new_exercise.theme_id
+    }
+
+# ===============================
+# LANDING PAGES CONTENT API ROUTES
+# ===============================
+
+@router.get("/page-content/{page_name}")
+def get_page_content(page_name: str, db: Session = Depends(get_db)):
+    """Get content for a specific landing page (no auth required for now)"""
+    page = db.query(PageContent).filter(PageContent.page_name == page_name).first()
+    
+    if not page:
+        # Return empty sections if page doesn't exist yet
+        return {
+            "page_name": page_name,
+            "sections": {}
+        }
+    
+    return {
+        "id": page.id,
+        "page_name": page.page_name,
+        "sections": page.sections
+    }
+
+@router.put("/page-content/{page_name}")
+def update_page_content(page_name: str, sections: dict, db: Session = Depends(get_db)):
+    """Update content for a specific landing page (no auth required for now - will be removed later)"""
+    import json
+    
+    page = db.query(PageContent).filter(PageContent.page_name == page_name).first()
+    
+    if not page:
+        # Create new page content entry
+        page = PageContent(
+            page_name=page_name,
+            sections=json.dumps(sections) if isinstance(sections, dict) else sections
+        )
+        db.add(page)
+    else:
+        # Update existing page content
+        page.sections = json.dumps(sections) if isinstance(sections, dict) else sections
+    
+    db.commit()
+    db.refresh(page)
+    
+    return {
+        "id": page.id,
+        "page_name": page.page_name,
+        "sections": page.sections if isinstance(page.sections, dict) else json.loads(page.sections)
     }

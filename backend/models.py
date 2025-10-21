@@ -96,6 +96,14 @@ class Exercise(Base):
     theme = relationship("Theme", back_populates="exercises")
     user_responses = relationship("UserResponseDB", back_populates="exercise")
 
+class PageContent(Base):
+    __tablename__ = "page_contents"
+    id = Column(Integer, primary_key=True, index=True)
+    page_name = Column(String(100), nullable=False, unique=True)  # "program", "retiro", "psychology"
+    sections = Column(JSON, nullable=False, default="{}")  # Stores all editable sections
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+
 class UserProgress(Base):
     __tablename__ = "user_progress"
     id = Column(Integer, primary_key=True, index=True)
