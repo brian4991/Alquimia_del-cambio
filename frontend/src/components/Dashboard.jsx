@@ -90,9 +90,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-12">
       {/* En-tête de bienvenue */}
-      <div className="mb-16">
+      <div className="mb-8 sm:mb-16">
         <div className="modern-card text-center relative overflow-hidden" style={{
           backgroundImage: 'url(/portrait5.jpg)',
           backgroundSize: 'cover',
@@ -110,15 +110,15 @@ const Dashboard = () => {
           <div className="absolute inset-0 bg-black bg-opacity-60"></div>
 
           <div className="relative z-10">
-            <div className="flex justify-center mb-6">
-              <div className="p-4 gradient-sage rounded-full">
-                <AcademicCapIcon className="w-12 h-12 text-white" />
+            <div className="flex justify-center mb-4 sm:mb-6">
+              <div className="p-3 sm:p-4 gradient-sage rounded-full">
+                <AcademicCapIcon className="w-8 h-8 sm:w-12 sm:h-12 text-white" />
               </div>
             </div>
-            <h1 className="font-inter text-4xl font-semibold text-white mb-4">
+            <h1 className="font-inter text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-3 sm:mb-4 px-4">
               Bienvenido(a) a tu recorrido
             </h1>
-            <p className="font-inter text-xl text-white leading-relaxed max-w-2xl mx-auto">
+            <p className="font-inter text-base sm:text-lg md:text-xl text-white leading-relaxed max-w-2xl mx-auto px-4">
               Descubre tu potencial a través de un viaje de transformación personal guiado y profundo
             </p>
           </div>
@@ -126,89 +126,89 @@ const Dashboard = () => {
       </div>
 
       {/* Statistiques rapides */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-        <div className="modern-card text-center">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 bg-gray-100 rounded-xl">
-              <BookOpenIcon className="w-8 h-8 text-gray-700" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
+        <div className="modern-card text-center p-4 sm:p-8">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <div className="p-2 sm:p-3 bg-gray-100 rounded-xl">
+              <BookOpenIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-700" />
             </div>
           </div>
-          <h3 className="font-inter text-xl font-semibold text-black mb-2">
+          <h3 className="font-inter text-lg sm:text-xl font-semibold text-black mb-1 sm:mb-2">
             {modules.length}
           </h3>
-          <p className="font-inter text-taupe">
+          <p className="font-inter text-sm sm:text-base text-taupe">
             Módulos disponibles
           </p>
         </div>
         
-        <div className="modern-card text-center">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 bg-gray-100 rounded-xl">
-              <CheckCircleIcon className="w-8 h-8 text-gray-700" />
+        <div className="modern-card text-center p-4 sm:p-8">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <div className="p-2 sm:p-3 bg-gray-100 rounded-xl">
+              <CheckCircleIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-700" />
             </div>
           </div>
-          <h3 className="font-inter text-xl font-semibold text-black mb-2">
+          <h3 className="font-inter text-lg sm:text-xl font-semibold text-black mb-1 sm:mb-2">
             {modules.filter(m => m.completed).length}
           </h3>
-          <p className="font-inter text-taupe">
+          <p className="font-inter text-sm sm:text-base text-taupe">
             Módulos completados
           </p>
         </div>
         
-        <div className="modern-card text-center">
-          <div className="flex justify-center mb-4">
-            <div className="p-3 bg-gray-100 rounded-xl">
-              <TrophyIcon className="w-8 h-8 text-gray-700" />
+        <div className="modern-card text-center p-4 sm:p-8">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <div className="p-2 sm:p-3 bg-gray-100 rounded-xl">
+              <TrophyIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-700" />
             </div>
           </div>
-          <h3 className="font-inter text-xl font-semibold text-black mb-2">
+          <h3 className="font-inter text-lg sm:text-xl font-semibold text-black mb-1 sm:mb-2">
             {Math.round((modules.filter(m => m.completed).length / Math.max(modules.length, 1)) * 100)}%
           </h3>
-          <p className="font-inter text-taupe">
+          <p className="font-inter text-sm sm:text-base text-taupe">
             Progreso general
           </p>
         </div>
       </div>
 
       {/* Liste des modules */}
-      <div className="mb-12">
-        <div className="flex items-center space-x-3 mb-8">
-          <div className="p-3 gradient-taupe rounded-xl">
-            <ChartBarIcon className="w-8 h-8 text-white" />
+      <div className="mb-8 sm:mb-12">
+        <div className="flex items-center space-x-2 sm:space-x-3 mb-6 sm:mb-8">
+          <div className="p-2 sm:p-3 gradient-taupe rounded-xl">
+            <ChartBarIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
           </div>
-          <h2 className="font-inter text-3xl font-semibold text-black">
+          <h2 className="font-inter text-xl sm:text-2xl md:text-3xl font-semibold text-black">
             Tus módulos de formación
           </h2>
         </div>
         
         {modules.length === 0 ? (
-          <div className="modern-card text-center">
-            <BookOpenIcon className="w-16 h-16 text-taupe mx-auto mb-6" />
-            <h3 className="font-inter text-2xl font-semibold text-black mb-4">
+          <div className="modern-card text-center p-6 sm:p-8">
+            <BookOpenIcon className="w-12 h-12 sm:w-16 sm:h-16 text-taupe mx-auto mb-4 sm:mb-6" />
+            <h3 className="font-inter text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">
               Ningún módulo disponible
             </h3>
-            <p className="font-inter text-taupe-dark mb-8 leading-relaxed">
+            <p className="font-inter text-sm sm:text-base text-taupe-dark mb-6 sm:mb-8 leading-relaxed">
               Los módulos de formación estarán disponibles pronto. Mantente conectado para descubrir tu camino de transformación.
             </p>
             <Link 
               to="/admin" 
-              className="btn-sage font-inter inline-flex items-center"
+              className="btn-sage font-inter inline-flex items-center text-sm sm:text-base"
             >
-              <ArrowRightIcon className="w-5 h-5 mr-2" />
+              <ArrowRightIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Acceder a la administración
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {modules.map(module => (
-              <div key={module.id} className={`modern-card group transition-elegant ${
+              <div key={module.id} className={`modern-card group transition-elegant p-4 sm:p-6 lg:p-8 ${
                 module.is_accessible === false 
                   ? 'opacity-60 cursor-not-allowed' 
                   : 'hover:shadow-sage cursor-pointer'
               }`}>
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-4 rounded-xl ${
+                <div className="flex items-start justify-between mb-4 sm:mb-6 flex-wrap gap-3">
+                  <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
+                    <div className={`p-3 sm:p-4 rounded-xl flex-shrink-0 ${
                       !module.is_accessible 
                         ? 'bg-gray-200'
                         : module.completed 
@@ -216,20 +216,20 @@ const Dashboard = () => {
                           : 'gradient-sage'
                     }`}>
                       {!module.is_accessible ? (
-                        <LockClosedIcon className="w-10 h-10 text-gray-500" />
+                        <LockClosedIcon className="w-8 h-8 sm:w-10 sm:h-10 text-gray-500" />
                       ) : module.completed ? (
-                        <CheckCircleIcon className="w-10 h-10 text-green-600" />
+                        <CheckCircleIcon className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
                       ) : (
-                        <PlayIcon className="w-10 h-10 text-white" />
+                        <PlayIcon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                       )}
                     </div>
-                    <div>
-                      <h3 className="font-inter text-xl font-semibold text-black mb-1">
+                    <div className="min-w-0">
+                      <h3 className="font-inter text-lg sm:text-xl font-semibold text-black mb-1 break-words">
                         {module.title}
                       </h3>
-                      <div className="flex items-center space-x-4 text-sm font-inter text-taupe">
+                      <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm font-inter text-taupe">
                         <div className="flex items-center space-x-1">
-                          <BookOpenIcon className="w-4 h-4" />
+                          <BookOpenIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                           <span>Módulo {module.order_number}</span>
                         </div>
 
@@ -249,19 +249,19 @@ const Dashboard = () => {
                   ) : null}
                 </div>
 
-                <div className="mb-6">
-                  <p className="font-inter text-taupe-dark leading-relaxed">
+                <div className="mb-4 sm:mb-6">
+                  <p className="font-inter text-sm sm:text-base text-taupe-dark leading-relaxed">
                     {module.description}
                   </p>
                 </div>
 
                 {/* Barre de progression */}
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-inter text-sm font-medium text-taupe-dark">
+                    <span className="font-inter text-xs sm:text-sm font-medium text-taupe-dark">
                       Progreso
                     </span>
-                    <span className="font-inter text-sm text-taupe">
+                    <span className="font-inter text-xs sm:text-sm text-taupe">
                       {module.progress || 0}%
                     </span>
                   </div>
@@ -273,27 +273,27 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="font-inter text-sm text-taupe">
+                <div className="flex items-center justify-between flex-wrap gap-3">
+                  <div className="font-inter text-xs sm:text-sm text-taupe">
                     {module.themes_count || 0} temas disponibles
                   </div>
                   
                   {!module.is_accessible ? (
-                    <div className="inline-flex items-center px-6 py-3 rounded-xl font-inter font-medium bg-gray-200 text-gray-500 cursor-not-allowed">
-                      <LockClosedIcon className="w-5 h-5 mr-2" />
+                    <div className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-inter text-sm sm:text-base font-medium bg-gray-200 text-gray-500 cursor-not-allowed">
+                      <LockClosedIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                       Bloqueado
                     </div>
                   ) : (
                     <Link
                       to={`/module/${module.id}`}
-                      className={`inline-flex items-center px-6 py-3 rounded-xl font-inter font-medium transition-elegant group-hover:translate-x-1 ${
+                      className={`inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-inter text-sm sm:text-base font-medium transition-elegant group-hover:translate-x-1 ${
                         module.completed
                           ? 'bg-green-100 text-green-700 hover:bg-green-200'
                           : 'gradient-sage text-white hover:shadow-sage'
                       }`}
                     >
                       {module.completed ? 'Revisar' : 'Comenzar'}
-                      <ArrowRightIcon className="w-5 h-5 ml-2" />
+                      <ArrowRightIcon className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
                     </Link>
                   )}
                 </div>
@@ -304,11 +304,11 @@ const Dashboard = () => {
       </div>
 
       {/* Section motivation */}
-      <div className="modern-card text-center">
-        <h3 className="font-inter text-2xl font-semibold text-black mb-6">
+      <div className="modern-card text-center p-6 sm:p-8">
+        <h3 className="font-inter text-xl sm:text-2xl font-semibold text-black mb-4 sm:mb-6">
           Tu transformación comienza hoy
         </h3>
-        <blockquote className="font-inter text-lg text-taupe-dark leading-relaxed max-w-2xl mx-auto mb-8 italic">
+        <blockquote className="font-inter text-base sm:text-lg text-taupe-dark leading-relaxed max-w-2xl mx-auto italic px-4">
           "Cada paso de tu recorrido es una oportunidad de descubrir quién eres realmente."
         </blockquote>
       </div>

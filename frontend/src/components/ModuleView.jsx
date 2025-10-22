@@ -125,20 +125,20 @@ const ModuleView = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       {/* Module Header */}
-      <div className="mb-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 border border-sage-200 relative overflow-hidden">
+      <div className="mb-6 sm:mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 lg:p-8 border border-sage-200 relative overflow-hidden">
 
           
           <div className="relative z-10">
             {/* Breadcrumb */}
-            <nav className="mb-6">
+            <nav className="mb-4 sm:mb-6">
               <Link 
                 to="/dashboard" 
-                className="text-sage-600 hover:text-primary-600 transition-colors text-sm flex items-center"
+                className="text-sage-600 hover:text-primary-600 transition-colors text-xs sm:text-sm flex items-center"
               >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 Retour au tableau de bord
@@ -146,28 +146,28 @@ const ModuleView = () => {
             </nav>
 
             {/* Module Title */}
-            <h1 className="text-4xl font-inter font-bold text-sage-800 mb-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-inter font-bold text-sage-800 mb-3 sm:mb-4">
               Módulo {module.order_number}: {module.title}
             </h1>
             
             {/* Module Description */}
-            <p className="text-lg text-sage-600 mb-6 leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-sage-600 mb-4 sm:mb-6 leading-relaxed">
               {module.description}
             </p>
 
             {/* Audio Introduction */}
             {module.audio_file && (
-              <div className="rounded-2xl p-6 mb-6" style={{ 
+              <div className="rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6" style={{ 
                 background: 'linear-gradient(135deg, rgba(107, 116, 90, 0.3) 0%, rgba(107, 116, 90, 0.2) 100%)' 
               }}>
-                <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
-                  <Music className="w-5 h-5 mr-2 text-sage-700" />
+                <h3 className="text-base sm:text-lg font-semibold text-sage-800 mb-3 sm:mb-4 flex items-center">
+                  <Music className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700" />
                   Audio de Introducción
                 </h3>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-3 sm:space-x-4">
                   <button
                     onClick={toggleAudio}
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full flex items-center justify-center text-white transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
                     style={{ 
                       backgroundColor: '#6b745a'
                     }}
@@ -175,13 +175,13 @@ const ModuleView = () => {
                     onMouseLeave={(e) => e.target.style.backgroundColor = '#6b745a'}
                   >
                     {isAudioPlaying ? (
-                      <Pause className="w-5 h-5" />
+                      <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : (
-                      <Play className="w-5 h-5 ml-0.5" />
+                      <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />
                     )}
                   </button>
-                  <div className="flex-1">
-                    <p className="text-sage-700 text-sm">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sage-700 text-xs sm:text-sm">
                       {isAudioPlaying ? 'Reproduciendo...' : 'Escucha la introducción del módulo'}
                     </p>
                   </div>
@@ -198,44 +198,44 @@ const ModuleView = () => {
             )}
 
             {/* Module Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
               {module.objective && (
-                <div className="bg-white/50 rounded-xl p-4">
-                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <Target className="w-5 h-5 mr-2 text-sage-700" />
+                <div className="bg-white/50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center text-sm sm:text-base">
+                    <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700 flex-shrink-0" />
                     Objetivo
                   </h4>
-                  <p className="text-sage-700 text-sm">{module.objective}</p>
+                  <p className="text-sage-700 text-xs sm:text-sm">{module.objective}</p>
                 </div>
               )}
 
               {module.belief_to_transform && (
-                <div className="bg-white/50 rounded-xl p-4">
-                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <Lightbulb className="w-5 h-5 mr-2 text-sage-700" />
+                <div className="bg-white/50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center text-sm sm:text-base">
+                    <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700 flex-shrink-0" />
                     Creencia a Transformar
                   </h4>
-                  <p className="text-sage-700 text-sm italic">"{module.belief_to_transform}"</p>
+                  <p className="text-sage-700 text-xs sm:text-sm italic">"{module.belief_to_transform}"</p>
                 </div>
               )}
 
               {module.expected_results && (
-                <div className="bg-white/50 rounded-xl p-4 md:col-span-2">
-                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <Sparkles className="w-5 h-5 mr-2 text-sage-700" />
+                <div className="bg-white/50 rounded-lg sm:rounded-xl p-3 sm:p-4 md:col-span-2">
+                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center text-sm sm:text-base">
+                    <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700 flex-shrink-0" />
                     Resultados Esperados
                   </h4>
-                  <p className="text-sage-700 text-sm">{module.expected_results}</p>
+                  <p className="text-sage-700 text-xs sm:text-sm">{module.expected_results}</p>
                 </div>
               )}
 
               {module.recommended_book && (
-                <div className="bg-white/50 rounded-xl p-4 md:col-span-2">
-                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center">
-                    <BookOpen className="w-5 h-5 mr-2 text-sage-700" />
+                <div className="bg-white/50 rounded-lg sm:rounded-xl p-3 sm:p-4 md:col-span-2">
+                  <h4 className="font-semibold text-sage-800 mb-2 flex items-center text-sm sm:text-base">
+                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700 flex-shrink-0" />
                     Libro Recomendado
                   </h4>
-                  <p className="text-sage-700 text-sm">{module.recommended_book}</p>
+                  <p className="text-sage-700 text-xs sm:text-sm">{module.recommended_book}</p>
                 </div>
               )}
             </div>
@@ -244,26 +244,26 @@ const ModuleView = () => {
       </div>
 
       {/* Themes and Recursos Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
         {/* Themes Column (left, 2/3) */}
         <div className="lg:col-span-2">
-          <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
-            <ClipboardList className="w-6 h-6 mr-3 text-sage-700" />
+          <h2 className="text-xl sm:text-2xl font-inter font-bold text-sage-800 mb-4 sm:mb-6 flex items-center">
+            <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-sage-700" />
             Temas del Módulo
           </h2>
           
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {themes.map((theme, index) => (
             <div
               key={theme.id}
-              className={`bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-sage-200 p-6 transition-all duration-300 ${
+              className={`bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-sage-200 p-4 sm:p-6 transition-all duration-300 ${
                 !theme.is_unlocked ? 'opacity-60' : 'hover:shadow-2xl'
               }`}
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center space-x-4">
+              <div className="flex items-start justify-between mb-3 sm:mb-4 flex-wrap gap-3">
+                <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
                   <div 
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold"
+                    className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 rounded-full flex items-center justify-center text-white font-bold"
                     style={{
                       backgroundColor: theme.is_completed 
                         ? '#6b745a' 
@@ -273,18 +273,18 @@ const ModuleView = () => {
                     }}
                   >
                     {theme.is_completed ? (
-                      <Check className="w-5 h-5" />
+                      <Check className="w-4 h-4 sm:w-5 sm:h-5" />
                     ) : theme.is_unlocked ? (
-                      <span>{theme.order_number}</span>
+                      <span className="text-sm sm:text-base">{theme.order_number}</span>
                     ) : (
-                      <Lock className="w-5 h-5" />
+                      <Lock className="w-4 h-4 sm:w-5 sm:h-5" />
                     )}
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-sage-800">
+                  <div className="min-w-0">
+                    <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-sage-800 break-words">
                       Tema {theme.order_number}: {theme.title}
                     </h3>
-                    <p className="text-sage-600 text-sm mt-1">
+                    <p className="text-sage-600 text-xs sm:text-sm mt-1">
                       {theme.is_completed ? 'Completado' : theme.is_unlocked ? 'Disponible' : 'Bloqueado'}
                     </p>
                   </div>
@@ -293,7 +293,7 @@ const ModuleView = () => {
                 {theme.is_unlocked && (
                   <Link
                     to={`/theme/${theme.id}`}
-                    className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-white hover:shadow-lg transform hover:scale-105"
+                    className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 text-white hover:shadow-lg transform hover:scale-105 whitespace-nowrap"
                     style={{ 
                       backgroundColor: '#6b745a'
                     }}
@@ -305,7 +305,7 @@ const ModuleView = () => {
                 )}
               </div>
               
-              <div className="text-sage-700 text-sm leading-relaxed">
+              <div className="text-sage-700 text-xs sm:text-sm leading-relaxed">
                 {theme.content.substring(0, 200)}...
               </div>
             </div>
@@ -315,40 +315,40 @@ const ModuleView = () => {
 
         {/* Recursos Column (right, 1/3) */}
         <div>
-          <h2 className="text-2xl font-inter font-bold text-sage-800 mb-6 flex items-center">
-            <Lightbulb className="w-6 h-6 mr-3 text-sage-700" />
+          <h2 className="text-xl sm:text-2xl font-inter font-bold text-sage-800 mb-4 sm:mb-6 flex items-center">
+            <Lightbulb className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-sage-700" />
             Recursos
           </h2>
           
           {recursos.length > 0 ? (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {recursos.map((recurso) => (
                 <Link
                   key={recurso.id}
                   to={`/theme/${recurso.id}`}
-                  className="block rounded-2xl shadow-xl p-6 transition-all duration-300 hover:shadow-2xl min-h-[152px]"
+                  className="block rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-2xl min-h-[120px] sm:min-h-[152px]"
                   style={{ backgroundColor: '#6b745a' }}
                 >
-                  <div className="flex items-start space-x-4 mb-4">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm flex-shrink-0">
-                      <BookOpen className="w-5 h-5 text-white" />
+                  <div className="flex items-start space-x-3 sm:space-x-4 mb-3 sm:mb-4">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm flex-shrink-0">
+                      <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-white mb-2">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white mb-1 sm:mb-2 break-words">
                         {recurso.title}
                       </h3>
                     </div>
                   </div>
-                  <div className="text-white/90 text-sm leading-relaxed">
+                  <div className="text-white/90 text-xs sm:text-sm leading-relaxed">
                     {recurso.content.substring(0, 200)}...
                   </div>
                 </Link>
               ))}
             </div>
           ) : (
-            <div className="bg-gradient-calm border-2 border-dashed border-sage-300 rounded-xl p-6 text-center">
-              <BookOpen className="w-12 h-12 text-sage-400 mx-auto mb-3" />
-              <p className="text-sage-600 text-sm">
+            <div className="bg-gradient-calm border-2 border-dashed border-sage-300 rounded-lg sm:rounded-xl p-4 sm:p-6 text-center">
+              <BookOpen className="w-10 h-10 sm:w-12 sm:h-12 text-sage-400 mx-auto mb-2 sm:mb-3" />
+              <p className="text-sage-600 text-xs sm:text-sm">
                 No hay recursos adicionales disponibles para este módulo todavía.
               </p>
             </div>
@@ -357,14 +357,14 @@ const ModuleView = () => {
       </div>
 
       {/* Progress Summary */}
-      <div className="bg-gradient-calm rounded-2xl shadow-xl p-6 border border-sage-200">
-        <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
-          <BarChart3 className="w-5 h-5 mr-2 text-sage-700" />
+      <div className="bg-gradient-calm rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-sage-200">
+        <h3 className="text-base sm:text-lg font-semibold text-sage-800 mb-3 sm:mb-4 flex items-center">
+          <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700" />
           Progreso del Módulo
         </h3>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3 sm:space-x-4">
           <div className="flex-1">
-            <div className="bg-white/60 rounded-full h-3 overflow-hidden">
+            <div className="bg-white/60 rounded-full h-2 sm:h-3 overflow-hidden">
               <div 
                 className="h-full transition-all duration-500 ease-out"
                 style={{ 
@@ -374,12 +374,12 @@ const ModuleView = () => {
               ></div>
             </div>
           </div>
-          <div className="text-right">
-            <span className="text-xl font-bold text-sage-800">
+          <div className="text-right flex-shrink-0">
+            <span className="text-lg sm:text-xl font-bold text-sage-800">
               {themes.filter(t => t.is_completed).length}
             </span>
-            <span className="text-sage-600">/{themes.length}</span>
-            <p className="text-sm text-sage-600">temas completados</p>
+            <span className="text-sage-600 text-sm sm:text-base">/{themes.length}</span>
+            <p className="text-xs sm:text-sm text-sage-600 whitespace-nowrap">temas completados</p>
           </div>
         </div>
       </div>

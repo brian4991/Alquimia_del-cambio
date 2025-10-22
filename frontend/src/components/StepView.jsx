@@ -159,41 +159,41 @@ const StepView = () => {
   const progress = ((currentExercise + 1) / exercises.length) * 100;
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-5xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
       {/* Header */}
-      <div className="mb-8">
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-sage-200">
-          <div className="flex items-center justify-between mb-4">
+      <div className="mb-6 sm:mb-8">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-sage-200">
+          <div className="flex items-center justify-between mb-3 sm:mb-4 flex-wrap gap-2">
             <Link 
               to="/dashboard" 
-              className="flex items-center text-sage-600 hover:text-primary-600 transition-colors"
+              className="flex items-center text-sage-600 hover:text-primary-600 transition-colors text-xs sm:text-sm"
             >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               Retour au tableau de bord
             </Link>
-            <span className="bg-sage-100 text-sage-700 text-sm px-3 py-1 rounded-full">
+            <span className="bg-sage-100 text-sage-700 text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
               {stepInfo.module}
             </span>
           </div>
           
-          <div className="flex items-center space-x-4 mb-4">
-            <div className="text-3xl">{stepInfo.emoji}</div>
-            <div>
-              <h1 className="text-2xl font-inter font-bold text-sage-800">
+          <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-4">
+            <div className="text-2xl sm:text-3xl">{stepInfo.emoji}</div>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-lg sm:text-xl lg:text-2xl font-inter font-bold text-sage-800 break-words">
                 {stepInfo.title}
               </h1>
-              <p className="text-sage-600">
+              <p className="text-sage-600 text-xs sm:text-sm">
                 Exercice {currentExercise + 1} sur {exercises.length}
               </p>
             </div>
           </div>
 
           {/* Progress Bar */}
-          <div className="w-full bg-sage-200 rounded-full h-2">
+          <div className="w-full bg-sage-200 rounded-full h-1.5 sm:h-2">
             <div 
-              className={`h-2 bg-gradient-to-r ${stepInfo.color} rounded-full transition-all duration-500 ease-out`}
+              className={`h-1.5 sm:h-2 bg-gradient-to-r ${stepInfo.color} rounded-full transition-all duration-500 ease-out`}
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -201,30 +201,30 @@ const StepView = () => {
       </div>
 
       {/* Exercise Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
         {/* Main Exercise */}
         <div className="lg:col-span-2">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-sage-200 relative overflow-hidden">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 border border-sage-200 relative overflow-hidden">
             <div className="absolute top-0 right-0 opacity-5">
-              <div className="text-7xl">🌸</div>
+              <div className="text-5xl sm:text-6xl lg:text-7xl">🌸</div>
             </div>
             
             <div className="relative z-10">
-              <h2 className="text-xl font-inter font-bold text-sage-800 mb-6">
+              <h2 className="text-base sm:text-lg lg:text-xl font-inter font-bold text-sage-800 mb-4 sm:mb-6 break-words">
                 {currentExerciseData.question}
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <textarea
                   value={responses[currentExerciseData.id] || ''}
                   onChange={(e) => handleResponseChange(currentExerciseData.id, e.target.value)}
                   placeholder="Exprimez vos pensées et ressentis ici... Prenez votre temps, laissez vos mots couler naturellement."
-                  className="w-full h-48 p-4 border border-sage-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm resize-none text-sage-800 placeholder-sage-400"
+                  className="w-full h-40 sm:h-48 p-3 sm:p-4 border border-sage-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white/80 backdrop-blur-sm resize-none text-sm sm:text-base text-sage-800 placeholder-sage-400"
                 />
                 
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-2 text-sm text-sage-500">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-2">
+                  <div className="flex items-center space-x-2 text-xs sm:text-sm text-sage-500">
+                    <svg className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span>Prenez le temps nécessaire pour votre réflexion</span>
@@ -233,10 +233,10 @@ const StepView = () => {
                   <button
                     onClick={handleSubmitExercise}
                     disabled={submitting || !responses[currentExerciseData.id]?.trim()}
-                    className="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg font-medium hover:from-primary-600 hover:to-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+                    className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg text-sm sm:text-base font-medium hover:from-primary-600 hover:to-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
                   >
                     {submitting ? (
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-center">
                         <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -256,10 +256,10 @@ const StepView = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Exercise Navigation */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-6 border border-sage-200">
-            <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-sage-200">
+            <h3 className="text-base sm:text-lg font-semibold text-sage-800 mb-3 sm:mb-4 flex items-center">
               <span className="mr-2">📋</span>
               Exercices de la session
             </h3>
@@ -267,7 +267,7 @@ const StepView = () => {
               {exercises.map((exercise, index) => (
                 <div
                   key={exercise.id}
-                  className={`p-3 rounded-lg transition-colors ${
+                  className={`p-2 sm:p-3 rounded-lg transition-colors ${
                     index === currentExercise
                       ? 'bg-primary-100 border border-primary-300'
                       : index < currentExercise
@@ -275,8 +275,8 @@ const StepView = () => {
                       : 'bg-sage-50 border border-sage-200'
                   }`}
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                  <div className="flex items-center space-x-2 sm:space-x-3">
+                    <div className={`w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 rounded-full flex items-center justify-center text-xs font-bold ${
                       index === currentExercise
                         ? 'bg-primary-500 text-white'
                         : index < currentExercise
@@ -285,7 +285,7 @@ const StepView = () => {
                     }`}>
                       {index < currentExercise ? '✓' : index + 1}
                     </div>
-                    <span className={`text-sm ${
+                    <span className={`text-xs sm:text-sm ${
                       index === currentExercise
                         ? 'text-primary-800 font-medium'
                         : index < currentExercise
@@ -301,16 +301,16 @@ const StepView = () => {
           </div>
 
           {/* Motivation Card */}
-          <div className="bg-gradient-calm rounded-2xl shadow-xl p-6 border border-sage-200">
-            <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
+          <div className="bg-gradient-calm rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-sage-200">
+            <h3 className="text-base sm:text-lg font-semibold text-sage-800 mb-3 sm:mb-4 flex items-center">
               <span className="mr-2">💫</span>
               Inspiration
             </h3>
-            <div className="space-y-4">
-              <blockquote className="text-sage-700 italic">
+            <div className="space-y-3 sm:space-y-4">
+              <blockquote className="text-sage-700 text-xs sm:text-sm italic">
                 "La transformation personnelle commence par l'observation bienveillante de soi-même."
               </blockquote>
-              <div className="flex justify-center space-x-2 text-2xl">
+              <div className="flex justify-center space-x-2 text-xl sm:text-2xl">
                 <span>🌱</span>
                 <span>🦋</span>
                 <span>✨</span>
@@ -319,27 +319,27 @@ const StepView = () => {
           </div>
 
           {/* Tips Card */}
-          <div className="bg-gradient-nature rounded-2xl shadow-xl p-6 border border-sage-200">
-            <h3 className="text-lg font-semibold text-sage-800 mb-4 flex items-center">
+          <div className="bg-gradient-nature rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-sage-200">
+            <h3 className="text-base sm:text-lg font-semibold text-sage-800 mb-3 sm:mb-4 flex items-center">
               <span className="mr-2">💡</span>
               Conseils
             </h3>
-            <ul className="space-y-2 text-sm text-sage-700">
+            <ul className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-sage-700">
               <li className="flex items-start">
                 <span className="mr-2">•</span>
-                Prenez votre temps pour réfléchir
+                <span>Prenez votre temps pour réfléchir</span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">•</span>
-                Soyez authentique dans vos réponses
+                <span>Soyez authentique dans vos réponses</span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">•</span>
-                Il n'y a pas de "bonne" ou "mauvaise" réponse
+                <span>Il n'y a pas de "bonne" ou "mauvaise" réponse</span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">•</span>
-                Écoutez votre intuition
+                <span>Écoutez votre intuition</span>
               </li>
             </ul>
           </div>

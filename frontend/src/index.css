@@ -214,11 +214,18 @@ h1, h2, h3, h4, h5, h6 {
 /* Cards modernes */
 .modern-card {
   background: var(--color-white);
-  border-radius: 20px;
-  padding: 32px;
+  border-radius: 16px;
+  padding: 20px;
   box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15), 0 8px 16px -8px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-gray-medium);
   transition: all 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .modern-card {
+    border-radius: 20px;
+    padding: 32px;
+  }
 }
 
 .modern-card:hover {
