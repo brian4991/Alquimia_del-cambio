@@ -209,7 +209,7 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
               key={theme.id}
               className={`border-2 rounded-lg p-4 hover:shadow-taupe transition-all cursor-pointer ${
                 selectedTheme && selectedTheme.id === theme.id
-                  ? 'border-taupe bg-taupe bg-opacity-5 shadow-taupe ring-2 ring-taupe-light'
+                  ? 'border-taupe-light bg-taupe bg-opacity-[0.03] shadow-md ring-1 ring-taupe ring-opacity-20'
                   : 'border-gray-200 hover:border-taupe-light'
               }`}
               onClick={() => onThemeSelect(theme)}

@@ -378,7 +378,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
               key={module.id}
               className={`border-2 rounded-lg p-4 hover:shadow-sage transition-all cursor-pointer ${
                 selectedModule && selectedModule.id === module.id
-                  ? 'border-sage bg-sage bg-opacity-5 shadow-sage ring-2 ring-sage-light'
+                  ? 'border-sage-light bg-sage bg-opacity-[0.03] shadow-md ring-1 ring-sage ring-opacity-20'
                   : 'border-gray-200 hover:border-sage-light'
               }`}
               onClick={() => onModuleSelect(module)}

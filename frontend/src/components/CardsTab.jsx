@@ -111,14 +111,14 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedTheme) {
-      alert('Veuillez sélectionner un thème d\'abord');
+      alert('Por favor, selecciona primero un tema');
       return;
     }
 
     // Validation for exercise cards
     if (formData.card_type === 'exercise') {
       if (!formData.exercise_questions || formData.exercise_questions.length === 0) {
-        alert('Veuillez ajouter au moins une question pour cet exercice');
+        alert('Por favor, añade al menos una pregunta para este ejercicio');
         return;
       }
     }
@@ -147,16 +147,16 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
       } else {
         const responseData = await response.json();
         console.error('API Error:', responseData);
-        alert('Erreur lors de la sauvegarde: ' + (responseData.detail || 'Erreur inconnue'));
+        alert('Error al guardar: ' + (responseData.detail || 'Error desconocido'));
       }
     } catch (error) {
       console.error('Error saving card:', error);
-      alert('Erreur réseau: ' + error.message);
+      alert('Error de red: ' + error.message);
     }
   };
 
   const handleDelete = async (cardId) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette carte ?')) return;
+    if (!confirm('¿Estás seguro de querer eliminar esta carta?')) return;
     
     try {
       const token = localStorage.getItem('token');
@@ -367,9 +367,9 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     return (
       <div className="text-center py-12">
         <ExclamationTriangleIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun thème/recurso sélectionné</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Ningún tema/recurso seleccionado</h3>
         <p className="text-gray-600">
-          Veuillez d'abord sélectionner un thème (onglet "Thèmes") ou un recurso (onglet "Recursos") pour gérer ses cartes.
+          Por favor, selecciona primero un tema (pestaña "Temas") o un recurso (pestaña "Recursos") para gestionar sus cartas.
         </p>
       </div>
     );
@@ -379,17 +379,17 @@ const CardsTab = ({ selectedTheme, themes, cards, onLoadCards }) => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Gestion des Cartes</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Gestión de Cartas</h2>
           <p className="text-gray-600">
-            {selectedTheme.theme_type === 'resource' ? 'Recurso' : 'Thème'} sélectionné: {selectedTheme.title}
+            {selectedTheme.theme_type === 'resource' ? 'Recurso' : 'Tema'} seleccionado: {selectedTheme.title}
           </p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
-          className="bg-purple-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-purple-700"
+          className="bg-taupe text-white px-4 py-2 rounded-lg flex items-center hover:bg-taupe-dark transition-colors"
         >
           <PlusIcon className="w-5 h-5 mr-2" />
-          Nouvelle Carte
+          Nueva Carta
         </button>
       </div>
 

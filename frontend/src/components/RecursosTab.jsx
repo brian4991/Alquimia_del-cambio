@@ -40,7 +40,7 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedModule) {
-      alert('Veuillez sélectionner un module d\'abord');
+      alert('Por favor, selecciona primero un módulo');
       return;
     }
 
@@ -75,7 +75,7 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
   };
 
   const handleDelete = async (recursoId) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce recurso ?')) return;
+    if (!confirm('¿Estás seguro de querer eliminar este recurso?')) return;
     
     try {
       const token = localStorage.getItem('token');
@@ -120,9 +120,9 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
     return (
       <div className="text-center py-12">
         <ExclamationTriangleIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun module sélectionné</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Ningún módulo seleccionado</h3>
         <p className="text-gray-600">
-          Veuillez d'abord sélectionner un module dans l'onglet "Modules" pour gérer ses recursos.
+          Por favor, selecciona primero un módulo en la pestaña "Módulos" para gestionar sus recursos.
         </p>
       </div>
     );
@@ -132,10 +132,10 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Gestion des Recursos</h2>
-          <p className="text-gray-600">Module sélectionné: {selectedModule.title}</p>
+          <h2 className="text-2xl font-bold text-gray-900">Gestión de Recursos</h2>
+          <p className="text-gray-600">Módulo seleccionado: {selectedModule.title}</p>
           <p className="text-sm text-amber-600 mt-1">
-            💡 Les recursos sont des contenus additionnels affichés en colonne à droite des thèmes
+            💡 Los recursos son contenidos adicionales mostrados en columna a la derecha de los temas
           </p>
         </div>
         <button
@@ -143,7 +143,7 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
           className="bg-amber-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-amber-700"
         >
           <PlusIcon className="w-5 h-5 mr-2" />
-          Nouveau Recurso
+          Nuevo Recurso
         </button>
       </div>
 
@@ -151,26 +151,26 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
       {showCreateForm && (
         <div className="mb-8 bg-amber-50 p-6 rounded-lg border-2 border-amber-200">
           <h3 className="text-lg font-semibold mb-4 text-amber-900">
-            {editingRecurso ? 'Modifier le Recurso' : 'Créer un Nouveau Recurso'}
+            {editingRecurso ? 'Modificar Recurso' : 'Crear Nuevo Recurso'}
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Titre du Recurso *
+                  Título del Recurso *
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full border border-gray-300 rounded-md px-3 py-2"
-                  placeholder="Ex: Libro Recomendado"
+                  placeholder="Ej: Libro Recomendado"
                   required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Numéro d'ordre
+                  Número de orden
                 </label>
                 <input
                   type="number"
@@ -184,22 +184,22 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description du Recurso *
+                Descripción del Recurso *
               </label>
               <textarea
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 h-32"
-                placeholder="Description courte du recurso..."
+                placeholder="Descripción corta del recurso..."
                 required
               />
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 mb-2">💡 Note importante</h4>
+              <h4 className="font-medium text-blue-900 mb-2">💡 Nota importante</h4>
               <p className="text-sm text-blue-800">
-                Après avoir créé le recurso, allez dans l'onglet <strong>"Cartas"</strong> pour ajouter 
-                le contenu détaillé sous forme de cartes (comme pour les thèmes normaux).
+                Después de crear el recurso, ve a la pestaña <strong>"Cartas"</strong> para añadir 
+                el contenido detallado en forma de cartas (como para los temas normales).
               </p>
             </div>
 
@@ -208,14 +208,14 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
                 type="submit"
                 className="bg-amber-600 text-white px-6 py-2 rounded-lg hover:bg-amber-700"
               >
-                {editingRecurso ? 'Mettre à jour' : 'Créer'}
+                {editingRecurso ? 'Actualizar' : 'Crear'}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
               >
-                Annuler
+                Cancelar
               </button>
             </div>
           </form>
@@ -227,8 +227,8 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
         {recursos.length === 0 ? (
           <div className="text-center py-12 bg-amber-50 rounded-lg border-2 border-dashed border-amber-300">
             <BookOpenIcon className="w-16 h-16 text-amber-400 mx-auto mb-4" />
-            <p className="text-amber-800 mb-2">Aucun recurso trouvé pour ce module.</p>
-            <p className="text-amber-600 text-sm">Créez votre premier recurso !</p>
+            <p className="text-amber-800 mb-2">No se encontraron recursos para este módulo.</p>
+            <p className="text-amber-600 text-sm">¡Crea tu primer recurso!</p>
           </div>
         ) : (
           recursos.map((recurso) => (
@@ -237,8 +237,8 @@ const RecursosTab = ({ selectedModule, modules, selectedRecurso, onRecursoSelect
               onClick={() => onRecursoSelect && onRecursoSelect(recurso)}
               className={`border-2 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer ${
                 selectedRecurso && selectedRecurso.id === recurso.id
-                  ? 'border-amber-500 bg-amber-100 shadow-md ring-2 ring-amber-300'
-                  : 'border-amber-200 bg-amber-50'
+                  ? 'border-amber-400 bg-amber-50 bg-opacity-60 shadow-md ring-1 ring-amber-400 ring-opacity-30'
+                  : 'border-amber-200 bg-amber-50 bg-opacity-30'
               }`}
             >
               <div className="flex justify-between items-start">
