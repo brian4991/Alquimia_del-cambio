@@ -78,23 +78,23 @@ const AdminPanel = () => {
 
   const tabs = [
     { id: 'preview', label: 'Mi Programa', icon: BookOpenIcon },
-    { id: 'modules', label: 'Modules', icon: BookOpenIcon },
-    { id: 'themes', label: 'Thèmes', icon: DocumentTextIcon },
+    { id: 'modules', label: 'Módulos', icon: BookOpenIcon },
+    { id: 'themes', label: 'Temas', icon: DocumentTextIcon },
     { id: 'recursos', label: 'Recursos', icon: LightBulbIcon },
-    { id: 'cards', label: 'Cartes', icon: DocumentTextIcon },
-    { id: 'exercises', label: 'Exercices', icon: AcademicCapIcon }
+    { id: 'cards', label: 'Cartas', icon: DocumentTextIcon },
+    { id: 'exercises', label: 'Ejercicios', icon: AcademicCapIcon }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-amber-50 p-6">
+    <div className="min-h-screen bg-gradient-elegant p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Panneau d'Administration</h1>
-          <p className="text-gray-600">Gérez vos modules, thèmes, recursos, cartes et exercices</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Panel de Administración</h1>
+          <p className="text-gray-600">Gestiona tus módulos, temas, recursos, cartas y ejercicios</p>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="bg-white rounded-lg shadow-sm mb-6">
+        <div className="bg-white rounded-lg shadow-elegant mb-6">
           <div className="border-b border-gray-200">
             <nav className="-mb-px flex space-x-8">
               {tabs.map((tab) => {
@@ -105,8 +105,8 @@ const AdminPanel = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center px-4 py-4 text-sm font-medium border-b-2 transition-colors ${
                       activeTab === tab.id
-                        ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'border-sage text-sage'
+                        : 'border-transparent text-gray-500 hover:text-sage hover:border-sage-light'
                     }`}
                   >
                     <Icon className="w-5 h-5 mr-2" />
@@ -119,7 +119,7 @@ const AdminPanel = () => {
         </div>
 
         {/* Content Area */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white rounded-lg shadow-elegant p-6">
           {activeTab === 'preview' && (
             <Dashboard />
           )}

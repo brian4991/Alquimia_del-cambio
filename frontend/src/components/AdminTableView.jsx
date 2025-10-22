@@ -8,7 +8,7 @@ const AdminTableView = ({ tableData, tableConfig, questionText }) => {
   } catch (e) {
     return (
       <div className="text-red-500 text-sm">
-        ❌ Données de tableau invalides
+        ❌ Datos de tabla inválidos
       </div>
     );
   }
@@ -22,7 +22,7 @@ const AdminTableView = ({ tableData, tableConfig, questionText }) => {
     const firstRow = parsedData[Object.keys(parsedData)[0]];
     if (firstRow) {
       columns = Object.keys(firstRow).map((key, index) => ({
-        title: `Colonne ${index + 1}`,
+        title: `Columna ${index + 1}`,
         type: 'text'
       }));
       rows = Object.keys(parsedData).length;
@@ -32,7 +32,7 @@ const AdminTableView = ({ tableData, tableConfig, questionText }) => {
   if (!columns.length || !rows) {
     return (
       <div className="text-gray-500 text-sm">
-        📊 Tableau vide ou configuration manquante
+        📊 Tabla vacía o configuración faltante
       </div>
     );
   }
@@ -55,34 +55,34 @@ const AdminTableView = ({ tableData, tableConfig, questionText }) => {
   if (!hasAnyData()) {
     return (
       <div className="text-gray-500 text-sm">
-        📊 Tableau non rempli
+        📊 Tabla sin rellenar
       </div>
     );
   }
 
   return (
     <div className="space-y-3">
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+      <div className="bg-sage-light bg-opacity-10 border border-sage-light rounded-lg p-3">
         <div className="flex items-center space-x-2 mb-2">
-          <span className="text-blue-700 font-medium text-sm">📊 Réponse Tableau</span>
-          <span className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded">
-            {columns.length} colonnes × {rows} lignes
+          <span className="text-sage-dark font-medium text-sm">📊 Respuesta Tabla</span>
+          <span className="text-xs text-sage bg-sage-light bg-opacity-20 px-2 py-1 rounded">
+            {columns.length} columnas × {rows} filas
           </span>
         </div>
         
         <div className="overflow-x-auto">
-          <table className="min-w-full border border-blue-200 rounded text-sm">
+          <table className="min-w-full border border-sage-light rounded text-sm">
             <thead>
-              <tr className="bg-blue-100">
+              <tr className="bg-sage-light bg-opacity-20">
                 {columns.map((column, colIndex) => (
                   <th
                     key={colIndex}
-                    className="px-3 py-2 text-left text-xs font-semibold text-blue-800 border-r border-blue-200 last:border-r-0"
+                    className="px-3 py-2 text-left text-xs font-semibold text-sage-dark border-r border-sage-light last:border-r-0"
                   >
                     <div className="flex items-center space-x-1">
                       <span>{column.title}</span>
                       {column.type === 'number' && (
-                        <span className="text-xs text-blue-600">#</span>
+                        <span className="text-xs text-sage">#</span>
                       )}
                     </div>
                   </th>
@@ -99,13 +99,13 @@ const AdminTableView = ({ tableData, tableConfig, questionText }) => {
                 if (!hasData) return null;
                 
                 return (
-                  <tr key={rowIndex} className="border-t border-blue-200">
+                  <tr key={rowIndex} className="border-t border-sage-light">
                     {columns.map((column, colIndex) => {
                       const value = getCellValue(rowIndex, colIndex);
                       return (
                         <td
                           key={colIndex}
-                          className="px-3 py-2 border-r border-blue-200 last:border-r-0 bg-white"
+                          className="px-3 py-2 border-r border-sage-light last:border-r-0 bg-white"
                         >
                           <div className="text-gray-700">
                             {value || (
@@ -122,8 +122,8 @@ const AdminTableView = ({ tableData, tableConfig, questionText }) => {
           </table>
         </div>
         
-        <div className="mt-2 text-xs text-blue-600">
-          💡 Seules les lignes avec des données sont affichées
+        <div className="mt-2 text-xs text-sage">
+          💡 Solo se muestran las filas con datos
         </div>
       </div>
     </div>

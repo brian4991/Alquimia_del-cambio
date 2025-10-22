@@ -62,7 +62,7 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
   };
 
   const handleDelete = async (themeId) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce thème ?')) return;
+    if (!confirm('¿Estás seguro de querer eliminar este tema?')) return;
     
     try {
       const token = localStorage.getItem('token');
@@ -107,9 +107,9 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
     return (
       <div className="text-center py-12">
         <ExclamationTriangleIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">Aucun module sélectionné</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">Ningún módulo seleccionado</h3>
         <p className="text-gray-600">
-          Veuillez d'abord sélectionner un module dans l'onglet "Modules" pour gérer ses thèmes.
+          Por favor, selecciona primero un módulo en la pestaña "Módulos" para gestionar sus temas.
         </p>
       </div>
     );
@@ -119,47 +119,47 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Gestion des Thèmes</h2>
-          <p className="text-gray-600">Module sélectionné: {selectedModule.title}</p>
+          <h2 className="text-2xl font-bold text-gray-900">Gestión de Temas</h2>
+          <p className="text-gray-600">Módulo seleccionado: {selectedModule.title}</p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-700"
+          className="bg-taupe text-white px-4 py-2 rounded-lg flex items-center hover:bg-taupe-dark transition-colors"
         >
           <PlusIcon className="w-5 h-5 mr-2" />
-          Nouveau Thème
+          Nuevo Tema
         </button>
       </div>
 
       {/* Create/Edit Form */}
       {showCreateForm && (
-        <div className="mb-8 bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">
-            {editingTheme ? 'Modifier le Thème' : 'Créer un Nouveau Thème'}
+        <div className="mb-8 bg-beige p-6 rounded-lg border border-gray-200">
+          <h3 className="text-lg font-semibold mb-4 text-taupe-dark">
+            {editingTheme ? 'Modificar Tema' : 'Crear Nuevo Tema'}
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Titre *
+                  Título *
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-taupe focus:border-taupe"
                   required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Numéro d'ordre
+                  Número de orden
                 </label>
                 <input
                   type="number"
                   value={formData.order_number}
                   onChange={(e) => setFormData({ ...formData, order_number: parseInt(e.target.value) })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-taupe focus:border-taupe"
                   required
                 />
               </div>
@@ -167,30 +167,30 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Contenu
+                Contenido
               </label>
               <textarea
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-taupe focus:border-taupe"
                 rows="6"
-                placeholder="Contenu descriptif du thème..."
+                placeholder="Contenido descriptivo del tema..."
               />
             </div>
 
             <div className="flex space-x-4">
               <button
                 type="submit"
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+                className="bg-taupe text-white px-6 py-2 rounded-lg hover:bg-taupe-dark transition-colors"
               >
-                {editingTheme ? 'Mettre à jour' : 'Créer'}
+                {editingTheme ? 'Actualizar' : 'Crear'}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400"
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 transition-colors"
               >
-                Annuler
+                Cancelar
               </button>
             </div>
           </form>
@@ -201,16 +201,16 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
       <div className="space-y-4">
         {normalThemes.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
-            Aucun thème trouvé pour ce module. Créez votre premier thème !
+            No se encontraron temas para este módulo. ¡Crea tu primer tema!
           </div>
         ) : (
           normalThemes.map((theme) => (
             <div
               key={theme.id}
-              className={`border rounded-lg p-4 hover:shadow-md transition-all cursor-pointer ${
+              className={`border-2 rounded-lg p-4 hover:shadow-taupe transition-all cursor-pointer ${
                 selectedTheme && selectedTheme.id === theme.id
-                  ? 'border-green-500 bg-green-50 shadow-md ring-2 ring-green-200'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-taupe bg-taupe bg-opacity-5 shadow-taupe ring-2 ring-taupe-light'
+                  : 'border-gray-200 hover:border-taupe-light'
               }`}
               onClick={() => onThemeSelect(theme)}
             >
@@ -224,11 +224,11 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
                   )}
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <span>ID: {theme.id}</span>
-                    <span>📊 {theme.total_cards} cartes</span>
+                    <span>📊 {theme.total_cards} cartas</span>
                     <span className={`px-2 py-1 rounded-full text-xs ${
                       theme.is_completed ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
                     }`}>
-                      {theme.is_completed ? 'Terminé' : 'En cours'}
+                      {theme.is_completed ? 'Terminado' : 'En curso'}
                     </span>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
                       e.stopPropagation();
                       handleEdit(theme);
                     }}
-                    className="text-green-600 hover:text-green-800 p-2"
+                    className="text-taupe hover:text-taupe-dark p-2 transition-colors"
                   >
                     <PencilIcon className="w-5 h-5" />
                   </button>
@@ -247,7 +247,7 @@ const ThemesTab = ({ selectedModule, selectedTheme, themes, modules, onThemeSele
                       e.stopPropagation();
                       handleDelete(theme.id);
                     }}
-                    className="text-red-600 hover:text-red-800 p-2"
+                    className="text-red-600 hover:text-red-800 p-2 transition-colors"
                   >
                     <TrashIcon className="w-5 h-5" />
                   </button>

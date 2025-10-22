@@ -109,9 +109,9 @@ const AdminUsersTracking = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-slate-200 text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto mb-6"></div>
+      <div className="min-h-screen bg-gradient-elegant flex items-center justify-center">
+        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-elegant p-12 border border-gray-200 text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-sage border-t-transparent mx-auto mb-6"></div>
           <p className="text-slate-600 text-xl font-medium">Cargando datos de usuarios...</p>
         </div>
       </div>
@@ -139,12 +139,12 @@ const AdminUsersTracking = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-amber-50">
+    <div className="min-h-screen bg-gradient-elegant">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center space-x-6 mb-6">
-            <div className="p-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg">
+            <div className="p-4 bg-gradient-sage rounded-2xl shadow-sage">
               <UsersIcon className="w-10 h-10 text-white" />
             </div>
             <div>
@@ -156,18 +156,18 @@ const AdminUsersTracking = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-sage transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-blue-100 rounded-xl">
-                <UsersIcon className="w-8 h-8 text-blue-600" />
+              <div className="p-3 bg-sage-light rounded-xl">
+                <UsersIcon className="w-8 h-8 text-sage-dark" />
               </div>
-              <SparklesIcon className="w-6 h-6 text-blue-400" />
+              <SparklesIcon className="w-6 h-6 text-sage-light" />
             </div>
             <p className="text-slate-600 text-sm font-medium mb-2">Total Usuarios</p>
             <p className="text-4xl font-bold text-slate-900">{stats.totalUsers}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-sage transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-green-100 rounded-xl">
                 <CheckCircleIconSolid className="w-8 h-8 text-green-600" />
@@ -178,35 +178,35 @@ const AdminUsersTracking = () => {
             <p className="text-4xl font-bold text-green-600">{stats.activeUsers}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-taupe transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-purple-100 rounded-xl">
-                <BookOpenIcon className="w-8 h-8 text-purple-600" />
+              <div className="p-3 bg-taupe-light rounded-xl">
+                <BookOpenIcon className="w-8 h-8 text-taupe-dark" />
               </div>
-              <SparklesIcon className="w-6 h-6 text-purple-400" />
+              <SparklesIcon className="w-6 h-6 text-taupe-light" />
             </div>
             <p className="text-slate-600 text-sm font-medium mb-2">Módulos Completados</p>
-            <p className="text-4xl font-bold text-purple-600">{stats.completedModules}</p>
+            <p className="text-4xl font-bold text-taupe-dark">{stats.completedModules}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-200 hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-sage transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-orange-100 rounded-xl">
-                <DocumentTextIcon className="w-8 h-8 text-orange-600" />
+              <div className="p-3 bg-amber-100 rounded-xl">
+                <DocumentTextIcon className="w-8 h-8 text-amber-600" />
               </div>
-              <SparklesIcon className="w-6 h-6 text-orange-400" />
+              <SparklesIcon className="w-6 h-6 text-amber-400" />
             </div>
             <p className="text-slate-600 text-sm font-medium mb-2">Total Respuestas</p>
-            <p className="text-4xl font-bold text-orange-600">{stats.totalResponses}</p>
+            <p className="text-4xl font-bold text-amber-600">{stats.totalResponses}</p>
           </div>
         </div>
 
         <div className="max-w-full">
           {/* Users List */}
-          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-            <div className="p-8 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
+          <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
+            <div className="p-8 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
               <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                <UsersIcon className="w-6 h-6 mr-3 text-blue-600" />
+                <UsersIcon className="w-6 h-6 mr-3 text-sage" />
                 Lista de Usuarios
               </h2>
               <p className="text-slate-600 mt-2">Selecciona un usuario para ver su progreso detallado</p>
@@ -223,12 +223,12 @@ const AdminUsersTracking = () => {
                   {users.filter(user => user.role !== 'admin').map((user) => (
                     <div
                       key={user.id}
-                      className="p-6 rounded-2xl border-2 border-slate-200 hover:border-slate-200 hover:scale-[1.01] transition-all duration-300 cursor-pointer hover:shadow-lg"
+                      className="p-6 rounded-2xl border-2 border-gray-200 hover:border-sage hover:scale-[1.01] transition-all duration-300 cursor-pointer hover:shadow-sage"
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center space-x-4">
                           <div className="flex-shrink-0">
-                            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                            <div className="w-12 h-12 bg-gradient-sage rounded-xl flex items-center justify-center text-white font-bold text-lg">
                               {user.username.charAt(0).toUpperCase()}
                             </div>
                           </div>
@@ -303,11 +303,11 @@ const AdminUsersTracking = () => {
                           {/* Stats */}
                           <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-200">
                             <div className="text-center">
-                              <div className="text-lg font-bold text-blue-600">{user.progress?.completed_exercises || 0}</div>
+                              <div className="text-lg font-bold text-sage">{user.progress?.completed_exercises || 0}</div>
                               <div className="text-xs text-slate-500">Ejercicios</div>
                             </div>
                             <div className="text-center">
-                              <div className="text-lg font-bold text-purple-600">{user.progress?.completed_themes || 0}</div>
+                              <div className="text-lg font-bold text-taupe">{user.progress?.completed_themes || 0}</div>
                               <div className="text-xs text-slate-500">Temas</div>
                             </div>
                             <div className="text-center">
@@ -333,7 +333,7 @@ const AdminUsersTracking = () => {
                               e.stopPropagation();
                               navigate(`/admin/users/${user.id}`);
                             }}
-                            className="px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1"
+                            className="px-3 py-1 bg-sage text-white text-xs rounded-lg hover:bg-sage-dark transition-colors flex items-center space-x-1"
                           >
                             <EyeIcon className="w-3 h-3" />
                             <span>Ver detalle</span>

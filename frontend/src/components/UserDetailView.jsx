@@ -276,9 +276,9 @@ const UserDetailView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-slate-200 text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto mb-6"></div>
+      <div className="min-h-screen bg-gradient-elegant flex items-center justify-center">
+        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-elegant p-12 border border-gray-200 text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-sage border-t-transparent mx-auto mb-6"></div>
           <p className="text-slate-600 text-xl font-medium">Cargando datos del usuario...</p>
         </div>
       </div>
@@ -287,7 +287,7 @@ const UserDetailView = () => {
 
   if (error || !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-elegant flex items-center justify-center">
         <div className="bg-red-50 border border-red-200 rounded-3xl p-12 text-center shadow-lg max-w-md">
           <ExclamationTriangleIcon className="w-16 h-16 text-red-600 mx-auto mb-6" />
           <h2 className="text-2xl font-bold text-red-800 mb-4">Error</h2>
@@ -321,18 +321,18 @@ const UserDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-stone-100 to-amber-50">
+    <div className="min-h-screen bg-gradient-elegant">
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center space-x-4 mb-6">
             <button
               onClick={() => navigate('/admin/users')}
-              className="p-3 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 border border-slate-200 hover:border-slate-200"
+              className="p-3 bg-white rounded-xl shadow-elegant hover:shadow-sage transition-all duration-200 border border-gray-200 hover:border-sage-light"
             >
               <ArrowLeftIcon className="w-6 h-6 text-slate-600" />
             </button>
-            <div className="p-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg">
+            <div className="p-4 bg-gradient-sage rounded-2xl shadow-sage">
               <UserIcon className="w-10 h-10 text-white" />
             </div>
             <div>
@@ -346,17 +346,17 @@ const UserDetailView = () => {
           {/* User Info */}
           <div className="xl:col-span-1 space-y-8">
             {/* Basic Info */}
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
+            <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <UserIcon className="w-6 h-6 mr-3 text-blue-600" />
+                  <UserIcon className="w-6 h-6 mr-3 text-sage" />
                   Información del Usuario
                 </h2>
               </div>
               
               <div className="p-6">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-16 h-16 bg-gradient-sage rounded-xl flex items-center justify-center text-white font-bold text-2xl">
                     {user.username.charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -408,10 +408,10 @@ const UserDetailView = () => {
             </div>
 
             {/* User Global Validation */}
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-orange-50">
+            <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-amber-50">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-orange-600" />
+                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-amber-600" />
                   Validación Global
                 </h2>
                 <p className="text-slate-600 mt-2">Controla el acceso general del usuario</p>
@@ -467,10 +467,10 @@ const UserDetailView = () => {
             </div>
 
             {/* Module Validation */}
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-green-50">
+            <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-green-600" />
+                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-sage" />
                   Validación de Módulos
                 </h2>
                 <p className="text-slate-600 mt-2">Controla el acceso a módulos</p>
@@ -544,10 +544,10 @@ const UserDetailView = () => {
 
           {/* User Responses */}
           <div className="xl:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-              <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-purple-50">
+            <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <DocumentTextIcon className="w-6 h-6 mr-3 text-purple-600" />
+                  <DocumentTextIcon className="w-6 h-6 mr-3 text-taupe" />
                   Respuestas del Usuario
                 </h2>
                 <p className="text-slate-600 mt-2">Revisa y edita las respuestas del usuario</p>
@@ -558,7 +558,7 @@ const UserDetailView = () => {
                     onClick={() => setActiveTab('current')}
                     className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                       activeTab === 'current'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-sage text-white'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   >
@@ -568,7 +568,7 @@ const UserDetailView = () => {
                     onClick={() => setActiveTab('history')}
                     className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                       activeTab === 'history'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-sage text-white'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                   >
@@ -634,8 +634,8 @@ const UserDetailView = () => {
                                                   {response.type === 'main' 
                                                     ? '📝 Principal' 
                                                     : response.type === 'sub_question'
-                                                    ? '🔸 Sous-question'
-                                                    : '🎯 Sous-exercice'}
+                                                    ? '🔸 Subpregunta'
+                                                    : '🎯 Subejercicio'}
                                                 </span>
                                               </div>
                                               <div className="flex items-start space-x-3">
@@ -774,11 +774,11 @@ const UserDetailView = () => {
                                               : 'bg-slate-100 text-slate-500'
                                           }`}>
                                             {response.response_type === 'sub_question' 
-                                              ? '🔸 Sous-question' 
+                                              ? '🔸 Subpregunta' 
                                               : response.response_type === 'card_exercise'
-                                              ? '📝 Carte Exercice'
+                                              ? '📝 Carta Ejercicio'
                                                   : response.response_type === 'exercise_section'
-                                                  ? '🎯 Sous-exercice'
+                                                  ? '🎯 Subejercicio'
                                               : '📝 Principal'}
                                           </span>
                                           <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">

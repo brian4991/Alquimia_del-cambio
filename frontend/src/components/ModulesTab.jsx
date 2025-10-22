@@ -45,7 +45,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
       }
     } catch (error) {
       console.error('Audio upload error:', error);
-      setError(`Erreur d'upload audio: ${error.message}`);
+      setError(`Error al subir audio: ${error.message}`);
       return null;
     } finally {
       setUploadingAudio(false);
@@ -98,22 +98,22 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
         setEditingModule(null);
         resetForm();
         onReload();
-        alert(editingModule ? 'Module mis à jour avec succès!' : 'Module créé avec succès!');
+        alert(editingModule ? '¡Módulo actualizado con éxito!' : '¡Módulo creado con éxito!');
       } else {
-        const errorMessage = responseData.detail || responseData.message || `Erreur ${response.status}`;
+        const errorMessage = responseData.detail || responseData.message || `Error ${response.status}`;
         setError(errorMessage);
         console.error('API Error:', errorMessage);
       }
     } catch (error) {
       console.error('Network Error:', error);
-      setError('Erreur de connexion. Vérifiez que le serveur backend est démarré.');
+      setError('Error de conexión. Verifica que el servidor backend esté iniciado.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleDelete = async (moduleId) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce module ?')) return;
+    if (!confirm('¿Estás seguro de querer eliminar este módulo?')) return;
     
     setIsLoading(true);
     try {
@@ -125,14 +125,14 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
 
       if (response.ok) {
         onReload();
-        alert('Module supprimé avec succès!');
+        alert('¡Módulo eliminado con éxito!');
       } else {
         const errorData = await response.json();
-        alert(`Erreur lors de la suppression: ${errorData.detail || 'Erreur inconnue'}`);
+        alert(`Error al eliminar: ${errorData.detail || 'Error desconocido'}`);
       }
     } catch (error) {
       console.error('Error deleting module:', error);
-      alert('Erreur de connexion lors de la suppression.');
+      alert('Error de conexión al eliminar.');
     } finally {
       setIsLoading(false);
     }
@@ -181,21 +181,21 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">Gestion des Modules</h2>
+        <h2 className="text-2xl font-bold text-gray-900">Gestión de Módulos</h2>
         <button
           onClick={() => setShowCreateForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700"
+          className="bg-sage text-white px-4 py-2 rounded-lg flex items-center hover:bg-sage-dark transition-colors"
         >
           <PlusIcon className="w-5 h-5 mr-2" />
-          Nouveau Module
+          Nuevo Módulo
         </button>
       </div>
 
       {/* Create/Edit Form */}
       {showCreateForm && (
-        <div className="mb-8 bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold mb-4">
-            {editingModule ? 'Modifier le Module' : 'Créer un Nouveau Module'}
+        <div className="mb-8 bg-beige p-6 rounded-lg border border-gray-200">
+          <h3 className="text-lg font-semibold mb-4 text-sage-dark">
+            {editingModule ? 'Modificar Módulo' : 'Crear Nuevo Módulo'}
           </h3>
           
           {/* Error Message */}
@@ -209,26 +209,26 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Titre *
+                  Título *
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                   required
                   disabled={isLoading}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Numéro d'ordre
+                  Número de orden
                 </label>
                 <input
                   type="number"
                   value={formData.order_number}
                   onChange={(e) => setFormData({ ...formData, order_number: parseInt(e.target.value) || 1 })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                   required
                   min="1"
                   disabled={isLoading}
@@ -238,12 +238,12 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Description
+                Descripción
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                 rows="3"
                 disabled={isLoading}
               />
@@ -251,12 +251,12 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Objectif
+                Objetivo
               </label>
               <textarea
                 value={formData.objective}
                 onChange={(e) => setFormData({ ...formData, objective: e.target.value })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                 rows="3"
                 disabled={isLoading}
               />
@@ -264,12 +264,12 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Croyance à transformer
+                Creencia a transformar
               </label>
               <textarea
                 value={formData.belief_to_transform}
                 onChange={(e) => setFormData({ ...formData, belief_to_transform: e.target.value })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                 rows="3"
                 disabled={isLoading}
               />
@@ -277,12 +277,12 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Résultats attendus
+                Resultados esperados
               </label>
               <textarea
                 value={formData.expected_results}
                 onChange={(e) => setFormData({ ...formData, expected_results: e.target.value })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                 rows="3"
                 disabled={isLoading}
               />
@@ -291,41 +291,41 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Livre recommandé
+                  Libro recomendado
                 </label>
                 <input
                   type="text"
                   value={formData.recommended_book}
                   onChange={(e) => setFormData({ ...formData, recommended_book: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                   disabled={isLoading}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Fichier audio (MP3)
+                  Archivo de audio (MP3)
                 </label>
                 <div className="space-y-2">
                   <input
                     type="file"
                     accept=".mp3,audio/mpeg"
                     onChange={(e) => setAudioFile(e.target.files[0])}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
                     disabled={isLoading || uploadingAudio}
                   />
                   {audioFile && (
                     <p className="text-sm text-gray-600">
-                      Fichier sélectionné: {audioFile.name}
+                      Archivo seleccionado: {audioFile.name}
                     </p>
                   )}
                   {formData.audio_file && !audioFile && (
                     <p className="text-sm text-green-600">
-                      Fichier actuel: {formData.audio_file}
+                      Archivo actual: {formData.audio_file}
                     </p>
                   )}
                   {uploadingAudio && (
-                    <p className="text-sm text-blue-600">
-                      Upload en cours...
+                    <p className="text-sm text-sage">
+                      Subiendo...
                     </p>
                   )}
                 </div>
@@ -339,7 +339,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
                 className={`px-6 py-2 rounded-lg flex items-center ${
                   isLoading 
                     ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-blue-600 hover:bg-blue-700'
+                    : 'bg-sage hover:bg-sage-dark'
                 } text-white transition-colors`}
               >
                 {isLoading && (
@@ -349,8 +349,8 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
                   </svg>
                 )}
                 {isLoading 
-                  ? (editingModule ? 'Mise à jour...' : 'Création...') 
-                  : (editingModule ? 'Mettre à jour' : 'Créer')
+                  ? (editingModule ? 'Actualizando...' : 'Creando...') 
+                  : (editingModule ? 'Actualizar' : 'Crear')
                 }
               </button>
               <button
@@ -359,7 +359,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
                 disabled={isLoading}
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
-                Annuler
+                Cancelar
               </button>
             </div>
           </form>
@@ -370,16 +370,16 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
       <div className="space-y-4">
         {safeModules.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
-            {safeModules === modules ? 'Aucun module trouvé. Créez votre premier module !' : 'Chargement des modules...'}
+            {safeModules === modules ? 'No se encontraron módulos. ¡Crea tu primer módulo!' : 'Cargando módulos...'}
           </div>
         ) : (
           safeModules.map((module) => (
             <div
               key={module.id}
-              className={`border rounded-lg p-4 hover:shadow-md transition-all cursor-pointer ${
+              className={`border-2 rounded-lg p-4 hover:shadow-sage transition-all cursor-pointer ${
                 selectedModule && selectedModule.id === module.id
-                  ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-sage bg-sage bg-opacity-5 shadow-sage ring-2 ring-sage-light'
+                  : 'border-gray-200 hover:border-sage-light'
               }`}
               onClick={() => onModuleSelect(module)}
             >
@@ -404,8 +404,8 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
                       handleEdit(module);
                     }}
                     disabled={isLoading}
-                    className="text-blue-600 hover:text-blue-800 p-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    title="Modifier ce module"
+                    className="text-sage hover:text-sage-dark p-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    title="Modificar este módulo"
                   >
                     <PencilIcon className="w-5 h-5" />
                   </button>
@@ -416,7 +416,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
                     }}
                     disabled={isLoading}
                     className="text-red-600 hover:text-red-800 p-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    title="Supprimer ce module"
+                    title="Eliminar este módulo"
                   >
                     <TrashIcon className="w-5 h-5" />
                   </button>
