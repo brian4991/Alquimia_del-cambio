@@ -1,158 +1,248 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
+    darkMode: ["class"],
+    content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
-        },
-        secondary: {
-          50: '#fefce8',
-          100: '#fef9c3',
-          200: '#fef08a',
-          300: '#fde047',
-          400: '#facc15',
-          500: '#eab308',
-          600: '#ca8a04',
-          700: '#a16207',
-          800: '#854d0e',
-          900: '#713f12',
-        },
-        sage: {
-          50: '#f8faf7',
-          100: '#eef2ec',
-          200: '#dde6d7',
-          300: '#c5d3ba',
-          400: '#a6bb96',
-          500: '#6b745a',
-          600: '#59614c',
-          700: '#4a503f',
-          800: '#3d4234',
-          900: '#33372c',
-          light: '#7d8568',
-          dark: '#59614c',
-        },
-        lavender: {
-          50: '#f8f7ff',
-          100: '#f1edff',
-          200: '#e5ddff',
-          300: '#d2bfff',
-          400: '#b899ff',
-          500: '#9d72ff',
-          600: '#8b4dff',
-          700: '#7c3aed',
-          800: '#6b21a8',
-          900: '#581c87',
-        },
-        cream: {
-          50: '#fffef7',
-          100: '#fffbeb',
-          200: '#fef3c7',
-          300: '#fde68a',
-          400: '#fcd34d',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
-        },
-        taupe: {
-          50: '#faf9f7',
-          100: '#f4f2ed',
-          200: '#e7e2d8',
-          300: '#d5ccbc',
-          400: '#bfb09c',
-          500: '#a28d72',
-          600: '#8f7a61',
-          700: '#776651',
-          800: '#625545',
-          900: '#52473a',
-          light: '#b5a08a',
-          dark: '#8f7a61',
-        },
-        gray: {
-          soft: '#f8f8f9',
-          medium: '#e8e8ea',
-          light: '#cbcbcc',
-        },
-        beige: {
-          DEFAULT: '#f5f2eb',
-        },
-        stone: {
-          50: '#fafaf9',
-          100: '#f5f5f4',
-          200: '#e7e5e4',
-          300: '#d6d3d1',
-          400: '#a8a29e',
-          500: '#78716c',
-          600: '#57534e',
-          700: '#44403c',
-          800: '#292524',
-          900: '#1c1917',
-        }
-      },
-      fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'inter': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        'serif': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-      },
-      backgroundImage: {
-        'gradient-serene': 'linear-gradient(135deg, #f0fdf4 0%, #fefce8 100%)',
-        'gradient-calm': 'linear-gradient(135deg, #f8f7ff 0%, #f6f7f6 100%)',
-        'gradient-nature': 'linear-gradient(135deg, #dcfce7 0%, #e3e8e3 100%)',
-        'gradient-elegant': 'linear-gradient(135deg, #f5f2eb 0%, #ffffff 100%)',
-        'gradient-sage': 'linear-gradient(135deg, #6b745a 0%, #59614c 100%)',
-        'gradient-taupe': 'linear-gradient(135deg, #b5a08a 0%, #a28d72 100%)',
-      },
-      boxShadow: {
-        'elegant': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'sage': '0 10px 25px -5px rgba(107, 116, 90, 0.25), 0 10px 10px -5px rgba(107, 116, 90, 0.1)',
-        'taupe': '0 10px 25px -5px rgba(162, 141, 114, 0.25), 0 10px 10px -5px rgba(162, 141, 114, 0.1)',
-      },
-      backdropBlur: {
-        'elegant': '20px',
-      },
-             animation: {
-         'fade-in': 'fadeIn 0.5s ease-in-out',
-         'slide-up': 'slideUp 0.5s ease-out',
-         'scale-in': 'scaleIn 0.3s ease-out',
-       },
-       scale: {
-         '102': '1.02',
-         '105': '1.05',
-         '110': '1.1',
-       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        scaleIn: {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
-      },
-      transitionTimingFunction: {
-        'elegant': 'cubic-bezier(0.4, 0, 0.2, 1)',
-      },
-    },
+  	extend: {
+  		colors: {
+  			primary: {
+  				'50': '#f0fdf4',
+  				'100': '#dcfce7',
+  				'200': '#bbf7d0',
+  				'300': '#86efac',
+  				'400': '#4ade80',
+  				'500': '#22c55e',
+  				'600': '#16a34a',
+  				'700': '#15803d',
+  				'800': '#166534',
+  				'900': '#14532d',
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				'50': '#fefce8',
+  				'100': '#fef9c3',
+  				'200': '#fef08a',
+  				'300': '#fde047',
+  				'400': '#facc15',
+  				'500': '#eab308',
+  				'600': '#ca8a04',
+  				'700': '#a16207',
+  				'800': '#854d0e',
+  				'900': '#713f12',
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			sage: {
+  				'50': '#f8faf7',
+  				'100': '#eef2ec',
+  				'200': '#dde6d7',
+  				'300': '#c5d3ba',
+  				'400': '#a6bb96',
+  				'500': '#6b745a',
+  				'600': '#59614c',
+  				'700': '#4a503f',
+  				'800': '#3d4234',
+  				'900': '#33372c',
+  				light: '#7d8568',
+  				dark: '#59614c'
+  			},
+  			lavender: {
+  				'50': '#f8f7ff',
+  				'100': '#f1edff',
+  				'200': '#e5ddff',
+  				'300': '#d2bfff',
+  				'400': '#b899ff',
+  				'500': '#9d72ff',
+  				'600': '#8b4dff',
+  				'700': '#7c3aed',
+  				'800': '#6b21a8',
+  				'900': '#581c87'
+  			},
+  			cream: {
+  				'50': '#fffef7',
+  				'100': '#fffbeb',
+  				'200': '#fef3c7',
+  				'300': '#fde68a',
+  				'400': '#fcd34d',
+  				'500': '#f59e0b',
+  				'600': '#d97706',
+  				'700': '#b45309',
+  				'800': '#92400e',
+  				'900': '#78350f'
+  			},
+  			taupe: {
+  				'50': '#faf9f7',
+  				'100': '#f4f2ed',
+  				'200': '#e7e2d8',
+  				'300': '#d5ccbc',
+  				'400': '#bfb09c',
+  				'500': '#a28d72',
+  				'600': '#8f7a61',
+  				'700': '#776651',
+  				'800': '#625545',
+  				'900': '#52473a',
+  				light: '#b5a08a',
+  				dark: '#8f7a61'
+  			},
+  			gray: {
+  				soft: '#f8f8f9',
+  				medium: '#e8e8ea',
+  				light: '#cbcbcc'
+  			},
+  			beige: {
+  				DEFAULT: '#f5f2eb'
+  			},
+  			stone: {
+  				'50': '#fafaf9',
+  				'100': '#f5f5f4',
+  				'200': '#e7e5e4',
+  				'300': '#d6d3d1',
+  				'400': '#a8a29e',
+  				'500': '#78716c',
+  				'600': '#57534e',
+  				'700': '#44403c',
+  				'800': '#292524',
+  				'900': '#1c1917'
+  			},
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		fontFamily: {
+  			sans: [
+  				'Inter',
+  				'system-ui',
+  				'sans-serif'
+  			],
+  			inter: [
+  				'Inter',
+  				'system-ui',
+  				'-apple-system',
+  				'sans-serif'
+  			],
+  			serif: [
+  				'Inter',
+  				'system-ui',
+  				'-apple-system',
+  				'sans-serif'
+  			]
+  		},
+  		backgroundImage: {
+  			'gradient-serene': 'linear-gradient(135deg, #f0fdf4 0%, #fefce8 100%)',
+  			'gradient-calm': 'linear-gradient(135deg, #f8f7ff 0%, #f6f7f6 100%)',
+  			'gradient-nature': 'linear-gradient(135deg, #dcfce7 0%, #e3e8e3 100%)',
+  			'gradient-elegant': 'linear-gradient(135deg, #f5f2eb 0%, #ffffff 100%)',
+  			'gradient-sage': 'linear-gradient(135deg, #6b745a 0%, #59614c 100%)',
+  			'gradient-taupe': 'linear-gradient(135deg, #b5a08a 0%, #a28d72 100%)'
+  		},
+  		boxShadow: {
+  			elegant: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+  			sage: '0 10px 25px -5px rgba(107, 116, 90, 0.25), 0 10px 10px -5px rgba(107, 116, 90, 0.1)',
+  			taupe: '0 10px 25px -5px rgba(162, 141, 114, 0.25), 0 10px 10px -5px rgba(162, 141, 114, 0.1)'
+  		},
+  		backdropBlur: {
+  			elegant: '20px'
+  		},
+  		animation: {
+  			'fade-in': 'fadeIn 0.5s ease-in-out',
+  			'slide-up': 'slideUp 0.5s ease-out',
+  			'scale-in': 'scaleIn 0.3s ease-out',
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		},
+  		scale: {
+  			'102': '1.02',
+  			'105': '1.05',
+  			'110': '1.1'
+  		},
+  		keyframes: {
+  			fadeIn: {
+  				'0%': {
+  					opacity: '0'
+  				},
+  				'100%': {
+  					opacity: '1'
+  				}
+  			},
+  			slideUp: {
+  				'0%': {
+  					transform: 'translateY(20px)',
+  					opacity: '0'
+  				},
+  				'100%': {
+  					transform: 'translateY(0)',
+  					opacity: '1'
+  				}
+  			},
+  			scaleIn: {
+  				'0%': {
+  					transform: 'scale(0.95)',
+  					opacity: '0'
+  				},
+  				'100%': {
+  					transform: 'scale(1)',
+  					opacity: '1'
+  				}
+  			},
+  			'accordion-down': {
+  				from: {
+  					height: '0'
+  				},
+  				to: {
+  					height: 'var(--radix-accordion-content-height)'
+  				}
+  			},
+  			'accordion-up': {
+  				from: {
+  					height: 'var(--radix-accordion-content-height)'
+  				},
+  				to: {
+  					height: '0'
+  				}
+  			}
+  		},
+  		transitionTimingFunction: {
+  			elegant: 'cubic-bezier(0.4, 0, 0.2, 1)'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 } 

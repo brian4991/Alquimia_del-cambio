@@ -12,13 +12,18 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-slot": "^1.2.3",
     "axios": "^1.6.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.542.0",
     "quill": "^2.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.20.1",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^3.3.6"
   },
   "devDependencies": {
@@ -31,6 +36,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "postcss": "^8.4.31",
+    "tailwindcss-animate": "^1.0.7",
     "vite": "^5.0.0"
   }
 }
