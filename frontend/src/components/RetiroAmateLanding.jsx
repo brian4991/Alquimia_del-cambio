@@ -1,61 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import EditableSection from './EditableSection';
-import { config } from '../config';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const [pageContent, setPageContent] = useState({});
-  const [loading, setLoading] = useState(true);
+  const videoRef1 = useRef(null);
+  const videoRef2 = useRef(null);
+  const videoRef3 = useRef(null);
 
-  // Load page content
   useEffect(() => {
-    loadPageContent();
-  }, []);
-
-  const loadPageContent = async () => {
-    try {
-      const response = await fetch(`${config.apiUrl}/api/page-content/retiro`);
-      if (response.ok) {
-        const data = await response.json();
-        setPageContent(data.sections || {});
-      }
-    } catch (error) {
-      console.error('Error loading page content:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const saveSection = async (sectionKey, content) => {
-    const updatedContent = {
-      ...pageContent,
-      [sectionKey]: content
+    const handleVideoEnd = (videoElement) => {
+      // Fade out
+      videoElement.style.transition = 'opacity 0.6s ease-out';
+      videoElement.style.opacity = '0';
+      
+      setTimeout(() => {
+        if (videoElement && videoElement.paused) {
+          videoElement.currentTime = 0;
+          videoElement.play();
+          // Fade in
+          setTimeout(() => {
+            videoElement.style.transition = 'opacity 0.6s ease-in';
+            videoElement.style.opacity = '1';
+          }, 50);
+        }
+      }, 800); // Délai réduit à 0.8 seconde
     };
 
-    try {
-      const response = await fetch(`${config.apiUrl}/api/page-content/retiro`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ sections: updatedContent })
-      });
-
-      if (response.ok) {
-        setPageContent(updatedContent);
-        alert('Contenido guardado correctamente');
-      } else {
-        throw new Error('Failed to save content');
+    const setupVideo = (videoRef, playbackSpeed = 0.8) => {
+      const video = videoRef.current;
+      if (video) {
+        video.playbackRate = playbackSpeed;
+        // Fade in initial
+        video.style.opacity = '0';
+        video.addEventListener('loadeddata', () => {
+          video.style.transition = 'opacity 0.6s ease-in';
+          video.style.opacity = '1';
+        });
+        video.addEventListener('ended', () => handleVideoEnd(video));
+        return () => {
+          video.removeEventListener('ended', () => handleVideoEnd(video));
+        };
       }
-    } catch (error) {
-      console.error('Error saving content:', error);
-      throw error;
-    }
-  };
+    };
+
+    const cleanup1 = setupVideo(videoRef1, 0.8); // Ralentir de 20%
+    const cleanup2 = setupVideo(videoRef2, 1.0); // Vitesse normale
+    const cleanup3 = setupVideo(videoRef3, 0.8); // Ralentir de 20%
+
+    return () => {
+      cleanup1 && cleanup1();
+      cleanup2 && cleanup2();
+      cleanup3 && cleanup3();
+    };
+  }, []);
 
 
   return (
@@ -107,24 +107,12 @@ const LandingPage = () => {
               className="w-full h-full object-contain drop-shadow-2xl hover:scale-110 transition-transform duration-300"
             />
           </div>
-          <EditableSection
-            sectionKey="hero_title"
-            content={pageContent.hero_title}
-            onSave={saveSection}
-          >
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight animate-slide-up">
-              Rompe tus creencias, libera tus bloqueos y vuelve a confiar en ti
-            </h1>
-          </EditableSection>
-          <EditableSection
-            sectionKey="hero_subtitle"
-            content={pageContent.hero_subtitle}
-            onSave={saveSection}
-          >
-            <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in">
-              Sana tu historia, gana claridad y aprende a construir la vida que realmente deseas, en un espacio único y seguro
-            </p>
-          </EditableSection>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight tracking-tight animate-slide-up">
+            Rompe tus creencias, libera tus bloqueos y vuelve a confiar en ti
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-700 mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in">
+            Sana tu historia, gana claridad y aprende a construir la vida que realmente deseas, en un espacio único y seguro
+          </p>
           <Button 
             size="lg"
             className="bg-sage-600 hover:bg-sage-700 text-white shadow-elegant hover:shadow-sage hover:scale-105 transition-all duration-300 text-lg px-8 py-6 rounded-full font-semibold"
@@ -139,19 +127,13 @@ const LandingPage = () => {
       <section className="py-20 relative overflow-hidden" style={{backgroundColor: '#F5F5F0'}}>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sage-50/30 to-transparent" />
         <div className="container mx-auto max-w-5xl text-center px-6 relative z-10">
-          <EditableSection
-            sectionKey="date_location"
-            content={pageContent.date_location}
-            onSave={saveSection}
-          >
-            <Card className="inline-block bg-white/90 backdrop-blur-sm shadow-elegant hover:shadow-sage border-2 border-sage-200 transition-all duration-300 hover:scale-102">
-              <CardContent className="p-8 md:p-10">
-                <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-sage-700 via-sage-600 to-taupe-600 bg-clip-text text-transparent tracking-tight">
-                  14 de diciembre | El Jardín Secreto – París, Francia
-                </h2>
-              </CardContent>
-            </Card>
-          </EditableSection>
+          <Card className="inline-block bg-white/90 backdrop-blur-sm shadow-elegant hover:shadow-sage border-2 border-sage-200 transition-all duration-300 hover:scale-102">
+            <CardContent className="p-8 md:p-10">
+              <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-sage-700 via-sage-600 to-taupe-600 bg-clip-text text-transparent tracking-tight">
+                14 de diciembre | El Jardín Secreto – París, Francia
+              </h2>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -167,33 +149,21 @@ const LandingPage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/70 to-white/75" />
         </div>
         <div className="container mx-auto max-w-5xl text-center px-6 relative z-10">
-          <EditableSection
-            sectionKey="experience_description"
-            content={pageContent.experience_description}
-            onSave={saveSection}
-          >
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight tracking-tight animate-fade-in">
-              Vive una experiencia de <span className="bg-gradient-sage bg-clip-text text-transparent">transformación interior</span> para cerrar el año con claridad y propósito
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
-              Descubre cómo reprogramar tu mente, liberar la confusión emocional y recuperar la seguridad en tus decisiones y en ti misma
-            </p>
-          </EditableSection>
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight tracking-tight animate-fade-in">
+            Vive una experiencia de <span className="bg-gradient-sage bg-clip-text text-transparent">transformación interior</span> para cerrar el año con claridad y propósito
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
+            Descubre cómo reprogramar tu mente, liberar la confusión emocional y recuperar la seguridad en tus decisiones y en ti misma
+          </p>
         </div>
       </section>
 
       {/* Why This Retreat */}
       <section className="py-24" style={{backgroundColor: '#F9F6F3'}}>
         <div className="container mx-auto max-w-7xl px-6">
-          <EditableSection
-            sectionKey="why_retreat_title"
-            content={pageContent.why_retreat_title}
-            onSave={saveSection}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-20 tracking-tight">
-              ¿Por qué el Retiro Renacer es para ti?
-            </h2>
-          </EditableSection>
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-20 tracking-tight">
+            ¿Por qué el Retiro Renacer es para ti?
+          </h2>
           <div className="grid lg:grid-cols-3 gap-8">
             {/* 2/3 largeur - Toutes les cartes empilées */}
             <div className="lg:col-span-2 space-y-6">
@@ -220,9 +190,9 @@ const LandingPage = () => {
             <div className="flex items-start justify-center lg:sticky lg:top-24">
               <div className="w-full rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
+                  ref={videoRef1}
                   className="w-full h-auto"
                   autoPlay 
-                  loop 
                   muted 
                   playsInline
                 >
@@ -252,53 +222,41 @@ const LandingPage = () => {
       <section className="py-24 relative overflow-hidden" style={{backgroundColor: '#eef2ec'}}>
         <div className="absolute inset-0 bg-gradient-to-br from-sage-100/50 to-transparent" />
         <div className="container mx-auto max-w-4xl px-6 relative z-10">
-          <EditableSection
-            sectionKey="pricing_header"
-            content={pageContent.pricing_header}
-            onSave={saveSection}
-          >
-            <div className="text-center mb-16 animate-fade-in">
-              <div className="inline-block bg-white px-8 py-4 rounded-full mb-8 shadow-sage border-2 border-sage-400 hover:scale-105 transition-transform duration-300">
-                <span className="font-bold text-xl bg-gradient-sage bg-clip-text text-transparent">¡Sólo para mujeres!</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-                DESCUENTO DE PREVENTA
-              </h2>
-              <p className="text-sage-700 text-xl mb-2 font-medium">(Por tiempo limitado)</p>
+          <div className="text-center mb-16 animate-fade-in">
+            <div className="inline-block bg-white px-8 py-4 rounded-full mb-8 shadow-sage border-2 border-sage-400 hover:scale-105 transition-transform duration-300">
+              <span className="font-bold text-xl bg-gradient-sage bg-clip-text text-transparent">¡Sólo para mujeres!</span>
             </div>
-          </EditableSection>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
+              DESCUENTO DE PREVENTA
+            </h2>
+            <p className="text-sage-700 text-xl mb-2 font-medium">(Por tiempo limitado)</p>
+          </div>
 
           <Card className="bg-white rounded-3xl shadow-elegant hover:shadow-sage border-2 border-sage-200 overflow-hidden transition-all duration-300">
             <CardContent className="p-12">
-              <EditableSection
-                sectionKey="pricing_details"
-                content={pageContent.pricing_details}
-                onSave={saveSection}
-              >
-                <div>
-                  <div className="text-center mb-10">
-                    <p className="text-gray-600 mb-4 text-lg font-medium">Residentes en Francia o fuera</p>
-                    <p className="text-3xl text-gray-400 line-through mb-3">€199 EUR</p>
-                    <div className="relative inline-block">
-                      <p className="text-6xl md:text-7xl font-bold bg-gradient-sage bg-clip-text text-transparent mb-8 animate-scale-in">
-                        €149 EUR
-                      </p>
-                      <div className="absolute -top-4 -right-20 bg-lavender-600 text-white text-sm font-bold px-4 py-2 rounded-full rotate-12 shadow-lg">
-                        -25%
-                      </div>
+              <div>
+                <div className="text-center mb-10">
+                  <p className="text-gray-600 mb-4 text-lg font-medium">Residentes en Francia o fuera</p>
+                  <p className="text-3xl text-gray-400 line-through mb-3">€199 EUR</p>
+                  <div className="relative inline-block">
+                    <p className="text-6xl md:text-7xl font-bold bg-gradient-sage bg-clip-text text-transparent mb-8 animate-scale-in">
+                      €149 EUR
+                    </p>
+                    <div className="absolute -top-4 -right-20 bg-lavender-600 text-white text-sm font-bold px-4 py-2 rounded-full rotate-12 shadow-lg">
+                      -25%
                     </div>
                   </div>
-
-                  <Card className="text-center mb-10 bg-gradient-to-br from-sage-50 to-taupe-50 border-2 border-sage-200">
-                    <CardContent className="p-6">
-                      <p className="text-gray-900 mb-4 font-bold text-xl">Pago completo o pago en cuotas</p>
-                      <p className="text-base text-gray-700 leading-relaxed">
-                        En cuotas, el primer pago (€50) se realiza al momento de la inscripción, el segundo (€50) en noviembre y el último (€49) antes del retiro, en diciembre
-                      </p>
-                    </CardContent>
-                  </Card>
                 </div>
-              </EditableSection>
+
+                <Card className="text-center mb-10 bg-gradient-to-br from-sage-50 to-taupe-50 border-2 border-sage-200">
+                  <CardContent className="p-6">
+                    <p className="text-gray-900 mb-4 font-bold text-xl">Pago completo o pago en cuotas</p>
+                    <p className="text-base text-gray-700 leading-relaxed">
+                      En cuotas, el primer pago (€50) se realiza al momento de la inscripción, el segundo (€50) en noviembre y el último (€49) antes del retiro, en diciembre
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
 
               <div className="text-center">
                 <Button 
@@ -325,15 +283,9 @@ const LandingPage = () => {
       {/* What's Included & What to Expect - 2 colonnes */}
       <section className="py-24 bg-gradient-to-b from-stone-50 to-white">
         <div className="container mx-auto max-w-7xl px-6">
-          <EditableSection
-            sectionKey="three_days_title"
-            content={pageContent.three_days_title}
-            onSave={saveSection}
-          >
-            <h2 className="text-4xl md:text-6xl font-bold text-center text-gray-800 mb-20 tracking-tight">
-              1 DÍA QUE PUEDE CAMBIARLO TODO
-            </h2>
-          </EditableSection>
+          <h2 className="text-4xl md:text-6xl font-bold text-center text-gray-800 mb-20 tracking-tight">
+            1 DÍA QUE PUEDE CAMBIARLO TODO
+          </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {/* Colonne 1: Que Incluye */}
             <Card className="overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-300 border-0">
@@ -413,17 +365,11 @@ const LandingPage = () => {
       </section>
 
       {/* Location - Paris - Image + Texte avec background */}
-      <section className="py-24 bg-white">
+      <section className="py-24" style={{backgroundColor: '#e8e4df'}}>
         <div className="container mx-auto max-w-7xl px-6">
-          <EditableSection
-            sectionKey="location_title"
-            content={pageContent.location_title}
-            onSave={saveSection}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16 tracking-tight">
-              El Jardín Secreto – París, Francia
-            </h2>
-          </EditableSection>
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16 tracking-tight">
+            El Jardín Secreto – París, Francia
+          </h2>
           <div className="grid md:grid-cols-2 gap-0">
             {/* Image à gauche */}
             <div className="h-full min-h-[500px] rounded-l-3xl overflow-hidden shadow-elegant">
@@ -435,29 +381,23 @@ const LandingPage = () => {
             </div>
             {/* Texte avec background à droite */}
             <div className="p-12" style={{backgroundColor: '#dde6d7'}}>
-              <EditableSection
-                sectionKey="location_description"
-                content={pageContent.location_description}
-                onSave={saveSection}
-              >
-                <div className="space-y-6">
-                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                    En el corazón del histórico <strong>Barrio Latino de París</strong> se encuentra El Jardín Secreto, una joya escondida donde el silencio, la belleza y la historia se entrelazan.
-                  </p>
-                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                    Una casa del siglo XVIII completamente restaurada, rodeada de un jardín privado lleno de luz, calma y armonía. Este refugio ofrece una atmósfera íntima y serena, perfecta para desconectar del ruido exterior y reconectar contigo misma.
-                  </p>
-                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                    Cada rincón invita a la introspección: la calidez de la luz natural, los árboles centenarios, el sonido suave de las campanas… un entorno que abraza el alma y la mente.
-                  </p>
-                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                    Aquí viviremos el <strong>Retiro Renacer</strong>, un día diseñado para cerrar el año y abrir un nuevo ciclo con propósito y claridad. En este espacio exclusivo y lleno de energía, aprenderás a liberar lo viejo, reencontrarte contigo y activar tu poder interior.
-                  </p>
-                  <p className="text-lg leading-relaxed font-semibold" style={{color: '#59614c'}}>
-                    El Jardín Secreto no es solo el lugar del retiro, es parte de la experiencia: un escenario donde el alma se expande y la mente se transforma.
-                  </p>
-                </div>
-              </EditableSection>
+              <div className="space-y-6">
+              <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                En el corazón del histórico <strong>Barrio Latino de París</strong> se encuentra El Jardín Secreto, una joya escondida donde el silencio, la belleza y la historia se entrelazan.
+              </p>
+              <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                Una casa del siglo XVIII completamente restaurada, rodeada de un jardín privado lleno de luz, calma y armonía. Este refugio ofrece una atmósfera íntima y serena, perfecta para desconectar del ruido exterior y reconectar contigo misma.
+              </p>
+              <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                Cada rincón invita a la introspección: la calidez de la luz natural, los árboles centenarios, el sonido suave de las campanas… un entorno que abraza el alma y la mente.
+              </p>
+              <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                Aquí viviremos el <strong>Retiro Renacer</strong>, un día diseñado para cerrar el año y abrir un nuevo ciclo con propósito y claridad. En este espacio exclusivo y lleno de energía, aprenderás a liberar lo viejo, reencontrarte contigo y activar tu poder interior.
+              </p>
+              <p className="text-lg leading-relaxed font-semibold" style={{color: '#59614c'}}>
+                El Jardín Secreto no es solo el lugar del retiro, es parte de la experiencia: un escenario donde el alma se expande y la mente se transforma.
+              </p>
+            </div>
             </div>
           </div>
         </div>
@@ -503,15 +443,9 @@ const LandingPage = () => {
       {/* Why We're Different */}
       <section className="py-24" style={{backgroundColor: '#f4f2ed'}}>
         <div className="container mx-auto max-w-7xl px-6">
-          <EditableSection
-            sectionKey="why_different_title"
-            content={pageContent.why_different_title}
-            onSave={saveSection}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-20 tracking-tight">
-              ¿Por qué el Retiro Renacer es diferente y único?
-            </h2>
-          </EditableSection>
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-20 tracking-tight">
+            ¿Por qué el Retiro Renacer es diferente y único?
+          </h2>
           
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Colonne gauche - Points 1-3 */}
@@ -543,9 +477,9 @@ const LandingPage = () => {
             <div className="flex flex-col gap-6 items-center">
               <div className="w-full max-w-xs rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
+                  ref={videoRef2}
                   className="w-full h-auto"
                   autoPlay 
-                  loop 
                   muted 
                   playsInline
                 >
@@ -554,9 +488,9 @@ const LandingPage = () => {
               </div>
               <div className="w-full max-w-xs rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
+                  ref={videoRef3}
                   className="w-full h-auto"
                   autoPlay 
-                  loop 
                   muted 
                   playsInline
                 >
@@ -614,91 +548,79 @@ const LandingPage = () => {
                 />
               </div>
             </div>
-            <EditableSection
-                sectionKey="founder_bio_nicole"
-                content={pageContent.founder_bio_nicole}
-              onSave={saveSection}
-            >
-              <Card className="bg-white/95 backdrop-blur-sm shadow-elegant hover:shadow-sage border-2 border-sage-200 transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="mb-6">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
-                        Hola, hermosa
-                    </h2>
-                    <h3 className="text-3xl md:text-4xl font-semibold bg-gradient-sage bg-clip-text text-transparent">
-                        Soy Nicole Ramírez
-                    </h3>
-                      <p className="text-lg text-gray-600 mt-2">(Fundadora y Facilitadora)</p>
-                  </div>
-                    <div className="space-y-4 text-gray-700 leading-relaxed text-base">
-                    <p>
-                        Soy una mujer apasionada por el crecimiento personal, el bienestar emocional y la mente humana.
-                    </p>
-                    <p>
-                        He vivido momentos de quiebre, de confusión y de reinvención… pero cada desafío se convirtió en una oportunidad para descubrir mi propósito y ayudar a otras personas a hacer lo mismo.
-                    </p>
-                    <p>
-                        Esa búsqueda me llevó a formarme como Psicóloga y Coach de Vida, y a crear Cambio de Paradigma, un programa de 12 semanas que acompaña a profesionales y emprendedores a transformar el dolor en propósito, reconectando con su poder interno y construyendo una vida con claridad, confianza y paz.
-                    </p>
-                    <p>
-                        Durante más de cinco años he acompañado a personas de todo el mundo en procesos de autoconocimiento profundo, liberación emocional y reprogramación mental.
-                    </p>
-                    <p>
-                        He visto cómo, cuando una persona cambia su forma de pensar, cambia toda su realidad.
-                      </p>
-                      <p className="italic">
-                        Creo profundamente en el poder interno que todos tenemos para reinventarnos, en la capacidad de empezar de nuevo y en el vínculo entre la mente y lo que proyectamos en el mundo.
-                      </p>
-                      <p className="font-semibold text-sage-800">
-                        Cuando transformas tus pensamientos, transformas tu realidad.
-                    </p>
-                    <p className="font-semibold text-sage-800 bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600">
-                        En el retiro Renacer voy a compartir contigo las herramientas, experiencias y prácticas que me ayudaron a pasar de tener cero posibilidades en mi país, a crear una vida alineada a mis deseos, viviendo con plenitud, confianza y serenidad. Te acompañaré paso a paso para que tú también puedas cerrar un ciclo, liberar lo que pesa y construir desde adentro la vida que mereces vivir.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </EditableSection>
+            <Card className="bg-white/95 backdrop-blur-sm shadow-elegant hover:shadow-sage border-2 border-sage-200 transition-all duration-300">
+              <CardContent className="p-8">
+                <div className="mb-6">
+                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+                    Hola, hermosa
+                  </h2>
+                  <h3 className="text-3xl md:text-4xl font-semibold bg-gradient-sage bg-clip-text text-transparent">
+                    Soy Nicole Ramírez
+                  </h3>
+                  <p className="text-lg text-gray-600 mt-2">(Fundadora y Facilitadora)</p>
+                </div>
+                <div className="space-y-4 text-gray-700 leading-relaxed text-base">
+                  <p>
+                    Soy una mujer apasionada por el crecimiento personal, el bienestar emocional y la mente humana.
+                  </p>
+                  <p>
+                    He vivido momentos de quiebre, de confusión y de reinvención… pero cada desafío se convirtió en una oportunidad para descubrir mi propósito y ayudar a otras personas a hacer lo mismo.
+                  </p>
+                  <p>
+                    Esa búsqueda me llevó a formarme como Psicóloga y Coach de Vida, y a crear Cambio de Paradigma, un programa de 12 semanas que acompaña a profesionales y emprendedores a transformar el dolor en propósito, reconectando con su poder interno y construyendo una vida con claridad, confianza y paz.
+                  </p>
+                  <p>
+                    Durante más de cinco años he acompañado a personas de todo el mundo en procesos de autoconocimiento profundo, liberación emocional y reprogramación mental.
+                  </p>
+                  <p>
+                    He visto cómo, cuando una persona cambia su forma de pensar, cambia toda su realidad.
+                  </p>
+                  <p className="italic">
+                    Creo profundamente en el poder interno que todos tenemos para reinventarnos, en la capacidad de empezar de nuevo y en el vínculo entre la mente y lo que proyectamos en el mundo.
+                  </p>
+                  <p className="font-semibold text-sage-800">
+                    Cuando transformas tus pensamientos, transformas tu realidad.
+                  </p>
+                  <p className="font-semibold text-sage-800 bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600">
+                    En el retiro Renacer voy a compartir contigo las herramientas, experiencias y prácticas que me ayudaron a pasar de tener cero posibilidades en mi país, a crear una vida alineada a mis deseos, viviendo con plenitud, confianza y serenidad. Te acompañaré paso a paso para que tú también puedas cerrar un ciclo, liberar lo que pesa y construir desde adentro la vida que mereces vivir.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
             </div>
 
             {/* Dianix Bermúdez */}
             <div className="grid md:grid-cols-2 gap-16 items-center">
-              <EditableSection
-                sectionKey="founder_bio_dianix"
-                content={pageContent.founder_bio_dianix}
-                onSave={saveSection}
-              >
-                <Card className="bg-white/95 backdrop-blur-sm shadow-elegant hover:shadow-sage border-2 border-sage-200 transition-all duration-300">
-                  <CardContent className="p-8">
-                    <div className="mb-6">
-                      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
-                        Hola, soy Dianix Bermúdez
-                      </h2>
-                      <p className="text-lg text-gray-600">(Facilitadora)</p>
-                    </div>
-                    <div className="space-y-4 text-gray-700 leading-relaxed text-base">
-                      <p>
-                        Soy Mentora de Vida, experta en Energía, Manifestación y Negocios Conscientes, y autora del libro "La Energía es la Vida".
-                      </p>
-                      <p>
-                        Mi propósito es recordarte que todo lo que deseas ya habita dentro de ti: la abundancia, la confianza, la alegría y el poder de crear la realidad que sueñas.
-                      </p>
-                      <p>
-                        Vivo en París junto a mi familia, y cada día agradezco haber elegido este camino de expansión y propósito.
-                      </p>
-                      <p>
-                        Mi propio proceso de transformación me llevó a crear el Movimiento EPAAAA, una comunidad dedicada a acompañar a mujeres a elevar su energía, liberar creencias limitantes y reprogramar su mente para vivir en abundancia y plenitud.
-                      </p>
-                      <p className="italic">
-                        Creo profundamente que la energía es la vida, y que cuando alineas tu mente, tus emociones y tu intención, todo comienza a fluir.
-                      </p>
-                      <p className="font-semibold text-sage-800 bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600">
-                        En este retiro quiero acompañarte a recordar tu poder interior, reconectarte con tu energía más auténtica y abrir espacio para que la abundancia llegue a tu vida con facilidad y propósito.
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </EditableSection>
+              <Card className="bg-white/95 backdrop-blur-sm shadow-elegant hover:shadow-sage border-2 border-sage-200 transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="mb-6">
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+                      Hola, soy Dianix Bermúdez
+                    </h2>
+                    <p className="text-lg text-gray-600">(Facilitadora)</p>
+                  </div>
+                  <div className="space-y-4 text-gray-700 leading-relaxed text-base">
+                    <p>
+                      Soy Mentora de Vida, experta en Energía, Manifestación y Negocios Conscientes, y autora del libro "La Energía es la Vida".
+                    </p>
+                    <p>
+                      Mi propósito es recordarte que todo lo que deseas ya habita dentro de ti: la abundancia, la confianza, la alegría y el poder de crear la realidad que sueñas.
+                    </p>
+                    <p>
+                      Vivo en París junto a mi familia, y cada día agradezco haber elegido este camino de expansión y propósito.
+                    </p>
+                    <p>
+                      Mi propio proceso de transformación me llevó a crear el Movimiento EPAAAA, una comunidad dedicada a acompañar a mujeres a elevar su energía, liberar creencias limitantes y reprogramar su mente para vivir en abundancia y plenitud.
+                    </p>
+                    <p className="italic">
+                      Creo profundamente que la energía es la vida, y que cuando alineas tu mente, tus emociones y tu intención, todo comienza a fluir.
+                    </p>
+                    <p className="font-semibold text-sage-800 bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600">
+                      En este retiro quiero acompañarte a recordar tu poder interior, reconectarte con tu energía más auténtica y abrir espacio para que la abundancia llegue a tu vida con facilidad y propósito.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
               <div className="relative group">
                 <div className="absolute -inset-4 bg-gradient-sage rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity" />
                 <div className="relative w-full h-[500px] rounded-3xl shadow-elegant hover:shadow-sage transition-shadow overflow-hidden">
@@ -718,18 +640,12 @@ const LandingPage = () => {
       <section className="py-24 relative overflow-hidden" style={{backgroundColor: '#FDFCFB'}}>
         <div className="absolute inset-0 bg-gradient-to-br from-lavender-50/30 via-transparent to-sage-50/30" />
         <div className="container mx-auto max-w-6xl px-6 relative z-10">
-          <EditableSection
-            sectionKey="testimonials_title"
-            content={pageContent.testimonials_title}
-            onSave={saveSection}
-          >
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-sage-700 to-taupe-600 bg-clip-text text-transparent mb-4 tracking-tight">
-                Testimonios
-              </h2>
-              <p className="text-xl text-gray-600">Lo que ellas vivieron</p>
-            </div>
-          </EditableSection>
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-sage-700 to-taupe-600 bg-clip-text text-transparent mb-4 tracking-tight">
+              Testimonios
+            </h2>
+            <p className="text-xl text-gray-600">Lo que ellas vivieron</p>
+          </div>
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
@@ -797,15 +713,9 @@ const LandingPage = () => {
       {/* FAQ Section */}
       <section className="py-24" style={{backgroundColor: '#F5F5F0'}}>
         <div className="container mx-auto max-w-4xl px-6">
-          <EditableSection
-            sectionKey="faq_title"
-            content={pageContent.faq_title}
-            onSave={saveSection}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-20 tracking-tight">
-              Preguntas frecuentes
-            </h2>
-          </EditableSection>
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-20 tracking-tight">
+            Preguntas frecuentes
+          </h2>
           <Accordion type="single" collapsible className="space-y-4">
             {[
               {
@@ -849,36 +759,29 @@ const LandingPage = () => {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
         </div>
         <div className="container mx-auto max-w-4xl px-6 text-center relative z-10">
-          <EditableSection
-            sectionKey="cta_final"
-            content={pageContent.cta_final}
-            onSave={saveSection}
-            editClassName="p-4 bg-white/20 border-2 border-white/50 rounded-lg"
-          >
-            <div className="animate-fade-in">
-              <div className="inline-block mb-8">
-                <span className="text-7xl">💬</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight">
-                ¿Tienes dudas?
-              </h2>
-              <div className="space-y-3 mb-10">
-                <p className="text-2xl text-white/95">
-                  ¿No sabes si este retiro es para ti?
-                </p>
-                <p className="text-2xl text-white/95">
-                  ¿Nunca has asistido a una experiencia como esta?
-                </p>
-              </div>
-              <Card className="inline-block bg-white/10 backdrop-blur-md border-2 border-white/30 mb-10">
-                <CardContent className="p-6">
-                  <p className="text-white text-xl max-w-2xl leading-relaxed">
-                    No te preocupes. Estamos aquí para acompañarte y resolver todas tus preguntas. Queremos que te sientas segura. Escríbeme y con gusto te ayudaremos a encontrar la mejor opción para ti.
-                  </p>
-                </CardContent>
-              </Card>
+          <div className="animate-fade-in">
+            <div className="inline-block mb-8">
+              <span className="text-7xl">💬</span>
             </div>
-          </EditableSection>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight">
+              ¿Tienes dudas?
+            </h2>
+            <div className="space-y-3 mb-10">
+              <p className="text-2xl text-white/95">
+                ¿No sabes si este retiro es para ti?
+              </p>
+              <p className="text-2xl text-white/95">
+                ¿Nunca has asistido a una experiencia como esta?
+              </p>
+            </div>
+            <Card className="inline-block bg-white/10 backdrop-blur-md border-2 border-white/30 mb-10">
+              <CardContent className="p-6">
+                <p className="text-white text-xl max-w-2xl leading-relaxed">
+                  No te preocupes. Estamos aquí para acompañarte y resolver todas tus preguntas. Queremos que te sientas segura. Escríbeme y con gusto te ayudaremos a encontrar la mejor opción para ti.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
           <Button 
             size="lg"
             variant="outline"
