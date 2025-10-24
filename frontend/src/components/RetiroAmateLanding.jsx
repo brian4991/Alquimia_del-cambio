@@ -75,7 +75,7 @@ const LandingPage = () => {
             />
             <div>
               <h1 className="text-2xl font-bold text-gray-800">Cambio de Paradigma</h1>
-              <p className="text-xs text-taupe-600">Retiro Ámate</p>
+              <p className="text-xs text-taupe-600">Retiro Renacer</p>
             </div>
           </div>
           <button
@@ -102,7 +102,7 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-8 leading-tight">
-              Despierta la luz que habita en ti, eleva tu autoestima y sana desde adentro en un lugar seguro y único.
+              Rompe tus creencias, libera tus bloqueos y vuelve a confiar en ti
             </h1>
           </EditableSection>
           <EditableSection
@@ -111,14 +111,14 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <p className="text-xl md:text-2xl text-gray-600 mb-10">
-              Vive una experiencia transformadora de amor propio, sanidad y bienestar emocional.
+              Sana tu historia, gana claridad y aprende a construir la vida que realmente deseas, en un espacio único y seguro
             </p>
           </EditableSection>
           <button 
             style={{backgroundColor: '#6b745a'}}
             className="text-white px-12 py-4 rounded-full text-lg font-semibold hover:opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
           >
-            RESERVA TU LUGAR
+Reserva tu lugar
           </button>
         </div>
       </section>
@@ -132,12 +132,9 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
-                27, 28 de Febrero y 1 de Marzo 2026
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+                14 de diciembre | El Jardín Secreto – París, Francia
               </h2>
-              <p className="text-2xl text-gray-600">
-                Isla de Barú, Cartagena - Colombia
-              </p>
             </div>
           </EditableSection>
         </div>
@@ -152,8 +149,11 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8 leading-relaxed">
-              Vive una experiencia única y transformadora durante 3 días, en un paraíso rodeado de mar donde viviremos una fusión de sanidad emocional, espiritualidad, conexión y plenitud
+              Vive una experiencia de transformación interior para cerrar el año con claridad y propósito
             </h2>
+            <p className="text-xl text-gray-600 leading-relaxed">
+              Descubre cómo reprogramar tu mente, liberar la confusión emocional y recuperar la seguridad en tus decisiones y en ti misma
+            </p>
           </EditableSection>
         </div>
       </section>
@@ -167,18 +167,17 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-              ¿POR QUÉ EL RETIRO ÁMATE ES PARA TI?
+              ¿Por qué el Retiro Renacer es para ti?
             </h2>
           </EditableSection>
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              'Sabes que necesitas soltar y sanar heridas del pasado y crear una vida consciente, saludable, donde reine el bienestar, el que tú necesites y elijas para ti.',
-              'Sientes un deseo profundo de activar y fortalecer tu poder interior, llevándote a un nivel más alto de autoestima y confianza.',
-              'Mereces sentirte amada, respetada y digna de milagros y bendiciones.',
-              'Deseas profundizar en tu autoconocimiento, conectar contigo misma y descubrir tu propósito.',
-              'Entiendes que la sanación personal es la clave para mejorar todas tus relaciones, fomentando conexiones más saludables.',
-              'Necesitas una tribu de mujeres, donde te traten con amor y respeto, conocer mujeres que buscan lo mismo que tú y que sus vidas y vivencias transformen la tuya.',
-              'Anhelas desconectar de la rutina diaria y conectar con tu ser, con otras mujeres y con la naturaleza, lista para dar un paso decisivo hacia una vida más transformadora.'
+              'Porque en tus relaciones das más de lo que recibes. Te cuesta poner límites, decir "no" sin sentir culpa o pedir lo que necesitas sin miedo a perder el cariño del otro. Y aunque parezcas fuerte, muchas veces te sientes sola, no vista o emocionalmente cansada',
+              'Porque hay momentos en los que dudas de ti misma, incluso cuando los demás te ven capaz. Esa voz interna que te exige más, que te compara o que te hace sentir que "no estás haciendo lo suficiente", se ha vuelto demasiado ruidosa',
+              'Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo',
+              'Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás',
+              'Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia',
+              'Y porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser'
             ].map((text, index) => (
               <div key={index} className="flex items-start space-x-4">
                 <div 
@@ -238,23 +237,16 @@ const LandingPage = () => {
               onSave={saveSection}
             >
               <div>
-                <div className="grid md:grid-cols-2 gap-8 mb-8">
-                  <div className="text-center border-r border-gray-200">
-                    <p className="text-gray-600 mb-2">Residentes fuera de Colombia</p>
-                    <p className="text-2xl text-gray-400 line-through mb-2">$1,299 USD</p>
-                    <p style={{color: '#6b745a'}} className="text-5xl font-bold">$1,099 USD</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-gray-600 mb-2">Residentes en Colombia</p>
-                    <p className="text-2xl text-gray-400 line-through mb-2">$4,299,000 COP</p>
-                    <p style={{color: '#6b745a'}} className="text-5xl font-bold">$3,999,000 COP</p>
-                  </div>
+                <div className="text-center mb-8">
+                  <p className="text-gray-600 mb-2">Residentes en Francia o fuera</p>
+                  <p className="text-2xl text-gray-400 line-through mb-2">€199 EUR</p>
+                  <p style={{color: '#6b745a'}} className="text-5xl font-bold mb-6">€149 EUR</p>
                 </div>
 
                 <div className="text-center mb-8">
-                  <p className="text-gray-700 mb-4">Pago completo o pago a cuotas</p>
+                  <p className="text-gray-700 mb-4 font-semibold">Pago completo o pago en cuotas</p>
                   <p className="text-sm text-gray-600 mb-6">
-                    En cuotas el primer pago se hace a la hora de la inscripción, y las siguientes cuotas se cobran cada 30 días.
+                    En cuotas, el primer pago (€50) se realiza al momento de la inscripción, el segundo (€50) en noviembre y el último (€49) antes del retiro, en diciembre
                   </p>
                 </div>
               </div>
@@ -268,10 +260,10 @@ const LandingPage = () => {
                 QUIERO REALIZAR MI PAGO
               </button>
               <p className="text-sm text-gray-600 mt-4">
-                Opciones de pago: Contamos con diferentes métodos de pago (cuotas) y el pago se puede realizar por tarjeta de crédito o débito.
+                Opciones de pago: Contamos con diferentes métodos de pago: Transferencia o Wero (para residentes en Francia). Tarjeta de crédito o débito (para residentes en Europa o fuera de ella)
               </p>
               <p style={{color: '#6b745a'}} className="font-semibold mt-4">
-                % Descuento para grupos a partir de 4 personas %
+                % Descuento para grupos a partir de 4 mujeres %
               </p>
             </div>
           </div>
@@ -287,7 +279,7 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">
-              ¡3 DÍAS QUE LO CAMBIARÁN TODO!
+              1 DÍA QUE PUEDE CAMBIARLO TODO
             </h2>
           </EditableSection>
           <div className="grid md:grid-cols-2 gap-0">
@@ -305,17 +297,15 @@ const LandingPage = () => {
               </h3>
               <div className="space-y-4">
                 {[
-                  '3 días de hospedaje.',
-                  'Transporte acuático desde Cartagena al hotel de retiro ida y regreso.',
-                  'Cóctel de bienvenida.',
-                  '3 comidas al día: desayuno, almuerzo y cena.',
-                  'Kit de bienvenida: sorpresas y regalos que harán mágicos tus días. PD: recuerda dejar un espacio en tu maleta para todas las cosas increíbles que llevarás de regreso a casa.',
-                  'Servicio diario de limpieza.',
-                  'Baño de mar (experiencia).',
-                  'Arte terapia.',
-                  'Sesión de Zumba.',
-                  'Participación en todos los talleres enfocados en sanidad interior y el fortalecimiento de la autoestima y confianza. (no se desglosan porque hacen parte de la privacidad y experiencia exclusiva del retiro).',
-                  'Participación en cada una de las actividades de recreación que el retiro ha preparado para hacer inolvidable esta experiencia.'
+                  'Un día completo de transformación (8h30 a 18h30) en El Jardín Secreto de París',
+                  'Desayuno, almuerzo con postre y merienda saludable',
+                  'Bienvenida especial con ritual de apertura',
+                  'Kit de bienvenida: Incluye materiales de trabajo, herramientas prácticas para los talleres y un regalo sorpresa',
+                  'Fogata y experiencia de cierre',
+                  'Taller "Point of You" – Coaching de creencias',
+                  'Movimiento consciente',
+                  'Participación en todos los talleres del programa Renacer: Espacios enfocados en creencias, claridad emocional, autoestima, confianza y cumplimiento de metas',
+                  'Actividades de recreación y conexión grupal'
                 ].map((item, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div 
@@ -344,19 +334,16 @@ const LandingPage = () => {
               </h3>
               <div className="space-y-4">
                 {[
-                  'Un espacio seguro para conectar con otras mujeres con el mismo propósito de crecer en su mejor versión.',
-                  'Actividades de conexión con tu cuerpo - alma - espíritu.',
-                  'Herramientas prácticas para aplicar en la vida diaria para mantener la sanidad emocional y vivir en plenitud.',
-                  'Arte Terapia para sanar el alma.',
-                  'Meditación, mindfulness y bioenergética.',
-                  'Conectar con tu esencia, autenticidad y propósito de vida.',
-                  'Tiempos de sanidad, renovación y crecimiento.',
-                  'Espacios de recreación, risas, zumba, música y juegos.',
-                  'Una comprensión más profunda de ti misma, de tus necesidades y tus deseos, lo que te permitirá tomar decisiones más alineadas con tus valores y metas.',
-                  'Un cambio radical de perspectiva en la forma en que ves tu vida, relaciones y desafíos, permitiéndote una actitud más positiva y resiliente.',
-                  'Un empoderamiento genuino de reconocer tu fuerza interior que te llevará a tomar el control de tu vida.',
-                  'Un tiempo para desconectar con tu exterior y rutina diaria para conectar contigo y con tu propósito de vida.',
-                  'Sanar, soltar y transformar tu vida.'
+                  'Un espacio seguro y amoroso para conectar contigo y con mujeres que comparten tu deseo de crecimiento y autenticidad',
+                  'Actividades que integran cuerpo, mente y alma, diseñadas para reconectar con tu poder interior',
+                  'Herramientas prácticas y psicológicas para aplicar en tu día a día y mantener claridad emocional, dirección y equilibrio',
+                  'Meditaciones, mindfulness y bioenergética para fortalecer tu conexión interna y liberar tensión acumulada',
+                  'Taller de coaching transformacional "Point of You" para cambiar tu perspectiva y comprender tus creencias desde la raíz',
+                  'Momentos de introspección y expansión, donde podrás redefinir tu historia y tu visión de futuro',
+                  'Espacios de recreación, música, movimiento y risas, porque el crecimiento también se celebra',
+                  'Una comprensión más profunda de ti misma, de lo que necesitas y de lo que realmente deseas, para tomar decisiones alineadas con tu propósito',
+                  'Un nuevo enfoque para tu vida y tus relaciones, más consciente, resiliente y equilibrado',
+                  'Un cierre de año poderoso, soltando lo viejo y estableciendo metas claras para accionar con confianza y dirección en 2026'
                 ].map((item, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div 
@@ -377,7 +364,7 @@ const LandingPage = () => {
               style={{backgroundColor: '#6b745a'}}
               className="text-white px-12 py-4 rounded-full text-lg font-semibold hover:opacity-90 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              RESERVA TU LUGAR
+  Reserva tu lugar
             </button>
           </div>
         </div>
@@ -392,14 +379,14 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
-              Barú, Cartagena - Colombia
+              El Jardín Secreto – París, Francia
             </h2>
           </EditableSection>
           <div className="grid md:grid-cols-2 gap-0">
             {/* Image à gauche */}
             <div className="h-full min-h-[500px]">
               <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-600">
-                [IMG-LOCATION-001: Vue aérienne de l'île de Barú avec plage paradisiaque]
+                [IMG-LOCATION-001: Photo du Jardin Secret de Paris]
               </div>
             </div>
             {/* Texte avec background à droite */}
@@ -411,10 +398,19 @@ const LandingPage = () => {
               >
                 <div className="space-y-6">
                   <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                    <strong>La Isla Barú en Cartagena</strong>, Colombia, es un refugio mágico en la costa del Caribe. Este lugar es reconocido por sus playas de arena blanca, aguas cristalinas y una atmósfera de paz y tranquilidad que invita a la sanidad y bienestar. La serenidad del entorno, los paisajes tropicales y las aguas turquesas del mar Caribe te sumergen en una experiencia única. La Isla Barú de Cartagena es un destino verdaderamente maravilloso y memorable.
+                    En el corazón del histórico <strong>Barrio Latino de París</strong> se encuentra El Jardín Secreto, una joya escondida donde el silencio, la belleza y la historia se entrelazan.
                   </p>
                   <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
-                    El lugar donde viviremos esta experiencia transformadora está ubicado a solo 1 hora de Cartagena. <strong>Es el escenario donde encontrarás el maravilloso hotel de lujo donde se llevará a cabo nuestro retiro Ámate</strong>, y donde disfrutaremos en paz y plenitud este encuentro que nos cambiará la vida.
+                    Una casa del siglo XVIII completamente restaurada, rodeada de un jardín privado lleno de luz, calma y armonía. Este refugio ofrece una atmósfera íntima y serena, perfecta para desconectar del ruido exterior y reconectar contigo misma.
+                  </p>
+                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                    Cada rincón invita a la introspección: la calidez de la luz natural, los árboles centenarios, el sonido suave de las campanas… un entorno que abraza el alma y la mente.
+                  </p>
+                  <p className="text-lg leading-relaxed" style={{color: '#59614c'}}>
+                    Aquí viviremos el <strong>Retiro Renacer</strong>, un día diseñado para cerrar el año y abrir un nuevo ciclo con propósito y claridad. En este espacio exclusivo y lleno de energía, aprenderás a liberar lo viejo, reencontrarte contigo y activar tu poder interior.
+                  </p>
+                  <p className="text-lg leading-relaxed font-semibold" style={{color: '#59614c'}}>
+                    El Jardín Secreto no es solo el lugar del retiro, es parte de la experiencia: un escenario donde el alma se expande y la mente se transforma.
                   </p>
                 </div>
               </EditableSection>
@@ -423,28 +419,28 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Accommodation */}
+      {/* Retreat Space */}
       <section className="py-20" style={{backgroundColor: '#F9F6F3'}}>
         <div className="container mx-auto max-w-6xl px-6">
           <h2 className="text-4xl font-bold text-center text-gray-800 mb-12">
-            Alojamiento
+            El espacio del retiro
           </h2>
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-                  Habitaciones compartidas para dos personas con dos camas queen.
-                </h3>
-                <p className="text-gray-700 text-lg">
-                  Provistas de hermosos espacios y una maravillosa vista al mar.
+                <p className="text-gray-700 text-xl leading-relaxed mb-4">
+                  Un espacio exclusivo con espacios luminosos y acogedores, rodeados de naturaleza y detalles parisinos
+                </p>
+                <p className="text-gray-700 text-lg leading-relaxed">
+                  Un entorno privado y lleno de calma donde cada rincón invita a reconectar contigo
                 </p>
               </div>
               <div className="space-y-4">
                 <div className="w-full h-64 bg-gray-200 rounded-xl flex items-center justify-center text-gray-600">
-                  [IMG-ROOM-001: Chambre d'hôtel avec vue mer]
+                  [IMG-SPACE-001: Espace lumineux du Jardin Secret]
                 </div>
                 <div className="w-full h-64 bg-gray-200 rounded-xl flex items-center justify-center text-gray-600">
-                  [IMG-ROOM-002: Intérieur de chambre luxueuse]
+                  [IMG-SPACE-002: Jardin privé avec nature]
                 </div>
               </div>
             </div>
