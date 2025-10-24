@@ -184,7 +184,7 @@ const LandingPage = () => {
 
       {/* Why This Retreat */}
       <section className="py-24" style={{backgroundColor: '#F9F6F3'}}>
-        <div className="container mx-auto max-w-6xl px-6">
+        <div className="container mx-auto max-w-7xl px-6">
           <EditableSection
             sectionKey="why_retreat_title"
             content={pageContent.why_retreat_title}
@@ -194,24 +194,42 @@ const LandingPage = () => {
               ¿Por qué el Retiro Renacer es para ti?
             </h2>
           </EditableSection>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              'Porque en tus relaciones das más de lo que recibes. Te cuesta poner límites, decir "no" sin sentir culpa o pedir lo que necesitas sin miedo a perder el cariño del otro. Y aunque parezcas fuerte, muchas veces te sientes sola, no vista o emocionalmente cansada',
-              'Porque hay momentos en los que dudas de ti misma, incluso cuando los demás te ven capaz. Esa voz interna que te exige más, que te compara o que te hace sentir que "no estás haciendo lo suficiente", se ha vuelto demasiado ruidosa',
-              'Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo',
-              'Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás',
-              'Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia',
-              'Y porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser'
-            ].map((text, index) => (
-              <Card key={index} className="group hover:shadow-elegant hover:scale-102 transition-all duration-300 border-2 border-stone-200 hover:border-sage-300 bg-white overflow-hidden">
-                <CardContent className="flex items-start space-x-4 p-6">
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-sage rounded-xl flex items-center justify-center text-white font-bold shadow-sage group-hover:scale-110 transition-transform duration-300">
-                    ✓
-                  </div>
-                  <p className="text-gray-700 text-lg leading-relaxed">{text}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* 2/3 largeur - Toutes les cartes empilées */}
+            <div className="lg:col-span-2 space-y-6">
+              {[
+                'Porque en tus relaciones das más de lo que recibes. Te cuesta poner límites, decir "no" sin sentir culpa o pedir lo que necesitas sin miedo a perder el cariño del otro. Y aunque parezcas fuerte, muchas veces te sientes sola, no vista o emocionalmente cansada',
+                'Porque hay momentos en los que dudas de ti misma, incluso cuando los demás te ven capaz. Esa voz interna que te exige más, que te compara o que te hace sentir que "no estás haciendo lo suficiente", se ha vuelto demasiado ruidosa',
+                'Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo',
+                'Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás',
+                'Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia',
+                'Y porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser'
+              ].map((text, index) => (
+                <Card key={index} className="group hover:shadow-elegant hover:scale-102 transition-all duration-300 border-2 border-stone-200 hover:border-sage-300 bg-white overflow-hidden">
+                  <CardContent className="flex items-start space-x-4 p-6">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-sage rounded-xl flex items-center justify-center text-white font-bold shadow-sage group-hover:scale-110 transition-transform duration-300">
+                      ✓
+                    </div>
+                    <p className="text-gray-700 text-lg leading-relaxed">{text}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* 1/3 largeur - Vidéo verticale */}
+            <div className="flex items-start justify-center lg:sticky lg:top-24">
+              <div className="w-full rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
+                <video 
+                  className="w-full h-auto"
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                >
+                  <source src="/video-para-ti.mov" type="video/mp4" />
+                </video>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -339,8 +357,8 @@ const LandingPage = () => {
                 ].map((item, index) => (
                     <div key={index} className="flex items-start space-x-4 group">
                       <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-sage-500 to-sage-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        ✓
-                      </div>
+                      ✓
+                    </div>
                       <p className="text-gray-800 leading-relaxed text-base pt-1">{item}</p>
                   </div>
                 ))}
@@ -371,8 +389,8 @@ const LandingPage = () => {
                 ].map((item, index) => (
                     <div key={index} className="flex items-start space-x-4 group">
                       <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-taupe-500 to-taupe-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        •
-                      </div>
+                      •
+                    </div>
                       <p className="text-gray-800 leading-relaxed text-base pt-1">{item}</p>
                   </div>
                 ))}
@@ -498,9 +516,9 @@ const LandingPage = () => {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Colonne gauche - Points 1-3 */}
             <div className="space-y-6">
-              {[
-                {
-                  title: 'EXPERIENCIA DE LUJO',
+            {[
+              {
+                title: 'EXPERIENCIA DE LUJO',
                   description: 'Cada detalle ha sido cuidadosamente diseñado para ofrecerte una experiencia elegante, íntima y transformadora. Desde el entorno parisino hasta cada momento del programa, todo está pensado para que te sientas contenida, inspirada y en armonía. El verdadero lujo de Renacer está en vivir un proceso profundo en un espacio que refleja belleza, calma y propósito.'
                 },
                 {
@@ -613,13 +631,13 @@ const LandingPage = () => {
                       <p className="text-lg text-gray-600 mt-2">(Fundadora y Facilitadora)</p>
                   </div>
                     <div className="space-y-4 text-gray-700 leading-relaxed text-base">
-                      <p>
+                    <p>
                         Soy una mujer apasionada por el crecimiento personal, el bienestar emocional y la mente humana.
-                      </p>
-                      <p>
+                    </p>
+                    <p>
                         He vivido momentos de quiebre, de confusión y de reinvención… pero cada desafío se convirtió en una oportunidad para descubrir mi propósito y ayudar a otras personas a hacer lo mismo.
-                      </p>
-                      <p>
+                    </p>
+                    <p>
                         Esa búsqueda me llevó a formarme como Psicóloga y Coach de Vida, y a crear Cambio de Paradigma, un programa de 12 semanas que acompaña a profesionales y emprendedores a transformar el dolor en propósito, reconectando con su poder interno y construyendo una vida con claridad, confianza y paz.
                     </p>
                     <p>
@@ -706,9 +724,6 @@ const LandingPage = () => {
             onSave={saveSection}
           >
             <div className="text-center mb-20">
-              <div className="inline-block mb-6">
-                <span className="text-6xl">✨</span>
-              </div>
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-sage-700 to-taupe-600 bg-clip-text text-transparent mb-4 tracking-tight">
                 Testimonios
               </h2>
@@ -719,53 +734,48 @@ const LandingPage = () => {
             {[
               {
                 name: 'Karla',
-                text: 'Ayer viví un mini retiro transformador. Entré sin expectativas, sin saber nada, ni de qué se trataban muchas herramientas, solo con la intención de conectar y abrirme a lo que viniera. Lo que encontré fue eso y mucho más: claridad, fuerza interior y un conocimiento profundo de mí misma que necesitaba en este momento de mi vida. Gracias infinitas al equipo, tan humanas y de gran corazón, por guiarnos en esta experiencia mágica.'
+                text: 'Ayer viví un mini retiro transformador. Entré sin expectativas, sin saber nada, ni de qué se trataban muchas herramientas, solo con la intención de conectar y abrirme a lo que viniera. Lo que encontré fue eso y mucho más: claridad, fuerza interior y un conocimiento profundo de mí misma que necesitaba en este momento de mi vida. Gracias infinitas al equipo, tan humanas y de gran corazón, por guiarnos en esta experiencia mágica.',
+                color: 'from-sage-400 to-sage-600'
               },
               {
                 name: 'Vanessa',
-                text: 'Me traje tranquilidad. Varias de las actividades y las experiencias que compartieron otras mujeres me ayudaron a ver una luz en el camino. Hoy me siento más en paz y con esperanza.'
+                text: 'Me traje tranquilidad. Varias de las actividades y las experiencias que compartieron otras mujeres me ayudaron a ver una luz en el camino. Hoy me siento más en paz y con esperanza.',
+                color: 'from-lavender-400 to-lavender-600'
               },
               {
                 name: 'Carolina',
-                text: 'Sentí mucho valor y un profundo reencuentro conmigo. Me permití ser vulnerable, abrirme y compartir desde el corazón. Fue un día de liberación y conexión real.'
+                text: 'Sentí mucho valor y un profundo reencuentro conmigo. Me permití ser vulnerable, abrirme y compartir desde el corazón. Fue un día de liberación y conexión real.',
+                color: 'from-taupe-400 to-taupe-600'
               },
               {
                 name: 'Fabiana',
-                text: 'Me encantó compartir y escuchar a otras compañeras con historias parecidas a la mía. La guía psicológica y espiritual durante todo el día fue increíble. Me voy con claridad, calma y motivación para seguir mi proceso.'
+                text: 'Me encantó compartir y escuchar a otras compañeras con historias parecidas a la mía. La guía psicológica y espiritual durante todo el día fue increíble. Me voy con claridad, calma y motivación para seguir mi proceso.',
+                color: 'from-rose-400 to-rose-600'
               },
               {
                 name: 'Laura',
-                text: 'Me gustó el ambiente y la energía. Hubo material valioso y dinámicas que realmente te hacen pensar y sanar. Me fui con más claridad y con herramientas prácticas para aplicar en mi vida.'
+                text: 'Me gustó el ambiente y la energía. Hubo material valioso y dinámicas que realmente te hacen pensar y sanar. Me fui con más claridad y con herramientas prácticas para aplicar en mi vida.',
+                color: 'from-sage-400 to-sage-600'
               },
               {
                 name: 'Marcela',
-                text: 'El retiro fue una experiencia profundamente sanadora. Llegué con muchas preguntas y me fui con claridad, serenidad y una nueva visión de mí misma.'
+                text: 'El retiro fue una experiencia profundamente sanadora. Llegué con muchas preguntas y me fui con claridad, serenidad y una nueva visión de mí misma.',
+                color: 'from-lavender-400 to-lavender-600'
               },
               {
                 name: 'Luz',
-                text: 'Me sentí acompañada, vista y contenida. Fue un espacio lleno de amor donde pude reconectar con mi poder y mi fe en la vida. Me voy con el corazón liviano y la mente en calma.'
+                text: 'Me sentí acompañada, vista y contenida. Fue un espacio lleno de amor donde pude reconectar con mi poder y mi fe en la vida. Me voy con el corazón liviano y la mente en calma.',
+                color: 'from-taupe-400 to-taupe-600'
               }
             ].map((testimonial, index) => {
-              const images = [
-                '/femme-souriante.jpg',
-                '/femme-paix.jpg', 
-                '/femme-reflexion.jpg',
-                '/femme-meditation.jpg',
-                '/femme-souriante.jpg',
-                '/femme-paix.jpg',
-                '/femme-meditation.jpg'
-              ];
+              const initials = testimonial.name.split(' ').map(n => n[0]).join('');
               
               return (
                 <Card key={index} className="group bg-white hover:shadow-elegant hover:scale-102 transition-all duration-300 border-2 border-stone-200 hover:border-lavender-300 overflow-hidden">
                   <CardContent className="p-8">
                     <div className="flex items-center space-x-4 mb-6">
-                      <div className="w-16 h-16 rounded-full overflow-hidden shadow-md">
-                      <img 
-                        src={images[index]} 
-                          alt={testimonial.name}
-                        className="w-full h-full object-cover"
-                      />
+                      <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${testimonial.color} shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                        <span className="text-white text-2xl font-bold">{initials}</span>
                       </div>
                       <h3 className="text-2xl font-bold text-gray-900">{testimonial.name}</h3>
                     </div>
@@ -780,19 +790,6 @@ const LandingPage = () => {
                 </Card>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Promo Image */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="w-full h-96 rounded-3xl overflow-hidden shadow-elegant hover:shadow-sage transition-shadow">
-            <img 
-              src="/lieu-collage.jpg" 
-              alt="Les espaces du retiro - El Jardín Secreto" 
-              className="w-full h-full object-cover"
-            />
           </div>
         </div>
       </section>
