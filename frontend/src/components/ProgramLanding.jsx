@@ -496,10 +496,10 @@ const ProgramLanding = () => {
             </div>
             <div className="flex space-x-6 text-gray-600">
               <button 
-                onClick={() => navigate('/retiro-amate')}
+                onClick={() => navigate('/retiro-renacer')}
                 className="hover:text-gray-800 transition-colors"
               >
-                Retiro Ámate
+                Retiro Renacer
               </button>
               <button className="hover:text-gray-800 transition-colors">
                 Contacto

@@ -178,7 +178,7 @@ const App = () => {
             } 
           />
           <Route path="/" element={<ProgramLanding />} />
-          <Route path="/retiro-amate" element={<RetiroAmateLanding />} />
+          <Route path="/retiro-renacer" element={<RetiroAmateLanding />} />
         </Routes>
       </div>
     </Router>

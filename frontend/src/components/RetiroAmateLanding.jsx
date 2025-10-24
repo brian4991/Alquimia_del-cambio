@@ -62,11 +62,11 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg shadow-elegant z-50 border-b border-stone-200/50 transition-all duration-300">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-6 py-4 flex justify-start items-center">
           <div className="flex items-center space-x-4 animate-fade-in">
             <img 
               src="/logo-renacer.png" 
-              alt="Cambio de Paradigma" 
+              alt="Retiro Renacer" 
               className="w-12 h-12 object-contain transition-transform hover:scale-110"
               onError={(e) => {
                 e.target.style.display = 'none';
@@ -74,18 +74,11 @@ const LandingPage = () => {
             />
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-sage-600 to-sage-700 bg-clip-text text-transparent">
-                Cambio de Paradigma
+                Retiro Renacer
               </h1>
-              <p className="text-xs text-taupe-600 font-medium">Retiro Renacer</p>
+              <p className="text-xs text-taupe-600 font-medium">Cambio de Paradigma</p>
             </div>
           </div>
-          <Button
-            onClick={() => navigate('/login')}
-            variant="outline"
-            className="border-2 border-sage-600 text-sage-700 hover:bg-sage-600 hover:text-white transition-all duration-300 font-semibold rounded-full shadow-sm hover:shadow-sage"
-          >
-            Iniciar sesión
-          </Button>
         </div>
       </header>
 
