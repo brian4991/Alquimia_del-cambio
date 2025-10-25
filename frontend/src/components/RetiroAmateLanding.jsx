@@ -11,24 +11,6 @@ const LandingPage = () => {
   const videoRef3 = useRef(null);
 
   useEffect(() => {
-    const handleVideoEnd = (videoElement) => {
-      // Fade out
-      videoElement.style.transition = 'opacity 0.6s ease-out';
-      videoElement.style.opacity = '0';
-      
-      setTimeout(() => {
-        if (videoElement && videoElement.paused) {
-          videoElement.currentTime = 0;
-          videoElement.play();
-          // Fade in
-          setTimeout(() => {
-            videoElement.style.transition = 'opacity 0.6s ease-in';
-            videoElement.style.opacity = '1';
-          }, 50);
-        }
-      }, 800); // Délai réduit à 0.8 seconde
-    };
-
     const setupVideo = (videoRef, playbackSpeed = 0.8) => {
       const video = videoRef.current;
       if (video) {
@@ -39,22 +21,19 @@ const LandingPage = () => {
           video.style.transition = 'opacity 0.6s ease-in';
           video.style.opacity = '1';
         });
-        video.addEventListener('ended', () => handleVideoEnd(video));
-        return () => {
-          video.removeEventListener('ended', () => handleVideoEnd(video));
-        };
+        
+        // Pour iOS, forcer le play après chargement
+        video.addEventListener('canplaythrough', () => {
+          video.play().catch(err => {
+            console.log('Autoplay prevented:', err);
+          });
+        });
       }
     };
 
-    const cleanup1 = setupVideo(videoRef1, 0.8); // Ralentir de 20%
-    const cleanup2 = setupVideo(videoRef2, 1.0); // Vitesse normale
-    const cleanup3 = setupVideo(videoRef3, 0.8); // Ralentir de 20%
-
-    return () => {
-      cleanup1 && cleanup1();
-      cleanup2 && cleanup2();
-      cleanup3 && cleanup3();
-    };
+    setupVideo(videoRef1, 0.8);
+    setupVideo(videoRef2, 1.0);
+    setupVideo(videoRef3, 0.8);
   }, []);
 
 
@@ -65,7 +44,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-start items-center">
           <div className="flex items-center space-x-2 sm:space-x-4 animate-fade-in">
             <img 
-              src="/logo-renacer.png" 
+              src="/logo-transparent.png" 
               alt="Retiro Renacer" 
               className="w-10 h-10 sm:w-12 sm:h-12 object-contain transition-transform hover:scale-110"
               onError={(e) => {
@@ -95,7 +74,7 @@ const LandingPage = () => {
         <div className="container mx-auto max-w-5xl text-center relative z-10">
           <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-10 animate-scale-in">
             <img 
-              src="/logo-renacer.png" 
+              src="/logo-transparent.png" 
               alt="Logo Cambio de Paradigma" 
               className="w-full h-full object-contain drop-shadow-2xl hover:scale-110 transition-transform duration-300"
             />
@@ -187,8 +166,13 @@ const LandingPage = () => {
                   className="w-full h-auto"
                   autoPlay 
                   muted 
+                  loop
                   playsInline
+                  webkit-playsinline="true"
+                  x-webkit-airplay="allow"
+                  preload="metadata"
                 >
+                  <source src="/video-para-ti.mov" type="video/quicktime" />
                   <source src="/video-para-ti.mov" type="video/mp4" />
                 </video>
               </div>
@@ -474,8 +458,13 @@ const LandingPage = () => {
                   className="w-full h-auto"
                   autoPlay 
                   muted 
+                  loop
                   playsInline
+                  webkit-playsinline="true"
+                  x-webkit-airplay="allow"
+                  preload="metadata"
                 >
+                  <source src="/video-retiro-2.mov" type="video/quicktime" />
                   <source src="/video-retiro-2.mov" type="video/mp4" />
                 </video>
               </div>
@@ -485,8 +474,13 @@ const LandingPage = () => {
                   className="w-full h-auto"
                   autoPlay 
                   muted 
+                  loop
                   playsInline
+                  webkit-playsinline="true"
+                  x-webkit-airplay="allow"
+                  preload="metadata"
                 >
+                  <source src="/video-retiro-1.mov" type="video/quicktime" />
                   <source src="/video-retiro-1.mov" type="video/mp4" />
                 </video>
               </div>
