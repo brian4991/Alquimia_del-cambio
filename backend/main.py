@@ -239,7 +239,7 @@ def catch_all(path: str):
     from fastapi.responses import FileResponse
     
     # First, check if it's a static file request
-    allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico', '.webp', '.mp3', '.wav'}
+    allowed_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.svg', '.ico', '.webp', '.mp3', '.wav', '.mp4', '.mov', '.webm'}
     if '.' in path:
         file_ext = '.' + path.split('.')[-1].lower()
         if file_ext in allowed_extensions:
