@@ -15,19 +15,30 @@ const LandingPage = () => {
       const video = videoRef.current;
       if (video) {
         video.playbackRate = playbackSpeed;
-        // Fade in initial
         video.style.opacity = '0';
-        video.addEventListener('loadeddata', () => {
+        
+        // Gérer le chargement
+        const handleLoad = () => {
           video.style.transition = 'opacity 0.6s ease-in';
           video.style.opacity = '1';
-        });
+          
+          // Forcer le play pour mobile
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.log('Autoplay bloqué:', error);
+              // Fallback: jouer au premier touch/click
+              document.addEventListener('touchstart', () => {
+                video.play();
+              }, { once: true });
+            });
+          }
+        };
+
+        video.addEventListener('loadeddata', handleLoad);
         
-        // Pour iOS, forcer le play après chargement
-        video.addEventListener('canplaythrough', () => {
-          video.play().catch(err => {
-            console.log('Autoplay prevented:', err);
-          });
-        });
+        // Forcer le chargement
+        video.load();
       }
     };
 
@@ -46,7 +57,7 @@ const LandingPage = () => {
             <img 
               src="/logo-transparent.png" 
               alt="Retiro Renacer" 
-              className="w-10 h-10 sm:w-12 sm:h-12 object-contain transition-transform hover:scale-110"
+              className="w-16 h-16 sm:w-20 sm:h-20 object-contain transition-transform hover:scale-110"
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
@@ -168,12 +179,11 @@ const LandingPage = () => {
                   muted 
                   loop
                   playsInline
-                  webkit-playsinline="true"
-                  x-webkit-airplay="allow"
-                  preload="metadata"
+                  preload="auto"
+                  poster=""
                 >
-                  <source src="/video-para-ti.mov" type="video/quicktime" />
-                  <source src="/video-para-ti.mov" type="video/mp4" />
+                  <source src="/video-para-ti.mp4" type="video/mp4" />
+                  Votre navigateur ne supporte pas les vidéos HTML5.
                 </video>
               </div>
             </div>
@@ -460,12 +470,11 @@ const LandingPage = () => {
                   muted 
                   loop
                   playsInline
-                  webkit-playsinline="true"
-                  x-webkit-airplay="allow"
-                  preload="metadata"
+                  preload="auto"
+                  poster=""
                 >
-                  <source src="/video-retiro-2.mov" type="video/quicktime" />
-                  <source src="/video-retiro-2.mov" type="video/mp4" />
+                  <source src="/video-retiro-2.mp4" type="video/mp4" />
+                  Votre navigateur ne supporte pas les vidéos HTML5.
                 </video>
               </div>
               <div className="w-full max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
@@ -476,12 +485,11 @@ const LandingPage = () => {
                   muted 
                   loop
                   playsInline
-                  webkit-playsinline="true"
-                  x-webkit-airplay="allow"
-                  preload="metadata"
+                  preload="auto"
+                  poster=""
                 >
-                  <source src="/video-retiro-1.mov" type="video/quicktime" />
-                  <source src="/video-retiro-1.mov" type="video/mp4" />
+                  <source src="/video-retiro-1.mp4" type="video/mp4" />
+                  Votre navigateur ne supporte pas les vidéos HTML5.
                 </video>
               </div>
             </div>
