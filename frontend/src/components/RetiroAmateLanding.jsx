@@ -11,40 +11,30 @@ const LandingPage = () => {
   const videoRef3 = useRef(null);
 
   useEffect(() => {
-    const setupVideo = (videoRef, playbackSpeed = 0.8) => {
-      const video = videoRef.current;
+    const videos = [
+      { ref: videoRef1, speed: 0.8 },
+      { ref: videoRef2, speed: 1.0 },
+      { ref: videoRef3, speed: 0.8 }
+    ];
+
+    videos.forEach(({ ref, speed }) => {
+      const video = ref.current;
       if (video) {
-        video.playbackRate = playbackSpeed;
-        video.style.opacity = '0';
+        video.playbackRate = speed;
         
-        // Gérer le chargement
-        const handleLoad = () => {
-          video.style.transition = 'opacity 0.6s ease-in';
-          video.style.opacity = '1';
-          
-          // Forcer le play pour mobile
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(error => {
-              console.log('Autoplay bloqué:', error);
-              // Fallback: jouer au premier touch/click
-              document.addEventListener('touchstart', () => {
-                video.play();
-              }, { once: true });
-            });
-          }
-        };
-
-        video.addEventListener('loadeddata', handleLoad);
-        
-        // Forcer le chargement
-        video.load();
+        // Tenter de lancer la vidéo
+        video.play().catch(() => {
+          // Si autoplay bloqué, jouer au premier clic/touch
+          const playOnInteraction = () => {
+            video.play();
+            document.removeEventListener('click', playOnInteraction);
+            document.removeEventListener('touchstart', playOnInteraction);
+          };
+          document.addEventListener('click', playOnInteraction, { once: true });
+          document.addEventListener('touchstart', playOnInteraction, { once: true });
+        });
       }
-    };
-
-    setupVideo(videoRef1, 0.8);
-    setupVideo(videoRef2, 1.0);
-    setupVideo(videoRef3, 0.8);
+    });
   }, []);
 
 
@@ -180,11 +170,8 @@ const LandingPage = () => {
                   loop
                   playsInline
                   preload="auto"
-                  poster=""
-                >
-                  <source src="/video-para-ti.mp4" type="video/mp4" />
-                  Votre navigateur ne supporte pas les vidéos HTML5.
-                </video>
+                  src="/video-para-ti.mp4"
+                />
               </div>
             </div>
           </div>
@@ -471,11 +458,8 @@ const LandingPage = () => {
                   loop
                   playsInline
                   preload="auto"
-                  poster=""
-                >
-                  <source src="/video-retiro-2.mp4" type="video/mp4" />
-                  Votre navigateur ne supporte pas les vidéos HTML5.
-                </video>
+                  src="/video-retiro-2.mp4"
+                />
               </div>
               <div className="w-full max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
@@ -486,11 +470,8 @@ const LandingPage = () => {
                   loop
                   playsInline
                   preload="auto"
-                  poster=""
-                >
-                  <source src="/video-retiro-1.mp4" type="video/mp4" />
-                  Votre navigateur ne supporte pas les vidéos HTML5.
-                </video>
+                  src="/video-retiro-1.mp4"
+                />
               </div>
             </div>
 
