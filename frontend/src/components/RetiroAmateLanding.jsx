@@ -12,7 +12,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     const videos = [
-      { ref: videoRef1, speed: 0.8 },
+      { ref: videoRef1, speed: 1.0 },
       { ref: videoRef2, speed: 1.0 },
       { ref: videoRef3, speed: 0.8 }
     ];
