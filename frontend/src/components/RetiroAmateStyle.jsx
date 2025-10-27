@@ -268,24 +268,23 @@ const RetiroAmateStyle = () => {
       <section className="py-16 bg-stone-50">
         <div className="container mx-auto max-w-6xl px-4">
           <h2 className="text-3xl sm:text-4xl font-semibold text-center text-gray-800 mb-12">
-            ¿POR QUÉ NUESTROS RETIROS SON DIFERENTES?
+            ¿Por qué el Retiro Renacer es diferente y único?
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { img: '/jardin-hero.jpg', title: 'EXPERIENCIA DE LUJO', text: 'Cada detalle cuidadosamente diseñado para tu transformación' },
-              { img: '/femme-transformation.jpg', title: 'TRANSFORMACIÓN', text: 'Profunda sanación emocional y mental' },
-              { img: '/femme-meditation.jpg', title: 'AUTENTICIDAD', text: 'Proceso profundo y real sin distracciones' },
-              { img: '/groupe.png', title: 'SESIONES GRUPALES', text: 'Energía de grupo muy poderosa' },
-              { img: '/groupe.png', title: 'AMISTADES', text: 'Conexiones auténticas que perduran' },
-              { img: '/jardin-piscine-v2.jpg', title: 'NATURALEZA', text: 'Conexión profunda con lo natural' },
-              { img: '/salon-cheminee.jpg', title: 'ESPIRITUALIDAD', text: 'Prácticas de mindfulness y meditación' },
-              { img: '/victoria-portrait.jpg', title: 'EQUIPO', text: 'Calidad humana y amor excepcional' }
+              { img: '/jardin-hero.jpg', title: 'EXPERIENCIA DE LUJO', text: 'Cada detalle ha sido cuidadosamente diseñado para ofrecerte una experiencia elegante, íntima y transformadora. Desde el entorno parisino hasta cada momento del programa, todo está pensado para que te sientas contenida, inspirada y en armonía. El verdadero lujo de Renacer está en vivir un proceso profundo en un espacio que refleja belleza, calma y propósito.' },
+              { img: '/femme-transformation.jpg', title: 'TRANSFORMACIÓN CONSCIENTE Y RÁPIDA', text: 'A través de herramientas de coaching, psicología y espiritualidad práctica, aprenderás a identificar y transformar las creencias que te bloquean. En un solo día podrás liberar patrones que llevas años repitiendo y ganar claridad, confianza y dirección para avanzar hacia lo que realmente deseas.' },
+              { img: '/femme-meditation.jpg', title: 'EL PODER DE LA EXCLUSIVIDAD', text: 'Renacer es un retiro íntimo, con cupos limitados, pensado para mujeres que buscan un proceso profundo y personalizado. Cada experiencia está cuidadosamente guiada, lo que permite atención cercana, acompañamiento profesional y una conexión genuina contigo misma. Un espacio reducido para grandes transformaciones.' },
+              { img: '/groupe.png', title: 'CONEXIÓN Y TRIBU', text: 'En las dinámicas grupales experimentarás el poder del círculo femenino. Conocerás mujeres auténticas, valientes y sensibles que, como tú, están eligiendo cambiar su historia. De estos encuentros nacen amistades reales, redes de apoyo y vínculos que trascienden el retiro.' },
+              { img: '/jardin-piscine-v2.jpg', title: 'ENTORNO QUE INSPIRA', text: 'El retiro se realiza en El Jardín Secreto, un oasis oculto en el corazón de París. La armonía entre naturaleza, arte y silencio crea un ambiente ideal para pausar, respirar y reconectar con tu esencia. Cada rincón está impregnado de calma y propósito.' },
+              { img: '/salon-cheminee.jpg', title: 'ESPIRITUALIDAD APLICADA', text: 'Renacer integra la espiritualidad desde lo cotidiano: mindfulness, meditación y prácticas de reconexión interior. Aprenderás a mantener esa conexión incluso después del retiro, viviendo con más conciencia, fe y coherencia emocional.' },
+              { img: '/victoria-portrait.jpg', title: 'GUÍA Y ACOMPAÑAMIENTO PROFESIONAL', text: 'Sin lugar a dudas, uno de los pilares fundamentales que hace que nuestro retiro sea excepcional es la calidad humana y el amor de nuestro equipo. Cada miembro del equipo está profundamente comprometido con tu bienestar y crecimiento personal.' }
             ].map((item, i) => (
-              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-elegant hover:shadow-sage transition-all duration-300 hover:scale-102">
-                <img src={item.img} alt={item.title} className="w-full h-40 object-cover" />
-                <div className="p-5">
-                  <h3 className="font-semibold text-sm mb-2 text-sage-700 uppercase">{item.title}</h3>
-                  <p className="text-xs text-gray-600 leading-relaxed">{item.text}</p>
+              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-elegant hover:shadow-sage transition-all duration-300">
+                <img src={item.img} alt={item.title} className="w-full h-48 sm:h-56 object-cover" />
+                <div className="p-6">
+                  <h3 className="font-semibold text-base sm:text-lg mb-3 text-sage-700 uppercase">{item.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -389,9 +388,10 @@ const RetiroAmateStyle = () => {
       {/* Testimonials */}
       <section className="py-16 bg-beige">
         <div className="container mx-auto max-w-6xl px-4">
-          <h2 className="text-3xl sm:text-4xl font-semibold text-center text-gray-800 mb-12">
+          <h2 className="text-3xl sm:text-4xl font-semibold text-center text-gray-800 mb-4">
             Testimonios
           </h2>
+          <p className="text-lg text-center text-gray-600 mb-12">Lo que ellas vivieron</p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               { name: 'Karla', text: 'Ayer viví un mini retiro transformador. Entré sin expectativas, sin saber nada, ni de qué se trataban muchas herramientas, solo con la intención de conectar y abrirme a lo que viniera. Lo que encontré fue eso y mucho más: claridad, fuerza interior y un conocimiento profundo de mí misma que necesitaba en este momento de mi vida. Gracias infinitas al equipo, tan humanas y de gran corazón, por guiarnos en esta experiencia mágica.' },
@@ -460,18 +460,29 @@ const RetiroAmateStyle = () => {
             ¿Tienes dudas?
           </h2>
           <div className="space-y-2 mb-8">
-            <p className="text-xl">¿No sabes si es para ti?</p>
-            <p className="text-xl">¿No has ido nunca de retiro?</p>
+            <p className="text-xl">¿No sabes si este retiro es para ti?</p>
+            <p className="text-xl">¿Nunca has asistido a una experiencia como esta?</p>
           </div>
-          <p className="text-lg mb-8 leading-relaxed">
-            Escríbeme y estaré lista con todo mi equipo para ayudarte
-          </p>
+          <div className="max-w-2xl mx-auto mb-8">
+            <p className="text-lg leading-relaxed mb-3">
+              No te preocupes
+            </p>
+            <p className="text-lg leading-relaxed mb-3">
+              Estamos aquí para acompañarte y resolver todas tus preguntas
+            </p>
+            <p className="text-lg leading-relaxed">
+              Queremos que te sientas segura
+            </p>
+            <p className="text-lg leading-relaxed">
+              Escríbeme y con gusto te ayudaremos a encontrar la mejor opción para ti
+            </p>
+          </div>
           <Button 
             size="lg"
             className="bg-white text-sage-700 hover:bg-stone-50 px-12 py-6 font-semibold rounded-xl shadow-elegant"
             onClick={() => window.open('https://wa.me/33667596062', '_blank')}
           >
-            HABLAR CON SOPORTE
+            HABLAR CON EL EQUIPO
           </Button>
         </div>
       </section>
