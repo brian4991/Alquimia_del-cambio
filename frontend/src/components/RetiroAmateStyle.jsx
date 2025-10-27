@@ -313,7 +313,7 @@ const RetiroAmateStyle = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { img: '/IMG_8059.jpg', title: 'EXPERIENCIA DE LUJO', text: 'Cada detalle ha sido cuidadosamente diseñado para ofrecerte una experiencia elegante, íntima y transformadora. Desde el entorno parisino hasta cada momento del programa, todo está pensado para que te sientas contenida, inspirada y en armonía. El verdadero lujo de Renacer está en vivir un proceso profundo en un espacio que refleja belleza, calma y propósito.' },
-              { img: '/IMG_9782-2.jpg', title: 'TRANSFORMACIÓN CONSCIENTE Y RÁPIDA', text: 'A través de herramientas de coaching, psicología y espiritualidad práctica, aprenderás a identificar y transformar las creencias que te bloquean. En un solo día podrás liberar patrones que llevas años repitiendo y ganar claridad, confianza y dirección para avanzar hacia lo que realmente deseas.' },
+              { img: '/cambio.png', title: 'TRANSFORMACIÓN CONSCIENTE Y RÁPIDA', text: 'A través de herramientas de coaching, psicología y espiritualidad práctica, aprenderás a identificar y transformar las creencias que te bloquean. En un solo día podrás liberar patrones que llevas años repitiendo y ganar claridad, confianza y dirección para avanzar hacia lo que realmente deseas.' },
               { img: '/femme-meditation.jpg', title: 'EL PODER DE LA EXCLUSIVIDAD', text: 'Renacer es un retiro íntimo, con cupos limitados, pensado para mujeres que buscan un proceso profundo y personalizado. Cada experiencia está cuidadosamente guiada, lo que permite atención cercana, acompañamiento profesional y una conexión genuina contigo misma. Un espacio reducido para grandes transformaciones.' },
               { img: '/groupe.png', title: 'CONEXIÓN Y TRIBU', text: 'En las dinámicas grupales experimentarás el poder del círculo femenino. Conocerás mujeres auténticas, valientes y sensibles que, como tú, están eligiendo cambiar su historia. De estos encuentros nacen amistades reales, redes de apoyo y vínculos que trascienden el retiro.' },
               { img: '/IMG_9791-2.jpg', title: 'ENTORNO QUE INSPIRA', text: 'El retiro se realiza en El Jardín Secreto, un oasis oculto en el corazón de París. La armonía entre naturaleza, arte y silencio crea un ambiente ideal para pausar, respirar y reconectar con tu esencia. Cada rincón está impregnado de calma y propósito.' },
@@ -536,14 +536,11 @@ const RetiroAmateStyle = () => {
           <div className="flex flex-col md:flex-row justify-center items-center mb-8">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <img src="/logo-transparent.png" alt="Logo" className="h-12 w-12" />
-              <span className="text-lg font-semibold">Cambio de Paradigma</span>
+              <span className="text-lg font-semibold">Retiro Renacer</span>
             </div>
           </div>
           <div className="text-center text-sm text-white/80 border-t border-white/20 pt-6">
-            <p>© 2024 Cambio de Paradigma. Todos los derechos reservados.</p>
-            <p className="mt-2 text-xs">
-              Este sitio no es parte de Facebook o Facebook, Inc.
-            </p>
+            <p>© 2024 Retiro Renacer. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
