@@ -21,24 +21,30 @@ const RetiroAmateStyle = () => {
         </div>
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4 py-20">
-          <img 
-            src="/logo-transparent.png" 
-            alt="Logo" 
-            className="h-24 w-24 sm:h-32 sm:w-32 mx-auto mb-8 drop-shadow-xl"
-          />
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-800 mb-6 leading-tight px-2">
+          <div className="relative inline-block mb-12">
+            <div className="absolute inset-0 bg-white/90 blur-[80px] scale-150 rounded-full"></div>
+            <img 
+              src="/logo-transparent.png" 
+              alt="Logo" 
+              className="relative h-40 w-40 sm:h-52 sm:w-52 md:h-64 md:w-64 mx-auto drop-shadow-2xl opacity-100 brightness-110 contrast-125"
+            />
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-800 mb-6 leading-tight px-2 relative z-20">
             Rompe tus creencias, libera tus bloqueos y vuelve a confiar en ti
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed px-2 font-normal">
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-800 mb-8 leading-relaxed px-2 font-normal">
             Sana tu historia, gana claridad y aprende a construir la vida que realmente deseas, en un espacio único y seguro
           </p>
-          <Button 
-            size="lg"
-            className="bg-sage-600 hover:bg-sage-700 text-white text-base sm:text-lg px-10 sm:px-14 py-6 sm:py-7 font-medium rounded-xl shadow-sage transition-all"
-            onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
-          >
-            RESERVA TU LUGAR
-          </Button>
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 bg-gradient-to-r from-sage-400 via-sage-500 to-sage-400 rounded-xl opacity-30 blur animate-pulse"></div>
+            <Button 
+              size="lg"
+              className="relative bg-sage-600 hover:bg-sage-700 text-white text-base sm:text-lg px-10 sm:px-14 py-6 sm:py-7 font-medium rounded-xl shadow-sage transition-all hover:scale-105"
+              onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
+            >
+              RESERVA TU LUGAR
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -70,10 +76,13 @@ const RetiroAmateStyle = () => {
         <div className="container mx-auto max-w-6xl px-4">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="order-2 md:order-1">
-              <img 
-                src="/groupe.png" 
-                alt="Groupe" 
-                className="w-full h-80 object-cover rounded-xl shadow-elegant"
+              <video 
+                src="/IMG_9806-2.mp4" 
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto object-contain rounded-xl shadow-elegant"
               />
             </div>
             <div className="order-1 md:order-2 bg-gradient-sage text-white p-10 sm:p-14 rounded-2xl shadow-sage">
@@ -111,13 +120,21 @@ const RetiroAmateStyle = () => {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-16 bg-gradient-sage text-white">
-        <div className="container mx-auto max-w-5xl px-4 text-center">
-          <p className="text-xl mb-4 font-medium">¡Sólo para mujeres!</p>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8">
+      <section className="py-16 relative overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/IMG_6823.jpg" 
+            alt="Background" 
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-sage-900/80 via-sage-800/85 to-sage-900/80" />
+        </div>
+        <div className="container mx-auto max-w-5xl px-4 text-center relative z-10">
+          <p className="text-xl mb-4 font-medium text-white">¡Sólo para mujeres!</p>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-white">
             DESCUENTO DE<br/>PREVENTA
           </h2>
-          <p className="text-lg mb-10">(Por tiempo limitado)</p>
+          <p className="text-lg mb-10 text-white">(Por tiempo limitado)</p>
           
           <div className="bg-white text-gray-800 rounded-2xl p-10 sm:p-14 max-w-3xl mx-auto shadow-elegant">
             <p className="text-gray-600 mb-3">Residentes en Francia o fuera</p>
@@ -131,13 +148,16 @@ const RetiroAmateStyle = () => {
               </p>
             </div>
             
-            <Button 
-              size="lg"
-              className="w-full bg-sage-600 hover:bg-sage-700 text-white text-lg py-6 font-medium rounded-xl shadow-sage"
-              onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
-            >
-              QUIERO REALIZAR MI PAGO
-            </Button>
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-sage-400 via-sage-500 to-sage-400 rounded-xl opacity-30 blur animate-pulse"></div>
+              <Button 
+                size="lg"
+                className="relative w-full bg-sage-600 hover:bg-sage-700 text-white text-lg py-6 font-medium rounded-xl shadow-sage hover:scale-105 transition-all"
+                onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
+              >
+                QUIERO REALIZAR MI PAGO
+              </Button>
+            </div>
             
             <p className="text-xs text-gray-500 mt-6 leading-relaxed">
               Opciones de pago: Transferencia, Wero (Francia), tarjeta de crédito o débito
@@ -153,8 +173,25 @@ const RetiroAmateStyle = () => {
       </section>
 
       {/* What Includes */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto max-w-6xl px-4">
+      <section className="py-16 relative overflow-hidden">
+        <div className="absolute inset-0 flex">
+          <div className="w-1/2">
+            <img 
+              src="/gauche.png" 
+              alt="Background gauche"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="w-1/2">
+            <img 
+              src="/droite.png" 
+              alt="Background droite"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="absolute inset-0 bg-white/85"></div>
+        </div>
+        <div className="container mx-auto max-w-6xl px-4 relative z-10">
           <h2 className="text-3xl sm:text-4xl font-semibold text-center text-gray-800 mb-12">
             ¡1 DÍA QUE LO CAMBIARÁ TODO!
           </h2>
@@ -202,13 +239,16 @@ const RetiroAmateStyle = () => {
           </div>
           
           <div className="text-center mt-10">
-            <Button 
-              size="lg"
-              className="bg-sage-600 hover:bg-sage-700 text-white px-12 py-6 rounded-xl shadow-sage"
-              onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
-            >
-              RESERVA TU LUGAR
-            </Button>
+            <div className="relative inline-block">
+              <div className="absolute -inset-1 bg-gradient-to-r from-sage-400 via-sage-500 to-sage-400 rounded-xl opacity-30 blur animate-pulse"></div>
+              <Button 
+                size="lg"
+                className="relative bg-sage-600 hover:bg-sage-700 text-white px-12 py-6 rounded-xl shadow-sage hover:scale-105 transition-all"
+                onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
+              >
+                RESERVA TU LUGAR
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -272,13 +312,13 @@ const RetiroAmateStyle = () => {
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { img: '/jardin-hero.jpg', title: 'EXPERIENCIA DE LUJO', text: 'Cada detalle ha sido cuidadosamente diseñado para ofrecerte una experiencia elegante, íntima y transformadora. Desde el entorno parisino hasta cada momento del programa, todo está pensado para que te sientas contenida, inspirada y en armonía. El verdadero lujo de Renacer está en vivir un proceso profundo en un espacio que refleja belleza, calma y propósito.' },
-              { img: '/femme-transformation.jpg', title: 'TRANSFORMACIÓN CONSCIENTE Y RÁPIDA', text: 'A través de herramientas de coaching, psicología y espiritualidad práctica, aprenderás a identificar y transformar las creencias que te bloquean. En un solo día podrás liberar patrones que llevas años repitiendo y ganar claridad, confianza y dirección para avanzar hacia lo que realmente deseas.' },
+              { img: '/IMG_8059.jpg', title: 'EXPERIENCIA DE LUJO', text: 'Cada detalle ha sido cuidadosamente diseñado para ofrecerte una experiencia elegante, íntima y transformadora. Desde el entorno parisino hasta cada momento del programa, todo está pensado para que te sientas contenida, inspirada y en armonía. El verdadero lujo de Renacer está en vivir un proceso profundo en un espacio que refleja belleza, calma y propósito.' },
+              { img: '/IMG_9782-2.jpg', title: 'TRANSFORMACIÓN CONSCIENTE Y RÁPIDA', text: 'A través de herramientas de coaching, psicología y espiritualidad práctica, aprenderás a identificar y transformar las creencias que te bloquean. En un solo día podrás liberar patrones que llevas años repitiendo y ganar claridad, confianza y dirección para avanzar hacia lo que realmente deseas.' },
               { img: '/femme-meditation.jpg', title: 'EL PODER DE LA EXCLUSIVIDAD', text: 'Renacer es un retiro íntimo, con cupos limitados, pensado para mujeres que buscan un proceso profundo y personalizado. Cada experiencia está cuidadosamente guiada, lo que permite atención cercana, acompañamiento profesional y una conexión genuina contigo misma. Un espacio reducido para grandes transformaciones.' },
               { img: '/groupe.png', title: 'CONEXIÓN Y TRIBU', text: 'En las dinámicas grupales experimentarás el poder del círculo femenino. Conocerás mujeres auténticas, valientes y sensibles que, como tú, están eligiendo cambiar su historia. De estos encuentros nacen amistades reales, redes de apoyo y vínculos que trascienden el retiro.' },
-              { img: '/jardin-piscine-v2.jpg', title: 'ENTORNO QUE INSPIRA', text: 'El retiro se realiza en El Jardín Secreto, un oasis oculto en el corazón de París. La armonía entre naturaleza, arte y silencio crea un ambiente ideal para pausar, respirar y reconectar con tu esencia. Cada rincón está impregnado de calma y propósito.' },
-              { img: '/salon-cheminee.jpg', title: 'ESPIRITUALIDAD APLICADA', text: 'Renacer integra la espiritualidad desde lo cotidiano: mindfulness, meditación y prácticas de reconexión interior. Aprenderás a mantener esa conexión incluso después del retiro, viviendo con más conciencia, fe y coherencia emocional.' },
-              { img: '/victoria-portrait.jpg', title: 'GUÍA Y ACOMPAÑAMIENTO PROFESIONAL', text: 'Sin lugar a dudas, uno de los pilares fundamentales que hace que nuestro retiro sea excepcional es la calidad humana y el amor de nuestro equipo. Cada miembro del equipo está profundamente comprometido con tu bienestar y crecimiento personal.' }
+              { img: '/IMG_9791-2.jpg', title: 'ENTORNO QUE INSPIRA', text: 'El retiro se realiza en El Jardín Secreto, un oasis oculto en el corazón de París. La armonía entre naturaleza, arte y silencio crea un ambiente ideal para pausar, respirar y reconectar con tu esencia. Cada rincón está impregnado de calma y propósito.' },
+              { img: '/spirit.png', title: 'ESPIRITUALIDAD APLICADA', text: 'Renacer integra la espiritualidad desde lo cotidiano: mindfulness, meditación y prácticas de reconexión interior. Aprenderás a mantener esa conexión incluso después del retiro, viviendo con más conciencia, fe y coherencia emocional.' },
+              { img: '/duo.png', title: 'GUÍA Y ACOMPAÑAMIENTO PROFESIONAL', text: 'Sin lugar a dudas, uno de los pilares fundamentales que hace que nuestro retiro sea excepcional es la calidad humana y el amor de nuestro equipo. Cada miembro del equipo está profundamente comprometido con tu bienestar y crecimiento personal.' }
             ].map((item, i) => (
               <div key={i} className="bg-white rounded-xl overflow-hidden shadow-elegant hover:shadow-sage transition-all duration-300">
                 <img src={item.img} alt={item.title} className="w-full h-48 sm:h-56 object-cover" />
@@ -477,28 +517,26 @@ const RetiroAmateStyle = () => {
               Escríbeme y con gusto te ayudaremos a encontrar la mejor opción para ti
             </p>
           </div>
-          <Button 
-            size="lg"
-            className="bg-white text-sage-700 hover:bg-stone-50 px-12 py-6 font-semibold rounded-xl shadow-elegant"
-            onClick={() => window.open('https://wa.me/33667596062', '_blank')}
-          >
-            HABLAR CON EL EQUIPO
-          </Button>
+          <div className="relative inline-block">
+            <div className="absolute -inset-1 bg-gradient-to-r from-white/60 via-white/80 to-white/60 rounded-xl opacity-50 blur animate-pulse"></div>
+            <Button 
+              size="lg"
+              className="relative bg-white text-sage-700 hover:bg-stone-50 px-12 py-6 font-semibold rounded-xl shadow-elegant hover:scale-105 transition-all"
+              onClick={() => window.open('https://wa.me/33667596062', '_blank')}
+            >
+              HABLAR CON EL EQUIPO
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="bg-sage-800 text-white py-12">
         <div className="container mx-auto max-w-6xl px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <div className="flex flex-col md:flex-row justify-center items-center mb-8">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <img src="/logo-transparent.png" alt="Logo" className="h-12 w-12" />
               <span className="text-lg font-semibold">Cambio de Paradigma</span>
-            </div>
-            <div className="flex space-x-6 text-sm">
-              <a href="https://www.instagram.com/cambio.de.paradigma/" target="_blank" rel="noopener noreferrer" className="hover:text-sage-200 transition-colors">Instagram</a>
-              <a href="https://www.tiktok.com/@cambio.de.paradigma" target="_blank" rel="noopener noreferrer" className="hover:text-sage-200 transition-colors">TikTok</a>
-              <a href="https://wa.me/33667596062" target="_blank" rel="noopener noreferrer" className="hover:text-sage-200 transition-colors">Whatsapp</a>
             </div>
           </div>
           <div className="text-center text-sm text-white/80 border-t border-white/20 pt-6">
