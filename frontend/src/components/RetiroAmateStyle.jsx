@@ -52,9 +52,9 @@ const RetiroAmateStyle = () => {
       <section className="py-8 bg-stone-50">
         <div className="container mx-auto max-w-5xl px-4">
           <div className="grid grid-cols-3 gap-4">
-            <img src="/salon-cheminee.jpg" alt="" className="w-full h-32 sm:h-40 object-cover rounded-lg shadow-md" />
-            <img src="/jardin-piscine-v2.jpg" alt="" className="w-full h-32 sm:h-40 object-cover rounded-lg shadow-md" />
-            <img src="/salle-manger.jpg" alt="" className="w-full h-32 sm:h-40 object-cover rounded-lg shadow-md" />
+            <img src="/spirit.png" alt="" className="w-full h-32 sm:h-40 object-cover rounded-lg shadow-md" />
+            <img src="/table.png" alt="" className="w-full h-32 sm:h-40 object-cover rounded-lg shadow-md" />
+            <img src="/gauche.png" alt="" className="w-full h-32 sm:h-40 object-cover rounded-lg shadow-md" />
           </div>
         </div>
       </section>
@@ -108,7 +108,7 @@ const RetiroAmateStyle = () => {
           <img 
             src="/logo-transparent.png" 
             alt="Logo" 
-            className="h-20 w-20 mx-auto mb-6"
+            className="h-40 w-40 mx-auto mb-6"
           />
           <p className="text-xl sm:text-2xl font-medium text-gray-700 mb-4 leading-relaxed">
             Vive una experiencia de <strong className="text-sage-700">transformación interior</strong>
@@ -280,27 +280,22 @@ const RetiroAmateStyle = () => {
         </div>
       </section>
 
-      {/* Alojamiento */}
+      {/* Video Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto max-w-6xl px-4">
-          <h2 className="text-3xl sm:text-4xl font-semibold text-center text-gray-800 mb-10">
-            Alojamiento
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <img 
-              src="/salon-cheminee.jpg" 
-              alt="Espacio" 
-              className="w-full h-80 object-cover rounded-xl shadow-elegant"
+          <div className="flex flex-col items-center justify-center">
+            <video 
+              src="/IMG_9800-2.mp4" 
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-80 h-96 object-cover rounded-xl shadow-elegant mb-8"
             />
-            <img 
-              src="/salle-manger.jpg" 
-              alt="Comedor" 
-              className="w-full h-80 object-cover rounded-xl shadow-elegant"
-            />
+            <p className="text-xl font-medium text-gray-800 text-center max-w-3xl leading-relaxed">
+              Más que un retiro, es una experiencia de conexión profunda contigo misma y con mujeres que comparten tu deseo de transformación, crecimiento y autenticidad
+            </p>
           </div>
-          <p className="text-center text-xl text-gray-700 mt-8 max-w-3xl mx-auto font-medium">
-            Un espacio exclusivo rodeado de naturaleza y detalles parisinos
-          </p>
         </div>
       </section>
 
@@ -534,9 +529,12 @@ const RetiroAmateStyle = () => {
       <footer className="bg-sage-800 text-white py-12">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="flex flex-col md:flex-row justify-center items-center mb-8">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <img src="/logo-transparent.png" alt="Logo" className="h-12 w-12" />
-              <span className="text-lg font-semibold">Retiro Renacer</span>
+            <div className="flex flex-col items-center space-y-3 mb-4 md:mb-0">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-white/95 blur-[100px] scale-[2] rounded-full"></div>
+                <img src="/logo-dorado.png" alt="Logo" className="relative h-32 w-32 brightness-110 contrast-125 rounded-full" />
+              </div>
+              <span className="text-xl font-semibold">Retiro Renacer</span>
             </div>
           </div>
           <div className="text-center text-sm text-white/80 border-t border-white/20 pt-6">
