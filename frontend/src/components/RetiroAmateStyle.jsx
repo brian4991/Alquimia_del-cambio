@@ -95,8 +95,8 @@ const RetiroAmateStyle = () => {
                 <p>• Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo</p>
                 <p>• Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás</p>
                 <p>• Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia</p>
-                <p>• Porque aunque trabajas duro y te has reinventado muchas veces, sientes que algo sigue bloqueando tu crecimiento. A veces dudas de tu merecimiento o repites frases como "todo es caro" o "aquí es más difícil". En este retiro aprenderás a transformar esas creencias y abrirte a una nueva relación con el dinero, el éxito y la abundancia</p>
                 <p>• Y porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser</p>
+                <p>• Porque aunque trabajas duro y te has reinventado muchas veces, sientes que algo sigue bloqueando tu crecimiento. A veces dudas de tu merecimiento o repites frases como "todo es caro" o "aquí es más difícil". En este retiro aprenderás a transformar esas creencias y abrirte a una nueva relación con el dinero, el éxito y la abundancia</p>
               </div>
             </div>
           </div>
@@ -115,10 +115,10 @@ const RetiroAmateStyle = () => {
             Un encuentro con tu alma, un cambio de paradigma
           </p>
           <p className="text-base sm:text-lg text-gray-600 mb-2 leading-relaxed">
-            Para cerrar el año con claridad y propósito
+            Vive una experiencia de transformación interior
           </p>
           <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-            Vive una experiencia de transformación interior
+            Para cerrar el año con claridad y propósito
           </p>
         </div>
       </section>
