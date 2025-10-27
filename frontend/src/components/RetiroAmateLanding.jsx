@@ -43,7 +43,7 @@ const LandingPage = () => {
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/80 backdrop-blur-lg shadow-elegant z-50 border-b border-stone-200/50 transition-all duration-300">
         <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-start items-center">
-          <div className="flex items-center space-x-2 sm:space-x-4 animate-fade-in">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             <img 
               src="/logo-transparent.png" 
               alt="Retiro Renacer" 
@@ -63,7 +63,7 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-4 sm:px-6 relative overflow-hidden">
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 px-4 sm:px-6 relative overflow-hidden min-h-screen flex items-center">
         <div className="absolute inset-0">
           <img 
             src="/jardin-hero.jpg" 
@@ -73,25 +73,25 @@ const LandingPage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/70 to-white/75" />
         </div>
         <div className="container mx-auto max-w-5xl text-center relative z-10">
-          <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-10 animate-scale-in">
+          <div className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-8 sm:mb-12 animate-scale-in">
             <img 
               src="/logo-transparent.png" 
               alt="Logo Cambio de Paradigma" 
               className="w-full h-full object-contain drop-shadow-2xl hover:scale-110 transition-transform duration-300"
             />
           </div>
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight tracking-tight animate-slide-up px-2">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight tracking-tight animate-slide-up px-2">
             Rompe tus creencias, libera tus bloqueos y vuelve a confiar en ti
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed animate-fade-in px-2">
+          <p className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-10 sm:mb-14 max-w-4xl mx-auto leading-relaxed px-2">
             Sana tu historia, gana claridad y aprende a construir la vida que realmente deseas, en un espacio único y seguro
           </p>
           <Button 
             size="lg"
-            className="bg-sage-600 hover:bg-sage-700 text-white shadow-elegant hover:shadow-sage hover:scale-105 transition-all duration-300 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 rounded-full font-semibold"
+            className="bg-sage-600 hover:bg-sage-700 text-white shadow-elegant hover:shadow-sage hover:scale-105 transition-all duration-300 text-xl sm:text-2xl px-8 sm:px-12 py-6 sm:py-8 font-semibold"
             onClick={() => window.open('https://wa.me/33667596062', '_blank')}
           >
-            HABLAR CON EL EQUIPO
+            Reservar mi lugar
           </Button>
         </div>
       </section>
@@ -122,7 +122,7 @@ const LandingPage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/70 to-white/75" />
         </div>
         <div className="container mx-auto max-w-5xl text-center px-4 sm:px-6 relative z-10">
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight tracking-tight animate-fade-in">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight tracking-tight">
             Vive una experiencia de <span className="bg-gradient-sage bg-clip-text text-transparent">transformación interior</span> para cerrar el año con claridad y propósito
           </h2>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-700 leading-relaxed max-w-4xl mx-auto">
@@ -150,10 +150,10 @@ const LandingPage = () => {
               ].map((text, index) => (
                 <Card key={index} className="group hover:shadow-elegant hover:scale-102 transition-all duration-300 border-2 border-stone-200 hover:border-sage-300 bg-white overflow-hidden">
                   <CardContent className="flex items-start space-x-3 sm:space-x-4 p-4 sm:p-6">
-                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-sage rounded-xl flex items-center justify-center text-white font-bold shadow-sage group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-sage flex items-center justify-center text-white font-bold shadow-sage group-hover:scale-110 transition-transform duration-300">
                       ✓
                     </div>
-                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed">{text}</p>
+                    <p className="text-gray-700 text-base sm:text-lg leading-relaxed text-justify">{text}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -161,7 +161,7 @@ const LandingPage = () => {
 
             {/* 1/3 largeur - Vidéo verticale */}
             <div className="flex items-start justify-center lg:sticky lg:top-24">
-              <div className="w-full max-w-sm mx-auto rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
+              <div className="w-full max-w-sm mx-auto overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
                   ref={videoRef1}
                   className="w-full h-auto"
@@ -181,7 +181,7 @@ const LandingPage = () => {
       {/* Image Banner 1 */}
       <section className="py-8 sm:py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="w-full h-64 sm:h-80 md:h-96 rounded-3xl overflow-hidden shadow-elegant relative">
+          <div className="w-full h-64 sm:h-80 md:h-96 overflow-hidden shadow-elegant relative">
             <img 
               src="/groupe-retiro.jpg" 
               alt="Groupe de femmes - Retiro Renacer" 
@@ -196,8 +196,8 @@ const LandingPage = () => {
       <section className="py-16 sm:py-24 relative overflow-hidden" style={{backgroundColor: '#eef2ec'}}>
         <div className="absolute inset-0 bg-gradient-to-br from-sage-100/50 to-transparent" />
         <div className="container mx-auto max-w-4xl px-4 sm:px-6 relative z-10">
-          <div className="text-center mb-12 sm:mb-16 animate-fade-in">
-            <div className="inline-block bg-white px-6 sm:px-8 py-3 sm:py-4 rounded-full mb-6 sm:mb-8 shadow-sage border-2 border-sage-400 hover:scale-105 transition-transform duration-300">
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="inline-block bg-white px-6 sm:px-8 py-3 sm:py-4 mb-6 sm:mb-8 shadow-sage border-2 border-sage-400 hover:scale-105 transition-transform duration-300">
               <span className="font-bold text-base sm:text-xl bg-gradient-sage bg-clip-text text-transparent">¡Sólo para mujeres!</span>
             </div>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 tracking-tight">
@@ -206,7 +206,7 @@ const LandingPage = () => {
             <p className="text-sage-700 text-lg sm:text-xl mb-2 font-medium">(Por tiempo limitado)</p>
           </div>
 
-          <Card className="bg-white rounded-3xl shadow-elegant hover:shadow-sage border-2 border-sage-200 overflow-hidden transition-all duration-300">
+          <Card className="bg-white shadow-elegant hover:shadow-sage border-2 border-sage-200 overflow-hidden transition-all duration-300">
             <CardContent className="p-6 sm:p-10 md:p-12">
               <div>
                 <div className="text-center mb-8 sm:mb-10">
@@ -216,8 +216,8 @@ const LandingPage = () => {
                     <p className="text-4xl sm:text-6xl md:text-7xl font-bold bg-gradient-sage bg-clip-text text-transparent mb-6 sm:mb-8 animate-scale-in">
                       €149 EUR
                     </p>
-                    <div className="absolute -top-2 sm:-top-4 -right-12 sm:-right-20 bg-lavender-600 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full rotate-12 shadow-lg">
-                      -25%
+                    <div className="absolute -top-2 sm:-top-4 -right-12 sm:-right-20 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1.5 sm:py-2 shadow-lg" style={{backgroundColor: '#c4916a'}}>
+                      -50€
                     </div>
                   </div>
                 </div>
@@ -225,7 +225,7 @@ const LandingPage = () => {
                 <Card className="text-center mb-8 sm:mb-10 bg-gradient-to-br from-sage-50 to-taupe-50 border-2 border-sage-200">
                   <CardContent className="p-5 sm:p-6">
                     <p className="text-gray-900 mb-3 sm:mb-4 font-bold text-lg sm:text-xl">Pago completo o pago en cuotas</p>
-                    <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                    <p className="text-sm sm:text-base text-gray-700 leading-relaxed text-justify">
                       En cuotas, el primer pago (€50) se realiza al momento de la inscripción, el segundo (€50) en noviembre y el último (€49) antes del retiro, en diciembre
                     </p>
                   </CardContent>
@@ -235,17 +235,17 @@ const LandingPage = () => {
               <div className="text-center">
                 <Button 
                   size="lg"
-                  className="w-full sm:w-auto bg-gradient-sage hover:opacity-90 text-white shadow-sage hover:shadow-elegant hover:scale-105 transition-all duration-300 text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-6 rounded-full font-bold mb-5 sm:mb-6"
+                  className="w-full sm:w-auto bg-gradient-sage hover:opacity-90 text-white shadow-sage hover:shadow-elegant hover:scale-105 transition-all duration-300 text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-6 font-bold mb-5 sm:mb-6"
                   onClick={() => window.open('https://checkout.mailerlite.com/checkout/6005', '_blank')}
                 >
-                  QUIERO REALIZAR MI PAGO
+                  Reservar mi lugar
                 </Button>
-                <p className="text-sm sm:text-base text-gray-600 mt-5 sm:mt-6 leading-relaxed max-w-2xl mx-auto px-2">
+                <p className="text-sm sm:text-base text-gray-600 mt-5 sm:mt-6 leading-relaxed max-w-2xl mx-auto px-2 text-justify">
                   Opciones de pago: Contamos con diferentes métodos de pago: Transferencia o Wero (para residentes en Francia). Tarjeta de crédito o débito (para residentes en Europa o fuera de ella)
                 </p>
-                <div className="mt-5 sm:mt-6 inline-block bg-gradient-to-r from-lavender-100 to-lavender-50 px-6 sm:px-8 py-3 sm:py-4 rounded-full border-2 border-lavender-300 shadow-md">
-                  <p className="font-bold text-base sm:text-lg text-lavender-800">
-                    🎁 Descuento para grupos a partir de 4 mujeres
+                <div className="mt-5 sm:mt-6 inline-block bg-gradient-to-r from-taupe-100 to-sage-50 px-6 sm:px-8 py-3 sm:py-4 border-2 border-taupe-300 shadow-md">
+                  <p className="font-bold text-base sm:text-lg text-taupe-800">
+                    Descuento para grupos a partir de 4 mujeres
                   </p>
                 </div>
               </div>
@@ -282,10 +282,10 @@ const LandingPage = () => {
                   'Actividades de recreación y conexión grupal'
                 ].map((item, index) => (
                     <div key={index} className="flex items-start space-x-3 sm:space-x-4 group">
-                      <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-sage-500 to-sage-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 text-sm sm:text-base">
+                      <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-sage-500 to-sage-600 flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 text-sm sm:text-base">
                       ✓
                     </div>
-                      <p className="text-gray-800 leading-relaxed text-sm sm:text-base pt-0.5 sm:pt-1">{item}</p>
+                      <p className="text-gray-800 leading-relaxed text-sm sm:text-base pt-0.5 sm:pt-1 text-justify">{item}</p>
                   </div>
                 ))}
               </div>
@@ -314,10 +314,10 @@ const LandingPage = () => {
                   'Un cierre de año poderoso, soltando lo viejo y estableciendo metas claras para accionar con confianza y dirección en 2026'
                 ].map((item, index) => (
                     <div key={index} className="flex items-start space-x-3 sm:space-x-4 group">
-                      <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-taupe-500 to-taupe-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 text-sm sm:text-base">
+                      <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-taupe-500 to-taupe-600 flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300 text-sm sm:text-base">
                       •
                     </div>
-                      <p className="text-gray-800 leading-relaxed text-sm sm:text-base pt-0.5 sm:pt-1">{item}</p>
+                      <p className="text-gray-800 leading-relaxed text-sm sm:text-base pt-0.5 sm:pt-1 text-justify">{item}</p>
                   </div>
                 ))}
               </div>
@@ -332,7 +332,7 @@ const LandingPage = () => {
               className="shadow-xl hover:shadow-2xl hover:-translate-y-1 text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
               onClick={() => window.open('https://wa.me/33667596062', '_blank')}
             >
-              HABLAR CON EL EQUIPO
+              Reservar mi lugar
             </Button>
           </div>
         </div>
@@ -346,7 +346,7 @@ const LandingPage = () => {
           </h2>
           <div className="grid md:grid-cols-2 gap-0">
             {/* Image à gauche */}
-            <div className="h-full min-h-[300px] sm:min-h-[400px] md:min-h-[500px] md:rounded-l-3xl rounded-t-3xl md:rounded-tr-none overflow-hidden shadow-elegant">
+            <div className="h-full min-h-[300px] sm:min-h-[400px] md:min-h-[500px] overflow-hidden shadow-elegant">
               <img 
                 src="/jardin-piscine.png" 
                 alt="El Jardín Secreto de París - Vue extérieure" 
@@ -354,21 +354,21 @@ const LandingPage = () => {
               />
             </div>
             {/* Texte avec background à droite */}
-            <div className="p-6 sm:p-10 md:p-12 md:rounded-r-3xl rounded-b-3xl md:rounded-bl-none" style={{backgroundColor: '#dde6d7'}}>
+            <div className="p-6 sm:p-10 md:p-12" style={{backgroundColor: '#dde6d7'}}>
               <div className="space-y-4 sm:space-y-6">
-              <p className="text-base sm:text-lg leading-relaxed" style={{color: '#59614c'}}>
+              <p className="text-base sm:text-lg leading-relaxed text-justify" style={{color: '#59614c'}}>
                 En el corazón del histórico <strong>Barrio Latino de París</strong> se encuentra El Jardín Secreto, una joya escondida donde el silencio, la belleza y la historia se entrelazan.
               </p>
-              <p className="text-base sm:text-lg leading-relaxed" style={{color: '#59614c'}}>
+              <p className="text-base sm:text-lg leading-relaxed text-justify" style={{color: '#59614c'}}>
                 Una casa del siglo XVIII completamente restaurada, rodeada de un jardín privado lleno de luz, calma y armonía. Este refugio ofrece una atmósfera íntima y serena, perfecta para desconectar del ruido exterior y reconectar contigo misma.
               </p>
-              <p className="text-base sm:text-lg leading-relaxed" style={{color: '#59614c'}}>
+              <p className="text-base sm:text-lg leading-relaxed text-justify" style={{color: '#59614c'}}>
                 Cada rincón invita a la introspección: la calidez de la luz natural, los árboles centenarios, el sonido suave de las campanas… un entorno que abraza el alma y la mente.
               </p>
-              <p className="text-base sm:text-lg leading-relaxed" style={{color: '#59614c'}}>
+              <p className="text-base sm:text-lg leading-relaxed text-justify" style={{color: '#59614c'}}>
                 Aquí viviremos el <strong>Retiro Renacer</strong>, un día diseñado para cerrar el año y abrir un nuevo ciclo con propósito y claridad. En este espacio exclusivo y lleno de energía, aprenderás a liberar lo viejo, reencontrarte contigo y activar tu poder interior.
               </p>
-              <p className="text-base sm:text-lg leading-relaxed font-semibold" style={{color: '#59614c'}}>
+              <p className="text-base sm:text-lg leading-relaxed text-justify font-semibold" style={{color: '#59614c'}}>
                 El Jardín Secreto no es solo el lugar del retiro, es parte de la experiencia: un escenario donde el alma se expande y la mente se transforma.
               </p>
             </div>
@@ -383,25 +383,25 @@ const LandingPage = () => {
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 mb-10 sm:mb-16 tracking-tight">
             El espacio del retiro
           </h2>
-          <div className="bg-white rounded-2xl shadow-xl p-5 sm:p-8">
-            <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
-              <div>
-                <p className="text-gray-700 text-lg sm:text-xl leading-relaxed mb-3 sm:mb-4">
+          <div className="bg-white shadow-xl p-5 sm:p-8">
+            <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-start">
+              <div className="text-center md:pt-8">
+                <p className="text-gray-700 text-lg sm:text-xl leading-relaxed mb-3 sm:mb-4 text-justify">
                   Un espacio exclusivo con espacios luminosos y acogedores, rodeados de naturaleza y detalles parisinos
                 </p>
-                <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+                <p className="text-gray-700 text-base sm:text-lg leading-relaxed text-justify">
                   Un entorno privado y lleno de calma donde cada rincón invita a reconectar contigo
                 </p>
               </div>
               <div className="space-y-4">
-                <div className="w-full h-48 sm:h-64 rounded-xl overflow-hidden shadow-lg hover:shadow-elegant transition-shadow">
+                <div className="w-full h-48 sm:h-64 overflow-hidden shadow-lg hover:shadow-elegant transition-shadow">
                   <img 
                     src="/salon-cheminee.jpg" 
                     alt="Espace lumineux du Jardin Secret" 
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <div className="w-full h-48 sm:h-64 rounded-xl overflow-hidden shadow-lg hover:shadow-elegant transition-shadow">
+                <div className="w-full h-48 sm:h-64 overflow-hidden shadow-lg hover:shadow-elegant transition-shadow">
                   <img 
                     src="/salle-manger.jpg" 
                     alt="Salle à manger élégante du retiro" 
@@ -424,9 +424,9 @@ const LandingPage = () => {
           <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Colonne gauche - Points 1-3 */}
             <div className="space-y-4 sm:space-y-6">
-            {[
-              {
-                title: 'EXPERIENCIA DE LUJO',
+              {[
+                {
+                  title: 'EXPERIENCIA DE LUJO',
                   description: 'Cada detalle ha sido cuidadosamente diseñado para ofrecerte una experiencia elegante, íntima y transformadora. Desde el entorno parisino hasta cada momento del programa, todo está pensado para que te sientas contenida, inspirada y en armonía. El verdadero lujo de Renacer está en vivir un proceso profundo en un espacio que refleja belleza, calma y propósito.'
                 },
                 {
@@ -441,7 +441,7 @@ const LandingPage = () => {
                 <Card key={index} className="bg-white/80 backdrop-blur-sm border-2 border-sage-200 hover:border-sage-400 hover:shadow-sage transition-all duration-300">
                   <CardContent className="p-5 sm:p-6">
                     <h3 className="text-lg sm:text-xl font-bold text-sage-800 mb-2 sm:mb-3 uppercase">{item.title}</h3>
-                    <p className="text-gray-700 leading-relaxed text-sm">{item.description}</p>
+                    <p className="text-gray-700 leading-relaxed text-sm text-justify">{item.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -449,7 +449,7 @@ const LandingPage = () => {
 
             {/* Colonne centrale - Vidéos verticales */}
             <div className="flex flex-col gap-4 sm:gap-6 items-center order-first lg:order-none">
-              <div className="w-full max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
+              <div className="w-full max-w-xs mx-auto overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
                   ref={videoRef2}
                   className="w-full h-auto"
@@ -461,7 +461,7 @@ const LandingPage = () => {
                   src="/video-retiro-2.mp4"
                 />
               </div>
-              <div className="w-full max-w-xs mx-auto rounded-3xl overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
+              <div className="w-full max-w-xs mx-auto overflow-hidden shadow-2xl hover:shadow-sage transition-all duration-500 border-4 border-white">
                 <video 
                   ref={videoRef3}
                   className="w-full h-auto"
@@ -498,7 +498,7 @@ const LandingPage = () => {
                 <Card key={index} className="bg-white/80 backdrop-blur-sm border-2 border-taupe-200 hover:border-taupe-400 hover:shadow-elegant transition-all duration-300">
                   <CardContent className="p-5 sm:p-6">
                     <h3 className="text-lg sm:text-xl font-bold text-taupe-800 mb-2 sm:mb-3 uppercase">{item.title}</h3>
-                    <p className="text-gray-700 leading-relaxed text-sm">{item.description}</p>
+                    <p className="text-gray-700 leading-relaxed text-sm text-justify">{item.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -515,8 +515,8 @@ const LandingPage = () => {
             {/* Nicole Ramírez */}
           <div className="grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
             <div className="relative group">
-              <div className="absolute -inset-4 bg-gradient-sage rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity" />
-              <div className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] rounded-3xl shadow-elegant hover:shadow-sage transition-shadow overflow-hidden">
+              <div className="absolute -inset-4 bg-gradient-sage opacity-20 blur-2xl group-hover:opacity-30 transition-opacity" />
+              <div className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] shadow-elegant hover:shadow-sage transition-shadow overflow-hidden">
                 <img 
                   src="/victoria-portrait.jpg" 
                     alt="Nicole Ramírez - Fundadora y Facilitadora" 
@@ -535,7 +535,7 @@ const LandingPage = () => {
                   </h3>
                   <p className="text-base sm:text-lg text-gray-600 mt-2">(Fundadora y Facilitadora)</p>
                 </div>
-                <div className="space-y-3 sm:space-y-4 text-gray-700 leading-relaxed text-sm sm:text-base">
+                <div className="space-y-3 sm:space-y-4 text-gray-700 leading-relaxed text-sm sm:text-base text-justify">
                   <p>
                     Soy una mujer apasionada por el crecimiento personal, el bienestar emocional y la mente humana.
                   </p>
@@ -557,7 +557,7 @@ const LandingPage = () => {
                   <p className="font-semibold text-sage-800">
                     Cuando transformas tus pensamientos, transformas tu realidad.
                   </p>
-                  <p className="font-semibold text-sage-800 bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600">
+                  <p className="font-semibold text-sage-800 bg-sage-50 p-4 border-l-4 border-sage-600">
                     En el retiro Renacer voy a compartir contigo las herramientas, experiencias y prácticas que me ayudaron a pasar de tener cero posibilidades en mi país, a crear una vida alineada a mis deseos, viviendo con plenitud, confianza y serenidad. Te acompañaré paso a paso para que tú también puedas cerrar un ciclo, liberar lo que pesa y construir desde adentro la vida que mereces vivir.
                   </p>
                 </div>
@@ -575,7 +575,7 @@ const LandingPage = () => {
                     </h2>
                     <p className="text-base sm:text-lg text-gray-600">(Facilitadora)</p>
                   </div>
-                  <div className="space-y-3 sm:space-y-4 text-gray-700 leading-relaxed text-sm sm:text-base">
+                  <div className="space-y-3 sm:space-y-4 text-gray-700 leading-relaxed text-sm sm:text-base text-justify">
                     <p>
                       Soy Mentora de Vida, experta en Energía, Manifestación y Negocios Conscientes, y autora del libro "La Energía es la Vida".
                     </p>
@@ -591,15 +591,15 @@ const LandingPage = () => {
                     <p className="italic">
                       Creo profundamente que la energía es la vida, y que cuando alineas tu mente, tus emociones y tu intención, todo comienza a fluir.
                     </p>
-                    <p className="font-semibold text-sage-800 bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600">
+                    <p className="font-semibold text-sage-800 bg-sage-50 p-4 border-l-4 border-sage-600">
                       En este retiro quiero acompañarte a recordar tu poder interior, reconectarte con tu energía más auténtica y abrir espacio para que la abundancia llegue a tu vida con facilidad y propósito.
                     </p>
                   </div>
                 </CardContent>
               </Card>
               <div className="relative group">
-                <div className="absolute -inset-4 bg-gradient-sage rounded-3xl opacity-20 blur-2xl group-hover:opacity-30 transition-opacity" />
-                <div className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] rounded-3xl shadow-elegant hover:shadow-sage transition-shadow overflow-hidden">
+                <div className="absolute -inset-4 bg-gradient-sage opacity-20 blur-2xl group-hover:opacity-30 transition-opacity" />
+                <div className="relative w-full h-[350px] sm:h-[450px] md:h-[500px] shadow-elegant hover:shadow-sage transition-shadow overflow-hidden">
                   <img 
                     src="/dianix-portrait.jpg" 
                     alt="Dianix Bermúdez - Facilitadora" 
@@ -666,14 +666,14 @@ const LandingPage = () => {
                 <Card key={index} className="group bg-white hover:shadow-elegant hover:scale-102 transition-all duration-300 border-2 border-stone-200 hover:border-lavender-300 overflow-hidden">
                   <CardContent className="p-5 sm:p-8">
                     <div className="flex items-center space-x-3 sm:space-x-4 mb-5 sm:mb-6">
-                      <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br ${testimonial.color} shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                      <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${testimonial.color} shadow-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                         <span className="text-white text-lg sm:text-2xl font-bold">{initials}</span>
                       </div>
                       <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{testimonial.name}</h3>
                     </div>
                     <div className="relative">
                       <span className="absolute -top-2 -left-2 text-3xl sm:text-4xl text-lavender-300 opacity-50">"</span>
-                      <p className="text-gray-700 italic leading-relaxed text-sm sm:text-base pl-4 sm:pl-6">
+                      <p className="text-gray-700 italic leading-relaxed text-sm sm:text-base pl-4 sm:pl-6 text-justify">
                         {testimonial.text}
                       </p>
                       <span className="absolute -bottom-6 -right-2 text-3xl sm:text-4xl text-lavender-300 opacity-50">"</span>
@@ -715,11 +715,11 @@ const LandingPage = () => {
                 answer: 'Sí, por supuesto. Renacer es una experiencia internacional, han asistido chicas que estaban de viaje en Paris o viven en Europa. París es una ciudad muy accesible y el retiro se realiza en una ubicación céntrica, segura y fácil de llegar. Solo asegúrate de reservar con tiempo tu cupo, ya que los espacios son limitados y se agotan rápido.'
               }
             ].map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="bg-white rounded-2xl shadow-lg border-2 overflow-hidden px-1 sm:px-2">
+              <AccordionItem key={index} value={`item-${index}`} className="bg-white shadow-lg border-2 overflow-hidden px-1 sm:px-2">
                 <AccordionTrigger className="px-4 sm:px-6 py-4 sm:py-6 text-base sm:text-xl font-bold text-gray-800 hover:no-underline hover:bg-stone-50 text-left">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="px-4 sm:px-6 pb-5 sm:pb-6 text-gray-700 leading-relaxed text-sm sm:text-lg">
+                <AccordionContent className="px-4 sm:px-6 pb-5 sm:pb-6 text-gray-700 leading-relaxed text-sm sm:text-lg text-justify">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -731,14 +731,11 @@ const LandingPage = () => {
       {/* CTA Section */}
       <section className="py-16 sm:py-24 relative overflow-hidden bg-gradient-sage">
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-white/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-white/10 rounded-full blur-3xl" />
+          <div className="absolute top-0 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-white/10 blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-white/10 blur-3xl" />
         </div>
         <div className="container mx-auto max-w-4xl px-4 sm:px-6 text-center relative z-10">
-          <div className="animate-fade-in">
-            <div className="inline-block mb-6 sm:mb-8">
-              <span className="text-5xl sm:text-7xl">💬</span>
-            </div>
+          <div>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-6 sm:mb-8 tracking-tight">
               ¿Tienes dudas?
             </h2>
@@ -752,7 +749,7 @@ const LandingPage = () => {
             </div>
             <Card className="mx-auto max-w-2xl bg-white/10 backdrop-blur-md border-2 border-white/30 mb-8 sm:mb-10">
               <CardContent className="p-5 sm:p-6">
-                <p className="text-white text-base sm:text-xl leading-relaxed">
+                <p className="text-white text-base sm:text-xl leading-relaxed text-justify">
                   No te preocupes. Estamos aquí para acompañarte y resolver todas tus preguntas. Queremos que te sientas segura. Escríbeme y con gusto te ayudaremos a encontrar la mejor opción para ti.
                 </p>
               </CardContent>
@@ -761,7 +758,7 @@ const LandingPage = () => {
           <Button 
             size="lg"
             variant="outline"
-            className="w-full sm:w-auto bg-white text-sage-700 border-2 border-white hover:bg-sage-50 hover:text-sage-800 shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-300 text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-6 rounded-full font-bold"
+            className="w-full sm:w-auto bg-white text-sage-700 border-2 border-white hover:bg-sage-50 hover:text-sage-800 shadow-elegant hover:shadow-2xl hover:scale-105 transition-all duration-300 text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-6 font-bold"
             onClick={() => window.open('https://wa.me/33667596062', '_blank')}
           >
             HABLAR CON EL EQUIPO
