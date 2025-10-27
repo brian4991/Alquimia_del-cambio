@@ -11,6 +11,7 @@ import UserDetailView from './components/UserDetailView';
 import Layout from './components/Layout';
 import ProgramLanding from './components/ProgramLanding';
 import RetiroAmateLanding from './components/RetiroAmateLanding';
+import RetiroAmateStyle from './components/RetiroAmateStyle';
 import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
@@ -179,6 +180,7 @@ const App = () => {
           />
           <Route path="/" element={<ProgramLanding />} />
           <Route path="/retiro-renacer" element={<RetiroAmateLanding />} />
+          <Route path="/retiro-amate-style" element={<RetiroAmateStyle />} />
         </Routes>
       </div>
     </Router>
