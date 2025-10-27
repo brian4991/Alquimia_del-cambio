@@ -95,6 +95,7 @@ const RetiroAmateStyle = () => {
                 <p>• Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo</p>
                 <p>• Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás</p>
                 <p>• Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia</p>
+                <p>• Porque aunque trabajas duro y te has reinventado muchas veces, sientes que algo sigue bloqueando tu crecimiento. A veces dudas de tu merecimiento o repites frases como "todo es caro" o "aquí es más difícil". En este retiro aprenderás a transformar esas creencias y abrirte a una nueva relación con el dinero, el éxito y la abundancia</p>
                 <p>• Y porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser</p>
               </div>
             </div>
@@ -110,11 +111,14 @@ const RetiroAmateStyle = () => {
             alt="Logo" 
             className="h-40 w-40 mx-auto mb-6"
           />
-          <p className="text-xl sm:text-2xl font-medium text-gray-700 mb-4 leading-relaxed">
-            Vive una experiencia de <strong className="text-sage-700">transformación interior</strong>
+          <p className="text-2xl sm:text-3xl font-semibold text-sage-700 mb-4 leading-tight">
+            Un encuentro con tu alma, un cambio de paradigma
+          </p>
+          <p className="text-base sm:text-lg text-gray-600 mb-2 leading-relaxed">
+            Para cerrar el año con claridad y propósito
           </p>
           <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-            para cerrar el año con claridad y propósito
+            Vive una experiencia de transformación interior
           </p>
         </div>
       </section>
@@ -534,11 +538,11 @@ const RetiroAmateStyle = () => {
                 <div className="absolute inset-0 bg-white/95 blur-[100px] scale-[2] rounded-full"></div>
                 <img src="/logo-dorado.png" alt="Logo" className="relative h-32 w-32 brightness-110 contrast-125 rounded-full" />
               </div>
-              <span className="text-xl font-semibold">Retiro Renacer</span>
+              <span className="text-xl font-semibold">Retiro Renaser</span>
             </div>
           </div>
           <div className="text-center text-sm text-white/80 border-t border-white/20 pt-6">
-            <p>© 2024 Retiro Renacer. Todos los derechos reservados.</p>
+            <p>© 2024 Retiro Renaser. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
