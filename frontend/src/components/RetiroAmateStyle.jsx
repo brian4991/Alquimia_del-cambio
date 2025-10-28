@@ -48,6 +48,25 @@ const RetiroAmateStyle = () => {
         </div>
       </section>
 
+      {/* Logo Central */}
+      <section className="py-16 bg-stone-50">
+        <div className="container mx-auto max-w-2xl text-center px-4">
+          <img 
+            src="/logo-transparent.png" 
+            alt="Logo" 
+            className="h-40 w-40 mx-auto mb-6"
+          />
+          <p className="text-2xl sm:text-3xl font-semibold text-sage-700 mb-4 leading-tight">
+            Un encuentro con tu alma, un cambio de paradigma
+          </p>
+          <p className="text-base sm:text-lg text-gray-600 mb-2 leading-relaxed">
+          no es solo un retiro es una experiencia de transformación interior para cerrar el año con claridad, propósito y abundancia  
+
+          </p>
+          
+        </div>
+      </section>
+
       {/* Small Images Section */}
       <section className="py-8 bg-stone-50">
         <div className="container mx-auto max-w-5xl px-4">
@@ -85,41 +104,21 @@ const RetiroAmateStyle = () => {
                 className="w-full h-auto object-contain rounded-xl shadow-elegant"
               />
             </div>
-            <div className="order-1 md:order-2 bg-gradient-sage text-white p-10 sm:p-14 rounded-2xl shadow-sage">
-              <h2 className="text-2xl sm:text-3xl font-semibold mb-6 leading-tight">
+            <div className="order-1 md:order-2 bg-white p-10 sm:p-14 rounded-2xl shadow-elegant">
+              <h2 className="text-2xl sm:text-3xl font-semibold mb-6 leading-tight bg-gradient-sage text-white p-6 rounded-xl text-center">
                 ¿POR QUÉ EL RETIRO RENACER ES PARA TI?
               </h2>
-              <div className="space-y-4 text-sm sm:text-base leading-relaxed">
-                <p>• Porque en tus relaciones das más de lo que recibes. Te cuesta poner límites, decir "no" sin sentir culpa o pedir lo que necesitas sin miedo a perder el cariño del otro. Y aunque parezcas fuerte, muchas veces te sientes sola, no vista o emocionalmente cansada</p>
-                <p>• Porque hay momentos en los que dudas de ti misma, incluso cuando los demás te ven capaz. Esa voz interna que te exige más, que te compara o que te hace sentir que "no estás haciendo lo suficiente", se ha vuelto demasiado ruidosa</p>
-                <p>• Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo</p>
-                <p>• Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás</p>
-                <p>• Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia</p>
-                <p>• Y porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser</p>
-                <p>• Porque aunque trabajas duro y te has reinventado muchas veces, sientes que algo sigue bloqueando tu crecimiento. A veces dudas de tu merecimiento o repites frases como "todo es caro" o "aquí es más difícil". En este retiro aprenderás a transformar esas creencias y abrirte a una nueva relación con el dinero, el éxito y la abundancia</p>
+              <div className="space-y-4 text-sm sm:text-base leading-relaxed text-gray-700">
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Porque en tus relaciones das más de lo que recibes. Te cuesta poner límites, decir "no" sin sentir culpa o pedir lo que necesitas sin miedo a perder el cariño del otro. Y aunque parezcas fuerte, muchas veces te sientes sola, no vista o emocionalmente cansada</span></p>
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Porque hay momentos en los que dudas de ti misma, incluso cuando los demás te ven capaz. Esa voz interna que te exige más, que te compara o que te hace sentir que "no estás haciendo lo suficiente", se ha vuelto demasiado ruidosa</span></p>
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Porque si bien has logrado mucho —has migrado, te has reinventado, empezado de cero— a veces te sientes desconectada de ti, de tu esencia, de tu propósito. No sabes si el camino que estás siguiendo realmente te representa o si solo estás sobreviviendo</span></p>
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Porque llevas tiempo sintiendo que necesitas una pausa. Salir de la rutina, soltar el control y darte el permiso de escucharte, sin tener que sostener a todos los demás</span></p>
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Porque sabes que este cierre de año no puede ser igual. Sientes el llamado de dejar atrás lo viejo, ordenar tus emociones y poner claridad en tus metas para 2026. Quieres aprender cómo transformar tu mente y accionar con confianza, sin miedo ni autoexigencia</span></p>
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Porque quieres rodearte de mujeres como tú: valientes, sensibles, auténticas. Mujeres que entienden el peso de empezar de nuevo, que buscan paz, propósito y expansión. Una tribu donde no tengas que fingir fortaleza, solo permitirte ser</span></p>
+                <p className="flex items-start"><span className="inline-block w-2 h-2 bg-sage-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span><span>Y porque aunque trabajas duro y te has reinventado muchas veces, sientes que algo sigue bloqueando tu crecimiento. A veces dudas de tu merecimiento o repites frases como "todo es caro" o "aquí es más difícil". En este retiro aprenderás a transformar esas creencias y abrirte a una nueva relación con el dinero, el éxito y la abundancia</span></p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Logo Central */}
-      <section className="py-16 bg-stone-50">
-        <div className="container mx-auto max-w-2xl text-center px-4">
-          <img 
-            src="/logo-transparent.png" 
-            alt="Logo" 
-            className="h-40 w-40 mx-auto mb-6"
-          />
-          <p className="text-2xl sm:text-3xl font-semibold text-sage-700 mb-4 leading-tight">
-            Un encuentro con tu alma, un cambio de paradigma
-          </p>
-          <p className="text-base sm:text-lg text-gray-600 mb-2 leading-relaxed">
-            Vive una experiencia de transformación interior
-          </p>
-          <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-            Para cerrar el año con claridad y propósito
-          </p>
         </div>
       </section>
 
@@ -201,9 +200,9 @@ const RetiroAmateStyle = () => {
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             {/* Incluye */}
-            <div className="bg-gradient-sage text-white p-8 sm:p-10 rounded-2xl shadow-sage">
-              <h3 className="text-2xl font-semibold mb-6 text-center">¿QUÉ INCLUYE?</h3>
-              <div className="space-y-3 text-sm sm:text-base leading-relaxed">
+            <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-elegant">
+              <h3 className="text-2xl font-semibold mb-6 text-center bg-gradient-sage text-white p-4 rounded-xl">¿QUÉ INCLUYE?</h3>
+              <div className="space-y-3 text-sm sm:text-base leading-relaxed text-gray-700">
                 {[
                   'Un día completo de transformación (8h30 a 18h30) en El Jardín Secreto de París',
                   'Desayuno, almuerzo con postre y merienda saludable',
@@ -215,15 +214,20 @@ const RetiroAmateStyle = () => {
                   'Participación en todos los talleres del programa Renacer: Espacios enfocados en creencias, claridad emocional, autoestima, confianza y cumplimiento de metas',
                   'Actividades de recreación y conexión grupal'
                 ].map((item, i) => (
-                  <p key={i}>• {item}</p>
+                  <p key={i} className="flex items-start">
+                    <svg className="w-5 h-5 text-sage-600 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span>{item}</span>
+                  </p>
                 ))}
               </div>
             </div>
 
             {/* Esperar */}
-            <div className="bg-gradient-taupe text-white p-8 sm:p-10 rounded-2xl shadow-taupe">
-              <h3 className="text-2xl font-semibold mb-6 text-center">¿QUÉ ESPERAR?</h3>
-              <div className="space-y-3 text-sm sm:text-base leading-relaxed">
+            <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-elegant">
+              <h3 className="text-2xl font-semibold mb-6 text-center bg-gradient-taupe text-white p-4 rounded-xl">¿QUÉ ESPERAR?</h3>
+              <div className="space-y-3 text-sm sm:text-base leading-relaxed text-gray-700">
                 {[
                   'Un espacio seguro y amoroso para conectar contigo y con mujeres que comparten tu deseo de crecimiento y autenticidad',
                   'Actividades que integran cuerpo, mente y alma, diseñadas para reconectar con tu poder interior',
@@ -236,7 +240,10 @@ const RetiroAmateStyle = () => {
                   'Un nuevo enfoque para tu vida y tus relaciones, más consciente, resiliente y equilibrado',
                   'Un cierre de año poderoso, soltando lo viejo y estableciendo metas claras para accionar con confianza y dirección en 2026'
                 ].map((item, i) => (
-                  <p key={i}>• {item}</p>
+                  <p key={i} className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-taupe-600 rounded-sm mr-3 mt-2 flex-shrink-0"></span>
+                    <span>{item}</span>
+                  </p>
                 ))}
               </div>
             </div>
@@ -284,25 +291,7 @@ const RetiroAmateStyle = () => {
         </div>
       </section>
 
-      {/* Video Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto max-w-6xl px-4">
-          <div className="flex flex-col items-center justify-center">
-            <video 
-              src="/IMG_9800-2.mp4" 
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-80 h-96 object-cover rounded-xl shadow-elegant mb-8"
-            />
-            <p className="text-xl font-medium text-gray-800 text-center max-w-3xl leading-relaxed">
-              Más que un retiro, es una experiencia de conexión profunda contigo misma y con mujeres que comparten tu deseo de transformación, crecimiento y autenticidad
-            </p>
-          </div>
-        </div>
-      </section>
-
+ 
       {/* Why Different - 8 cards */}
       <section className="py-16 bg-stone-50">
         <div className="container mx-auto max-w-6xl px-4">
@@ -335,21 +324,20 @@ const RetiroAmateStyle = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl sm:text-4xl font-semibold text-gray-800 mb-4">
-              Fundadoras del retiro
-            </h2>
+            
           </div>
           
           {/* Nicole */}
           <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
-            <div className="bg-gradient-sage text-white p-10 sm:p-14 rounded-2xl shadow-sage">
-              <h2 className="text-3xl sm:text-4xl font-semibold mb-4">
+            <div className="bg-beige p-10 sm:p-14 rounded-2xl shadow-elegant">
+              <h2 className="text-3xl sm:text-4xl font-semibold mb-4 text-gray-800">
                 Hola, Hermosa
               </h2>
-              <h3 className="text-2xl sm:text-3xl font-medium mb-6">
+              <h3 className="text-2xl sm:text-3xl font-medium mb-6 text-gray-600">
                 Soy Nicole Ramírez
               </h3>
-              <div className="space-y-4 text-sm sm:text-base leading-relaxed">
+              <p className="text-base mb-6 text-gray-500">(Fundadora y Facilitadora)</p>
+              <div className="space-y-4 text-sm sm:text-base leading-relaxed text-gray-700">
                 <p>
                   Soy una mujer apasionada por el crecimiento personal, el bienestar emocional y la mente humana.
                 </p>
@@ -368,10 +356,10 @@ const RetiroAmateStyle = () => {
                 <p className="italic">
                   Creo profundamente en el poder interno que todos tenemos para reinventarnos, en la capacidad de empezar de nuevo y en el vínculo entre la mente y lo que proyectamos en el mundo.
                 </p>
-                <p className="font-semibold">
+                <p className="font-semibold text-gray-800">
                   Cuando transformas tus pensamientos, transformas tu realidad.
                 </p>
-                <p className="font-medium bg-white/20 p-4 rounded-lg border-l-4 border-white">
+                <p className="font-medium bg-sage-50 p-4 rounded-lg border-l-4 border-sage-600 text-gray-700">
                   En el retiro Renacer voy a compartir contigo las herramientas, experiencias y prácticas que me ayudaron a pasar de tener cero posibilidades en mi país, a crear una vida alineada a mis deseos, viviendo con plenitud, confianza y serenidad. Te acompañaré paso a paso para que tú también puedas cerrar un ciclo, liberar lo que pesa y construir desde adentro la vida que mereces vivir.
                 </p>
               </div>
@@ -394,12 +382,12 @@ const RetiroAmateStyle = () => {
                 className="w-full h-[600px] object-cover rounded-2xl shadow-elegant"
               />
             </div>
-            <div className="order-1 md:order-2 bg-gradient-taupe text-white p-10 sm:p-14 rounded-2xl shadow-taupe">
-              <h2 className="text-3xl sm:text-4xl font-semibold mb-4">
+            <div className="order-1 md:order-2 bg-beige p-10 sm:p-14 rounded-2xl shadow-elegant">
+              <h2 className="text-3xl sm:text-4xl font-semibold mb-4 text-gray-800">
                 Hola, soy Dianix Bermúdez
               </h2>
-              <p className="text-lg mb-6">(Facilitadora)</p>
-              <div className="space-y-4 text-sm sm:text-base leading-relaxed">
+              <p className="text-lg mb-6 text-gray-500">(Facilitadora)</p>
+              <div className="space-y-4 text-sm sm:text-base leading-relaxed text-gray-700">
                 <p>
                   Soy Mentora de Vida, experta en Energía, Manifestación y Negocios Conscientes, y autora del libro "La Energía es la Vida".
                 </p>
@@ -415,7 +403,7 @@ const RetiroAmateStyle = () => {
                 <p className="italic">
                   Creo profundamente que la energía es la vida, y que cuando alineas tu mente, tus emociones y tu intención, todo comienza a fluir.
                 </p>
-                <p className="font-medium bg-white/20 p-4 rounded-lg border-l-4 border-white">
+                <p className="font-medium bg-taupe-50 p-4 rounded-lg border-l-4 border-taupe-600 text-gray-700">
                   En este retiro quiero acompañarte a recordar tu poder interior, reconectarte con tu energía más auténtica y abrir espacio para que la abundancia llegue a tu vida con facilidad y propósito.
                 </p>
               </div>
