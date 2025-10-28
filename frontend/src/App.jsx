@@ -1,94 +1,99 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import StepView from './components/StepView';
-import ModuleView from './components/ModuleView';
-import ThemeView from './components/ThemeView';
-import AdminPanel from './components/AdminPanel';
-import AdminUsersTracking from './components/AdminUsersTracking';
-import UserDetailView from './components/UserDetailView';
-import Layout from './components/Layout';
-import ProgramLanding from './components/ProgramLanding';
-import RetiroAmateLanding from './components/RetiroAmateLanding';
+// import Login from './components/Login';
+// import Dashboard from './components/Dashboard';
+// import StepView from './components/StepView';
+// import ModuleView from './components/ModuleView';
+// import ThemeView from './components/ThemeView';
+// import AdminPanel from './components/AdminPanel';
+// import AdminUsersTracking from './components/AdminUsersTracking';
+// import UserDetailView from './components/UserDetailView';
+// import Layout from './components/Layout';
+// import ProgramLanding from './components/ProgramLanding';
+// import RetiroAmateLanding from './components/RetiroAmateLanding';
 import RetiroAmateStyle from './components/RetiroAmateStyle';
-import OAuthCallback from './components/OAuthCallback';
+// import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
 // Utility function to decode JWT and get user info
-const decodeToken = (token) => {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload;
-  } catch (error) {
-    console.error('Error decoding token:', error);
-    return null;
-  }
-};
+// const decodeToken = (token) => {
+//   try {
+//     const payload = JSON.parse(atob(token.split('.')[1]));
+//     return payload;
+//   } catch (error) {
+//     console.error('Error decoding token:', error);
+//     return null;
+//   }
+// };
 
-const ProtectedRoute = ({ children, requireAdmin = false }) => {
-  const token = localStorage.getItem('token');
-  
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
+// const ProtectedRoute = ({ children, requireAdmin = false }) => {
+//   const token = localStorage.getItem('token');
+//   
+//   if (!token) {
+//     return <Navigate to="/login" />;
+//   }
 
-  if (requireAdmin) {
-    const userData = decodeToken(token);
-    if (!userData || userData.role !== 'admin') {
-      return (
-        <div className="min-h-screen bg-gradient-serene flex items-center justify-center">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-sage-200 text-center max-w-md">
-            <div className="flex justify-center mb-6">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-2xl">🚫</span>
-              </div>
-            </div>
-            <h2 className="text-2xl font-inter font-bold text-red-800 mb-4">
-              Accès restreint
-            </h2>
-            <p className="text-red-600 mb-6">
-              Vous n'avez pas les permissions nécessaires pour accéder à cette page.
-            </p>
-            <button
-              onClick={() => {
-                const token = localStorage.getItem('token');
-                if (token) {
-                  try {
-                    const payload = JSON.parse(atob(token.split('.')[1]));
-                    if (payload.role === 'admin') {
-                      window.location.href = '/admin/users';
-                    } else {
-                      window.location.href = '/dashboard';
-                    }
-                  } catch (error) {
-                    window.location.href = '/dashboard';
-                  }
-                } else {
-                  window.location.href = '/dashboard';
-                }
-              }}
-              className="w-full py-3 px-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-200 shadow-lg"
-            >
-              Retour au tableau de bord
-            </button>
-          </div>
-        </div>
-      );
-    }
-  }
+//   if (requireAdmin) {
+//     const userData = decodeToken(token);
+//     if (!userData || userData.role !== 'admin') {
+//       return (
+//         <div className="min-h-screen bg-gradient-serene flex items-center justify-center">
+//           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-sage-200 text-center max-w-md">
+//             <div className="flex justify-center mb-6">
+//               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center shadow-lg">
+//                 <span className="text-2xl">🚫</span>
+//               </div>
+//             </div>
+//             <h2 className="text-2xl font-inter font-bold text-red-800 mb-4">
+//               Accès restreint
+//             </h2>
+//             <p className="text-red-600 mb-6">
+//               Vous n'avez pas les permissions nécessaires pour accéder à cette page.
+//             </p>
+//             <button
+//               onClick={() => {
+//                 const token = localStorage.getItem('token');
+//                 if (token) {
+//                   try {
+//                     const payload = JSON.parse(atob(token.split('.')[1]));
+//                     if (payload.role === 'admin') {
+//                       window.location.href = '/admin/users';
+//                     } else {
+//                       window.location.href = '/dashboard';
+//                     }
+//                   } catch (error) {
+//                     window.location.href = '/dashboard';
+//                   }
+//                 } else {
+//                   window.location.href = '/dashboard';
+//                 }
+//               }}
+//               className="w-full py-3 px-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-medium rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all duration-200 shadow-lg"
+//             >
+//               Retour au tableau de bord
+//             </button>
+//           </div>
+//         </div>
+//       );
+//     }
+//   }
 
-  return children;
-};
+//   return children;
+// };
 
 const App = () => {
   return (
     <Router>
       <div className="min-h-screen">
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/auth/callback" element={<OAuthCallback />} />
-          <Route 
+          {/* TEMPORARY: Only Retiro Renacer landing page is active */}
+          <Route path="/retiro-renacer" element={<RetiroAmateStyle />} />
+          <Route path="*" element={<Navigate to="/retiro-renacer" replace />} />
+          
+          {/* COMMENTED OUT - Will be reactivated later */}
+          {/* <Route path="/login" element={<Login />} /> */}
+          {/* <Route path="/auth/callback" element={<OAuthCallback />} /> */}
+          {/* <Route 
             path="/dashboard" 
             element={
               <ProtectedRoute>
@@ -97,8 +102,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/module/:moduleId" 
             element={
               <ProtectedRoute>
@@ -107,8 +112,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/theme/:themeId" 
             element={
               <ProtectedRoute>
@@ -117,8 +122,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/step/:stepId" 
             element={
               <ProtectedRoute>
@@ -127,8 +132,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/profile" 
             element={
               <ProtectedRoute>
@@ -147,8 +152,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/admin" 
             element={
               <ProtectedRoute requireAdmin={true}>
@@ -157,8 +162,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/admin/users" 
             element={
               <ProtectedRoute requireAdmin={true}>
@@ -167,8 +172,8 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route 
+          /> */}
+          {/* <Route 
             path="/admin/users/:userId" 
             element={
               <ProtectedRoute requireAdmin={true}>
@@ -177,10 +182,9 @@ const App = () => {
                 </Layout>
               </ProtectedRoute>
             } 
-          />
-          <Route path="/" element={<ProgramLanding />} />
-          <Route path="/retiro-renacer" element={<RetiroAmateLanding />} />
-          <Route path="/retiro-amate-style" element={<RetiroAmateStyle />} />
+          /> */}
+          {/* <Route path="/" element={<ProgramLanding />} /> */}
+          {/* <Route path="/retiro-renacer-old" element={<RetiroAmateLanding />} /> */}
         </Routes>
       </div>
     </Router>
