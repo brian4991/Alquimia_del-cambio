@@ -166,11 +166,7 @@ const RetiroAmateStyle = () => {
               Opciones de pago: Transferencia, Wero (Francia), tarjeta de crédito o débito
             </p>
             
-            <div className="mt-6 inline-block bg-taupe-100 px-6 py-3 rounded-lg border-2 border-taupe-300">
-              <p className="font-semibold text-base text-taupe-800">
-                Descuento para grupos a partir de 4 mujeres
-              </p>
-            </div>
+            
           </div>
         </div>
       </section>
