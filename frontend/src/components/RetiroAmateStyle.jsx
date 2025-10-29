@@ -51,11 +51,7 @@ const RetiroAmateStyle = () => {
       {/* Logo Central */}
       <section className="py-16 bg-stone-50">
         <div className="container mx-auto max-w-2xl text-center px-4">
-          <img 
-            src="/logo-transparent.png" 
-            alt="Logo" 
-            className="h-40 w-40 mx-auto mb-6"
-          />
+         
           <p className="text-2xl sm:text-3xl font-semibold text-sage-700 mb-4 leading-tight">
             Un encuentro con tu alma, un cambio de paradigma
           </p>
