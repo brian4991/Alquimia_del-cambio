@@ -9,9 +9,9 @@ import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
 import Layout from './components/Layout';
-import ProgramLanding from './components/ProgramLanding';
-import RetiroAmateLanding from './components/RetiroAmateLanding';
-import RetiroAmateStyle from './components/RetiroAmateStyle';
+// import ProgramLanding from './components/ProgramLanding';
+// import RetiroAmateLanding from './components/RetiroAmateLanding';
+// import RetiroAmateStyle from './components/RetiroAmateStyle';
 import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
@@ -86,11 +86,16 @@ const App = () => {
     <Router>
       <div className="min-h-screen">
         <Routes>
-          <Route path="/" element={<ProgramLanding />} />
+          {/* Public routes - only login and OAuth callback */}
           <Route path="/login" element={<Login />} />
           <Route path="/auth/callback" element={<OAuthCallback />} />
-          <Route path="/retiro-renacer" element={<RetiroAmateStyle />} />
-          <Route path="/retiro-renacer-old" element={<RetiroAmateLanding />} />
+          
+          {/* COMMENTED OUT - Public landing pages (currently disabled) */}
+          {/* <Route path="/" element={<ProgramLanding />} /> */}
+          {/* <Route path="/retiro-renacer" element={<RetiroAmateStyle />} /> */}
+          {/* <Route path="/retiro-renacer-old" element={<RetiroAmateLanding />} /> */}
+          
+          {/* Protected routes - require authentication */}
           <Route 
             path="/dashboard" 
             element={
@@ -181,7 +186,9 @@ const App = () => {
               </ProtectedRoute>
             } 
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          
+          {/* Redirect all other routes to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
     </Router>
