@@ -903,7 +903,6 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_admin:
         raise HTTPException(status_code=404, detail="Theme not found")
     
     # Convert lists to JSON strings for storage
-    import json
     sub_questions_json = json.dumps(exercise_data.sub_questions) if exercise_data.sub_questions else "[]"
     exercise_questions_json = json.dumps(exercise_data.exercise_questions) if exercise_data.exercise_questions else "[]"
     exercise_sections_json = json.dumps(exercise_data.exercise_sections) if exercise_data.exercise_sections else "[]"
@@ -924,10 +923,30 @@ def create_exercise(theme_id: int, exercise_data: ExerciseCreate, current_admin:
     db.commit()
     db.refresh(new_exercise)
     
-    # Parse JSON fields back for response
-    sub_questions = json.loads(new_exercise.sub_questions) if new_exercise.sub_questions else []
-    exercise_questions = json.loads(new_exercise.exercise_questions) if new_exercise.exercise_questions else []
-    exercise_sections = json.loads(new_exercise.exercise_sections) if new_exercise.exercise_sections else []
+    # Parse JSON fields back for response with robust error handling
+    sub_questions = []
+    if new_exercise.sub_questions is not None:
+        try:
+            parsed = json.loads(new_exercise.sub_questions) if isinstance(new_exercise.sub_questions, str) else new_exercise.sub_questions
+            sub_questions = parsed if isinstance(parsed, list) else []
+        except Exception:
+            sub_questions = []
+    
+    exercise_questions = []
+    if new_exercise.exercise_questions is not None:
+        try:
+            parsed_eq = json.loads(new_exercise.exercise_questions) if isinstance(new_exercise.exercise_questions, str) else new_exercise.exercise_questions
+            exercise_questions = parsed_eq if isinstance(parsed_eq, list) else []
+        except Exception:
+            exercise_questions = []
+    
+    exercise_sections = []
+    if new_exercise.exercise_sections is not None:
+        try:
+            parsed_es = json.loads(new_exercise.exercise_sections) if isinstance(new_exercise.exercise_sections, str) else new_exercise.exercise_sections
+            exercise_sections = parsed_es if isinstance(parsed_es, list) else []
+        except Exception:
+            exercise_sections = []
     
     return ExerciseResponse(
         id=new_exercise.id,
@@ -974,10 +993,30 @@ def update_exercise(exercise_id: int, exercise_data: ExerciseUpdate, current_adm
     db.commit()
     db.refresh(exercise)
     
-    # Parse JSON fields back for response
-    sub_questions = json.loads(exercise.sub_questions) if exercise.sub_questions else []
-    exercise_questions = json.loads(exercise.exercise_questions) if exercise.exercise_questions else []
-    exercise_sections = json.loads(exercise.exercise_sections) if exercise.exercise_sections else []
+    # Parse JSON fields back for response with robust error handling
+    sub_questions = []
+    if exercise.sub_questions is not None:
+        try:
+            parsed = json.loads(exercise.sub_questions) if isinstance(exercise.sub_questions, str) else exercise.sub_questions
+            sub_questions = parsed if isinstance(parsed, list) else []
+        except Exception:
+            sub_questions = []
+    
+    exercise_questions = []
+    if exercise.exercise_questions is not None:
+        try:
+            parsed_eq = json.loads(exercise.exercise_questions) if isinstance(exercise.exercise_questions, str) else exercise.exercise_questions
+            exercise_questions = parsed_eq if isinstance(parsed_eq, list) else []
+        except Exception:
+            exercise_questions = []
+    
+    exercise_sections = []
+    if exercise.exercise_sections is not None:
+        try:
+            parsed_es = json.loads(exercise.exercise_sections) if isinstance(exercise.exercise_sections, str) else exercise.exercise_sections
+            exercise_sections = parsed_es if isinstance(parsed_es, list) else []
+        except Exception:
+            exercise_sections = []
     
     return ExerciseResponse(
         id=exercise.id,
