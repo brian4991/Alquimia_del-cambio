@@ -73,11 +73,24 @@ async def google_login(request: Request):
     import logging
     logger = logging.getLogger(__name__)
     
-    base_url = os.environ.get("BACKEND_URL", str(request.base_url).rstrip('/'))
-    redirect_uri = f"{base_url}/auth/google/callback"
+    # Determine the correct backend URL
+    # Priority: 1. BACKEND_URL env var, 2. Custom domain from Host header, 3. request.base_url
+    backend_url = os.environ.get("BACKEND_URL")
+    
+    if not backend_url:
+        # Check if we're using a custom domain (api.nicoleramirezpsicoach.com)
+        host = request.headers.get("host", "").lower()
+        if "api.nicoleramirezpsicoach.com" in host:
+            # Use HTTPS with custom domain
+            backend_url = "https://api.nicoleramirezpsicoach.com"
+        else:
+            # Fallback to request base URL (Railway URL)
+            backend_url = str(request.base_url).rstrip('/')
+    
+    redirect_uri = f"{backend_url}/auth/google/callback"
     
     # Log for debugging
-    logger.info(f"OAuth login initiated - redirect_uri: {redirect_uri}, backend_url: {base_url}")
+    logger.info(f"OAuth login initiated - redirect_uri: {redirect_uri}, backend_url: {backend_url}, host: {request.headers.get('host')}")
     
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
