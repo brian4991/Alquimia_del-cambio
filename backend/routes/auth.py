@@ -70,20 +70,33 @@ async def google_login(request: Request):
     """Initiate Google OAuth login"""
     # Use explicit redirect URI to match Google Console configuration
     import os
+    import logging
+    logger = logging.getLogger(__name__)
+    
     base_url = os.environ.get("BACKEND_URL", str(request.base_url).rstrip('/'))
     redirect_uri = f"{base_url}/auth/google/callback"
+    
+    # Log for debugging
+    logger.info(f"OAuth login initiated - redirect_uri: {redirect_uri}, backend_url: {base_url}")
+    
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 @router.get("/google/callback")
 async def google_callback(request: Request, db: Session = Depends(get_db)):
     """Handle Google OAuth callback"""
     try:
+        # Log the request URL for debugging
+        import os
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"OAuth callback received: {request.url}")
+        
         token = await oauth.google.authorize_access_token(request)
         user_info = token.get('userinfo')
         
         if not user_info:
             # Fetch user info if not included in token
-            resp = await oauth.google.get('https://www.googleapis.com/oauth2/v2/userinfo', token=token)
+            resp = await oauth.google.get('https://www.googleapis.com/oauth2/v3/userinfo', token=token)
             user_info = resp.json()
         
         # Create or get user
@@ -94,13 +107,19 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         
         # Redirect to frontend with token
         # Use Railway URL or localhost for development
-        import os
         base_url = os.environ.get("FRONTEND_URL", "http://localhost:5174")
         frontend_url = f"{base_url}/auth/callback?token={access_token}"
         return RedirectResponse(url=frontend_url)
         
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"OAuth authentication failed: {str(e)}")
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"OAuth callback error: {str(e)}", exc_info=True)
+        # Return more detailed error message
+        error_msg = str(e)
+        if "mismatching_state" in error_msg or "state" in error_msg.lower():
+            error_msg += " - Vérifiez que le redirect URI dans Google OAuth Console correspond exactement à l'URL du callback."
+        raise HTTPException(status_code=400, detail=f"OAuth authentication failed: {error_msg}")
 
 @router.get("/facebook")
 async def facebook_login(request: Request):

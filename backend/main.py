@@ -24,13 +24,15 @@ app = FastAPI(
 
 # Session middleware (required for OAuth)
 SECRET_KEY = os.environ.get("SECRET_KEY", "your-secret-key-here-change-in-production")
+# Determine if we're in production (HTTPS)
+is_production = os.environ.get("RAILWAY_ENVIRONMENT") or os.environ.get("PRODUCTION", "").lower() == "true"
 app.add_middleware(
     SessionMiddleware, 
     secret_key=SECRET_KEY,
     session_cookie="alquimia_session",
     max_age=3600,
-    same_site="lax",
-    https_only=False  # Set to True in production with HTTPS
+    same_site="lax",  # Use "lax" to allow cross-site requests for OAuth
+    https_only=is_production  # Set to True in production with HTTPS
 )
 
 # CORS middleware
@@ -41,7 +43,9 @@ app.add_middleware(
         "http://localhost:5173",
         "http://localhost:5174",
         "https://alquimia-del-cambio.vercel.app",
-        "https://alquimiadel-cambio-production.up.railway.app"
+        "https://alquimiadel-cambio-production.up.railway.app",
+        "https://www.nicoleramirezpsicoach.com",
+        "https://nicoleramirezpsicoach.com"
     ],
     allow_credentials=True,
     allow_methods=["*"],
