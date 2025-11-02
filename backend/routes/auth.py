@@ -119,9 +119,18 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
         access_token = generate_oauth_token(user)
         
         # Redirect to frontend with token
-        # Use Railway URL or localhost for development
-        base_url = os.environ.get("FRONTEND_URL", "http://localhost:5174")
-        frontend_url = f"{base_url}/auth/callback?token={access_token}"
+        # Determine the correct frontend URL
+        frontend_url_env = os.environ.get("FRONTEND_URL")
+        
+        if not frontend_url_env or "vercel.app" in frontend_url_env.lower() or "alquimia-del-cambio" in frontend_url_env.lower():
+            # Use the new domain if FRONTEND_URL is not set or points to old domain
+            frontend_url_env = "https://www.nicoleramirezpsicoach.com"
+        
+        frontend_url = f"{frontend_url_env}/auth/callback?token={access_token}"
+        
+        # Log for debugging
+        logger.info(f"OAuth callback redirecting to: {frontend_url}")
+        
         return RedirectResponse(url=frontend_url)
         
     except Exception as e:
