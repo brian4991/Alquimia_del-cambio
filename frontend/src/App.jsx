@@ -11,7 +11,7 @@ import UserDetailView from './components/UserDetailView';
 import Layout from './components/Layout';
 // import ProgramLanding from './components/ProgramLanding';
 // import RetiroAmateLanding from './components/RetiroAmateLanding';
-// import RetiroAmateStyle from './components/RetiroAmateStyle';
+import RetiroAmateStyle from './components/RetiroAmateStyle';
 import OAuthCallback from './components/OAuthCallback';
 import './index.css';
 
@@ -90,9 +90,9 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/auth/callback" element={<OAuthCallback />} />
           
-          {/* COMMENTED OUT - Public landing pages (currently disabled) */}
+          {/* Public landing pages */}
           {/* <Route path="/" element={<ProgramLanding />} /> */}
-          {/* <Route path="/retiro-renacer" element={<RetiroAmateStyle />} /> */}
+          <Route path="/retiro-renacer" element={<RetiroAmateStyle />} />
           {/* <Route path="/retiro-renacer-old" element={<RetiroAmateLanding />} /> */}
           
           {/* Protected routes - require authentication */}
