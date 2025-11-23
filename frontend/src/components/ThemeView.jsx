@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { config } from '../config';
 import ExerciseTable from './ExerciseTable';
@@ -10,7 +10,10 @@ import {
   ChevronLeftIcon,
   ArrowRightIcon,
   LightBulbIcon,
-  HeartIcon
+  HeartIcon,
+  CloudArrowUpIcon,
+  CheckIcon,
+  ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
 import CardsView from './CardsView';
 
@@ -27,6 +30,8 @@ const ThemeView = () => {
   const [themeCompleted, setThemeCompleted] = useState(false);
   const [showContent, setShowContent] = useState(true);
   const [showCards, setShowCards] = useState(false);
+  const [savingStates, setSavingStates] = useState({});
+  const debounceTimers = useRef({});
 
   // Scroll to top when exercise changes
   useEffect(() => {
@@ -110,6 +115,24 @@ const ThemeView = () => {
             });
           }
         });
+        
+        // Load responses from localStorage first (for unsaved changes)
+        const localStorageKey = `exercise_responses_${themeId}`;
+        const savedResponses = localStorage.getItem(localStorageKey);
+        if (savedResponses) {
+          try {
+            const parsedResponses = JSON.parse(savedResponses);
+            // Merge with server responses, preferring localStorage if more recent
+            Object.keys(parsedResponses).forEach(key => {
+              if (parsedResponses[key] && parsedResponses[key].trim && parsedResponses[key].trim()) {
+                initialResponses[key] = parsedResponses[key];
+              }
+            });
+          } catch (e) {
+            console.error('Error parsing localStorage responses:', e);
+          }
+        }
+        
         setResponses(initialResponses);
 
       } catch (err) {
@@ -124,17 +147,149 @@ const ThemeView = () => {
   }, [themeId]);
 
   const handleResponseChange = (exerciseId, value) => {
-    setResponses(prev => ({
-      ...prev,
-      [exerciseId]: value
-    }));
+    setResponses(prev => {
+      const newResponses = {
+        ...prev,
+        [exerciseId]: value
+      };
+      // Save to localStorage immediately
+      localStorage.setItem(`exercise_responses_${themeId}`, JSON.stringify(newResponses));
+      return newResponses;
+    });
+    
+    // Debounced auto-save to server
+    if (debounceTimers.current[exerciseId]) {
+      clearTimeout(debounceTimers.current[exerciseId]);
+    }
+    
+    debounceTimers.current[exerciseId] = setTimeout(() => {
+      autoSaveResponse(exerciseId, value);
+    }, 2000); // Auto-save after 2 seconds of inactivity
   };
 
   const handleTableDataChange = (responseKey, data) => {
-    setResponses(prev => ({
-      ...prev,
-      [responseKey]: data
-    }));
+    setResponses(prev => {
+      const newResponses = {
+        ...prev,
+        [responseKey]: data
+      };
+      // Save to localStorage immediately
+      localStorage.setItem(`exercise_responses_${themeId}`, JSON.stringify(newResponses));
+      return newResponses;
+    });
+    
+    // Debounced auto-save to server
+    if (debounceTimers.current[responseKey]) {
+      clearTimeout(debounceTimers.current[responseKey]);
+    }
+    
+    debounceTimers.current[responseKey] = setTimeout(() => {
+      autoSaveResponse(responseKey, data);
+    }, 2000);
+  };
+
+  const autoSaveResponse = async (responseKey, responseData) => {
+    // Parse the response key to determine the exercise and question
+    const keyParts = String(responseKey).split('_');
+    
+    if (keyParts.length === 1) {
+      // Legacy main response (not used in current implementation)
+      return;
+    }
+    
+    // Find the exercise ID
+    const exerciseId = parseInt(keyParts[0]);
+    const exercise = exercises.find(ex => ex.id === exerciseId);
+    
+    if (!exercise) return;
+    
+    // Determine sub-question index
+    let subQuestionIndex;
+    if (keyParts.includes('section')) {
+      // New format: exerciseId_section_X_question_Y
+      const sectionIdx = keyParts[keyParts.indexOf('section') + 1];
+      const questionIdx = keyParts[keyParts.indexOf('question') + 1];
+      subQuestionIndex = `section_${sectionIdx}_question_${questionIdx}`;
+    } else {
+      // Legacy format: exerciseId_questionIndex
+      subQuestionIndex = parseInt(keyParts[1]);
+    }
+    
+    // Silently save in background
+    try {
+      const responseText = typeof responseData === 'object' ? JSON.stringify(responseData) : responseData;
+      
+      if (responseText && responseText.trim()) {
+        await fetch(`${config.apiUrl}/submit-sub-question-response`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            exercise_id: exerciseId,
+            sub_question_index: subQuestionIndex,
+            response_text: responseText
+          })
+        });
+      }
+    } catch (err) {
+      console.error('Auto-save error:', err);
+    }
+  };
+
+  const saveIndividualResponse = async (responseKey, responseData) => {
+    setSavingStates(prev => ({ ...prev, [responseKey]: 'saving' }));
+    
+    try {
+      // Parse the response key to determine the exercise and question
+      const keyParts = String(responseKey).split('_');
+      const exerciseId = parseInt(keyParts[0]);
+      
+      // Determine sub-question index
+      let subQuestionIndex;
+      if (keyParts.includes('section')) {
+        const sectionIdx = keyParts[keyParts.indexOf('section') + 1];
+        const questionIdx = keyParts[keyParts.indexOf('question') + 1];
+        subQuestionIndex = `section_${sectionIdx}_question_${questionIdx}`;
+      } else {
+        subQuestionIndex = parseInt(keyParts[1]);
+      }
+      
+      const responseText = typeof responseData === 'object' ? JSON.stringify(responseData) : responseData;
+      
+      if (!responseText || !responseText.trim()) {
+        setSavingStates(prev => ({ ...prev, [responseKey]: 'error' }));
+        setTimeout(() => {
+          setSavingStates(prev => ({ ...prev, [responseKey]: null }));
+        }, 2000);
+        return;
+      }
+      
+      await fetch(`${config.apiUrl}/submit-sub-question-response`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          exercise_id: exerciseId,
+          sub_question_index: subQuestionIndex,
+          response_text: responseText
+        })
+      });
+      
+      setSavingStates(prev => ({ ...prev, [responseKey]: 'saved' }));
+      setTimeout(() => {
+        setSavingStates(prev => ({ ...prev, [responseKey]: null }));
+      }, 2000);
+    } catch (err) {
+      console.error('Error saving response:', err);
+      setSavingStates(prev => ({ ...prev, [responseKey]: 'error' }));
+      setTimeout(() => {
+        setSavingStates(prev => ({ ...prev, [responseKey]: null }));
+      }, 3000);
+    }
   };
 
   const areAllQuestionsAnswered = () => {
@@ -252,6 +407,10 @@ const ThemeView = () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         });
+        
+        // Clear localStorage after successful completion
+        localStorage.removeItem(`exercise_responses_${themeId}`);
+        
         setThemeCompleted(true);
       }
     } catch (err) {
@@ -517,22 +676,26 @@ const ThemeView = () => {
                 {currentExerciseData?.sub_questions && currentExerciseData.sub_questions.length > 0 && (
                   <div className="space-y-6">
                     <h3 className="font-inter text-xl font-semibold text-black mb-4">Preguntas</h3>
-                    {currentExerciseData.sub_questions.map((question, questionIndex) => (
-                      <div key={questionIndex} className="space-y-4">
-                        <div className="glass-effect-sage rounded-xl p-4">
-                          <h4 className="font-inter text-lg font-medium text-sage-dark">
-                            {question}
-                          </h4>
+                    {currentExerciseData.sub_questions.map((question, questionIndex) => {
+                      const responseKey = `${currentExerciseData.id}_${questionIndex}`;
+                      
+                      return (
+                        <div key={questionIndex} className="space-y-4">
+                          <div className="glass-effect-sage rounded-xl p-4">
+                            <h4 className="font-inter text-lg font-medium text-sage-dark">
+                              {question}
+                            </h4>
+                          </div>
+                          
+                          <textarea
+                            value={responses[responseKey] || ''}
+                            onChange={(e) => handleResponseChange(responseKey, e.target.value)}
+                            placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo."
+                            className="w-full h-40 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-base leading-relaxed text-black placeholder-taupe"
+                          />
                         </div>
-                        
-                        <textarea
-                          value={responses[`${currentExerciseData.id}_${questionIndex}`] || ''}
-                          onChange={(e) => handleResponseChange(`${currentExerciseData.id}_${questionIndex}`, e.target.value)}
-                          placeholder="Expresa tus pensamientos y sentimientos aquí... Tómate tu tiempo."
-                          className="w-full h-40 p-6 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage glass-effect resize-none font-inter text-base leading-relaxed text-black placeholder-taupe"
-                        />
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
 
@@ -632,12 +795,12 @@ const ThemeView = () => {
                     {submitting ? (
                       <div className="flex items-center">
                         <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
-                        Enviando...
+                        Guardando...
                       </div>
                     ) : currentExercise === exercises.length - 1 ? (
-                      'Finalizar tema'
+                      'Guardar y finalizar tema'
                     ) : (
-                      'Siguiente ejercicio'
+                      'Guardar respuesta y siguiente ejercicio'
                     )}
                   </button>
                 </div>
