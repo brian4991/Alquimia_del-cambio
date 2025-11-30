@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, User, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Calendar, Clock, User, CheckCircle, XCircle, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import { config } from '../config';
 
 const BookingPage = () => {
@@ -12,6 +12,7 @@ const BookingPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [adminId, setAdminId] = useState(null);
+  const [expandedDays, setExpandedDays] = useState({});
 
   useEffect(() => {
     loadAdminId();
@@ -36,7 +37,7 @@ const BookingPage = () => {
         if (data.admin_id && data.has_calendar) {
           setAdminId(data.admin_id);
         } else if (!data.has_calendar) {
-          setError('Le calendrier n\'est pas encore configuré. Veuillez réessayer plus tard.');
+          setError('El calendario aún no está configurado. Por favor, inténtalo más tarde.');
         }
       }
     } catch (err) {
@@ -86,7 +87,7 @@ const BookingPage = () => {
       }
     } catch (err) {
       console.error('Error loading slots:', err);
-      setError('Erreur lors du chargement des disponibilités');
+      setError('Error al cargar los horarios disponibles');
     } finally {
       setLoading(false);
     }
@@ -94,7 +95,7 @@ const BookingPage = () => {
 
   const handleBookAppointment = async () => {
     if (!selectedSlot) {
-      setError('Veuillez sélectionner un créneau');
+      setError('Por favor, selecciona un horario');
       return;
     }
 
@@ -119,25 +120,25 @@ const BookingPage = () => {
       });
 
       if (response.ok) {
-        setSuccess('Rendez-vous réservé avec succès! Vous recevrez une confirmation par email.');
+        setSuccess('Cita reservada con éxito. Recibirás una confirmación por email.');
         setSelectedSlot(null);
         setNotes('');
         loadMyAppointments();
         loadAvailableSlots();
       } else {
         const data = await response.json();
-        setError(data.detail || 'Erreur lors de la réservation');
+        setError(data.detail || 'Error al reservar la cita');
       }
     } catch (err) {
       console.error('Error booking appointment:', err);
-      setError('Erreur lors de la réservation du rendez-vous');
+      setError('Error al reservar la cita');
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancelAppointment = async (appointmentId) => {
-    if (!confirm('Êtes-vous sûr de vouloir annuler ce rendez-vous?')) {
+    if (!confirm('¿Estás seguro de que quieres cancelar esta cita?')) {
       return;
     }
 
@@ -149,19 +150,19 @@ const BookingPage = () => {
       });
 
       if (response.ok) {
-        setSuccess('Rendez-vous annulé avec succès');
+        setSuccess('Cita cancelada con éxito');
         loadMyAppointments();
         loadAvailableSlots();
       }
     } catch (err) {
       console.error('Error cancelling appointment:', err);
-      setError('Erreur lors de l\'annulation');
+      setError('Error al cancelar la cita');
     }
   };
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('fr-FR', {
+    return date.toLocaleString('es-ES', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -171,11 +172,27 @@ const BookingPage = () => {
     });
   };
 
+  const formatDateHeader = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('es-ES', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long'
+    });
+  };
+
+  const toggleDay = (dateKey) => {
+    setExpandedDays(prev => ({
+      ...prev,
+      [dateKey]: !prev[dateKey]
+    }));
+  };
+
   const getStatusBadge = (status) => {
     const badges = {
-      pending: { color: 'bg-yellow-100 text-yellow-800', icon: AlertCircle, text: 'En attente' },
-      confirmed: { color: 'bg-green-100 text-green-800', icon: CheckCircle, text: 'Confirmé' },
-      cancelled: { color: 'bg-red-100 text-red-800', icon: XCircle, text: 'Annulé' }
+      pending: { color: 'bg-yellow-100 text-yellow-800', icon: AlertCircle, text: 'Pendiente' },
+      confirmed: { color: 'bg-green-100 text-green-800', icon: CheckCircle, text: 'Confirmada' },
+      cancelled: { color: 'bg-red-100 text-red-800', icon: XCircle, text: 'Cancelada' }
     };
     
     const badge = badges[status] || badges.pending;
@@ -194,12 +211,15 @@ const BookingPage = () => {
     
     availableSlots.forEach(slot => {
       const date = new Date(slot.start);
-      const dateKey = date.toLocaleDateString('fr-FR');
+      const dateKey = date.toISOString().split('T')[0];
       
       if (!grouped[dateKey]) {
-        grouped[dateKey] = [];
+        grouped[dateKey] = {
+          displayDate: formatDateHeader(slot.start),
+          slots: []
+        };
       }
-      grouped[dateKey].push(slot);
+      grouped[dateKey].slots.push(slot);
     });
     
     return grouped;
@@ -211,8 +231,8 @@ const BookingPage = () => {
     <div className="min-h-screen bg-gradient-elegant p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mes Rendez-vous</h1>
-          <p className="text-gray-600">Réservez un créneau pour un entretien individuel</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mis Citas</h1>
+          <p className="text-gray-600">Reserva un horario para una sesión individual</p>
         </div>
 
         {error && (
@@ -232,57 +252,80 @@ const BookingPage = () => {
           <div className="bg-white rounded-lg shadow-elegant p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center">
               <Calendar className="w-6 h-6 mr-2 text-sage" />
-              Créneaux disponibles
+              Horarios disponibles
             </h2>
 
             {loading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sage mx-auto"></div>
-                <p className="mt-4 text-gray-600">Chargement...</p>
+                <p className="mt-4 text-gray-600">Cargando...</p>
               </div>
             ) : Object.keys(slotsByDate).length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Aucun créneau disponible pour le moment</p>
+                <p>No hay horarios disponibles por el momento</p>
               </div>
             ) : (
-              <div className="space-y-6">
-                {Object.entries(slotsByDate).map(([date, slots]) => (
-                  <div key={date}>
-                    <h3 className="font-medium text-gray-700 mb-3">{date}</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {slots.map((slot, index) => {
-                        const startTime = new Date(slot.start).toLocaleTimeString('fr-FR', {
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        });
-                        const isSelected = selectedSlot?.start === slot.start;
-                        
-                        return (
-                          <button
-                            key={index}
-                            onClick={() => setSelectedSlot(slot)}
-                            className={`p-3 rounded-lg border-2 transition-all ${
-                              isSelected
-                                ? 'border-sage bg-sage text-white'
-                                : 'border-gray-200 hover:border-sage hover:bg-sage-light'
-                            }`}
-                          >
-                            <Clock className="w-4 h-4 mb-1 mx-auto" />
-                            <div className="text-sm font-medium">{startTime}</div>
-                            <div className="text-xs opacity-75">{slot.duration_minutes}min</div>
-                          </button>
-                        );
-                      })}
+              <div className="space-y-3">
+                {Object.entries(slotsByDate).map(([dateKey, { displayDate, slots }]) => {
+                  const isExpanded = expandedDays[dateKey];
+                  
+                  return (
+                    <div key={dateKey} className="border border-gray-200 rounded-lg overflow-hidden">
+                      <button
+                        onClick={() => toggleDay(dateKey)}
+                        className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+                      >
+                        <div className="flex items-center">
+                          <Calendar className="w-5 h-5 mr-3 text-sage" />
+                          <span className="font-medium text-gray-700 capitalize">{displayDate}</span>
+                          <span className="ml-2 text-sm text-gray-500">({slots.length} horarios)</span>
+                        </div>
+                        {isExpanded ? (
+                          <ChevronUp className="w-5 h-5 text-gray-500" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-gray-500" />
+                        )}
+                      </button>
+                      
+                      {isExpanded && (
+                        <div className="p-4 bg-white">
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            {slots.map((slot, index) => {
+                              const startTime = new Date(slot.start).toLocaleTimeString('es-ES', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              });
+                              const isSelected = selectedSlot?.start === slot.start;
+                              
+                              return (
+                                <button
+                                  key={index}
+                                  onClick={() => setSelectedSlot(slot)}
+                                  className={`p-3 rounded-lg border-2 transition-all ${
+                                    isSelected
+                                      ? 'border-sage bg-sage text-white'
+                                      : 'border-gray-200 hover:border-sage hover:bg-sage-light'
+                                  }`}
+                                >
+                                  <Clock className="w-4 h-4 mb-1 mx-auto" />
+                                  <div className="text-sm font-medium">{startTime}</div>
+                                  <div className="text-xs opacity-75">{slot.duration_minutes}min</div>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
             {selectedSlot && (
               <div className="mt-6 p-4 bg-sage-light rounded-lg border-2 border-sage">
-                <h3 className="font-medium mb-3">Réserver ce créneau</h3>
+                <h3 className="font-medium mb-3">Reservar este horario</h3>
                 <p className="text-sm text-gray-700 mb-3">
                   {formatDateTime(selectedSlot.start)}
                 </p>
@@ -290,7 +333,7 @@ const BookingPage = () => {
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Notes ou raison de la consultation (optionnel)"
+                  placeholder="Notas o motivo de la consulta (opcional)"
                   className="w-full p-3 border border-gray-300 rounded-lg mb-3"
                   rows="3"
                 />
@@ -301,13 +344,13 @@ const BookingPage = () => {
                     disabled={loading}
                     className="flex-1 bg-sage text-white px-4 py-2 rounded-lg hover:bg-sage-dark transition-colors disabled:opacity-50"
                   >
-                    Confirmer la réservation
+                    Confirmar reserva
                   </button>
                   <button
                     onClick={() => setSelectedSlot(null)}
                     className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
-                    Annuler
+                    Cancelar
                   </button>
                 </div>
               </div>
@@ -318,13 +361,13 @@ const BookingPage = () => {
           <div className="bg-white rounded-lg shadow-elegant p-6">
             <h2 className="text-xl font-semibold mb-4 flex items-center">
               <User className="w-6 h-6 mr-2 text-sage" />
-              Mes rendez-vous
+              Mis citas
             </h2>
 
             {appointments.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
                 <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>Vous n'avez pas encore de rendez-vous</p>
+                <p>Aún no tienes citas programadas</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -336,7 +379,7 @@ const BookingPage = () => {
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">
                         <p className="font-medium text-gray-900">
-                          Rendez-vous avec {appointment.admin_name}
+                          Cita con {appointment.admin_name}
                         </p>
                         <p className="text-sm text-gray-600 mt-1">
                           {formatDateTime(appointment.start_time)}
@@ -355,7 +398,7 @@ const BookingPage = () => {
                         onClick={() => handleCancelAppointment(appointment.id)}
                         className="mt-3 text-sm text-red-600 hover:text-red-800 font-medium"
                       >
-                        Annuler ce rendez-vous
+                        Cancelar esta cita
                       </button>
                     )}
                   </div>

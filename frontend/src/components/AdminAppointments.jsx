@@ -60,7 +60,7 @@ const AdminAppointments = () => {
       }
     } catch (err) {
       console.error('Error loading appointments:', err);
-      setError('Erreur lors du chargement des rendez-vous');
+      setError('Error al cargar las citas');
     } finally {
       setLoading(false);
     }
@@ -95,15 +95,15 @@ const AdminAppointments = () => {
       });
 
       if (response.ok) {
-        setSuccess(`Rendez-vous ${newStatus === 'confirmed' ? 'confirmé' : 'annulé'} avec succès`);
+        setSuccess(`Cita ${newStatus === 'confirmed' ? 'confirmada' : 'cancelada'} con éxito`);
         loadAppointments();
         loadPendingCount();
       } else {
-        setError('Erreur lors de la mise à jour');
+        setError('Error al actualizar');
       }
     } catch (err) {
       console.error('Error updating status:', err);
-      setError('Erreur lors de la mise à jour du statut');
+      setError('Error al actualizar el estado');
     }
   };
 
@@ -118,16 +118,16 @@ const AdminAppointments = () => {
         const data = await response.json();
         // Open Google OAuth in new window
         window.open(data.authorization_url, '_blank');
-        setSuccess('Veuillez autoriser l\'accès à votre Google Calendar dans la nouvelle fenêtre');
+        setSuccess('Por favor, autoriza el acceso a tu Google Calendar en la nueva ventana');
       }
     } catch (err) {
       console.error('Error connecting calendar:', err);
-      setError('Erreur lors de la connexion au calendrier');
+      setError('Error al conectar el calendario');
     }
   };
 
   const handleDisconnectCalendar = async () => {
-    if (!confirm('Êtes-vous sûr de vouloir déconnecter Google Calendar?')) {
+    if (!confirm('¿Estás seguro de que quieres desconectar Google Calendar?')) {
       return;
     }
 
@@ -139,12 +139,12 @@ const AdminAppointments = () => {
       });
       
       if (response.ok) {
-        setSuccess('Google Calendar déconnecté avec succès');
+        setSuccess('Google Calendar desconectado con éxito');
         loadCalendarSettings();
       }
     } catch (err) {
       console.error('Error disconnecting calendar:', err);
-      setError('Erreur lors de la déconnexion');
+      setError('Error al desconectar');
     }
   };
 
@@ -164,19 +164,19 @@ const AdminAppointments = () => {
       });
 
       if (response.ok) {
-        setSuccess('Paramètres mis à jour avec succès');
+        setSuccess('Configuración actualizada con éxito');
         setShowSettings(false);
         loadCalendarSettings();
       }
     } catch (err) {
       console.error('Error updating settings:', err);
-      setError('Erreur lors de la mise à jour des paramètres');
+      setError('Error al actualizar la configuración');
     }
   };
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('fr-FR', {
+    return date.toLocaleString('es-ES', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -188,9 +188,9 @@ const AdminAppointments = () => {
 
   const getStatusBadge = (status) => {
     const badges = {
-      pending: { color: 'bg-yellow-100 text-yellow-800', icon: AlertCircle, text: 'En attente' },
-      confirmed: { color: 'bg-green-100 text-green-800', icon: CheckCircle, text: 'Confirmé' },
-      cancelled: { color: 'bg-red-100 text-red-800', icon: XCircle, text: 'Annulé' }
+      pending: { color: 'bg-yellow-100 text-yellow-800', icon: AlertCircle, text: 'Pendiente' },
+      confirmed: { color: 'bg-green-100 text-green-800', icon: CheckCircle, text: 'Confirmada' },
+      cancelled: { color: 'bg-red-100 text-red-800', icon: XCircle, text: 'Cancelada' }
     };
     
     const badge = badges[status] || badges.pending;
@@ -209,15 +209,15 @@ const AdminAppointments = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Gestion des Rendez-vous</h1>
-            <p className="text-gray-600">Gérez vos rendez-vous avec les utilisateurs</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Gestión de Citas</h1>
+            <p className="text-gray-600">Gestiona tus citas con los usuarios</p>
           </div>
           <button
             onClick={() => setShowSettings(!showSettings)}
             className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
           >
             <Settings className="w-5 h-5" />
-            Paramètres
+            Configuración
           </button>
         </div>
 
@@ -235,7 +235,7 @@ const AdminAppointments = () => {
 
         {showSettings && (
           <div className="mb-6 bg-white rounded-lg shadow-elegant p-6">
-            <h2 className="text-xl font-semibold mb-4">Paramètres du Calendrier</h2>
+            <h2 className="text-xl font-semibold mb-4">Configuración del Calendario</h2>
             
             <div className="space-y-4">
               {/* Calendar Connection */}
@@ -245,8 +245,8 @@ const AdminAppointments = () => {
                     <h3 className="font-medium mb-1">Google Calendar</h3>
                     <p className="text-sm text-gray-600">
                       {calendarSettings?.has_calendar_connected
-                        ? 'Connecté et synchronisé'
-                        : 'Connectez votre Google Calendar pour afficher vos disponibilités'}
+                        ? 'Conectado y sincronizado'
+                        : 'Conecta tu Google Calendar para mostrar tu disponibilidad'}
                     </p>
                   </div>
                   {calendarSettings?.has_calendar_connected ? (
@@ -254,7 +254,7 @@ const AdminAppointments = () => {
                       onClick={handleDisconnectCalendar}
                       className="px-4 py-2 text-red-600 border border-red-300 rounded-lg hover:bg-red-50"
                     >
-                      Déconnecter
+                      Desconectar
                     </button>
                   ) : (
                     <button
@@ -262,7 +262,7 @@ const AdminAppointments = () => {
                       className="flex items-center gap-2 px-4 py-2 bg-sage text-white rounded-lg hover:bg-sage-dark"
                     >
                       <LinkIcon className="w-4 h-4" />
-                      Connecter
+                      Conectar
                     </button>
                   )}
                 </div>
@@ -271,36 +271,36 @@ const AdminAppointments = () => {
               {/* Slot Duration */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Durée des créneaux (minutes)
+                  Duración de los horarios (minutos)
                 </label>
                 <select
                   value={slotDuration}
                   onChange={(e) => setSlotDuration(parseInt(e.target.value))}
                   className="w-full p-3 border border-gray-300 rounded-lg"
                 >
-                  <option value={30}>30 minutes</option>
-                  <option value={45}>45 minutes</option>
-                  <option value={60}>60 minutes</option>
-                  <option value={90}>90 minutes</option>
-                  <option value={120}>120 minutes</option>
+                  <option value={30}>30 minutos</option>
+                  <option value={45}>45 minutos</option>
+                  <option value={60}>60 minutos</option>
+                  <option value={90}>90 minutos</option>
+                  <option value={120}>120 minutos</option>
                 </select>
               </div>
 
               {/* Buffer Time */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Délai minimum avant réservation (minutes)
+                  Tiempo mínimo antes de reservar (minutos)
                 </label>
                 <select
                   value={availabilityBuffer}
                   onChange={(e) => setAvailabilityBuffer(parseInt(e.target.value))}
                   className="w-full p-3 border border-gray-300 rounded-lg"
                 >
-                  <option value={30}>30 minutes</option>
-                  <option value={60}>1 heure</option>
-                  <option value={120}>2 heures</option>
-                  <option value={240}>4 heures</option>
-                  <option value={1440}>24 heures</option>
+                  <option value={30}>30 minutos</option>
+                  <option value={60}>1 hora</option>
+                  <option value={120}>2 horas</option>
+                  <option value={240}>4 horas</option>
+                  <option value={1440}>24 horas</option>
                 </select>
               </div>
 
@@ -308,7 +308,7 @@ const AdminAppointments = () => {
                 onClick={handleUpdateSettings}
                 className="w-full py-3 bg-sage text-white rounded-lg hover:bg-sage-dark"
               >
-                Enregistrer les paramètres
+                Guardar configuración
               </button>
             </div>
           </div>
@@ -318,10 +318,10 @@ const AdminAppointments = () => {
         <div className="bg-white rounded-lg shadow-elegant mb-6">
           <div className="flex border-b border-gray-200">
             {[
-              { id: 'all', label: 'Tous', count: appointments.length },
-              { id: 'pending', label: 'En attente', count: pendingCount },
-              { id: 'confirmed', label: 'Confirmés' },
-              { id: 'cancelled', label: 'Annulés' }
+              { id: 'all', label: 'Todas', count: appointments.length },
+              { id: 'pending', label: 'Pendientes', count: pendingCount },
+              { id: 'confirmed', label: 'Confirmadas' },
+              { id: 'cancelled', label: 'Canceladas' }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -350,12 +350,12 @@ const AdminAppointments = () => {
           {loading ? (
             <div className="text-center py-8">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sage mx-auto"></div>
-              <p className="mt-4 text-gray-600">Chargement...</p>
+              <p className="mt-4 text-gray-600">Cargando...</p>
             </div>
           ) : appointments.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>Aucun rendez-vous</p>
+              <p>No hay citas</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -386,7 +386,7 @@ const AdminAppointments = () => {
                         {appointment.notes && (
                           <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                             <p className="text-sm text-gray-700">
-                              <strong>Notes :</strong> {appointment.notes}
+                              <strong>Notas:</strong> {appointment.notes}
                             </p>
                           </div>
                         )}
@@ -401,14 +401,14 @@ const AdminAppointments = () => {
                         className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
                       >
                         <CheckCircle className="w-4 h-4" />
-                        Confirmer
+                        Confirmar
                       </button>
                       <button
                         onClick={() => handleUpdateStatus(appointment.id, 'cancelled')}
                         className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                       >
                         <XCircle className="w-4 h-4" />
-                        Annuler
+                        Cancelar
                       </button>
                     </div>
                   )}
@@ -418,7 +418,7 @@ const AdminAppointments = () => {
                       onClick={() => handleUpdateStatus(appointment.id, 'cancelled')}
                       className="ml-8 text-sm text-red-600 hover:text-red-800 font-medium"
                     >
-                      Annuler ce rendez-vous
+                      Cancelar esta cita
                     </button>
                   )}
                 </div>

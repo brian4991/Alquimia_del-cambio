@@ -57,8 +57,8 @@ const Layout = ({ children }) => {
         {
           path: '/admin/appointments', 
           icon: CalendarIcon, 
-          label: 'Rendez-vous',
-          description: 'Gérer les rendez-vous'
+          label: 'Citas',
+          description: 'Gestionar las citas'
         },
         {
           path: '/admin', 
@@ -68,7 +68,7 @@ const Layout = ({ children }) => {
         }
       ];
     } else {
-      // Regular user navigation
+      // Regular user navigation - centered
       return [
         { 
           path: '/dashboard', 
@@ -79,12 +79,14 @@ const Layout = ({ children }) => {
         {
           path: '/booking', 
           icon: CalendarIcon, 
-          label: 'Rendez-vous',
-          description: 'Réserver un rendez-vous'
+          label: 'Citas',
+          description: 'Reservar una cita'
         }
       ];
     }
   }, [userInfo]);
+  
+  const isRegularUser = !userInfo || userInfo.role !== 'admin';
 
   return (
     <div className="min-h-screen gradient-elegant">
@@ -129,7 +131,7 @@ const Layout = ({ children }) => {
             </div>
 
             {/* Navigation centrale moderne */}
-            <div className="hidden lg:flex items-center space-x-1">
+            <div className={`hidden lg:flex items-center space-x-1 ${isRegularUser ? 'absolute left-1/2 transform -translate-x-1/2' : ''}`}>
               {navItems.map((item) => {
                 const IconComponent = item.icon;
                 const isActive = location.pathname === item.path;
@@ -217,7 +219,7 @@ const Layout = ({ children }) => {
 
           {/* Navigation mobile moderne */}
           <div className="lg:hidden px-2 sm:px-4 pb-3 sm:pb-4">
-            <div className="flex space-x-1 sm:space-x-2 bg-white/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-inner">
+            <div className={`flex space-x-1 sm:space-x-2 bg-white/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-1.5 sm:p-2 shadow-inner ${isRegularUser ? 'justify-center max-w-xs mx-auto' : ''}`}>
               {navItems.map((item) => {
                 const IconComponent = item.icon;
                 const isActive = location.pathname === item.path;
@@ -226,7 +228,7 @@ const Layout = ({ children }) => {
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`flex items-center justify-center space-x-1 sm:space-x-2 px-2 py-2 sm:px-3 sm:py-2.5 rounded-lg sm:rounded-xl font-inter text-xs sm:text-sm font-medium transition-all duration-300 flex-1 ${
+                    className={`flex items-center justify-center space-x-1 sm:space-x-2 px-2 py-2 sm:px-3 sm:py-2.5 rounded-lg sm:rounded-xl font-inter text-xs sm:text-sm font-medium transition-all duration-300 ${isRegularUser ? '' : 'flex-1'} ${
                       isActive
                         ? 'bg-gradient-to-r from-sage-500 to-sage-600 text-white shadow-lg'
                         : 'text-gray-700 hover:bg-gradient-to-r hover:from-sage-50 hover:to-taupe-50 hover:text-sage-700'
