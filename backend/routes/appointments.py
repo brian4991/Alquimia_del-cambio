@@ -129,21 +129,34 @@ def google_calendar_callback(
     
     frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:5173')
     
+    print(f"[CALLBACK] Received callback with state={state}, code={code[:20]}...")
+    
     try:
         admin_id = int(state)
-        calendar_service = GoogleCalendarService(db)
+        print(f"[CALLBACK] Admin ID from state: {admin_id}")
         
+        calendar_service = GoogleCalendarService(db)
         success = calendar_service.handle_oauth_callback(code, admin_id)
         
+        print(f"[CALLBACK] handle_oauth_callback returned: {success}")
+        
         if success:
-            # Redirect to admin panel with success message
-            return RedirectResponse(url=f"{frontend_url}/admin?calendar=connected")
+            # Verify it was saved
+            from models import AdminCalendarSettings
+            settings = db.query(AdminCalendarSettings).filter(
+                AdminCalendarSettings.admin_id == admin_id
+            ).first()
+            print(f"[CALLBACK] Settings after save: {settings is not None}, has_token: {settings.google_refresh_token is not None if settings else 'N/A'}")
+            
+            return RedirectResponse(url=f"{frontend_url}/admin?calendar=connected", status_code=302)
         else:
-            return RedirectResponse(url=f"{frontend_url}/admin?calendar=error")
+            return RedirectResponse(url=f"{frontend_url}/admin?calendar=error", status_code=302)
             
     except Exception as e:
-        print(f"Calendar callback error: {e}")
-        return RedirectResponse(url=f"{frontend_url}/admin?calendar=error")
+        print(f"[CALLBACK] Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return RedirectResponse(url=f"{frontend_url}/admin?calendar=error", status_code=302)
 
 
 @router.get("/admin/calendar/settings", response_model=CalendarSettingsResponse)
