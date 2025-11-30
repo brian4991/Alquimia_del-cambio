@@ -23,10 +23,19 @@ const Dashboard = () => {
   const fetchModules = async () => {
     try {
       setLoading(true);
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/Dashboard.jsx:26',message:'H1: Fetching modules from API',data:{},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       const data = await getModules();
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/Dashboard.jsx:27',message:'H1/H4: Modules fetched',data:{moduleCount:data.length,modules:data.map(m=>({id:m.id,title:m.title,is_accessible:m.is_accessible,progress:m.progress}))},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       setModules(data);
       setError('');
     } catch (err) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/Dashboard.jsx:30',message:'H1: Fetch modules ERROR',data:{error:err.message},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H1'})}).catch(()=>{});
+      // #endregion
       setError('Impossible de charger les modules');
       console.error(err);
     } finally {

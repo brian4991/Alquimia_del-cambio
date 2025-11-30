@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { PlusIcon, PencilIcon, TrashIcon, BookOpenIcon, DocumentTextIcon, AcademicCapIcon, LightBulbIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, PencilIcon, TrashIcon, BookOpenIcon, DocumentTextIcon, AcademicCapIcon, LightBulbIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import ModulesTab from './ModulesTab';
 import ThemesTab from './ThemesTab';
 import RecursosTab from './RecursosTab';
 import CardsTab from './CardsTab';
 import ExercisesTab from './ExercisesTab';
 import Dashboard from './Dashboard';
+import AdminAppointments from './AdminAppointments';
 import { config } from '../config';
 
 const AdminPanel = () => {
@@ -82,7 +83,8 @@ const AdminPanel = () => {
     { id: 'themes', label: 'Temas', icon: DocumentTextIcon },
     { id: 'recursos', label: 'Recursos', icon: LightBulbIcon },
     { id: 'cards', label: 'Cartas', icon: DocumentTextIcon },
-    { id: 'exercises', label: 'Ejercicios', icon: AcademicCapIcon }
+    { id: 'exercises', label: 'Ejercicios', icon: AcademicCapIcon },
+    { id: 'appointments', label: 'Rendez-vous', icon: CalendarIcon }
   ];
 
   return (
@@ -172,6 +174,10 @@ const AdminPanel = () => {
               exercises={exercises}
               onLoadExercises={loadExercises}
             />
+          )}
+
+          {activeTab === 'appointments' && (
+            <AdminAppointments />
           )}
         </div>
       </div>

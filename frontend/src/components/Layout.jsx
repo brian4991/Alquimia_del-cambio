@@ -6,7 +6,8 @@ import {
   CogIcon, 
   ArrowRightOnRectangleIcon,
   SparklesIcon,
-  HeartIcon 
+  HeartIcon,
+  CalendarIcon 
 } from '@heroicons/react/24/outline';
 
 const Layout = ({ children }) => {
@@ -54,6 +55,12 @@ const Layout = ({ children }) => {
           description: 'Progreso y respuestas de los usuarios'
         },
         {
+          path: '/admin/appointments', 
+          icon: CalendarIcon, 
+          label: 'Rendez-vous',
+          description: 'Gérer les rendez-vous'
+        },
+        {
           path: '/admin', 
           icon: CogIcon, 
           label: 'Panel Admin',
@@ -68,6 +75,12 @@ const Layout = ({ children }) => {
           icon: HomeIcon, 
           label: 'Mi Programa',
           description: 'Tu recorrido de transformación personal'
+        },
+        {
+          path: '/booking', 
+          icon: CalendarIcon, 
+          label: 'Rendez-vous',
+          description: 'Réserver un rendez-vous'
         }
       ];
     }

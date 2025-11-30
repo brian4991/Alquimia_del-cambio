@@ -8,7 +8,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from database import create_tables, get_db
 from init_data import init_database
-from routes import auth, modules, legacy, api, admin_import, create_modules, uploads
+from routes import auth, modules, legacy, api, admin_import, create_modules, uploads, appointments
 import migrate_theme_cards
 
 # Get the project root directory
@@ -75,6 +75,7 @@ app.include_router(admin_import.router)  # Admin import routes
 app.include_router(create_modules.router)  # Create modules routes
 app.include_router(migrate_theme_cards.router)  # Theme cards migration
 app.include_router(uploads.router, prefix="/api")  # File uploads
+app.include_router(appointments.router)  # Appointments and calendar
 app.include_router(legacy.router)
 
 @app.on_event("startup")

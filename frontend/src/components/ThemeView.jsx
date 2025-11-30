@@ -110,6 +110,9 @@ const ThemeView = () => {
                   const subQuestionKey = `section_${sectionIndex}_question_${questionIndex}`;
                   // Load existing response if available
                   initialResponses[responseKey] = exercise.sub_question_responses?.[subQuestionKey] || '';
+                  // #region agent log
+                  fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/ThemeView.jsx:113',message:'H5/H8: Loading response from server',data:{exerciseId:exercise.id,responseKey:responseKey,subQuestionKey:subQuestionKey,hasResponse:!!exercise.sub_question_responses?.[subQuestionKey]},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H5'})}).catch(()=>{});
+                  // #endregion
                 });
               }
             });
@@ -191,6 +194,9 @@ const ThemeView = () => {
   const autoSaveResponse = async (responseKey, responseData) => {
     // Parse the response key to determine the exercise and question
     const keyParts = String(responseKey).split('_');
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/ThemeView.jsx:193',message:'H3/H5: Auto-save response triggered',data:{responseKey:responseKey,keyParts:keyParts,dataLength:responseData?JSON.stringify(responseData).length:0},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{});
+    // #endregion
     
     if (keyParts.length === 1) {
       // Legacy main response (not used in current implementation)
@@ -214,12 +220,18 @@ const ThemeView = () => {
       // Legacy format: exerciseId_questionIndex
       subQuestionIndex = parseInt(keyParts[1]);
     }
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/ThemeView.jsx:216',message:'H5: Sub-question index determined',data:{exerciseId:exerciseId,subQuestionIndex:subQuestionIndex,is_section_format:keyParts.includes('section')},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H5'})}).catch(()=>{});
+    // #endregion
     
     // Silently save in background
     try {
       const responseText = typeof responseData === 'object' ? JSON.stringify(responseData) : responseData;
       
       if (responseText && responseText.trim()) {
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/ThemeView.jsx:223',message:'H3: Sending auto-save to server',data:{exerciseId:exerciseId,subQuestionIndex:subQuestionIndex,textLength:responseText.length},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{});
+        // #endregion
         await fetch(`${config.apiUrl}/submit-sub-question-response`, {
           method: 'POST',
           headers: {
@@ -232,8 +244,14 @@ const ThemeView = () => {
             response_text: responseText
           })
         });
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/ThemeView.jsx:234',message:'H3: Auto-save successful',data:{exerciseId:exerciseId,subQuestionIndex:subQuestionIndex},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{});
+        // #endregion
       }
     } catch (err) {
+      // #region agent log
+      fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/components/ThemeView.jsx:237',message:'H3: Auto-save FAILED',data:{error:err.message,exerciseId:exerciseId},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H3'})}).catch(()=>{});
+      // #endregion
       console.error('Auto-save error:', err);
     }
   };

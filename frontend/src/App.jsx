@@ -8,6 +8,8 @@ import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
+import BookingPage from './components/BookingPage';
+import AdminAppointments from './components/AdminAppointments';
 import Layout from './components/Layout';
 // import ProgramLanding from './components/ProgramLanding';
 // import RetiroAmateLanding from './components/RetiroAmateLanding';
@@ -17,10 +19,19 @@ import './index.css';
 
 // Utility function to decode JWT and get user info
 const decodeToken = (token) => {
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/App.jsx:20',message:'H6: Token decode attempt',data:{token_exists:!!token,token_parts:token?token.split('.').length:0},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H6'})}).catch(()=>{});
+  // #endregion
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/App.jsx:22',message:'H6: Token decoded successfully',data:{payload_has_role:!!payload.role,role:payload.role},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H6'})}).catch(()=>{});
+    // #endregion
     return payload;
   } catch (error) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/App.jsx:24',message:'H6: Token decode ERROR',data:{error:error.message,token_sample:token?token.substring(0,20):'null'},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H6'})}).catch(()=>{});
+    // #endregion
     console.error('Error decoding token:', error);
     return null;
   }
@@ -28,6 +39,9 @@ const decodeToken = (token) => {
 
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const token = localStorage.getItem('token');
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/App.jsx:30',message:'H6: ProtectedRoute check',data:{has_token:!!token,requireAdmin:requireAdmin},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H6'})}).catch(()=>{});
+  // #endregion
   
   if (!token) {
     return <Navigate to="/login" />;
@@ -35,6 +49,9 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
 
   if (requireAdmin) {
     const userData = decodeToken(token);
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/6dcdf81b-125d-4c23-b88d-0ce3c90d0db7',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'frontend/src/App.jsx:37',message:'H6: Admin check result',data:{userData_exists:!!userData,role:userData?.role,is_admin:userData?.role==='admin'},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'H6'})}).catch(()=>{});
+    // #endregion
     if (!userData || userData.role !== 'admin') {
       return (
         <div className="min-h-screen bg-gradient-serene flex items-center justify-center">
@@ -157,11 +174,31 @@ const App = () => {
             } 
           />
           <Route 
+            path="/booking" 
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <BookingPage />
+                </Layout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
             path="/admin" 
             element={
               <ProtectedRoute requireAdmin={true}>
                 <Layout>
                   <AdminPanel />
+                </Layout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/admin/appointments" 
+            element={
+              <ProtectedRoute requireAdmin={true}>
+                <Layout>
+                  <AdminAppointments />
                 </Layout>
               </ProtectedRoute>
             } 
