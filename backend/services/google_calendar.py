@@ -3,7 +3,7 @@ Google Calendar API Service
 Handles OAuth2 flow and calendar operations for admin appointments
 """
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional, Dict
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -220,6 +220,8 @@ class GoogleCalendarService:
             events_result = service.freebusy().query(body=body).execute()
             busy_times = events_result['calendars'][settings.calendar_id or "primary"]['busy']
             print(f"[CALENDAR] Found {len(busy_times)} busy periods")
+            for i, busy in enumerate(busy_times):
+                print(f"[CALENDAR] Busy {i}: {busy['start']} -> {busy['end']}")
             
             # Generate available slots
             available_slots = []
@@ -247,11 +249,26 @@ class GoogleCalendarService:
                 # Check if slot conflicts with busy times
                 is_available = True
                 for busy in busy_times:
-                    # Parse busy times and make them naive (remove timezone)
-                    busy_start_str = busy['start'].replace('Z', '+00:00')
-                    busy_end_str = busy['end'].replace('Z', '+00:00')
-                    busy_start = datetime.fromisoformat(busy_start_str).replace(tzinfo=None)
-                    busy_end = datetime.fromisoformat(busy_end_str).replace(tzinfo=None)
+                    # Parse busy times - handle both Z and +offset formats
+                    busy_start_str = busy['start']
+                    busy_end_str = busy['end']
+                    
+                    # Convert to datetime and make naive (UTC)
+                    if busy_start_str.endswith('Z'):
+                        busy_start = datetime.fromisoformat(busy_start_str.replace('Z', '+00:00'))
+                    else:
+                        busy_start = datetime.fromisoformat(busy_start_str)
+                    
+                    if busy_end_str.endswith('Z'):
+                        busy_end = datetime.fromisoformat(busy_end_str.replace('Z', '+00:00'))
+                    else:
+                        busy_end = datetime.fromisoformat(busy_end_str)
+                    
+                    # Convert to UTC naive for comparison
+                    if busy_start.tzinfo is not None:
+                        busy_start = busy_start.astimezone(timezone.utc).replace(tzinfo=None)
+                    if busy_end.tzinfo is not None:
+                        busy_end = busy_end.astimezone(timezone.utc).replace(tzinfo=None)
                     
                     if (current_time < busy_end and slot_end > busy_start):
                         is_available = False
