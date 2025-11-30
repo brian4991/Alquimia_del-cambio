@@ -15,6 +15,33 @@ from services.email import EmailService
 router = APIRouter(tags=["appointments"])
 
 
+# ============================================
+# PUBLIC ROUTES
+# ============================================
+
+@router.get("/appointments/admin-info")
+def get_admin_info(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get the admin user info for booking (any authenticated user can access)"""
+    admin = db.query(User).filter(User.role == "admin").first()
+    
+    if not admin:
+        raise HTTPException(status_code=404, detail="No admin found")
+    
+    # Check if admin has calendar connected
+    settings = db.query(AdminCalendarSettings).filter(
+        AdminCalendarSettings.admin_id == admin.id
+    ).first()
+    
+    return {
+        "admin_id": admin.id,
+        "admin_name": admin.username,
+        "has_calendar": settings is not None and settings.google_refresh_token is not None
+    }
+
+
 # Pydantic schemas
 class AppointmentCreate(BaseModel):
     admin_id: int

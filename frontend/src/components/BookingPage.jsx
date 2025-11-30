@@ -27,16 +27,16 @@ const BookingPage = () => {
   const loadAdminId = async () => {
     try {
       const token = localStorage.getItem('token');
-      // Get the first admin user
-      const response = await fetch(`${config.apiUrl}/auth/users`, {
+      const response = await fetch(`${config.apiUrl}/appointments/admin-info`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
       if (response.ok) {
-        const users = await response.json();
-        const admin = users.find(u => u.role === 'admin');
-        if (admin) {
-          setAdminId(admin.id);
+        const data = await response.json();
+        if (data.admin_id && data.has_calendar) {
+          setAdminId(data.admin_id);
+        } else if (!data.has_calendar) {
+          setError('Le calendrier n\'est pas encore configuré. Veuillez réessayer plus tard.');
         }
       }
     } catch (err) {
