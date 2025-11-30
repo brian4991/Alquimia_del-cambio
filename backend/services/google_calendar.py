@@ -226,8 +226,15 @@ class GoogleCalendarService:
             slot_duration = timedelta(minutes=settings.slot_duration)
             buffer = timedelta(minutes=settings.availability_buffer)
             
+            # Make start_date naive (remove timezone info) for comparison
+            if hasattr(start_date, 'tzinfo') and start_date.tzinfo is not None:
+                start_date = start_date.replace(tzinfo=None)
+            if hasattr(end_date, 'tzinfo') and end_date.tzinfo is not None:
+                end_date = end_date.replace(tzinfo=None)
+            
             # Start from now + buffer or start_date (whichever is later)
-            current_time = max(datetime.utcnow() + buffer, start_date)
+            now_plus_buffer = datetime.utcnow() + buffer
+            current_time = max(now_plus_buffer, start_date)
             
             # Round to next hour for cleaner slots
             if current_time.minute > 0:
