@@ -35,10 +35,20 @@ def get_admin_info(
         AdminCalendarSettings.admin_id == admin.id
     ).first()
     
+    # Debug logging
+    print(f"[DEBUG] Admin found: id={admin.id}, username={admin.username}")
+    print(f"[DEBUG] Settings found: {settings is not None}")
+    if settings:
+        print(f"[DEBUG] Has refresh token: {settings.google_refresh_token is not None}")
+        print(f"[DEBUG] Refresh token (first 20 chars): {settings.google_refresh_token[:20] if settings.google_refresh_token else 'None'}")
+    
+    has_calendar = settings is not None and settings.google_refresh_token is not None
+    print(f"[DEBUG] has_calendar = {has_calendar}")
+    
     return {
         "admin_id": admin.id,
         "admin_name": admin.username,
-        "has_calendar": settings is not None and settings.google_refresh_token is not None
+        "has_calendar": has_calendar
     }
 
 
