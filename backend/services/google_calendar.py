@@ -221,23 +221,12 @@ class GoogleCalendarService:
             # Start from now + buffer or start_date (whichever is later)
             current_time = max(datetime.utcnow() + buffer, start_date)
             
-            # Working hours: 9 AM to 6 PM (can be made configurable)
+            # Round to next hour for cleaner slots
+            if current_time.minute > 0:
+                current_time = current_time.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1)
+            
+            # Generate slots for all days and hours (no restrictions)
             while current_time < end_date:
-                # Skip weekends
-                if current_time.weekday() >= 5:  # 5=Saturday, 6=Sunday
-                    current_time += timedelta(days=1)
-                    current_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
-                    continue
-                
-                # Only check during working hours
-                if current_time.hour < 9:
-                    current_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
-                    continue
-                elif current_time.hour >= 18:
-                    current_time += timedelta(days=1)
-                    current_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
-                    continue
-                
                 slot_end = current_time + slot_duration
                 
                 # Check if slot conflicts with busy times
