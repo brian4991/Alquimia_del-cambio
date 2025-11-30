@@ -9,7 +9,6 @@ import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
 import BookingPage from './components/BookingPage';
-import AdminAppointments from './components/AdminAppointments';
 import Layout from './components/Layout';
 // import ProgramLanding from './components/ProgramLanding';
 // import RetiroAmateLanding from './components/RetiroAmateLanding';
@@ -189,16 +188,6 @@ const App = () => {
               <ProtectedRoute requireAdmin={true}>
                 <Layout>
                   <AdminPanel />
-                </Layout>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/admin/appointments" 
-            element={
-              <ProtectedRoute requireAdmin={true}>
-                <Layout>
-                  <AdminAppointments />
                 </Layout>
               </ProtectedRoute>
             } 

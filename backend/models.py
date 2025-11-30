@@ -156,36 +156,3 @@ class CardResponse(Base):
     # Relationships
     user = relationship("User")
     card = relationship("ThemeCard")
-
-class Appointment(Base):
-    __tablename__ = "appointments"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    admin_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
-    status = Column(String(20), default="pending", nullable=False)  # pending, confirmed, cancelled
-    google_event_id = Column(String(255), nullable=True)  # For sync with Google Calendar
-    notes = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-    
-    # Relationships
-    user = relationship("User", foreign_keys=[user_id])
-    admin = relationship("User", foreign_keys=[admin_id])
-
-class AdminCalendarSettings(Base):
-    __tablename__ = "admin_calendar_settings"
-    id = Column(Integer, primary_key=True, index=True)
-    admin_id = Column(Integer, ForeignKey("users.id"), nullable=False, unique=True)
-    google_refresh_token = Column(String(500), nullable=True)
-    google_access_token = Column(String(500), nullable=True)
-    token_expiry = Column(DateTime, nullable=True)
-    calendar_id = Column(String(255), nullable=True, default="primary")
-    slot_duration = Column(Integer, default=60, nullable=False)  # Duration in minutes (30, 60, 90, etc.)
-    availability_buffer = Column(Integer, default=60, nullable=False)  # Minimum time before appointment in minutes
-    created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
-    
-    # Relationships
-    admin = relationship("User")
