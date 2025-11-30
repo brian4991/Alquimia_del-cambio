@@ -247,8 +247,11 @@ class GoogleCalendarService:
                 # Check if slot conflicts with busy times
                 is_available = True
                 for busy in busy_times:
-                    busy_start = datetime.fromisoformat(busy['start'].replace('Z', '+00:00'))
-                    busy_end = datetime.fromisoformat(busy['end'].replace('Z', '+00:00'))
+                    # Parse busy times and make them naive (remove timezone)
+                    busy_start_str = busy['start'].replace('Z', '+00:00')
+                    busy_end_str = busy['end'].replace('Z', '+00:00')
+                    busy_start = datetime.fromisoformat(busy_start_str).replace(tzinfo=None)
+                    busy_end = datetime.fromisoformat(busy_end_str).replace(tzinfo=None)
                     
                     if (current_time < busy_end and slot_end > busy_start):
                         is_available = False
