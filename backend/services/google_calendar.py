@@ -203,15 +203,23 @@ class GoogleCalendarService:
         try:
             service = build('calendar', 'v3', credentials=credentials)
             
+            # Format dates properly for Google Calendar API
+            # Remove any existing timezone info and format as RFC3339
+            time_min = start_date.strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+            time_max = end_date.strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
+            
+            print(f"[CALENDAR] Querying freeBusy: timeMin={time_min}, timeMax={time_max}")
+            
             # Get busy times from calendar
             body = {
-                "timeMin": start_date.isoformat() + 'Z',
-                "timeMax": end_date.isoformat() + 'Z',
+                "timeMin": time_min,
+                "timeMax": time_max,
                 "items": [{"id": settings.calendar_id or "primary"}]
             }
             
             events_result = service.freebusy().query(body=body).execute()
             busy_times = events_result['calendars'][settings.calendar_id or "primary"]['busy']
+            print(f"[CALENDAR] Found {len(busy_times)} busy periods")
             
             # Generate available slots
             available_slots = []
