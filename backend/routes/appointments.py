@@ -25,30 +25,34 @@ def get_admin_info(
     db: Session = Depends(get_db)
 ):
     """Get the admin user info for booking (any authenticated user can access)"""
+    # First, try to find an admin with a connected calendar
+    settings_with_token = db.query(AdminCalendarSettings).filter(
+        AdminCalendarSettings.google_refresh_token.isnot(None)
+    ).first()
+    
+    if settings_with_token:
+        # Found an admin with calendar connected
+        admin = db.query(User).filter(User.id == settings_with_token.admin_id).first()
+        if admin:
+            print(f"[DEBUG] Found admin with calendar: id={admin.id}, username={admin.username}")
+            return {
+                "admin_id": admin.id,
+                "admin_name": admin.username,
+                "has_calendar": True
+            }
+    
+    # Fallback: find any admin
     admin = db.query(User).filter(User.role == "admin").first()
     
     if not admin:
         raise HTTPException(status_code=404, detail="No admin found")
     
-    # Check if admin has calendar connected
-    settings = db.query(AdminCalendarSettings).filter(
-        AdminCalendarSettings.admin_id == admin.id
-    ).first()
-    
-    # Debug logging
-    print(f"[DEBUG] Admin found: id={admin.id}, username={admin.username}")
-    print(f"[DEBUG] Settings found: {settings is not None}")
-    if settings:
-        print(f"[DEBUG] Has refresh token: {settings.google_refresh_token is not None}")
-        print(f"[DEBUG] Refresh token (first 20 chars): {settings.google_refresh_token[:20] if settings.google_refresh_token else 'None'}")
-    
-    has_calendar = settings is not None and settings.google_refresh_token is not None
-    print(f"[DEBUG] has_calendar = {has_calendar}")
+    print(f"[DEBUG] Fallback admin (no calendar): id={admin.id}, username={admin.username}")
     
     return {
         "admin_id": admin.id,
         "admin_name": admin.username,
-        "has_calendar": has_calendar
+        "has_calendar": False
     }
 
 
