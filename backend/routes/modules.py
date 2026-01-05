@@ -127,21 +127,9 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
                 else:
                     is_unlocked = False
             else:
-                # Validated users: normal sequential progression
-                if i == 0:
-                    is_unlocked = True
-                else:
-                    # Check if previous theme is completed
-                    prev_theme = themes[i-1]
-                    prev_progress = db.query(UserProgress).filter(
-                        UserProgress.user_id == current_user.id,
-                        UserProgress.theme_id == prev_theme.id,
-                        UserProgress.completed == True
-                    ).first()
-                    is_unlocked = prev_progress is not None
-                    # #region agent log
-                    import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:121","message":"H2/H7: Theme unlock check","data":{"theme_id":theme.id,"theme_index":i,"prev_theme_id":prev_theme.id,"prev_completed":prev_progress is not None,"is_unlocked":is_unlocked},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H2"}) + '\n'); f.close()
-                    # #endregion
+                # Validated users: ALL themes of validated modules are unlocked
+                # No need to complete previous theme to access the next one
+                is_unlocked = True
         
         # Count total cards for this theme
         total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
