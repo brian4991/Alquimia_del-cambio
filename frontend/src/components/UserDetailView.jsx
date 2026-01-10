@@ -610,23 +610,25 @@ const UserDetailView = () => {
                 <div className="mt-4 flex space-x-1">
                   <button
                     onClick={() => setActiveTab('current')}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center ${
                       activeTab === 'current'
-                        ? 'bg-sage text-white'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                        ? 'bg-taupe text-white'
+                        : 'text-taupe-dark hover:text-taupe hover:bg-taupe-light'
                     }`}
                   >
-                    📋 Respuestas Actuales
+                    <DocumentTextIcon className="w-4 h-4 mr-2" />
+                    Respuestas Actuales
                   </button>
                   <button
                     onClick={() => setActiveTab('history')}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center ${
                       activeTab === 'history'
-                        ? 'bg-sage text-white'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                        ? 'bg-taupe text-white'
+                        : 'text-taupe-dark hover:text-taupe hover:bg-taupe-light'
                     }`}
                   >
-                    🕒 Historial Completo
+                    <ClockIcon className="w-4 h-4 mr-2" />
+                    Historial Completo
                   </button>
                 </div>
               </div>
@@ -789,18 +791,18 @@ const UserDetailView = () => {
                         {/* Module Accordion Header */}
                         <button
                           onClick={() => toggleModule(moduleTitle)}
-                          className="w-full p-4 bg-gradient-to-r from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 transition-colors flex items-center justify-between"
+                          className="w-full p-4 bg-gradient-to-r from-beige to-white hover:from-taupe-light hover:to-beige transition-colors flex items-center justify-between"
                         >
                           <div className="flex items-center">
                             {openModules[moduleTitle] ? (
-                              <ChevronDownIcon className="w-5 h-5 mr-3 text-orange-600" />
+                              <ChevronDownIcon className="w-5 h-5 mr-3 text-taupe-dark" />
                             ) : (
-                              <ChevronRightIcon className="w-5 h-5 mr-3 text-orange-600" />
+                              <ChevronRightIcon className="w-5 h-5 mr-3 text-taupe-dark" />
                             )}
-                            <AcademicCapIcon className="w-5 h-5 mr-2 text-orange-600" />
-                            <span className="text-lg font-bold text-slate-900">{moduleTitle}</span>
+                            <AcademicCapIcon className="w-5 h-5 mr-2 text-taupe-dark" />
+                            <span className="text-lg font-bold text-taupe-dark">{moduleTitle}</span>
                           </div>
-                          <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full">
+                          <span className="text-sm bg-taupe-light text-taupe-dark px-3 py-1 rounded-full">
                             {getModuleResponseCount(moduleData)} respuestas
                           </span>
                         </button>
@@ -817,18 +819,18 @@ const UserDetailView = () => {
                                   {/* Theme Accordion Header */}
                                   <button
                                     onClick={() => toggleTheme(moduleTitle, themeTitle)}
-                                    className="w-full p-3 bg-gradient-to-r from-purple-50 to-indigo-50 hover:from-purple-100 hover:to-indigo-100 transition-colors flex items-center justify-between"
+                                    className="w-full p-3 bg-gradient-to-r from-slate-50 to-gray-50 hover:from-slate-100 hover:to-gray-100 transition-colors flex items-center justify-between"
                                   >
                                     <div className="flex items-center">
                                       {openThemes[`${moduleTitle}_${themeTitle}`] ? (
-                                        <ChevronDownIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                        <ChevronDownIcon className="w-4 h-4 mr-2 text-taupe-dark" />
                                       ) : (
-                                        <ChevronRightIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                        <ChevronRightIcon className="w-4 h-4 mr-2 text-taupe-dark" />
                                       )}
-                                      <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
-                                      <span className="font-semibold text-slate-900">{themeTitle}</span>
+                                      <SparklesIcon className="w-4 h-4 mr-2 text-taupe-dark" />
+                                      <span className="font-semibold text-taupe-dark">{themeTitle}</span>
                                     </div>
-                                    <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+                                    <span className="text-xs bg-taupe-light text-taupe-dark px-2 py-1 rounded-full">
                                       {getThemeResponseCount(themeData)} respuestas
                                     </span>
                                   </button>

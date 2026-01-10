@@ -156,26 +156,26 @@ const AdminUsersTracking = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-sage transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-taupe transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-sage-light rounded-xl">
-                <UsersIcon className="w-8 h-8 text-sage-dark" />
+              <div className="p-3 bg-taupe-light rounded-xl">
+                <UsersIcon className="w-8 h-8 text-taupe-dark" />
               </div>
-              <SparklesIcon className="w-6 h-6 text-sage-light" />
+              <SparklesIcon className="w-6 h-6 text-taupe-light" />
             </div>
             <p className="text-slate-600 text-sm font-medium mb-2">Total Usuarios</p>
-            <p className="text-4xl font-bold text-slate-900">{stats.totalUsers}</p>
+            <p className="text-4xl font-bold text-taupe-dark">{stats.totalUsers}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-sage transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-taupe transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-green-100 rounded-xl">
-                <CheckCircleIconSolid className="w-8 h-8 text-green-600" />
+              <div className="p-3 bg-taupe-light rounded-xl">
+                <CheckCircleIconSolid className="w-8 h-8 text-taupe-dark" />
               </div>
-              <SparklesIcon className="w-6 h-6 text-green-400" />
+              <SparklesIcon className="w-6 h-6 text-taupe-light" />
             </div>
             <p className="text-slate-600 text-sm font-medium mb-2">Usuarios Activos</p>
-            <p className="text-4xl font-bold text-green-600">{stats.activeUsers}</p>
+            <p className="text-4xl font-bold text-taupe-dark">{stats.activeUsers}</p>
           </div>
 
           <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-taupe transition-all duration-300">
@@ -189,15 +189,15 @@ const AdminUsersTracking = () => {
             <p className="text-4xl font-bold text-taupe-dark">{stats.completedModules}</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-sage transition-all duration-300">
+          <div className="bg-white rounded-2xl shadow-elegant p-8 border border-gray-200 hover:shadow-taupe transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-amber-100 rounded-xl">
-                <DocumentTextIcon className="w-8 h-8 text-amber-600" />
+              <div className="p-3 bg-taupe-light rounded-xl">
+                <DocumentTextIcon className="w-8 h-8 text-taupe-dark" />
               </div>
-              <SparklesIcon className="w-6 h-6 text-amber-400" />
+              <SparklesIcon className="w-6 h-6 text-taupe-light" />
             </div>
             <p className="text-slate-600 text-sm font-medium mb-2">Total Respuestas</p>
-            <p className="text-4xl font-bold text-amber-600">{stats.totalResponses}</p>
+            <p className="text-4xl font-bold text-taupe-dark">{stats.totalResponses}</p>
           </div>
         </div>
 
@@ -206,7 +206,7 @@ const AdminUsersTracking = () => {
           <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
             <div className="p-8 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
               <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                <UsersIcon className="w-6 h-6 mr-3 text-sage" />
+                <UsersIcon className="w-6 h-6 mr-3 text-taupe-dark" />
                 Lista de Usuarios
               </h2>
               <p className="text-slate-600 mt-2">Selecciona un usuario para ver su progreso detallado</p>
