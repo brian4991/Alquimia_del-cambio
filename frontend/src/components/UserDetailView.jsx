@@ -13,7 +13,9 @@ import {
   ShieldCheckIcon,
   ExclamationTriangleIcon,
   PencilIcon,
-  TrashIcon
+  TrashIcon,
+  ChevronDownIcon,
+  ChevronRightIcon
 } from '@heroicons/react/24/outline';
 import AdminTableView from './AdminTableView';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
@@ -33,6 +35,8 @@ const UserDetailView = () => {
   const [editedText, setEditedText] = useState('');
   const [currentResponses, setCurrentResponses] = useState([]);
   const [activeTab, setActiveTab] = useState('current'); // 'current' or 'history'
+  const [openModules, setOpenModules] = useState({});
+  const [openThemes, setOpenThemes] = useState({});
 
   useEffect(() => {
     loadUserData();
@@ -256,22 +260,72 @@ const UserDetailView = () => {
     const grouped = {};
     userResponses.forEach(response => {
       const moduleTitle = response.module_title;
+      const moduleOrder = response.module_order || 0;
       if (!grouped[moduleTitle]) {
         grouped[moduleTitle] = {
           title: moduleTitle,
+          order: moduleOrder,
           themes: {}
         };
       }
       
       const themeTitle = response.theme_title;
+      const themeOrder = response.theme_order || 0;
       if (!grouped[moduleTitle].themes[themeTitle]) {
-        grouped[moduleTitle].themes[themeTitle] = [];
+        grouped[moduleTitle].themes[themeTitle] = {
+          title: themeTitle,
+          order: themeOrder,
+          exercises: {}
+        };
       }
       
-      grouped[moduleTitle].themes[themeTitle].push(response);
+      const exerciseTitle = response.exercise_title;
+      const exerciseOrder = response.exercise_order || 0;
+      if (!grouped[moduleTitle].themes[themeTitle].exercises[exerciseTitle]) {
+        grouped[moduleTitle].themes[themeTitle].exercises[exerciseTitle] = {
+          title: exerciseTitle,
+          order: exerciseOrder,
+          responses: []
+        };
+      }
+      
+      grouped[moduleTitle].themes[themeTitle].exercises[exerciseTitle].responses.push(response);
     });
     
     return grouped;
+  };
+
+  const toggleModule = (moduleTitle) => {
+    setOpenModules(prev => ({
+      ...prev,
+      [moduleTitle]: !prev[moduleTitle]
+    }));
+  };
+
+  const toggleTheme = (moduleTitle, themeTitle) => {
+    const key = `${moduleTitle}_${themeTitle}`;
+    setOpenThemes(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const getModuleResponseCount = (moduleData) => {
+    let count = 0;
+    Object.values(moduleData.themes).forEach(theme => {
+      Object.values(theme.exercises).forEach(exercise => {
+        count += exercise.responses.length;
+      });
+    });
+    return count;
+  };
+
+  const getThemeResponseCount = (themeData) => {
+    let count = 0;
+    Object.values(themeData.exercises).forEach(exercise => {
+      count += exercise.responses.length;
+    });
+    return count;
   };
 
   if (loading) {
@@ -718,7 +772,7 @@ const UserDetailView = () => {
                     </div>
                   )
                 ) : (
-                  /* History Tab - Keep existing structure */
+                  /* History Tab - Accordion Structure */
                   Object.keys(responsesByModule).length === 0 ? (
                   <div className="text-center py-16 text-slate-500">
                     <DocumentTextIcon className="w-16 h-16 mx-auto mb-6 opacity-50" />
@@ -726,142 +780,182 @@ const UserDetailView = () => {
                     <p className="text-sm mt-2">El usuario aún no ha completado ejercicios</p>
                   </div>
                 ) : (
-                  <div className="space-y-8">
-                    {Object.entries(responsesByModule).map(([moduleTitle, moduleData]) => (
+                  <div className="space-y-3">
+                    {/* Sort modules by order */}
+                    {Object.entries(responsesByModule)
+                      .sort(([, a], [, b]) => (a.order || 0) - (b.order || 0))
+                      .map(([moduleTitle, moduleData]) => (
                       <div key={moduleTitle} className="border border-slate-200 rounded-xl overflow-hidden">
-                          <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-b border-slate-200">
-                          <h3 className="text-lg font-bold text-slate-900 flex items-center">
-                              <AcademicCapIcon className="w-5 h-5 mr-2 text-orange-600" />
-                            {moduleTitle}
-                              <span className="ml-2 text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
-                                HISTORIAL
-                              </span>
-                          </h3>
-                        </div>
+                        {/* Module Accordion Header */}
+                        <button
+                          onClick={() => toggleModule(moduleTitle)}
+                          className="w-full p-4 bg-gradient-to-r from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 transition-colors flex items-center justify-between"
+                        >
+                          <div className="flex items-center">
+                            {openModules[moduleTitle] ? (
+                              <ChevronDownIcon className="w-5 h-5 mr-3 text-orange-600" />
+                            ) : (
+                              <ChevronRightIcon className="w-5 h-5 mr-3 text-orange-600" />
+                            )}
+                            <AcademicCapIcon className="w-5 h-5 mr-2 text-orange-600" />
+                            <span className="text-lg font-bold text-slate-900">{moduleTitle}</span>
+                          </div>
+                          <span className="text-sm bg-orange-100 text-orange-800 px-3 py-1 rounded-full">
+                            {getModuleResponseCount(moduleData)} respuestas
+                          </span>
+                        </button>
                         
-                        <div className="p-4">
-                          <div className="space-y-6">
-                            {Object.entries(moduleData.themes).map(([themeTitle, responses]) => (
-                              <div key={themeTitle} className="bg-white rounded-lg p-4">
-                                <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
-                                  <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
-                                  {themeTitle}
-                                </h4>
-                                
-                                <div className="space-y-3">
-                                  {responses.map((response, index) => (
-                                    <div key={index} className="bg-white rounded-lg p-4 border border-slate-200">
-                                      <div className="flex justify-between items-start mb-3">
-                                          <div className="flex-1">
-                                          <h5 className="font-medium text-slate-900 text-sm">
-                                            {response.exercise_title}
+                        {/* Module Content */}
+                        {openModules[moduleTitle] && (
+                          <div className="p-4 bg-white border-t border-slate-200">
+                            <div className="space-y-2">
+                              {/* Sort themes by order */}
+                              {Object.entries(moduleData.themes)
+                                .sort(([, a], [, b]) => (a.order || 0) - (b.order || 0))
+                                .map(([themeTitle, themeData]) => (
+                                <div key={themeTitle} className="border border-slate-200 rounded-lg overflow-hidden">
+                                  {/* Theme Accordion Header */}
+                                  <button
+                                    onClick={() => toggleTheme(moduleTitle, themeTitle)}
+                                    className="w-full p-3 bg-gradient-to-r from-purple-50 to-indigo-50 hover:from-purple-100 hover:to-indigo-100 transition-colors flex items-center justify-between"
+                                  >
+                                    <div className="flex items-center">
+                                      {openThemes[`${moduleTitle}_${themeTitle}`] ? (
+                                        <ChevronDownIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                      ) : (
+                                        <ChevronRightIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                      )}
+                                      <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                      <span className="font-semibold text-slate-900">{themeTitle}</span>
+                                    </div>
+                                    <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+                                      {getThemeResponseCount(themeData)} respuestas
+                                    </span>
+                                  </button>
+                                  
+                                  {/* Theme Content - Exercises */}
+                                  {openThemes[`${moduleTitle}_${themeTitle}`] && (
+                                    <div className="p-4 bg-white border-t border-slate-200 space-y-4">
+                                      {/* Sort exercises by order */}
+                                      {Object.entries(themeData.exercises)
+                                        .sort(([, a], [, b]) => (a.order || 0) - (b.order || 0))
+                                        .map(([exerciseTitle, exerciseData]) => (
+                                        <div key={exerciseTitle} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+                                          <h5 className="font-medium text-slate-800 mb-3 flex items-center">
+                                            <BookOpenIcon className="w-4 h-4 mr-2 text-slate-600" />
+                                            {exerciseTitle}
+                                            <span className="ml-2 text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">
+                                              {exerciseData.responses.length} respuesta{exerciseData.responses.length !== 1 ? 's' : ''}
+                                            </span>
                                           </h5>
-                                            {(response.response_type === 'sub_question' || response.response_type === 'exercise_section') && response.sub_question_text && (
-                                            <p className="text-xs text-blue-600 mt-1 font-medium">
-                                              📝 {response.sub_question_text}
-                                            </p>
-                                          )}
-                                        </div>
-                                          <div className="flex items-start space-x-3">
-                                        <div className="flex flex-col items-end space-y-1">
-                                          <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
-                                            response.response_type === 'sub_question' 
-                                              ? 'bg-blue-100 text-blue-700' 
-                                              : response.response_type === 'card_exercise'
-                                              ? 'bg-orange-100 text-orange-700'
-                                                  : response.response_type === 'exercise_section'
-                                                  ? 'bg-green-100 text-green-700'
-                                              : 'bg-slate-100 text-slate-500'
-                                          }`}>
-                                            {response.response_type === 'sub_question' 
-                                              ? '🔸 Subpregunta' 
-                                              : response.response_type === 'card_exercise'
-                                              ? '📝 Carta Ejercicio'
-                                                  : response.response_type === 'exercise_section'
-                                                  ? '🎯 Subejercicio'
-                                              : '📝 Principal'}
-                                          </span>
-                                          <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
-                                            <ClockIcon className="w-3 h-3 mr-1" />
-                                            {formatDate(response.submitted_at)}
-                                          </span>
-                                            </div>
-                                            <div className="flex flex-col space-y-1">
-                                              <button
-                                                onClick={() => handleEditResponse(response)}
-                                                className="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
-                                                title="Editar respuesta"
-                                              >
-                                                <PencilIcon className="w-4 h-4" />
-                                              </button>
-                                              <button
-                                                onClick={() => handleDeleteResponse(response.id)}
-                                                className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
-                                                title="Eliminar respuesta"
-                                              >
-                                                <TrashIcon className="w-4 h-4" />
-                                              </button>
-                                            </div>
-                                        </div>
-                                      </div>
-                                      <div className="bg-white rounded-lg p-3">
-                                        {/* Check if this is a table response */}
-                                          {(response.response_type === 'card_exercise' || response.response_type === 'exercise_section') && 
-                                         response.table_config ? (
-                                          <AdminTableView 
-                                            tableData={response.response_text}
-                                            tableConfig={response.table_config}
-                                            questionText={response.sub_question_text}
-                                          />
-                                          ) : isTableResponse(response.response_text) ? (
-                                            <div className="space-y-2">
-                                              <div className="bg-blue-50 rounded-md p-3 border border-blue-200 mb-4">
-                                                <div className="flex items-center text-sm text-blue-800 mb-2">
-                                                  <span className="mr-2">📊</span>
-                                                  <span className="font-medium">Tabla de respuestas:</span>
+                                          
+                                          <div className="space-y-3">
+                                            {exerciseData.responses.map((response, index) => (
+                                              <div key={index} className="bg-white rounded-lg p-4 border border-slate-200">
+                                                <div className="flex justify-between items-start mb-3">
+                                                  <div className="flex-1">
+                                                    {(response.response_type === 'sub_question' || response.response_type === 'exercise_section') && response.sub_question_text && (
+                                                      <p className="text-sm text-blue-600 font-medium">
+                                                        {response.sub_question_text}
+                                                      </p>
+                                                    )}
+                                                  </div>
+                                                  <div className="flex items-start space-x-3">
+                                                    <div className="flex flex-col items-end space-y-1">
+                                                      <span className={`text-xs px-2 py-1 rounded-full flex items-center ${
+                                                        response.response_type === 'sub_question' 
+                                                          ? 'bg-blue-100 text-blue-700' 
+                                                          : response.response_type === 'card_exercise'
+                                                          ? 'bg-orange-100 text-orange-700'
+                                                          : response.response_type === 'exercise_section'
+                                                          ? 'bg-green-100 text-green-700'
+                                                          : 'bg-slate-100 text-slate-500'
+                                                      }`}>
+                                                        {response.response_type === 'sub_question' 
+                                                          ? 'Subpregunta' 
+                                                          : response.response_type === 'card_exercise'
+                                                          ? 'Carta'
+                                                          : response.response_type === 'exercise_section'
+                                                          ? 'Subejercicio'
+                                                          : 'Principal'}
+                                                      </span>
+                                                      <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full flex items-center">
+                                                        <ClockIcon className="w-3 h-3 mr-1" />
+                                                        {formatDate(response.submitted_at)}
+                                                      </span>
+                                                    </div>
+                                                    <div className="flex flex-col space-y-1">
+                                                      <button
+                                                        onClick={() => handleEditResponse(response)}
+                                                        className="p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition-colors"
+                                                        title="Editar respuesta"
+                                                      >
+                                                        <PencilIcon className="w-4 h-4" />
+                                                      </button>
+                                                      <button
+                                                        onClick={() => handleDeleteResponse(response.id)}
+                                                        className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
+                                                        title="Eliminar respuesta"
+                                                      >
+                                                        <TrashIcon className="w-4 h-4" />
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="bg-slate-50 rounded-lg p-3">
+                                                  {(response.response_type === 'card_exercise' || response.response_type === 'exercise_section') && 
+                                                   response.table_config ? (
+                                                    <AdminTableView 
+                                                      tableData={response.response_text}
+                                                      tableConfig={response.table_config}
+                                                      questionText={response.sub_question_text}
+                                                    />
+                                                  ) : isTableResponse(response.response_text) ? (
+                                                    <AdminTableView 
+                                                      tableData={response.response_text}
+                                                      questionText={response.sub_question_text}
+                                                    />
+                                                  ) : editingResponse === response.id ? (
+                                                    <div className="space-y-3">
+                                                      <textarea
+                                                        value={editedText}
+                                                        onChange={(e) => setEditedText(e.target.value)}
+                                                        className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm"
+                                                        placeholder="Editar respuesta..."
+                                                      />
+                                                      <div className="flex justify-end space-x-2">
+                                                        <button
+                                                          onClick={handleCancelEdit}
+                                                          className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                                                        >
+                                                          Cancelar
+                                                        </button>
+                                                        <button
+                                                          onClick={() => handleSaveResponse(response.id)}
+                                                          className="px-3 py-1 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded transition-colors"
+                                                        >
+                                                          Guardar
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                  ) : (
+                                                    <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                                                      {response.response_text}
+                                                    </p>
+                                                  )}
                                                 </div>
                                               </div>
-                                          <AdminTableView 
-                                            tableData={response.response_text}
-                                            questionText={response.sub_question_text}
-                                          />
-                                            </div>
-                                          ) : editingResponse === response.id ? (
-                                            <div className="space-y-3">
-                                              <textarea
-                                                value={editedText}
-                                                onChange={(e) => setEditedText(e.target.value)}
-                                                className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-sm"
-                                                placeholder="Editar respuesta..."
-                                              />
-                                              <div className="flex justify-end space-x-2">
-                                                <button
-                                                  onClick={handleCancelEdit}
-                                                  className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
-                                                >
-                                                  Cancelar
-                                                </button>
-                                                <button
-                                                  onClick={() => handleSaveResponse(response.id)}
-                                                  className="px-3 py-1 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded transition-colors"
-                                                >
-                                                  Guardar
-                                                </button>
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-                                            {response.response_text}
-                                          </p>
-                                        )}
-                                      </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      ))}
                                     </div>
-                                  ))}
+                                  )}
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                     ))}
                   </div>
