@@ -646,11 +646,11 @@ const UserDetailView = () => {
                     <div className="space-y-6">
                       {currentResponses.map((module) => (
                         <div key={module.module_id} className="border border-slate-200 rounded-xl overflow-hidden">
-                          <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 border-b border-slate-200">
-                            <h3 className="text-lg font-bold text-slate-900 flex items-center">
-                              <AcademicCapIcon className="w-5 h-5 mr-2 text-green-600" />
+                          <div className="p-4 bg-gradient-to-r from-beige to-white border-b border-slate-200">
+                            <h3 className="text-lg font-bold text-taupe-dark flex items-center">
+                              <AcademicCapIcon className="w-5 h-5 mr-2 text-taupe-dark" />
                               {module.module_title}
-                              <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                              <span className="ml-2 text-xs bg-taupe-light text-taupe-dark px-2 py-1 rounded-full">
                                 ACTIVO
                               </span>
                             </h3>
@@ -660,15 +660,15 @@ const UserDetailView = () => {
                             <div className="space-y-6">
                               {module.themes.map((theme) => (
                                 <div key={theme.theme_id} className="space-y-4">
-                                  <h4 className="font-semibold text-slate-900 mb-3 flex items-center">
-                                    <SparklesIcon className="w-4 h-4 mr-2 text-purple-600" />
+                                  <h4 className="font-semibold text-taupe-dark mb-3 flex items-center">
+                                    <SparklesIcon className="w-4 h-4 mr-2 text-taupe-dark" />
                                     {theme.theme_title}
                                   </h4>
                                   
                                   {theme.exercises.map((exercise) => (
                                     <div key={exercise.exercise_id} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                                      <h5 className="font-medium text-slate-800 mb-3 flex items-center">
-                                        <BookOpenIcon className="w-4 h-4 mr-2 text-slate-600" />
+                                      <h5 className="font-medium text-taupe-dark mb-3 flex items-center">
+                                        <BookOpenIcon className="w-4 h-4 mr-2 text-taupe-dark" />
                                         {exercise.exercise_title}
                                       </h5>
                                       
@@ -843,10 +843,10 @@ const UserDetailView = () => {
                                         .sort(([, a], [, b]) => (a.order || 0) - (b.order || 0))
                                         .map(([exerciseTitle, exerciseData]) => (
                                         <div key={exerciseTitle} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                                          <h5 className="font-medium text-slate-800 mb-3 flex items-center">
-                                            <BookOpenIcon className="w-4 h-4 mr-2 text-slate-600" />
+                                          <h5 className="font-medium text-taupe-dark mb-3 flex items-center">
+                                            <BookOpenIcon className="w-4 h-4 mr-2 text-taupe-dark" />
                                             {exerciseTitle}
-                                            <span className="ml-2 text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">
+                                            <span className="ml-2 text-xs bg-taupe-light text-taupe-dark px-2 py-0.5 rounded-full">
                                               {exerciseData.responses.length} respuesta{exerciseData.responses.length !== 1 ? 's' : ''}
                                             </span>
                                           </h5>
