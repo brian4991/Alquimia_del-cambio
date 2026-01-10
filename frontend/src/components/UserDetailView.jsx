@@ -386,8 +386,8 @@ const UserDetailView = () => {
             >
               <ArrowLeftIcon className="w-6 h-6 text-slate-600" />
             </button>
-            <div className="p-4 bg-gradient-sage rounded-2xl shadow-sage">
-              <UserIcon className="w-10 h-10 text-white" />
+            <div className="p-4 bg-taupe-light rounded-2xl shadow-elegant">
+              <UserIcon className="w-10 h-10 text-taupe-dark" />
             </div>
             <div>
               <h1 className="text-4xl font-bold text-slate-900 mb-2">Perfil de {user.username}</h1>
@@ -403,14 +403,14 @@ const UserDetailView = () => {
             <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
               <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <UserIcon className="w-6 h-6 mr-3 text-sage" />
+                  <UserIcon className="w-6 h-6 mr-3 text-taupe-dark" />
                   Información del Usuario
                 </h2>
               </div>
               
               <div className="p-6">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-gradient-sage rounded-xl flex items-center justify-center text-white font-bold text-2xl">
+                  <div className="w-16 h-16 bg-taupe-light rounded-xl flex items-center justify-center text-taupe-dark font-bold text-2xl">
                     {user.username.charAt(0).toUpperCase()}
                   </div>
                   <div>
@@ -463,9 +463,9 @@ const UserDetailView = () => {
 
             {/* User Global Validation */}
             <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
-              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-amber-50">
+              <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-amber-600" />
+                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-taupe-dark" />
                   Validación Global
                 </h2>
                 <p className="text-slate-600 mt-2">Controla el acceso general del usuario</p>
@@ -524,7 +524,7 @@ const UserDetailView = () => {
             <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
               <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-sage" />
+                  <ShieldCheckIcon className="w-6 h-6 mr-3 text-taupe-dark" />
                   Validación de Módulos
                 </h2>
                 <p className="text-slate-600 mt-2">Controla el acceso a módulos</p>
@@ -601,7 +601,7 @@ const UserDetailView = () => {
             <div className="bg-white rounded-2xl shadow-elegant border border-gray-200 overflow-hidden">
               <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-beige to-white">
                 <h2 className="text-2xl font-bold text-slate-900 flex items-center">
-                  <DocumentTextIcon className="w-6 h-6 mr-3 text-taupe" />
+                  <DocumentTextIcon className="w-6 h-6 mr-3 text-taupe-dark" />
                   Respuestas del Usuario
                 </h2>
                 <p className="text-slate-600 mt-2">Revisa y edita las respuestas del usuario</p>
