@@ -77,10 +77,37 @@ app.include_router(migrate_theme_cards.router)  # Theme cards migration
 app.include_router(uploads.router, prefix="/api")  # File uploads
 app.include_router(legacy.router)
 
+def run_migrations():
+    """Run database migrations for missing columns"""
+    from sqlalchemy import text
+    db = next(get_db())
+    try:
+        # Check if we're using PostgreSQL or SQLite
+        dialect = db.bind.dialect.name
+        
+        if dialect == 'postgresql':
+            # PostgreSQL syntax
+            db.execute(text("ALTER TABLE modules ADD COLUMN IF NOT EXISTS meditation_video_url TEXT"))
+        else:
+            # SQLite - check if column exists first
+            result = db.execute(text("PRAGMA table_info(modules)"))
+            columns = [row[1] for row in result.fetchall()]
+            if 'meditation_video_url' not in columns:
+                db.execute(text("ALTER TABLE modules ADD COLUMN meditation_video_url TEXT"))
+        
+        db.commit()
+        print("Migrations completed successfully")
+    except Exception as e:
+        print(f"Migration warning (may be OK if column exists): {e}")
+        db.rollback()
+    finally:
+        db.close()
+
 @app.on_event("startup")
 def startup_event():
     """Initialize database and create tables on startup"""
     create_tables()
+    run_migrations()  # Run migrations before init_database
     db = next(get_db())
     try:
         init_database(db)
