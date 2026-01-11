@@ -101,7 +101,7 @@ const Layout = ({ children }) => {
                   <img 
                     src="/Logo nr.png" 
                     alt="Cambio de Paradigma" 
-                    className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 object-contain drop-shadow-lg hover:scale-105 transition-transform duration-300"
+                    className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 object-cover rounded-full drop-shadow-lg hover:scale-105 transition-transform duration-300"
                     onError={(e) => {
                       // Fallback vers l'icône si le logo n'est pas trouvé
                       e.target.style.display = 'none';

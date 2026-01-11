@@ -63,7 +63,7 @@ const ProgramLanding = () => {
             <img 
               src="/Logo nr.png" 
               alt="Cambio de Paradigma" 
-              className="w-12 h-12 object-contain"
+              className="w-12 h-12 object-cover rounded-full"
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
@@ -485,7 +485,7 @@ const ProgramLanding = () => {
               <img 
                 src="/Logo nr.png" 
                 alt="Cambio de Paradigma" 
-                className="w-10 h-10 object-contain"
+                className="w-10 h-10 object-cover rounded-full"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
