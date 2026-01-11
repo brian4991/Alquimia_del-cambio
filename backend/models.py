@@ -33,6 +33,7 @@ class Module(Base):
     expected_results = Column(Text, nullable=True)
     recommended_book = Column(Text, nullable=True)
     audio_file = Column(String(255), nullable=True)
+    meditation_video_url = Column(String(500), nullable=True)  # URL YouTube de la méditation du module
     order_number = Column(Integer, nullable=False)
     is_active = Column(Boolean, default=True)
     

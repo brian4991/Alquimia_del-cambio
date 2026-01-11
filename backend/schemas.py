@@ -127,6 +127,7 @@ class ModuleCreate(BaseModel):
     expected_results: Optional[str] = None
     recommended_book: Optional[str] = None
     audio_file: Optional[str] = None
+    meditation_video_url: Optional[str] = None
     order_number: int
 
 class ModuleUpdate(BaseModel):
@@ -137,6 +138,7 @@ class ModuleUpdate(BaseModel):
     expected_results: Optional[str] = None
     recommended_book: Optional[str] = None
     audio_file: Optional[str] = None
+    meditation_video_url: Optional[str] = None
     order_number: Optional[int] = None
     is_active: Optional[bool] = None
 
@@ -149,6 +151,7 @@ class ModuleResponse(BaseModel):
     expected_results: Optional[str]
     recommended_book: Optional[str]
     audio_file: Optional[str]
+    meditation_video_url: Optional[str] = None
     order_number: int
     is_completed: bool = False
     is_accessible: bool = True

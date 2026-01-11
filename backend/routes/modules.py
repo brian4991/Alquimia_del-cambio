@@ -87,6 +87,7 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
             expected_results=module.expected_results,
             recommended_book=module.recommended_book,
             audio_file=module.audio_file,
+            meditation_video_url=module.meditation_video_url,
             order_number=module.order_number,
             is_completed=module_progress is not None,
             is_accessible=has_access,
@@ -745,6 +746,7 @@ def create_module(module_data: ModuleCreate, current_admin: User = Depends(get_c
         expected_results=module_data.expected_results,
         recommended_book=module_data.recommended_book,
         audio_file=module_data.audio_file,
+        meditation_video_url=module_data.meditation_video_url,
         order_number=module_data.order_number,
         is_active=True
     )
@@ -762,6 +764,7 @@ def create_module(module_data: ModuleCreate, current_admin: User = Depends(get_c
         expected_results=new_module.expected_results,
         recommended_book=new_module.recommended_book,
         audio_file=new_module.audio_file,
+        meditation_video_url=new_module.meditation_video_url,
         order_number=new_module.order_number,
         is_completed=False
     )
@@ -788,6 +791,8 @@ def update_module(module_id: int, module_data: ModuleUpdate, current_admin: User
         module.recommended_book = module_data.recommended_book
     if module_data.audio_file is not None:
         module.audio_file = module_data.audio_file
+    if module_data.meditation_video_url is not None:
+        module.meditation_video_url = module_data.meditation_video_url
     if module_data.order_number is not None:
         module.order_number = module_data.order_number
     if module_data.is_active is not None:
@@ -805,6 +810,7 @@ def update_module(module_id: int, module_data: ModuleUpdate, current_admin: User
         expected_results=module.expected_results,
         recommended_book=module.recommended_book,
         audio_file=module.audio_file,
+        meditation_video_url=module.meditation_video_url,
         order_number=module.order_number,
         is_completed=False
     )

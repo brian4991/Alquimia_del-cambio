@@ -17,6 +17,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
     expected_results: '',
     recommended_book: '',
     audio_file: '',
+    meditation_video_url: '',
     order_number: 1
   });
 
@@ -149,6 +150,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
       expected_results: module.expected_results || '',
       recommended_book: module.recommended_book || '',
       audio_file: module.audio_file || '',
+      meditation_video_url: module.meditation_video_url || '',
       order_number: module.order_number || 1
     });
     setShowCreateForm(true);
@@ -163,6 +165,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
       expected_results: '',
       recommended_book: '',
       audio_file: '',
+      meditation_video_url: '',
       order_number: Math.max(1, Array.isArray(modules) ? modules.length + 1 : 1)
     });
     setAudioFile(null);
@@ -332,6 +335,23 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
               </div>
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                URL de Meditación (YouTube)
+              </label>
+              <input
+                type="url"
+                value={formData.meditation_video_url}
+                onChange={(e) => setFormData({ ...formData, meditation_video_url: e.target.value })}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-sage focus:border-sage"
+                placeholder="https://www.youtube.com/watch?v=..."
+                disabled={isLoading}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Esta meditación se mostrará en la página principal del módulo
+              </p>
+            </div>
+
             <div className="flex space-x-4">
               <button
                 type="submit"
@@ -394,6 +414,7 @@ const ModulesTab = ({ modules, selectedModule, onModuleSelect, onReload }) => {
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <span>ID: {module.id}</span>
                     {module.audio_file && <span>🎵 Audio</span>}
+                    {module.meditation_video_url && <span>🧘 Meditación</span>}
                     {module.recommended_book && <span>📚 Livre</span>}
                   </div>
                 </div>

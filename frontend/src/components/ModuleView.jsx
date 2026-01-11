@@ -13,7 +13,8 @@ import {
   ClipboardList,
   Check,
   Lock,
-  BarChart3
+  BarChart3,
+  Heart
 } from 'lucide-react';
 
 const ModuleView = () => {
@@ -311,6 +312,35 @@ const ModuleView = () => {
             </div>
             ))}
           </div>
+
+          {/* Meditation Card - Below Themes */}
+          {module.meditation_video_url && (
+            <div className="mt-6 sm:mt-8">
+              <a
+                href={module.meditation_video_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-gradient-to-br from-[#5a6349] to-[#4a5239] rounded-xl sm:rounded-2xl shadow-xl p-5 sm:p-6 transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] border border-[#6b745a]/30"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center bg-white/20 backdrop-blur-sm flex-shrink-0">
+                    <Heart className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">
+                      Meditación del Módulo
+                    </h3>
+                    <p className="text-white/80 text-sm sm:text-base">
+                      Complementa tu trabajo interno con esta meditación guiada
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 flex items-center justify-center">
+                    <Play className="w-5 h-5 sm:w-6 sm:h-6 text-white ml-0.5" />
+                  </div>
+                </div>
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Recursos Column (right, 1/3) */}
