@@ -362,7 +362,7 @@ const CardsView = ({ themeId, themeName, onBack, onGoToExercises, cardTypeFilter
               </div>
             </div>
             <div className="text-right">
-              {theme && (
+              {theme && theme.theme_type !== 'resource' && (
                 <button
                   onClick={() => onGoToExercises()}
                   className="flex items-center space-x-3 px-6 py-3 gradient-sage hover:shadow-sage text-white rounded-xl font-medium transition-elegant transform hover:scale-105"
