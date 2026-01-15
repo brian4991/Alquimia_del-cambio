@@ -1,0 +1,43 @@
+# ============================================
+# VARIABLES D'ENVIRONNEMENT - MODULE MARKETING
+# ============================================
+# 
+# Ajoute ces variables à ton fichier .env existant
+# (ne remplace pas les variables existantes, ajoute-les)
+
+# ========== Azure OpenAI (OBLIGATOIRE) ==========
+# Endpoint Azure OpenAI (trouve-le dans ton portail Azure)
+AZURE_OPENAI_ENDPOINT=https://ton-resource.openai.azure.com/
+
+# Clé API Azure OpenAI (trouve-la dans ton portail Azure)
+AZURE_OPENAI_API_KEY=ta-cle-api-azure-openai
+
+# Version de l'API (optionnel - valeur par défaut)
+AZURE_OPENAI_API_VERSION=2024-02-15-preview
+
+# Nom du déploiement GPT-4o (optionnel - valeur par défaut)
+AZURE_OPENAI_DEPLOYMENT_GPT4O=gpt-4o
+
+# Nom du déploiement pour les embeddings (optionnel - valeur par défaut)
+AZURE_OPENAI_DEPLOYMENT_EMBEDDING=text-embedding-ada-002
+
+# ========== Database (DÉJÀ CONFIGURÉE) ==========
+# Tu as déjà DATABASE_URL dans ton .env
+# Assure-toi que c'est PostgreSQL (pas SQLite) pour que pgvector fonctionne
+# DATABASE_URL=postgresql://user:password@host:port/database
+
+# ========== Canva API (OPTIONNEL) ==========
+# Si tu veux la génération automatique de designs Canva
+CANVA_API_KEY=ta-cle-api-canva
+CANVA_BRAND_KIT_ID=ton-brand-kit-id
+
+# ============================================
+# NOTES IMPORTANTES:
+# ============================================
+# 1. Azure OpenAI est OBLIGATOIRE pour que le module fonctionne
+# 2. Si DATABASE_URL pointe vers SQLite, change-le pour PostgreSQL
+# 3. Pour activer pgvector dans PostgreSQL:
+#    - Connecte-toi à ta base PostgreSQL
+#    - Exécute: CREATE EXTENSION IF NOT EXISTS vector;
+# 4. Canva est optionnel - le module fonctionnera sans
+# ============================================

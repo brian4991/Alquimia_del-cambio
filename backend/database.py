@@ -7,9 +7,15 @@ from models import Base
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if DATABASE_URL:
-    # Railway PostgreSQL
+    # Railway PostgreSQL (use short connect timeout to avoid startup hangs)
     SQLALCHEMY_DATABASE_URL = DATABASE_URL
-    engine = create_engine(SQLALCHEMY_DATABASE_URL)
+    engine = create_engine(
+        SQLALCHEMY_DATABASE_URL,
+        pool_pre_ping=True,
+        connect_args={
+            "connect_timeout": 5,
+        },
+    )
 else:
     # Local SQLite
     SQLALCHEMY_DATABASE_URL = "sqlite:///./app.db"

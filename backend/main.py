@@ -5,11 +5,40 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from database import create_tables, get_db
 from init_data import init_database
 from routes import auth, modules, legacy, api, admin_import, create_modules, uploads
 import migrate_theme_cards
+import asyncio
+import anyio
+
+# Import marketing router (with fallback if not available)
+MARKETING_ENABLED = False
+try:
+    import sys
+    # Add parent directory to path so we can import 'marketing' as a package
+    project_root = Path(__file__).parent.parent
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+    print(f"🔍 Trying to import marketing module from project root: {project_root}")
+    from marketing.api import marketing_router
+    MARKETING_ENABLED = True
+    print("✅ Marketing module imported successfully")
+except ImportError as e:
+    MARKETING_ENABLED = False
+    print(f"❌ Marketing module not available - skipping marketing routes: {e}")
+    import traceback
+    traceback.print_exc()
+except Exception as e:
+    MARKETING_ENABLED = False
+    print(f"❌ Error importing marketing module: {e}")
+    import traceback
+    traceback.print_exc()
 
 # Get the project root directory
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -77,6 +106,18 @@ app.include_router(migrate_theme_cards.router)  # Theme cards migration
 app.include_router(uploads.router, prefix="/api")  # File uploads
 app.include_router(legacy.router)
 
+# Marketing routes (if available)
+if MARKETING_ENABLED:
+    try:
+        app.include_router(marketing_router, prefix="/api/marketing")
+        print("✅ Marketing routes registered successfully")
+    except Exception as e:
+        print(f"❌ Error registering marketing routes: {e}")
+        import traceback
+        traceback.print_exc()
+else:
+    print("⚠️  Marketing module not enabled")
+
 def run_migrations():
     """Run database migrations for missing columns"""
     from sqlalchemy import text
@@ -104,15 +145,46 @@ def run_migrations():
         db.close()
 
 @app.on_event("startup")
-def startup_event():
+async def startup_event():
     """Initialize database and create tables on startup"""
-    create_tables()
-    run_migrations()  # Run migrations before init_database
-    db = next(get_db())
+    db_available = True
     try:
-        init_database(db)
-    finally:
-        db.close()
+        await anyio.to_thread.run_sync(create_tables)
+        await anyio.to_thread.run_sync(run_migrations)  # Run migrations before init_database
+    except Exception as e:
+        db_available = False
+        print(f"⚠️  Warning: Database init failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+    # Initialize marketing tables if module is enabled
+    if MARKETING_ENABLED and db_available:
+        try:
+            from marketing.services.persistence.sqlalchemy_repository import get_marketing_repository
+            print("🔧 Initializing marketing tables...")
+            repository = get_marketing_repository()
+            await asyncio.wait_for(repository.initialize_tables(), timeout=10)
+            print("✅ Marketing tables initialized successfully")
+        except Exception as e:
+            print(f"⚠️  Warning: Could not initialize marketing tables: {e}")
+            import traceback
+            traceback.print_exc()
+    elif MARKETING_ENABLED and not db_available:
+        print("⚠️  Skipping marketing table init because DB is not reachable")
+
+    if db_available:
+        try:
+            db = next(get_db())
+            try:
+                await anyio.to_thread.run_sync(init_database, db)
+            finally:
+                db.close()
+        except Exception as e:
+            print(f"⚠️  Warning: init_database failed: {e}")
+            import traceback
+            traceback.print_exc()
+    else:
+        print("⚠️  Skipping init_database because DB is not reachable")
 
 @app.get("/")
 def root():
