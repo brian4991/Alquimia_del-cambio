@@ -173,6 +173,7 @@ const AdminPanel = () => {
               onLoadExercises={loadExercises}
             />
           )}
+
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
 import BookingPage from './components/BookingPage';
 import Layout from './components/Layout';
+import MarketingPage from './components/MarketingPage';
 // import ProgramLanding from './components/ProgramLanding';
 // import RetiroAmateLanding from './components/RetiroAmateLanding';
 import RetiroAmateStyle from './components/RetiroAmateStyle';
@@ -208,6 +209,16 @@ const App = () => {
               <ProtectedRoute requireAdmin={true}>
                 <Layout>
                   <UserDetailView />
+                </Layout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/marketing" 
+            element={
+              <ProtectedRoute requireAdmin={true}>
+                <Layout>
+                  <MarketingPage />
                 </Layout>
               </ProtectedRoute>
             } 

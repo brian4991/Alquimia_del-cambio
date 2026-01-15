@@ -6,8 +6,7 @@ import {
   CogIcon, 
   ArrowRightOnRectangleIcon,
   SparklesIcon,
-  HeartIcon,
-  CalendarIcon 
+  MegaphoneIcon
 } from '@heroicons/react/24/outline';
 
 const Layout = ({ children }) => {
@@ -55,10 +54,10 @@ const Layout = ({ children }) => {
           description: 'Progreso y respuestas de los usuarios'
         },
         {
-          path: '/admin/appointments', 
-          icon: CalendarIcon, 
-          label: 'Citas',
-          description: 'Gestionar las citas'
+          path: '/marketing', 
+          icon: MegaphoneIcon, 
+          label: 'Marketing',
+          description: 'Estrategia y equipo de marketing'
         },
         {
           path: '/admin', 
@@ -75,12 +74,6 @@ const Layout = ({ children }) => {
           icon: HomeIcon, 
           label: 'Mi Programa',
           description: 'Tu recorrido de transformación personal'
-        },
-        {
-          path: '/booking', 
-          icon: CalendarIcon, 
-          label: 'Citas',
-          description: 'Reservar una cita'
         }
       ];
     }
@@ -93,7 +86,7 @@ const Layout = ({ children }) => {
       {/* Header moderne pleine largeur */}
       <nav className="bg-gradient-to-r from-stone-100 to-stone-50 border-b border-stone-200 shadow-xl sticky top-0 z-50 backdrop-blur-md">
         <div className="w-full px-3 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
+          <div className="flex flex-wrap justify-between items-center gap-y-2 min-h-16 sm:min-h-20 lg:min-h-24 py-2">
             {/* Logo et titre */}
             <div className="flex items-center space-x-2 sm:space-x-4 lg:space-x-6 min-w-0 flex-1">
               <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 min-w-0">
@@ -122,16 +115,11 @@ const Layout = ({ children }) => {
                 </div>
               </div>
               
-              {/* Titre mobile */}
-              <div className="md:hidden min-w-0">
-                <h1 className="font-inter text-sm sm:text-base font-bold text-gray-800 tracking-tight truncate">
-                  Cambio de Paradigma
-                </h1>
-              </div>
+              {/* Mobile: logo only */}
             </div>
 
             {/* Navigation centrale moderne */}
-            <div className={`hidden lg:flex items-center space-x-1 ${isRegularUser ? 'absolute left-1/2 transform -translate-x-1/2' : ''}`}>
+            <div className="hidden lg:flex flex-1 items-center justify-center gap-1 flex-wrap min-w-0">
               {navItems.map((item) => {
                 const IconComponent = item.icon;
                 const isActive = location.pathname === item.path;
@@ -163,26 +151,6 @@ const Layout = ({ children }) => {
 
             {/* Actions utilisateur modernes */}
             <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-3 flex-shrink-0">
-              <div className="hidden lg:block text-right">
-                <p className="font-inter text-xs text-gray-500 uppercase tracking-wide">
-                  Conectado como
-                </p>
-                <p className="font-inter font-semibold text-gray-800 text-sm truncate max-w-[150px]">
-                  {userInfo ? (
-                    <>
-                      {userInfo.sub}
-                      {userInfo.role === 'admin' && (
-                        <span className="ml-2 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">
-                          Admin
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    'Usuario'
-                  )}
-                </p>
-              </div>
-              
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <button
                   className="group relative p-2 sm:p-2.5 lg:p-3 text-gray-600 hover:text-sage-600 rounded-xl lg:rounded-2xl hover:bg-sage-50 transition-all duration-300 hover:scale-105 hover:shadow-md"
@@ -199,7 +167,7 @@ const Layout = ({ children }) => {
                     color: '#a28d72',
                     borderColor: '#d4c5b0'
                   }}
-                  className="group flex items-center space-x-1 sm:space-x-2 px-2 py-2 sm:px-3 sm:py-2.5 lg:px-4 lg:py-3 border-2 rounded-xl lg:rounded-2xl transition-all duration-300 font-inter text-xs sm:text-sm font-medium hover:shadow-md hover:scale-105"
+                  className="group flex items-center space-x-2 px-2 py-2 sm:px-3 sm:py-2.5 border-2 rounded-xl lg:rounded-2xl transition-all duration-300 font-inter text-xs sm:text-sm font-medium hover:shadow-md hover:scale-105"
                   onMouseEnter={(e) => {
                     e.currentTarget.style.backgroundColor = '#a28d72';
                     e.currentTarget.style.color = 'white';
@@ -210,8 +178,18 @@ const Layout = ({ children }) => {
                   }}
                   title="Cerrar sesión"
                 >
-                  <ArrowRightOnRectangleIcon className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 transition-transform duration-300 group-hover:scale-110" />
-                  <span className="hidden sm:inline">Cerrar sesión</span>
+                  <span className="text-[10px] uppercase tracking-wide text-gray-500 group-hover:text-white/80">
+                    Conectado
+                  </span>
+                  <span className="font-semibold text-gray-800 group-hover:text-white max-w-[110px] truncate">
+                    {userInfo ? userInfo.sub : 'Usuario'}
+                  </span>
+                  {userInfo?.role === 'admin' && (
+                    <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full group-hover:bg-white/20 group-hover:text-white">
+                      Admin
+                    </span>
+                  )}
+                  <ArrowRightOnRectangleIcon className="w-4 h-4 sm:w-4.5 sm:h-4.5 transition-transform duration-300 group-hover:scale-110" />
                 </button>
               </div>
             </div>
