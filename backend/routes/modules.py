@@ -101,11 +101,30 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
 def get_module_themes(module_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     themes = db.query(Theme).filter(Theme.module_id == module_id).order_by(Theme.order_number).all()
     
-    # Check if user is validated (admins see everything unlocked)
+    # Get user's validated modules (same logic as get_modules)
+    validated_modules = current_user.validated_modules or []
+    if isinstance(validated_modules, str):
+        import json
+        try:
+            validated_modules = json.loads(validated_modules) if validated_modules.strip() else []
+        except Exception:
+            validated_modules = []
+    
+    # Check if user has access to this module
+    # Admins: full preview access to all modules
+    if getattr(current_user, "role", None) == "admin":
+        module_is_accessible = True
+    else:
+        # Get module order_number to check if it's module 1
+        module = db.query(Module).filter(Module.id == module_id).first()
+        if module:
+            # Module 1 is always accessible, others need validation
+            module_is_accessible = module.order_number == 1 or module_id in validated_modules
+        else:
+            module_is_accessible = False
+    
+    # Check if user is validated (for backward compatibility)
     user_is_validated = True if getattr(current_user, "role", None) == "admin" else current_user.is_validated
-    # #region agent log
-    import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:87","message":"H2: Theme unlocking entry","data":{"module_id":module_id,"user_id":current_user.id,"user_role":getattr(current_user,"role",None),"is_validated":current_user.is_validated,"computed_is_validated":user_is_validated,"theme_count":len(themes)},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H2"}) + '\n'); f.close()
-    # #endregion
     
     result = []
     for i, theme in enumerate(themes):
@@ -121,16 +140,15 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
             # Admins: all themes unlocked for preview
             is_unlocked = True
         else:
-            if not user_is_validated:
-                # Non-validated users: only first theme of module 1 is unlocked
+            # If module is accessible (unlocked by admin), ALL themes are unlocked
+            if module_is_accessible:
+                is_unlocked = True
+            else:
+                # Module not accessible: only first theme of module 1 is unlocked
                 if module_id == 1 and i == 0:
                     is_unlocked = True
                 else:
                     is_unlocked = False
-            else:
-                # Validated users: ALL themes of validated modules are unlocked
-                # No need to complete previous theme to access the next one
-                is_unlocked = True
         
         # Count total cards for this theme
         total_cards = db.query(ThemeCard).filter(ThemeCard.theme_id == theme.id).count()
