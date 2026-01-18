@@ -683,9 +683,11 @@ const ThemeView = () => {
 
               {currentExerciseData?.instructions && (
                 <div className="glass-effect-sage rounded-xl p-6 mb-8">
-                  <p className="font-inter text-sage-dark leading-relaxed">
-                    <span className="font-medium">Instrucciones:</span> {currentExerciseData.instructions}
-                  </p>
+                  <span className="font-medium font-inter text-sage-dark block mb-2">Instrucciones:</span>
+                  <div 
+                    className="font-inter text-sage-dark leading-relaxed rich-content"
+                    dangerouslySetInnerHTML={{ __html: currentExerciseData.instructions }}
+                  />
                 </div>
               )}
               
@@ -700,9 +702,10 @@ const ThemeView = () => {
                       return (
                         <div key={questionIndex} className="space-y-4">
                           <div className="glass-effect-sage rounded-xl p-4">
-                            <h4 className="font-inter text-lg font-medium text-sage-dark">
-                              {question}
-                            </h4>
+                            <div 
+                              className="font-inter text-lg font-medium text-sage-dark rich-content"
+                              dangerouslySetInnerHTML={{ __html: question }}
+                            />
                           </div>
                           
                           <textarea
@@ -729,9 +732,11 @@ const ThemeView = () => {
                           </h3>
                           {section.instructions && (
                             <div className="bg-white/80 rounded-lg p-4 border border-sage-200 mb-4">
-                              <p className="font-inter text-sage-900 leading-relaxed italic">
-                                <span className="font-medium">Instrucciones:</span> "{section.instructions}"
-                              </p>
+                              <span className="font-medium font-inter text-sage-900 block mb-2">Instrucciones:</span>
+                              <div 
+                                className="font-inter text-sage-900 leading-relaxed rich-content"
+                                dangerouslySetInnerHTML={{ __html: section.instructions }}
+                              />
                             </div>
                           )}
                         </div>
@@ -749,9 +754,10 @@ const ThemeView = () => {
                                       <span className="bg-sage-100 text-sage-800 text-sm font-medium px-3 py-1 rounded-full mr-3 mt-1">
                                         Pregunta {questionIndex + 1}
                                       </span>
-                                      <h4 className="font-inter text-lg font-medium text-gray-800 flex-1">
-                                        {question.question}
-                                      </h4>
+                                      <div 
+                                        className="font-inter text-lg font-medium text-gray-800 flex-1 rich-content"
+                                        dangerouslySetInnerHTML={{ __html: question.question }}
+                                      />
                                     </div>
                                   </div>
                                   

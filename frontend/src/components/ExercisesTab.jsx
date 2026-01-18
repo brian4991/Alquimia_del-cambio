@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlusIcon, PencilIcon, TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { Target, BookOpen, Settings, FolderOpen, Sparkles, FileText, Eye } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
+import MiniRichTextEditor from './MiniRichTextEditor';
 import { config } from '../config';
 
 const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => {
@@ -330,12 +331,11 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Instructions générales
               </label>
-              <textarea
+              <MiniRichTextEditor
                 value={formData.instructions}
-                onChange={(e) => setFormData({ ...formData, instructions: e.target.value })}
-                rows="3"
-                className="w-full p-3 border border-gray-300 rounded-md"
-                placeholder="Instructions générales pour l'exercice..."
+                onChange={(value) => setFormData({ ...formData, instructions: value })}
+                placeholder="Instructions générales pour l'exercice (gras, couleurs, listes...)..."
+                minHeight={100}
               />
             </div>
 
@@ -356,13 +356,17 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                     placeholder="Titre du sous-exercice..."
                     className="w-full p-3 border border-gray-300 rounded-md"
                   />
-                  <textarea
-                    value={newSectionInstructions}
-                    onChange={(e) => setNewSectionInstructions(e.target.value)}
-                    placeholder="Instructions pour ce sous-exercice..."
-                    rows="2"
-                    className="w-full p-3 border border-gray-300 rounded-md"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      Instructions du sous-exercice (avec style)
+                    </label>
+                    <MiniRichTextEditor
+                      value={newSectionInstructions}
+                      onChange={(value) => setNewSectionInstructions(value)}
+                      placeholder="Instructions pour ce sous-exercice (gras, couleurs...)..."
+                      minHeight={80}
+                    />
+                  </div>
                   <button
                     type="button"
                     onClick={addSection}
@@ -378,13 +382,16 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                 <div className="space-y-4">
                   {formData.exercise_sections.map((section, sectionIndex) => (
                     <div key={sectionIndex} className="bg-white rounded-lg border-2 border-green-200 p-4">
-                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex justify-between items-start mb-3">
                         <div className="flex-1">
                           <h5 className="font-semibold text-gray-800 mb-1">
                             📋 {section.title}
                           </h5>
                           {section.instructions && (
-                            <p className="text-gray-600 italic text-sm">"{section.instructions}"</p>
+                            <div 
+                              className="text-gray-600 text-sm rich-content"
+                              dangerouslySetInnerHTML={{ __html: section.instructions }}
+                            />
                           )}
                         </div>
                         <button
@@ -408,20 +415,23 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                             <option value="table">Question tableau</option>
                           </select>
                         </div>
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
+                        <div className="space-y-2">
+                          <label className="block text-xs font-medium text-gray-600">
+                            Question (avec mise en forme)
+                          </label>
+                          <MiniRichTextEditor
                             value={newQuestion}
-                            onChange={(e) => setNewQuestion(e.target.value)}
+                            onChange={(value) => setNewQuestion(value)}
                             placeholder="Question pour ce sous-exercice..."
-                            className="flex-1 p-2 border border-gray-300 rounded text-sm"
+                            compact={true}
+                            minHeight={60}
                           />
                           <button
                             type="button"
                             onClick={() => addQuestionToSection(sectionIndex)}
                             className="bg-blue-600 text-white px-3 py-2 rounded text-sm hover:bg-blue-700"
                           >
-                            Ajouter
+                            Ajouter la question
                           </button>
                         </div>
                         
@@ -479,7 +489,10 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                             <div key={questionIndex} className="bg-gray-50 rounded p-3 border-l-4 border-blue-400">
                               <div className="flex justify-between items-start">
                                 <div className="flex-1">
-                                  <span className="text-gray-800">{question.question}</span>
+                                  <div 
+                                    className="text-gray-800 rich-content"
+                                    dangerouslySetInnerHTML={{ __html: question.question }}
+                                  />
                                   {question.type === 'table' && (
                                     <div className="text-xs text-gray-500 mt-1">
                                       Tableau: {question.table_config?.columns?.length || 0} colonnes, {question.table_config?.rows || 3} lignes
@@ -553,7 +566,10 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                     <span className="mr-2">📝</span>
                     Instructions générales
                   </h5>
-                  <p className="text-gray-700 leading-relaxed">{formData.instructions}</p>
+                  <div 
+                    className="text-gray-700 leading-relaxed rich-content"
+                    dangerouslySetInnerHTML={{ __html: formData.instructions }}
+                  />
                 </div>
               )}
 
@@ -573,15 +589,18 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                         </h6>
                         {section.instructions && (
                           <div className="bg-white/80 rounded-lg p-4 border border-green-200">
-                            <h7 className="font-medium text-green-900 mb-2 block">Instructions:</h7>
-                            <p className="text-green-800 italic leading-relaxed">"{section.instructions}"</p>
+                            <h6 className="font-medium text-green-900 mb-2 block">Instructions:</h6>
+                            <div 
+                              className="text-green-800 leading-relaxed rich-content"
+                              dangerouslySetInnerHTML={{ __html: section.instructions }}
+                            />
                           </div>
                         )}
                       </div>
 
                       {section.questions && section.questions.length > 0 ? (
                         <div className="space-y-3">
-                          <h7 className="font-semibold text-gray-800 text-sm">Questions ({section.questions.length}):</h7>
+                          <h6 className="font-semibold text-gray-800 text-sm">Questions ({section.questions.length}):</h6>
                           {section.questions.map((question, questionIndex) => (
                             <div key={questionIndex} className="bg-white rounded-lg border border-sage-200 p-4">
                               <div className="flex items-start">
@@ -589,9 +608,10 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                                   Q{questionIndex + 1}
                                 </span>
                                 <div className="flex-1">
-                                  <div className="font-medium text-gray-800 mb-2">
-                                    {question.question}
-                                  </div>
+                                  <div 
+                                    className="font-medium text-gray-800 mb-2 rich-content"
+                                    dangerouslySetInnerHTML={{ __html: question.question }}
+                                  />
                                   {question.type === 'table' && question.table_config && (
                                     <div className="bg-blue-50 rounded-md p-3 border border-blue-200">
                                       <div className="text-xs text-blue-600">
@@ -672,13 +692,19 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                             📋 {section.title}
                           </h5>
                           {section.instructions && (
-                            <p className="text-sage-800 italic text-sm mb-2">"{section.instructions}"</p>
+                            <div 
+                              className="text-sage-800 text-sm mb-2 rich-content"
+                              dangerouslySetInnerHTML={{ __html: section.instructions }}
+                            />
                           )}
                           {section.questions && section.questions.length > 0 && (
                             <div className="space-y-1">
                               {section.questions.map((question, qIndex) => (
-                                <div key={qIndex} className="text-sm text-gray-700 pl-3 border-l-2 border-sage-300">
-                                  {question.question}
+                                <div key={qIndex} className="text-sm text-gray-700 pl-3 border-l-2 border-sage-300 flex items-start">
+                                  <div 
+                                    className="rich-content flex-1"
+                                    dangerouslySetInnerHTML={{ __html: question.question }}
+                                  />
                                   {question.type === 'table' && <span className="text-xs text-gray-500 ml-1">(Tableau)</span>}
                                 </div>
                               ))}
@@ -692,7 +718,10 @@ const ExercisesTab = ({ selectedTheme, themes, exercises, onLoadExercises }) => 
                   {exercise.instructions && (
                     <div className="bg-gray-50 rounded-md p-3 mt-3">
                       <h4 className="font-medium text-gray-900 mb-2">Instructions générales :</h4>
-                      <p className="text-gray-700">{exercise.instructions}</p>
+                      <div 
+                        className="text-gray-700 rich-content"
+                        dangerouslySetInnerHTML={{ __html: exercise.instructions }}
+                      />
                     </div>
                   )}
                 </div>
