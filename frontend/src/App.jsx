@@ -13,7 +13,7 @@ import Layout from './components/Layout';
 // import ProgramLanding from './components/ProgramLanding';
 // import RetiroAmateLanding from './components/RetiroAmateLanding';
 import RetiroAmateStyle from './components/RetiroAmateStyle';
-import CambioDeParadigmaLanding from './components/landing/CambioDeParadigmaLanding';
+// import CambioDeParadigmaLanding from './components/landing/CambioDeParadigmaLanding';
 import NicoleRamirezLanding from './components/landing/NicoleRamirezLanding';
 import OAuthCallback from './components/OAuthCallback';
 import MeditationsPage from './components/MeditationsPage';
@@ -112,7 +112,7 @@ const App = () => {
           {/* Public landing pages */}
           <Route path="/" element={<NicoleRamirezLanding />} />
           <Route path="/nicole" element={<NicoleRamirezLanding />} />
-          <Route path="/cambio-de-paradigma" element={<CambioDeParadigmaLanding />} />
+          {/* <Route path="/cambio-de-paradigma" element={<CambioDeParadigmaLanding />} /> */}
           <Route path="/retiro-renacer" element={<RetiroAmateStyle />} />
           {/* <Route path="/retiro-renacer-old" element={<RetiroAmateLanding />} /> */}
           
