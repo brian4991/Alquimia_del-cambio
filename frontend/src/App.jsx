@@ -8,12 +8,15 @@ import ThemeView from './components/ThemeView';
 import AdminPanel from './components/AdminPanel';
 import AdminUsersTracking from './components/AdminUsersTracking';
 import UserDetailView from './components/UserDetailView';
-import BookingPage from './components/BookingPage';
+// BookingPage removed
 import Layout from './components/Layout';
 // import ProgramLanding from './components/ProgramLanding';
 // import RetiroAmateLanding from './components/RetiroAmateLanding';
 import RetiroAmateStyle from './components/RetiroAmateStyle';
+import CambioDeParadigmaLanding from './components/landing/CambioDeParadigmaLanding';
+import NicoleRamirezLanding from './components/landing/NicoleRamirezLanding';
 import OAuthCallback from './components/OAuthCallback';
+import MeditationsPage from './components/MeditationsPage';
 import './index.css';
 
 // Utility function to decode JWT and get user info
@@ -107,7 +110,9 @@ const App = () => {
           <Route path="/auth/callback" element={<OAuthCallback />} />
           
           {/* Public landing pages */}
-          {/* <Route path="/" element={<ProgramLanding />} /> */}
+          <Route path="/" element={<NicoleRamirezLanding />} />
+          <Route path="/nicole" element={<NicoleRamirezLanding />} />
+          <Route path="/cambio-de-paradigma" element={<CambioDeParadigmaLanding />} />
           <Route path="/retiro-renacer" element={<RetiroAmateStyle />} />
           {/* <Route path="/retiro-renacer-old" element={<RetiroAmateLanding />} /> */}
           
@@ -173,11 +178,11 @@ const App = () => {
             } 
           />
           <Route 
-            path="/booking" 
+            path="/meditaciones" 
             element={
               <ProtectedRoute>
                 <Layout>
-                  <BookingPage />
+                  <MeditationsPage />
                 </Layout>
               </ProtectedRoute>
             } 
