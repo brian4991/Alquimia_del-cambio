@@ -23,21 +23,16 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
     modules = db.query(Module).filter(Module.is_active == True).order_by(Module.order_number).all()
     
     # Get user's validated modules
-    # #region agent log
-    import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); log_file.parent.mkdir(parents=True, exist_ok=True); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:26","message":"H1: Checking validated_modules before parse","data":{"user_id":current_user.id,"raw_validated_modules":str(current_user.validated_modules),"type":str(type(current_user.validated_modules)),"is_empty_str":current_user.validated_modules==""},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H1"}) + '\n'); f.close()
-    # #endregion
     validated_modules = current_user.validated_modules or []
     if isinstance(validated_modules, str):
         import json
-        # #region agent log
         try:
-            validated_modules_parsed = json.loads(validated_modules) if validated_modules.strip() else []
-            import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:28","message":"H1: Parsed validated_modules successfully","data":{"parsed":validated_modules_parsed,"original":validated_modules},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H1"}) + '\n'); f.close()
-            validated_modules = validated_modules_parsed
-        except Exception as e:
-            import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:28","message":"H1: JSON parse error for validated_modules","data":{"error":str(e),"raw":validated_modules},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H1"}) + '\n'); f.close()
+            validated_modules = json.loads(validated_modules) if validated_modules.strip() else []
+        except Exception:
             validated_modules = []
-        # #endregion
+    
+    # IMPORTANT: Ensure validated_modules contains integers for proper comparison
+    validated_modules = [int(m) for m in validated_modules if str(m).isdigit()]
     
     result = []
     for module in modules:
@@ -46,11 +41,8 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
         if getattr(current_user, "role", None) == "admin":
             has_access = True
         else:
-            # Module 1 is always accessible, others need validation
+            # Module 1 (by order_number) is always accessible, others need validation by module ID
             has_access = module.order_number == 1 or module.id in validated_modules
-            # #region agent log
-            import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:39","message":"H1: Module access decision","data":{"module_id":module.id,"module_order":module.order_number,"validated_modules":validated_modules,"has_access":has_access,"user_role":getattr(current_user,"role",None)},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H1"}) + '\n'); f.close()
-            # #endregion
         
         # Check if module is completed
         module_progress = db.query(UserProgress).filter(
@@ -74,9 +66,6 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
             progress_percentage = int((completed_themes / themes_count) * 100)
         else:
             progress_percentage = 0
-            # #region agent log
-            import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:62","message":"H4: Division by zero avoided","data":{"module_id":module.id,"themes_count":themes_count,"progress_set_to":progress_percentage},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H4"}) + '\n'); f.close()
-            # #endregion
         
         result.append(ModuleResponse(
             id=module.id,
@@ -101,6 +90,11 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
 def get_module_themes(module_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     themes = db.query(Theme).filter(Theme.module_id == module_id).order_by(Theme.order_number).all()
     
+    # Get module first to determine access
+    module = db.query(Module).filter(Module.id == module_id).first()
+    if not module:
+        return []
+    
     # Get user's validated modules (same logic as get_modules)
     validated_modules = current_user.validated_modules or []
     if isinstance(validated_modules, str):
@@ -110,18 +104,17 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
         except Exception:
             validated_modules = []
     
+    # IMPORTANT: Ensure validated_modules contains integers for proper comparison
+    validated_modules = [int(m) for m in validated_modules if str(m).isdigit()]
+    
     # Check if user has access to this module
     # Admins: full preview access to all modules
     if getattr(current_user, "role", None) == "admin":
         module_is_accessible = True
     else:
-        # Get module order_number to check if it's module 1
-        module = db.query(Module).filter(Module.id == module_id).first()
-        if module:
-            # Module 1 is always accessible, others need validation
-            module_is_accessible = module.order_number == 1 or module_id in validated_modules
-        else:
-            module_is_accessible = False
+        # Module 1 (by order_number) is always accessible, others need validation
+        # Use both module.id and module_id for comparison to ensure proper matching
+        module_is_accessible = module.order_number == 1 or module_id in validated_modules or module.id in validated_modules
     
     # Check if user is validated (for backward compatibility)
     user_is_validated = True if getattr(current_user, "role", None) == "admin" else current_user.is_validated
@@ -144,8 +137,8 @@ def get_module_themes(module_id: int, current_user: User = Depends(get_current_u
             if module_is_accessible:
                 is_unlocked = True
             else:
-                # Module not accessible: only first theme of module 1 is unlocked
-                if module_id == 1 and i == 0:
+                # Module not accessible: only first theme of first module (order_number=1) is unlocked
+                if module.order_number == 1 and i == 0:
                     is_unlocked = True
                 else:
                     is_unlocked = False
@@ -528,10 +521,6 @@ def submit_sub_question_response(
     db: Session = Depends(get_db)
 ):
     """Submit or update response to a specific sub-question"""
-    # #region agent log
-    import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); log_file.parent.mkdir(parents=True, exist_ok=True); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:519","message":"H5/H8: Sub-question response submit","data":{"user_id":current_user.id,"exercise_id":response.exercise_id,"sub_question_index":str(response.sub_question_index),"text_length":len(response.response_text) if response.response_text else 0},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H5"}) + '\n'); f.close()
-    # #endregion
-    
     # Validate exercise exists
     exercise = db.query(Exercise).filter(Exercise.id == response.exercise_id).first()
     if not exercise:
@@ -592,16 +581,10 @@ def submit_sub_question_response(
     
     if existing_response:
         # Update existing response
-        # #region agent log
-        import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:580","message":"H5: Updating existing sub-question response","data":{"response_id":existing_response.id,"sub_question_index":sub_question_index_str},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H5"}) + '\n'); f.close()
-        # #endregion
         existing_response.response_text = response.response_text
         existing_response.updated_at = func.now()
     else:
         # Create new response
-        # #region agent log
-        import json as json_module; from pathlib import Path; log_file = Path(r"c:\Users\user\projets\ADC\Alquimia_del-cambio\.cursor\debug.log"); f = open(log_file, 'a', encoding='utf-8'); f.write(json_module.dumps({"location":"backend/routes/modules.py:585","message":"H5: Creating NEW sub-question response","data":{"sub_question_index":sub_question_index_str},"timestamp":__import__('time').time()*1000,"sessionId":"debug-session","hypothesisId":"H5"}) + '\n'); f.close()
-        # #endregion
         db_response = UserSubQuestionResponseDB(
             user_id=current_user.id,
             exercise_id=response.exercise_id,
