@@ -130,7 +130,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Bandeau vidéo d'introduction - COMMENTÉ TEMPORAIREMENT
+      {/* Bandeau vidéo d'introduction */}
       <div className="mb-8 sm:mb-12">
         <button
           onClick={() => setShowIntroVideo(!showIntroVideo)}
@@ -161,14 +161,13 @@ const Dashboard = () => {
         >
           <div className="modern-card p-4 sm:p-6">
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-              <video
-                className="absolute inset-0 w-full h-full rounded-xl bg-black"
-                controls
-                playsInline
-              >
-                <source src="/intro.mp4" type="video/mp4" />
-                Tu navegador no soporta el elemento de video.
-              </video>
+              <iframe
+                className="absolute inset-0 w-full h-full rounded-xl"
+                src="https://www.youtube.com/embed/XNQzifUHuCQ"
+                title="Video de introducción a la plataforma"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
             </div>
             <p className="font-inter text-sm text-taupe text-center mt-4">
               Este video te guiará en tus primeros pasos en la plataforma
@@ -176,7 +175,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      */}
 
       {/* Statistiques rapides */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
