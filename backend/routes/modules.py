@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
+from sqlalchemy import or_
 from typing import List
 import json
 
@@ -54,7 +55,7 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
         # Calculate progress based on completed themes (exclude resources)
         themes = db.query(Theme).filter(
             Theme.module_id == module.id,
-            (Theme.theme_type == "theme") | (Theme.theme_type.is_(None))
+            or_(Theme.theme_type == "theme", Theme.theme_type.is_(None), Theme.theme_type == "")
         ).all()
         themes_count = len(themes)
         
