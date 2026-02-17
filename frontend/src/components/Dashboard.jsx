@@ -306,24 +306,6 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                {/* Barre de progression */}
-                <div className="mb-4 sm:mb-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-inter text-xs sm:text-sm font-medium text-taupe-dark">
-                      Progreso
-                    </span>
-                    <span className="font-inter text-xs sm:text-sm text-taupe">
-                      {module.progress || 0}%
-                    </span>
-                  </div>
-                  <div className="progress-modern">
-                    <div 
-                      className="progress-bar"
-                      style={{ width: `${module.progress || 0}%` }}
-                    ></div>
-                  </div>
-                </div>
-
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="font-inter text-xs sm:text-sm text-taupe">
                     {module.themes_count || 0} temas disponibles

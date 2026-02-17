@@ -386,33 +386,6 @@ const ModuleView = () => {
         </div>
       </div>
 
-      {/* Progress Summary */}
-      <div className="bg-gradient-calm rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 border border-sage-200">
-        <h3 className="text-base sm:text-lg font-semibold text-sage-800 mb-3 sm:mb-4 flex items-center">
-          <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-sage-700" />
-          Progreso del Módulo
-        </h3>
-        <div className="flex items-center space-x-3 sm:space-x-4">
-          <div className="flex-1">
-            <div className="bg-white/60 rounded-full h-2 sm:h-3 overflow-hidden">
-              <div 
-                className="h-full transition-all duration-500 ease-out"
-                style={{ 
-                  width: `${themes.length > 0 ? (themes.filter(t => t.is_completed).length / themes.length) * 100 : 0}%`,
-                  background: 'linear-gradient(to right, #6b745a, #8a9373)'
-                }}
-              ></div>
-            </div>
-          </div>
-          <div className="text-right flex-shrink-0">
-            <span className="text-lg sm:text-xl font-bold text-sage-800">
-              {themes.filter(t => t.is_completed).length}
-            </span>
-            <span className="text-sage-600 text-sm sm:text-base">/{themes.length}</span>
-            <p className="text-xs sm:text-sm text-sage-600 whitespace-nowrap">temas completados</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
