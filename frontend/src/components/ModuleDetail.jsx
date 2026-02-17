@@ -188,7 +188,7 @@ const ModuleDetail = () => {
                       </div>
                       <div className="flex-grow">
                         <h3 className="text-xl font-semibold text-gray-900">
-                          Tema {index + 1}: {theme.title}
+                          {theme.title}
                         </h3>
                         <p className="text-gray-600 mt-1">{theme.content}</p>
                         <div className="flex items-center space-x-4 mt-3">

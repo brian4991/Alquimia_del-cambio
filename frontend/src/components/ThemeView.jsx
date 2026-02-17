@@ -540,7 +540,7 @@ const ThemeView = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <DocumentTextIcon className="w-5 h-5" />
-                <span>Tema {theme.order_number}</span>
+                <span>{theme.title}</span>
               </div>
             </div>
           </div>

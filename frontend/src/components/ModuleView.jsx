@@ -283,7 +283,7 @@ const ModuleView = () => {
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-sage-800 break-words">
-                      Tema {theme.order_number}: {theme.title}
+                      {theme.title}
                     </h3>
                     <p className="text-sage-600 text-xs sm:text-sm mt-1">
                       {theme.is_completed ? 'Completado' : theme.is_unlocked ? 'Disponible' : 'Bloqueado'}

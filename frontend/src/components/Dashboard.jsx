@@ -145,7 +145,7 @@ const Dashboard = () => {
                 ¿Es tu primera vez aquí o necesitas ayuda?
               </p>
               <p className="font-inter text-xs sm:text-sm text-taupe hidden sm:block">
-                Haz clic para ver el video de introducción a la plataforma
+                Video para saber como utilizar la plataforma y lo que vas hacer cada semana
               </p>
             </div>
           </div>
