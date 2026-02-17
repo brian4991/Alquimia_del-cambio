@@ -291,6 +291,7 @@ const AdminUsersTracking = () => {
                               <span className="font-medium">Módulo {user.progress.current_module.order}:</span>
                               <span>{user.progress.current_module.title}</span>
                               <ArrowRightIcon className="w-4 h-4" />
+                              <span className="font-medium">Semana {user.progress.current_theme.order}:</span>
                               <span>{user.progress.current_theme.title}</span>
                             </div>
                           ) : (

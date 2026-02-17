@@ -250,7 +250,7 @@ const ModuleView = () => {
         <div className="lg:col-span-2">
           <h2 className="text-xl sm:text-2xl font-inter font-bold text-sage-800 mb-4 sm:mb-6 flex items-center">
             <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3 text-sage-700" />
-            Temas del Módulo
+            Semanas del Módulo
           </h2>
           
           <div className="space-y-4 sm:space-y-6">
@@ -282,6 +282,7 @@ const ModuleView = () => {
                     )}
                   </div>
                   <div className="min-w-0">
+                    <p className="text-xs sm:text-sm font-medium text-sage-600 mb-0.5">Semana {theme.order_number}</p>
                     <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-sage-800 break-words">
                       {theme.title}
                     </h3>

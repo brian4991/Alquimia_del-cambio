@@ -308,7 +308,7 @@ const Dashboard = () => {
 
                 <div className="flex items-center justify-between flex-wrap gap-3">
                   <div className="font-inter text-xs sm:text-sm text-taupe">
-                    {module.themes_count || 0} temas disponibles
+                    {module.themes_count || 0} semanas disponibles
                   </div>
                   
                   {!module.is_accessible ? (

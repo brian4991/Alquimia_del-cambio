@@ -187,6 +187,7 @@ const ModuleDetail = () => {
                         )}
                       </div>
                       <div className="flex-grow">
+                        <p className="text-sm font-medium text-gray-500 mb-0.5">Semana {index + 1}</p>
                         <h3 className="text-xl font-semibold text-gray-900">
                           {theme.title}
                         </h3>

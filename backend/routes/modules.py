@@ -51,8 +51,11 @@ def get_modules(current_user: User = Depends(get_current_user), db: Session = De
             UserProgress.completed == True
         ).first()
         
-        # Calculate progress based on completed themes
-        themes = db.query(Theme).filter(Theme.module_id == module.id).all()
+        # Calculate progress based on completed themes (exclude resources)
+        themes = db.query(Theme).filter(
+            Theme.module_id == module.id,
+            (Theme.theme_type == "theme") | (Theme.theme_type.is_(None))
+        ).all()
         themes_count = len(themes)
         
         if themes_count > 0:

@@ -530,6 +530,7 @@ const ThemeView = () => {
           </nav>
 
           <div className="modern-card gradient-elegant border-2 border-gray-200">
+            <p className="font-inter text-sm font-medium text-taupe mb-1">Semana {theme.order_number}</p>
             <h1 className="font-inter text-4xl font-semibold text-black mb-4">
               {theme.title}
             </h1>
@@ -537,10 +538,6 @@ const ThemeView = () => {
               <div className="flex items-center space-x-2">
                 <PencilSquareIcon className="w-5 h-5" />
                 <span>{exercises.length} ejercicios</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <DocumentTextIcon className="w-5 h-5" />
-                <span>{theme.title}</span>
               </div>
             </div>
           </div>
