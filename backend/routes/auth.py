@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, or_
 from starlette.responses import JSONResponse
 import json
 
@@ -827,82 +827,185 @@ def get_users_stats(
 
 def get_user_progress(db: Session, user_id: int):
     """Calculate user progress through modules, themes, and exercises"""
-    # Get user's latest response to determine current position
-    latest_response = db.query(UserResponseDB, Exercise, Theme, Module).join(
+    content_theme_filter = or_(
+        Theme.theme_type == "theme",
+        Theme.theme_type.is_(None),
+        Theme.theme_type == ""
+    )
+
+    # Get total counts using the same content rules as the user-facing program.
+    total_modules = db.query(func.count(Module.id)).filter(Module.is_active == True).scalar() or 0
+    total_themes = db.query(func.count(Theme.id)).join(
+        Module, Theme.module_id == Module.id
+    ).filter(
+        Module.is_active == True
+    ).filter(
+        content_theme_filter
+    ).scalar() or 0
+    total_exercises = db.query(func.count(Exercise.id)).join(
+        Theme, Exercise.theme_id == Theme.id
+    ).join(
+        Module, Theme.module_id == Module.id
+    ).filter(
+        Module.is_active == True
+    ).filter(
+        content_theme_filter
+    ).scalar() or 0
+
+    # Completed themes/modules come from the actual progress table.
+    completed_progress_entries = db.query(UserProgress).join(
+        Theme, UserProgress.theme_id == Theme.id
+    ).join(
+        Module, UserProgress.module_id == Module.id
+    ).filter(
+        UserProgress.user_id == user_id,
+        UserProgress.completed == True,
+        UserProgress.theme_id.isnot(None),
+        Module.is_active == True
+    ).filter(
+        content_theme_filter
+    ).all()
+
+    completed_theme_ids = {entry.theme_id for entry in completed_progress_entries if entry.theme_id}
+    completed_module_ids = {entry.module_id for entry in completed_progress_entries if entry.module_id}
+
+    completed_themes = len(completed_theme_ids)
+    completed_modules = len(completed_module_ids)
+
+    # Count unique exercises that have any response, whether main or sub-question.
+    main_response_exercise_ids = {
+        exercise_id for (exercise_id,) in db.query(UserResponseDB.exercise_id).join(
+            Exercise, UserResponseDB.exercise_id == Exercise.id
+        ).join(
+            Theme, Exercise.theme_id == Theme.id
+        ).join(
+            Module, Theme.module_id == Module.id
+        ).filter(
+            UserResponseDB.user_id == user_id,
+            Module.is_active == True
+        ).filter(
+            content_theme_filter
+        ).distinct().all()
+    }
+
+    sub_response_exercise_ids = {
+        exercise_id for (exercise_id,) in db.query(UserSubQuestionResponseDB.exercise_id).join(
+            Exercise, UserSubQuestionResponseDB.exercise_id == Exercise.id
+        ).join(
+            Theme, Exercise.theme_id == Theme.id
+        ).join(
+            Module, Theme.module_id == Module.id
+        ).filter(
+            UserSubQuestionResponseDB.user_id == user_id,
+            Module.is_active == True
+        ).filter(
+            content_theme_filter
+        ).distinct().all()
+    }
+
+    completed_exercises = len(main_response_exercise_ids | sub_response_exercise_ids)
+
+    # Find the latest activity to show the user's current position.
+    latest_main_response = db.query(UserResponseDB, Exercise, Theme, Module).join(
         Exercise, UserResponseDB.exercise_id == Exercise.id
     ).join(
         Theme, Exercise.theme_id == Theme.id
     ).join(
         Module, Theme.module_id == Module.id
     ).filter(
-        UserResponseDB.user_id == user_id
+        UserResponseDB.user_id == user_id,
+        Module.is_active == True
+    ).filter(
+        content_theme_filter
     ).order_by(UserResponseDB.submitted_at.desc()).first()
-    
-    if not latest_response:
-        return {
-            "current_module": None,
-            "current_theme": None,
-            "current_exercise": None,
-            "completed_modules": 0,
-            "completed_themes": 0,
-            "completed_exercises": 0,
-            "total_modules": 0,
-            "total_themes": 0,
-            "total_exercises": 0,
-            "progress_percentage": 0
-        }
-    
-    response, exercise, theme, module = latest_response
-    
-    # Get total counts
-    total_modules = db.query(func.count(Module.id)).scalar()
-    total_themes = db.query(func.count(Theme.id)).scalar()
-    total_exercises = db.query(func.count(Exercise.id)).scalar()
-    
-    # Get completed counts for this user
-    completed_modules = db.query(func.count(func.distinct(Module.id))).join(
-        Theme, Module.id == Theme.module_id
+
+    latest_sub_response = db.query(UserSubQuestionResponseDB, Exercise, Theme, Module).join(
+        Exercise, UserSubQuestionResponseDB.exercise_id == Exercise.id
     ).join(
-        Exercise, Theme.id == Exercise.theme_id
+        Theme, Exercise.theme_id == Theme.id
     ).join(
-        UserResponseDB, Exercise.id == UserResponseDB.exercise_id
+        Module, Theme.module_id == Module.id
     ).filter(
-        UserResponseDB.user_id == user_id
-    ).scalar()
-    
-    completed_themes = db.query(func.count(func.distinct(Theme.id))).join(
-        Exercise, Theme.id == Exercise.theme_id
-    ).join(
-        UserResponseDB, Exercise.id == UserResponseDB.exercise_id
+        UserSubQuestionResponseDB.user_id == user_id,
+        Module.is_active == True
     ).filter(
-        UserResponseDB.user_id == user_id
-    ).scalar()
-    
-    completed_exercises = db.query(func.count(UserResponseDB.id)).filter(
-        UserResponseDB.user_id == user_id
-    ).scalar()
-    
-    # Calculate progress percentage
+        content_theme_filter
+    ).order_by(
+        func.coalesce(UserSubQuestionResponseDB.updated_at, UserSubQuestionResponseDB.submitted_at).desc()
+    ).first()
+
+    latest_completed_theme = db.query(UserProgress, Theme, Module).join(
+        Theme, UserProgress.theme_id == Theme.id
+    ).join(
+        Module, UserProgress.module_id == Module.id
+    ).filter(
+        UserProgress.user_id == user_id,
+        UserProgress.completed == True,
+        UserProgress.theme_id.isnot(None),
+        Module.is_active == True
+    ).filter(
+        content_theme_filter
+    ).order_by(UserProgress.completed_at.desc()).first()
+
+    activity_candidates = []
+
+    if latest_main_response:
+        response, exercise, theme, module = latest_main_response
+        activity_candidates.append({
+            "timestamp": response.submitted_at,
+            "module": module,
+            "theme": theme,
+            "exercise": exercise
+        })
+
+    if latest_sub_response:
+        response, exercise, theme, module = latest_sub_response
+        activity_candidates.append({
+            "timestamp": response.updated_at or response.submitted_at,
+            "module": module,
+            "theme": theme,
+            "exercise": exercise
+        })
+
+    if latest_completed_theme:
+        progress, theme, module = latest_completed_theme
+        activity_candidates.append({
+            "timestamp": progress.completed_at,
+            "module": module,
+            "theme": theme,
+            "exercise": None
+        })
+
+    latest_activity = None
+    if activity_candidates:
+        timestamped_candidates = [
+            activity for activity in activity_candidates if activity["timestamp"] is not None
+        ]
+        latest_activity = max(
+            timestamped_candidates,
+            key=lambda activity: activity["timestamp"]
+        ) if timestamped_candidates else activity_candidates[0]
+
     progress_percentage = 0
     if total_exercises > 0:
         progress_percentage = round((completed_exercises / total_exercises) * 100, 1)
-    
+
     return {
         "current_module": {
-            "id": module.id,
-            "title": module.title,
-            "order": module.order_number
-        },
+            "id": latest_activity["module"].id,
+            "title": latest_activity["module"].title,
+            "order": latest_activity["module"].order_number
+        } if latest_activity else None,
         "current_theme": {
-            "id": theme.id,
-            "title": theme.title,
-            "order": theme.order_number
-        },
+            "id": latest_activity["theme"].id,
+            "title": latest_activity["theme"].title,
+            "order": latest_activity["theme"].order_number
+        } if latest_activity else None,
         "current_exercise": {
-            "id": exercise.id,
-            "title": exercise.title,
-            "order": exercise.order_number
-        },
+            "id": latest_activity["exercise"].id,
+            "title": latest_activity["exercise"].title,
+            "order": latest_activity["exercise"].order_number
+        } if latest_activity and latest_activity["exercise"] else None,
         "completed_modules": completed_modules,
         "completed_themes": completed_themes,
         "completed_exercises": completed_exercises,
@@ -910,4 +1013,4 @@ def get_user_progress(db: Session, user_id: int):
         "total_themes": total_themes,
         "total_exercises": total_exercises,
         "progress_percentage": progress_percentage
-    } 
+    }
