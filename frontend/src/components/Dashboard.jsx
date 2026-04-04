@@ -403,7 +403,7 @@ const Dashboard = () => {
                 Bonus
               </p>
               <p className="font-inter text-xs sm:text-sm text-taupe hidden sm:block">
-                Documento complementario para profundizar tu recorrido
+                Los completos que te permitirán hacer un viaje pronfundo a tu interior
               </p>
             </div>
           </div>
