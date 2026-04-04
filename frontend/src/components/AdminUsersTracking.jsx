@@ -13,9 +13,10 @@ import {
   ArrowRightIcon,
   CalendarIcon,
   SparklesIcon,
-  TrophyIcon
+  TrophyIcon,
+  TrashIcon
 } from '@heroicons/react/24/outline';
-import { getAdminUsersStats } from '../services/api';
+import { deleteAdminUser, getAdminUsersStats } from '../services/api';
 import { CheckCircleIcon as CheckCircleIconSolid } from '@heroicons/react/24/solid';
 
 const AdminUsersTracking = () => {
@@ -23,6 +24,7 @@ const AdminUsersTracking = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deletingUserId, setDeletingUserId] = useState(null);
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -105,6 +107,32 @@ const AdminUsersTracking = () => {
     if (percentage >= 40) return 'text-yellow-600';
     if (percentage >= 20) return 'text-orange-600';
     return 'text-red-600';
+  };
+
+  const handleDeleteUser = async (userToDelete) => {
+    const confirmationMessage = `¿Estás seguro de querer eliminar a ${userToDelete.username}? Esta acción borrará también sus respuestas y progreso.`;
+    if (!window.confirm(confirmationMessage)) {
+      return;
+    }
+
+    try {
+      setDeletingUserId(userToDelete.id);
+      await deleteAdminUser(userToDelete.id);
+
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userToDelete.id));
+      setStats((prevStats) => ({
+        ...prevStats,
+        totalUsers: Math.max(prevStats.totalUsers - 1, 0),
+        activeUsers: userToDelete.is_active ? Math.max(prevStats.activeUsers - 1, 0) : prevStats.activeUsers,
+        totalResponses: Math.max(prevStats.totalResponses - (userToDelete.response_count || 0), 0)
+      }));
+
+      alert('Usuario eliminado exitosamente');
+    } catch (err) {
+      alert(err.response?.data?.detail || 'Error al eliminar el usuario');
+    } finally {
+      setDeletingUserId(null);
+    }
   };
 
   if (loading) {
@@ -337,6 +365,17 @@ const AdminUsersTracking = () => {
                           >
                             <EyeIcon className="w-3 h-3" />
                             <span>Ver detalle</span>
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteUser(user);
+                            }}
+                            disabled={deletingUserId === user.id}
+                            className="px-3 py-1 bg-red-600 text-white text-xs rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <TrashIcon className="w-3 h-3" />
+                            <span>{deletingUserId === user.id ? 'Eliminando...' : 'Eliminar'}</span>
                           </button>
                         </div>
                       </div>

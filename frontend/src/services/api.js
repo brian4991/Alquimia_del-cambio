@@ -104,6 +104,11 @@ export const getAdminUsersStats = async () => {
   return response.data
 }
 
+export const deleteAdminUser = async (userId) => {
+  const response = await api.delete(`/auth/admin/users/${userId}`)
+  return response.data
+}
+
 export const getUserResponses = async (userId) => {
   const response = await api.get(`/auth/admin/users/${userId}/responses`)
   return response.data

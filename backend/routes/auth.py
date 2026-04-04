@@ -7,7 +7,7 @@ import json
 
 from auth import hash_password, verify_password, create_access_token, get_current_user, get_current_admin_user
 from database import get_db
-from models import User, UserResponseDB, UserSubQuestionResponseDB, Exercise, Theme, Module
+from models import User, UserResponseDB, UserSubQuestionResponseDB, Exercise, Theme, Module, UserProgress, CardResponse
 from schemas import UserCreate, UserLogin, UserResponse, Token
 from oauth import oauth, create_or_get_oauth_user, generate_oauth_token
 
@@ -179,6 +179,57 @@ def get_all_users(current_admin: User = Depends(get_current_admin_user), db: Ses
     """Get all users - Admin only"""
     users = db.query(User).all()
     return users
+
+@router.delete("/admin/users/{user_id}")
+def delete_user(
+    user_id: int,
+    current_admin: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
+):
+    """Delete a client and all of their related data - Admin only"""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if user.id == current_admin.id:
+        raise HTTPException(status_code=403, detail="You cannot delete your own admin account")
+
+    if user.role == "admin":
+        raise HTTPException(status_code=403, detail="Admin users cannot be deleted from this endpoint")
+
+    try:
+        deleted_user_responses = db.query(UserResponseDB).filter(
+            UserResponseDB.user_id == user_id
+        ).delete(synchronize_session=False)
+
+        deleted_sub_question_responses = db.query(UserSubQuestionResponseDB).filter(
+            UserSubQuestionResponseDB.user_id == user_id
+        ).delete(synchronize_session=False)
+
+        deleted_card_responses = db.query(CardResponse).filter(
+            CardResponse.user_id == user_id
+        ).delete(synchronize_session=False)
+
+        deleted_progress_entries = db.query(UserProgress).filter(
+            UserProgress.user_id == user_id
+        ).delete(synchronize_session=False)
+
+        db.delete(user)
+        db.commit()
+
+        return {
+            "message": f"User {user.username} deleted successfully",
+            "deleted_user_id": user_id,
+            "deleted_counts": {
+                "user_responses": deleted_user_responses,
+                "sub_question_responses": deleted_sub_question_responses,
+                "card_responses": deleted_card_responses,
+                "progress_entries": deleted_progress_entries
+            }
+        }
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to delete user")
 
 @router.get("/admin/modules")
 def get_all_modules_admin(current_admin: User = Depends(get_current_admin_user), db: Session = Depends(get_db)):

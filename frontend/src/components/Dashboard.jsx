@@ -7,13 +7,14 @@ import {
   CheckCircleIcon,
   BookOpenIcon,
   ClockIcon,
+  DocumentTextIcon,
   TrophyIcon,
   SparklesIcon,
   ChartBarIcon,
   AcademicCapIcon,
   LockClosedIcon,
   ArrowPathIcon,
-  QuestionMarkCircleIcon,
+  VideoCameraIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   MusicalNoteIcon
@@ -24,6 +25,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showIntroVideo, setShowIntroVideo] = useState(false);
+  const [showBonus, setShowBonus] = useState(false);
 
   const fetchModules = async () => {
     try {
@@ -138,14 +140,11 @@ const Dashboard = () => {
         >
           <div className="flex items-center space-x-3 sm:space-x-4">
             <div className="p-2 sm:p-3 gradient-sage rounded-full">
-              <QuestionMarkCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              <VideoCameraIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div className="text-left">
-              <p className="font-inter text-sm sm:text-base md:text-lg font-medium text-black">
-                ¿Es tu primera vez aquí o necesitas ayuda?
-              </p>
-              <p className="font-inter text-xs sm:text-sm text-taupe hidden sm:block">
-                Video para saber como utilizar la plataforma y lo que vas hacer cada semana
+              <p className="font-inter text-sm sm:text-base md:text-lg font-semibold text-black">
+                Video para ayudarte a utilizar la plataforma
               </p>
             </div>
           </div>
@@ -387,6 +386,50 @@ const Dashboard = () => {
             </div>
           </div>
         </Link>
+      </div>
+
+      {/* Bonus Section */}
+      <div className="mb-8 sm:mb-12">
+        <button
+          onClick={() => setShowBonus(!showBonus)}
+          className="w-full modern-card p-4 sm:p-5 flex items-center justify-between group hover:shadow-sage transition-elegant cursor-pointer bg-gradient-to-r from-sage/5 to-taupe/5 border-2 border-sage/20 hover:border-sage/40"
+        >
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="p-2 sm:p-3 gradient-sage rounded-full">
+              <DocumentTextIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </div>
+            <div className="text-left">
+              <p className="font-inter text-sm sm:text-base md:text-lg font-medium text-black">
+                Bonus
+              </p>
+              <p className="font-inter text-xs sm:text-sm text-taupe hidden sm:block">
+                Documento complementario para profundizar tu recorrido
+              </p>
+            </div>
+          </div>
+          <div className={`p-2 rounded-full bg-sage/10 transition-transform duration-300 ${showBonus ? 'rotate-180' : ''}`}>
+            <ChevronDownIcon className="w-5 h-5 sm:w-6 sm:h-6 text-sage" />
+          </div>
+        </button>
+
+        <div 
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${
+            showBonus ? 'max-h-[1200px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="modern-card p-4 sm:p-6">
+            <div className="w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
+              <iframe
+                className="w-full h-full"
+                src="/assets/bonus.pdf"
+                title="Documento bonus"
+              />
+            </div>
+            <p className="font-inter text-sm text-taupe text-center mt-4">
+              Puedes consultar este documento bonus directamente desde la plataforma.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Section motivation */}
