@@ -78,7 +78,7 @@ const NicoleRamirezLanding = () => {
       title: "Entrenamientos de regulación",
       desc: "Herramientas prácticas para bajar el ruido interno y recuperar calma",
       icon: Sparkles,
-      color: "bg-orange-50 text-orange-700"
+      color: "bg-stone-100 text-stone-700"
     },
     {
       title: "Evaluaciones personalizadas",
@@ -163,7 +163,7 @@ const NicoleRamirezLanding = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-radial from-sage-200/30 to-transparent blur-3xl -z-10"></div>
                 <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl shadow-stone-900/5">
                   <img
-                    src="/photo_nicole.jpg"
+                    src="/nicole-hero-dsc1725.jpg"
                     alt="Nicole Ramírez"
                     className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700 ease-out"
                   />
