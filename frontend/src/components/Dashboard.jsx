@@ -26,6 +26,17 @@ const Dashboard = () => {
   const [error, setError] = useState('');
   const [showIntroVideo, setShowIntroVideo] = useState(false);
   const [showBonus, setShowBonus] = useState(false);
+  const [openBonusItem, setOpenBonusItem] = useState('biblioteca-recomendada');
+
+  const bonusItems = [
+    {
+      id: 'biblioteca-recomendada',
+      title: 'Bonus n 1: Biblioteca Recomendada',
+      description: 'Una selección de recursos para acompañar tu viaje interior.',
+      fileUrl: '/assets/bonus.pdf',
+      fileTitle: 'Biblioteca Recomendada'
+    }
+  ];
 
   const fetchModules = async () => {
     try {
@@ -414,20 +425,56 @@ const Dashboard = () => {
 
         <div 
           className={`overflow-hidden transition-all duration-500 ease-in-out ${
-            showBonus ? 'max-h-[1200px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+            showBonus ? 'max-h-[2000px] opacity-100 mt-4' : 'max-h-0 opacity-0'
           }`}
         >
-          <div className="modern-card p-4 sm:p-6">
-            <div className="w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
-              <iframe
-                className="w-full h-full"
-                src="/assets/bonus.pdf"
-                title="Documento bonus"
-              />
-            </div>
-            <p className="font-inter text-sm text-taupe text-center mt-4">
-              Puedes consultar este documento bonus directamente desde la plataforma.
-            </p>
+          <div className="space-y-4">
+            {bonusItems.map((bonus) => {
+              const isOpen = openBonusItem === bonus.id;
+
+              return (
+                <div key={bonus.id} className="modern-card p-4 sm:p-6">
+                  <button
+                    onClick={() => setOpenBonusItem(isOpen ? null : bonus.id)}
+                    className="w-full flex items-center justify-between text-left"
+                  >
+                    <div className="flex items-center space-x-3 sm:space-x-4">
+                      <div className="p-2 sm:p-3 bg-stone-100 rounded-full">
+                        <DocumentTextIcon className="w-5 h-5 sm:w-6 sm:h-6 text-stone-700" />
+                      </div>
+                      <div>
+                        <p className="font-inter text-sm sm:text-base md:text-lg font-semibold text-black">
+                          {bonus.title}
+                        </p>
+                        <p className="font-inter text-xs sm:text-sm text-taupe">
+                          {bonus.description}
+                        </p>
+                      </div>
+                    </div>
+                    <div className={`p-2 rounded-full bg-sage/10 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                      <ChevronDownIcon className="w-5 h-5 sm:w-6 sm:h-6 text-sage" />
+                    </div>
+                  </button>
+
+                  <div
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      isOpen ? 'max-h-[1400px] opacity-100 mt-4' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <div className="w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
+                      <iframe
+                        className="w-full h-full"
+                        src={bonus.fileUrl}
+                        title={bonus.fileTitle}
+                      />
+                    </div>
+                    <p className="font-inter text-sm text-taupe text-center mt-4">
+                      Puedes consultar este bonus directamente desde la plataforma.
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
