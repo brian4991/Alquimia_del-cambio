@@ -33,8 +33,17 @@ const Dashboard = () => {
       id: 'biblioteca-recomendada',
       title: 'Bonus n 1: Biblioteca Recomendada',
       description: 'Una selección de recursos para acompañar tu viaje interior.',
+      type: 'pdf',
       fileUrl: '/assets/bonus.pdf',
       fileTitle: 'Biblioteca Recomendada'
+    },
+    {
+      id: 'entrenamiento-bienestar',
+      title: 'Bonus 2 entrenamiento de bienestar',
+      description: 'Una práctica en video para acompañar tu bienestar.',
+      type: 'video',
+      embedUrl: 'https://www.youtube.com/embed/Sstlt_z8w48',
+      fileTitle: 'Entrenamiento de bienestar'
     }
   ];
 
@@ -461,13 +470,25 @@ const Dashboard = () => {
                       isOpen ? 'max-h-[1400px] opacity-100 mt-4' : 'max-h-0 opacity-0'
                     }`}
                   >
-                    <div className="w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
-                      <iframe
-                        className="w-full h-full"
-                        src={bonus.fileUrl}
-                        title={bonus.fileTitle}
-                      />
-                    </div>
+                    {bonus.type === 'pdf' ? (
+                      <div className="w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
+                        <iframe
+                          className="w-full h-full"
+                          src={bonus.fileUrl}
+                          title={bonus.fileTitle}
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative w-full rounded-xl overflow-hidden bg-gray-100" style={{ paddingBottom: '56.25%' }}>
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src={bonus.embedUrl}
+                          title={bonus.fileTitle}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    )}
                     <p className="font-inter text-sm text-taupe text-center mt-4">
                       Puedes consultar este bonus directamente desde la plataforma.
                     </p>
