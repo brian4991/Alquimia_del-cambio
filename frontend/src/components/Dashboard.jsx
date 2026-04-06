@@ -17,7 +17,9 @@ import {
   VideoCameraIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  MusicalNoteIcon
+  MusicalNoteIcon,
+  ArrowTopRightOnSquareIcon,
+  ArrowDownTrayIcon
 } from '@heroicons/react/24/outline';
 
 const Dashboard = () => {
@@ -471,13 +473,34 @@ const Dashboard = () => {
                     }`}
                   >
                     {bonus.type === 'pdf' ? (
-                      <div className="w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
-                        <iframe
-                          className="w-full h-full"
-                          src={bonus.fileUrl}
-                          title={bonus.fileTitle}
-                        />
-                      </div>
+                      <>
+                        <div className="flex flex-col gap-3 sm:hidden">
+                          <a
+                            href={bonus.fileUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center justify-center px-4 py-3 rounded-xl font-inter text-sm font-medium gradient-sage text-white hover:shadow-sage transition-elegant"
+                          >
+                            Abrir bonus
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4 ml-2" />
+                          </a>
+                          <a
+                            href={bonus.fileUrl}
+                            download
+                            className="inline-flex items-center justify-center px-4 py-3 rounded-xl font-inter text-sm font-medium bg-stone-100 text-stone-700 hover:bg-stone-200 transition-elegant"
+                          >
+                            Descargar PDF
+                            <ArrowDownTrayIcon className="w-4 h-4 ml-2" />
+                          </a>
+                        </div>
+                        <div className="hidden sm:block w-full h-[70vh] min-h-[500px] rounded-xl overflow-hidden bg-gray-100">
+                          <iframe
+                            className="w-full h-full"
+                            src={bonus.fileUrl}
+                            title={bonus.fileTitle}
+                          />
+                        </div>
+                      </>
                     ) : (
                       <div className="relative w-full rounded-xl overflow-hidden bg-gray-100" style={{ paddingBottom: '56.25%' }}>
                         <iframe
@@ -489,9 +512,6 @@ const Dashboard = () => {
                         />
                       </div>
                     )}
-                    <p className="font-inter text-sm text-taupe text-center mt-4">
-                      Puedes consultar este bonus directamente desde la plataforma.
-                    </p>
                   </div>
                 </div>
               );
