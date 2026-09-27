@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowDown, Check } from 'lucide-react';
+import { ArrowRight, ArrowDown, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
@@ -46,6 +46,12 @@ const audience = [
   'Podés comprometerte con un proceso de 17 semanas.',
 ];
 
+const notSuitable = [
+  'Buscás únicamente una conversación puntual.',
+  'Buscás una recomendación rápida.',
+  'Necesitás atención inmediata ante una crisis.',
+];
+
 const differences = [
   ['17 semanas con continuidad', 'Para profundizar y dar seguimiento a lo que vamos trabajando.'],
   ['Personalizado', 'Partimos de tu historia, tu momento actual y tus necesidades.'],
@@ -76,9 +82,10 @@ const questions = [
   },
 ];
 
-function CheckList({ items }) {
+function CheckList({ items, negative = false }) {
+  const Icon = negative ? X : Check;
   return <ul className="nl-check-list" role="list">{items.map(item => <li key={item}>
-    <Check size={20} aria-hidden="true" /><span>{item}</span>
+    <Icon size={20} aria-hidden="true" /><span>{item}</span>
   </li>)}</ul>;
 }
 
@@ -188,8 +195,8 @@ export default function NicoleRamirezLanding() {
         </div>
       </section>
 
-      <section id="enfoque" className="nl-section nl-understanding" aria-labelledby="goals-title">
-        <div className="nl-container nl-reading-split">
+      <section id="enfoque" className="nl-section nl-container nl-framed-section nl-understanding" aria-labelledby="goals-title">
+        <div className="nl-reading-split">
           <div><h2 id="goals-title">Lo que vas a lograr</h2>
             <p className="nl-lead">El objetivo es que puedas atravesar esta etapa con más recursos y claridad.</p>
           </div>
@@ -213,7 +220,7 @@ export default function NicoleRamirezLanding() {
               <Card className="nl-card nl-includes">
                 <CardHeader className="nl-card-header"><CardTitle id="includes-title">¿Qué incluye?</CardTitle></CardHeader>
                 <CardContent className="nl-card-content">
-                  <ul>{included.map(item => <li key={item}><Check size={20} aria-hidden="true" /><span>{item}</span></li>)}</ul>
+                  <CheckList items={included} />
                 </CardContent>
               </Card>
             </aside>
@@ -225,14 +232,19 @@ export default function NicoleRamirezLanding() {
         </div>
       </section>
 
-      <section id="para-vos" className="nl-section nl-clarity" aria-labelledby="audience-title">
-        <div className="nl-container nl-reading-split">
-          <div><h2 id="audience-title">¿Es para vos?</h2>
-            <p className="nl-lead">Cambio de Paradigma puede ser para vos si...</p>
-          </div>
-          <div>
-            <CheckList items={audience} />
-            <p className="nl-fit-note">Cambio de Paradigma está pensado como un proceso psicológico continuado. Si buscás únicamente una conversación puntual, una recomendación rápida o necesitás atención inmediata ante una crisis, este formato puede no ser el más adecuado.</p>
+      <section id="para-vos" className="nl-section nl-container nl-framed-section nl-clarity" aria-labelledby="audience-title">
+        <div>
+          <h2 id="audience-title">¿Es para vos?</h2>
+          <p>Cambio de Paradigma está pensado como un proceso psicológico continuado.</p>
+          <div className="nl-fit-grid">
+            <section aria-labelledby="fit-yes-title">
+              <h3 id="fit-yes-title">Puede ser para vos si...</h3>
+              <CheckList items={audience} />
+            </section>
+            <section aria-labelledby="fit-no-title">
+              <h3 id="fit-no-title">Puede no ser para vos si...</h3>
+              <CheckList items={notSuitable} negative />
+            </section>
           </div>
         </div>
       </section>

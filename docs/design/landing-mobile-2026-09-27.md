@@ -20,7 +20,7 @@ Les codes Marfil, Salvia, Claridad et Terracota sont ceux imprimés page 31. Bos
 ### Application des règles d'usage (page 32)
 
 - **Marfil, principal (60 % indiqué)** : fond de la page et des grands espaces de lecture. Les surfaces des cartes/FAQ sont une variation ivoire `#F6F3EA` ; il n'y a plus d'alternance de grands fonds blancs hors palette.
-- **Salvia, secondaire (25 % indiqué)** : aplats des sections « Lo que vas a lograr » et « ¿Es para vos? ». Une nuance claire `#E2E5D5` porte les cartes d'identification et le bloc migration ; une nuance sombre `#65734F` porte les titres secondaires lisibles.
+- **Salvia, secondaire (25 % indiqué)** : aplat de la section « ¿Es para vos? » ; fond éclairci `#D3D4BF` pour « Lo que vas a lograr ». Une nuance claire `#E2E5D5` porte les cartes d'identification et le bloc migration ; une nuance sombre `#65734F` porte les titres secondaires lisibles.
 - **Bosque, profondeur (15 % indiqué)** : titre principal entièrement forêt, paragraphes et boutons. Les boutons gardent cette famille au survol/à la pression (`#233020`). Le seul grand aplat forêt est la conclusion, avec texte ivoire.
 - **Claridad, complément (10 % indiqué)** : nuance claire `#D1DBE3` du bloc « ¿Qué incluye? », unique mise en avant bleue. Aucune dispersion de bleu dans les autres cartes ou les titres ; il sert aussi à la sélection de texte.
 - **Terracota, accent (5 % indiqué)** : seulement la phrase « El duelo también es un proceso de adaptarte a lo nuevo mientras procesás aquello que dejaste atrás. ». Pas de grandes surfaces terracotta et pas de changement de famille des boutons au survol.
@@ -100,3 +100,15 @@ La landing finale du commit local `22e6be3` est transférée sur `ce9a7fb` (main
 Deux adaptations assurent son autonomie : les styles du lien « Saltar al contenido » sont intégrés au CSS de la landing ; les pages publiques `/informacion` et `/privacidad` sont portées dans `LandingInformation.jsx` avec leurs deux routes. Ces pages reprennent les informations applicables à main, sans importer les services de suivi, les brouillons ou la synchronisation Calendar encore locaux. Les routes protégées restent inchangées.
 
 Validation de cette intégration : installation avec le lockfile de main, build Vite 5 réussi, ESLint ciblé réussi. Vérification Chromium à 1440 et 390 px sans débordement, chargement des photos, FAQ au clavier, liens Calendly conservés et navigation vers les informations, la confidentialité et la connexion. Aucune erreur de console dans ces parcours. Le build signale la taille du bundle historique et des données de compatibilité anciennes ; les dépendances du programme ne sont pas modifiées dans cette publication.
+
+## Ajustements de lecture mobile et critères
+
+À la demande de Nicole, la section « Lo que vas a lograr » utilise une sauge plus claire (`#D3D4BF`), sans réduire l’opacité du texte. Ses sept objectifs et les six prestations de « ¿Qué incluye? » partagent le composant de liste : icône de 20 px, espacement de 12 px, séparateur fin et padding vertical de 16 px.
+
+Sous « ¿Es para vos? », la phrase sur le processus psychologique continu reste en introduction. Les six critères favorables avec une coche et les trois cas moins adaptés avec une croix occupent deux colonnes égales à partir de 900 px ; en dessous, ils se succèdent dans le même ordre que dans le document. La formulation « Puede no ser para vos si... » conserve la nuance du texte initial.
+
+Les essais de centrage global et de justification sur mobile ont été annulés sur demande. Les alignements précédents sont rétablis : contenu et listes alignés à gauche, logo centré et deux phrases avec leur bouton déjà centrées avant ces essais. Le vert clair, les listes harmonisées et les colonnes de critères favorables/défavorables sont conservés. Aucun changement du lien Calendly ni de l’observateur du bouton fixe.
+
+Validation locale : build et ESLint réussis, détecteur de layout sans signalement, rendu à 1440, 768, 390 et 320 px sans débordement. Colonnes de 548 px à 1440 px, une seule colonne sur les tailles mobiles, sept objectifs conservés, six prestations conservées, six critères favorables et trois critères avec une croix. FAQ vérifiée au clavier à 320 px, aucune erreur de console. Cette révision est limitée à la landing page.
+
+Les sections « Lo que vas a lograr » et « ¿Es para vos? » sont ensuite encadrées dans la largeur du contenu, avec le même rayon de 16 px que « ¿Qué incluye? », une bordure fine et 24 px de marge intérieure sur mobile (40 px sur ordinateur). Leurs fonds verts et les deux colonnes de critères sur ordinateur sont conservés.

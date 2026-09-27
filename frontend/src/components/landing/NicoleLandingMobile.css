@@ -3,6 +3,7 @@
 .nicole-landing {
   --nl-marfil: #edeadf;
   --nl-salvia: #a2a683;
+  --nl-salvia-soft: #d3d4bf;
   --nl-bosque: #303e2d;
   --nl-claridad: #99afc1;
   --nl-claridad-soft: #d1dbe3;
@@ -67,6 +68,7 @@
 .nl-hero-photo figcaption { margin-top: 12px; color: var(--nl-muted); font-size: .8125rem; text-align: center; }
 .nl-hero-photo figcaption::before { content: ''; display: block; width: 40px; height: 2px; margin: 0 auto 10px; background: var(--nl-arena); }
 .nl-section { padding-block: 56px; }
+.nl-section.nl-framed-section { padding: 24px; border: 1px solid #303e2d26; border-radius: var(--nl-card-radius); }
 .nl-paper-section { background: var(--nl-paper); }
 .nl-experiences { display: grid; gap: 14px; margin: 28px 0 32px; padding: 0; list-style: none; }
 .nicole-landing .nl-card { height: 100%; border: 0; border-radius: var(--nl-card-radius); background: var(--nl-surface); color: var(--nl-ink); box-shadow: var(--nl-card-shadow); }
@@ -80,15 +82,18 @@
 .nl-takeaway-action { text-align: center; }
 .nicole-landing .nl-takeaway-action > p { margin-inline: auto; }
 .nicole-landing .nl-takeaway { color: var(--nl-terracota); font-size: 1.2rem; line-height: 1.5; font-weight: 400; margin: 28px auto 24px; }
-.nl-understanding { background: var(--nl-salvia); color: var(--nl-on-accent); }
+.nl-understanding { background: var(--nl-salvia-soft); color: var(--nl-on-accent); }
 .nl-understanding h2 { color: var(--nl-on-accent); }
 .nl-reading-split { display: grid; gap: 12px; }
 .nl-reading-split > div > p:last-child { margin-bottom: 0; }
 .nicole-landing .nl-lead { font-size: 1.2rem; line-height: 1.5; max-width: 48ch; }
-.nl-check-list { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
-.nl-check-list li { display: flex; align-items: flex-start; gap: 12px; }
-.nl-check-list svg { margin-top: 4px; color: var(--nl-on-accent); }
-.nicole-landing .nl-fit-note { margin-top: 28px; padding-top: 24px; border-top: 1px solid #303b2a40; }
+.nl-check-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.nl-check-list li { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: start; gap: 12px; padding-block: 16px; border-top: 1px solid #303e2d33; }
+.nl-check-list li:last-child { padding-bottom: 0; }
+.nl-check-list svg { margin-top: 4px; color: var(--nl-bosque); }
+.nl-fit-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 32px; }
+.nl-fit-grid > section { min-width: 0; }
+.nicole-landing .nl-fit-grid h3 { color: var(--nl-on-accent); margin-bottom: 20px; }
 .nl-program-layout { display: grid; gap: 28px; margin: 32px 0; }
 .nl-areas { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
 .nl-card-header { padding: 24px 24px 10px; }
@@ -99,10 +104,6 @@
 .nicole-landing .nl-includes { background: var(--nl-claridad-soft); color: var(--nl-on-accent); box-shadow: none; }
 .nl-includes .nl-card-header { padding-bottom: 20px; }
 .nicole-landing .nl-includes h3 { margin: 0; color: var(--nl-on-accent); font-size: 1.4rem; }
-.nl-includes ul { display: grid; margin: 0; padding: 0; list-style: none; }
-.nl-includes li { display: flex; align-items: flex-start; gap: 12px; padding-block: 16px; border-top: 1px solid #303e2d33; color: var(--nl-on-accent); }
-.nl-includes li:last-child { padding-bottom: 0; }
-.nl-includes svg { color: var(--nl-bosque); margin-top: 4px; }
 .nl-about { display: grid; gap: 24px; }
 .nl-about-intro p { margin-bottom: 0; }
 .nl-about-photo { width: 100%; max-width: 440px; }
@@ -166,8 +167,10 @@
   .nl-hero-photo img { border-radius: 28px; }
   .nl-about-photo img { aspect-ratio: 4 / 5; }
   .nl-section { padding-block: 88px; }
+  .nl-section.nl-framed-section { padding: 40px; }
   .nl-migration { grid-template-columns: 1.15fr 1fr; gap: 56px; padding: 36px; }
   .nl-reading-split { grid-template-columns: .85fr 1.15fr; gap: 80px; }
+  .nl-fit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; }
   .nl-program-layout { grid-template-columns: 1fr 1fr; gap: 48px; margin-block: 40px; }
   .nl-experience-content { padding: 28px; }
   .nl-about { grid-template-columns: .75fr 1.25fr; column-gap: 64px; row-gap: 24px; }
